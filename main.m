@@ -214,41 +214,52 @@ try
     delete(InfoText);
     delete(VersionText);
     
-catch
-    ErrorInfo = lasterror;
-    Text = cell(5*size(ErrorInfo.stack,1)+2,1);
-    Text{1,1} = ErrorInfo.message;
-    Text{2,1} = '';
-    
-    if any(strcmp('stack',fieldnames(ErrorInfo)))
-        for i=1:size(ErrorInfo.stack,1)
-            idx = (i - 1) * 5 + 2;
-            Text{idx+1,1} = [ErrorInfo.stack(i).file];
-            Text{idx+2,1} = [ErrorInfo.stack(i).name];
-            Text{idx+3,1} = ['Line: ' num2str(ErrorInfo.stack(i).line)];
-            Text{idx+4,1} = '------------------------------------------';
-        end
+catch ME
+    % FIRST: Stop all timers immediately
+    timers = timerfindall;
+    if ~isempty(timers)
+        stop(timers);
+        delete(timers);
+    end
+
+    % Clean up UI elements (check if they exist first)
+    if exist('hf', 'var') && isvalid(hf)
+        delete(hf);
+    end
+    if exist('InfoText', 'var') && isvalid(InfoText)
+        delete(InfoText);
+    end
+    if exist('VersionText', 'var') && isvalid(VersionText)
+        delete(VersionText);
     end
     
-    mode = struct('WindowStyle','modal','Interpreter','tex');
+    % Delete all objects in main figure
+    if exist('mainFig', 'var') && isvalid(mainFig)
+        delete(findall(mainFig));
+    end
+
+    % Stop any ongoing parallel operations
+    drawnow; % Process any pending graphics callbacks
+    pause(0.1); % Brief pause to let callbacks finish
+
+    % Use MException object directly instead of lasterror
+    stackDepth = numel(ME.stack);
+    Text = cell(5*stackDepth + 2, 1);
+    Text{1} = ME.message;
+    Text{2} = '';
     
-    uiwait(errordlg(Text,'ERROR: Initalize Program failed:',mode));
+    % Stack always exists in MException, no need to check
+    for i = 1:stackDepth
+        idx = (i - 1) * 5 + 2;
+        Text{idx+1} = ME.stack(i).file;
+        Text{idx+2} = ME.stack(i).name;
+        Text{idx+3} = sprintf('Line: %d', ME.stack(i).line);
+        Text{idx+4} = repmat('-', 1, 42);
+    end
     
-    % delete starting screen
-    delete(hf);
-    delete(InfoText);
-    delete(VersionText);
-    
-    
-    
-    
-    %find all objects
-    object_handles = findall(mainFig);
-    %delete objects
-    delete(object_handles);
-    %find all figures and delete them
-    figHandles = findobj('Type','figure');
-    delete(figHandles);
+    % Display error dialog
+    mode = struct('WindowStyle', 'modal', 'Interpreter', 'tex');
+    uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
 function changeAppDesign(src,~)
