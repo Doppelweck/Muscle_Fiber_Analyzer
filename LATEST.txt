@@ -1,8 +1,9 @@
 Version 1.5  11-March-2024
 
 #WHATS NEW:
+Version 1.6 
 
-Version 1.5 
+Version 1.5 (11-March-2024)
     - App-design can now be changed in the menu bar.
     - Users can save and load their own settings.
     - Histograms now show a Gaussian fit.
