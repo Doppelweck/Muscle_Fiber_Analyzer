@@ -1,5 +1,5 @@
 try
-    
+
     % find starting path
     warning('off', 'all');
     try %%Not need for .exe
@@ -12,7 +12,7 @@ try
         cl;
     catch
     end
-    
+
     setSettingsValue('Version','1.5');
     setSettingsValue('Day','11');
     setSettingsValue('Month','March');
@@ -21,8 +21,8 @@ try
     % write the current Version to LATEST.txt
     writeVersionToTxt(versionString);
     [newVersionAvailable, checkSuccessfull, newVersion] = checkAppForNewVersion(versionString);
-    
-    
+
+
     % create starting screen
     if ismac
         fontSizeS = 18; % Font size small
@@ -34,49 +34,70 @@ try
         fontSizeS = 18; % Font size small
         fontSizeB = 20; % Font size big
     end
-    
+
+    % create main figure
+    mainFig = figure('Units','pixels',...
+        'Visible','off',...
+        'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],...
+        'DockControls','off',...
+        'Menubar','none','ToolBar','none',...
+        'WindowStyle','normal','NumberTitle','off',...
+        'Tag','mainFigure');
+
     %Create Start Screen
     hf = startSrcreen();
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
         'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);
-%     TitleText2=text(hf.Children,0.45,0.83,'Classification Tool',...
-%         'units','normalized','FontUnits','normalized','FontSize',0.08,'Color',[1 0.5 0]);
+    %     TitleText2=text(hf.Children,0.45,0.83,'Classification Tool',...
+    %         'units','normalized','FontUnits','normalized','FontSize',0.08,'Color',[1 0.5 0]);
     VersionText=text(hf.Children,0.54,0.915,versionString,'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
     InfoText=text(hf.Children,0.02,0.035,'Loading please wait... Initialize application...','units','normalized','FontWeight','bold','FontUnits','normalized','FontSize',0.03,'Color','k');
     text(hf.Children,0.02,0.16,'Developed by:','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
     text(hf.Children,0.02,0.12,['Sebastian Friedrich  2017 - ' getSettingsValue('Year')],'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.03,'Color','k');
     text(hf.Children,0.02,0.095,'sebastian.friedrich.software@gmail.com','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.025,'Color','k');
-%     text(hf.Children,0.03,0.19,'In cooperation with:','units','normalized','FontUnits','normalized','FontSize',0.03,'Color','k');
-%     text(hf.Children,0.05,0.07,'2017','units','normalized','FontUnits','normalized','FontSize',0.045,'Color','[1 0.5 0]');
+    %     text(hf.Children,0.03,0.19,'In cooperation with:','units','normalized','FontUnits','normalized','FontSize',0.03,'Color','k');
+    %     text(hf.Children,0.05,0.07,'2017','units','normalized','FontUnits','normalized','FontSize',0.045,'Color','[1 0.5 0]');
     % setAlwaysOnTop(hf,true);
     drawnow;
-%     
-%     % R2010a and newer
-%     iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-%     iconsSizeEnums = javaMethod('values',iconsClassName);
-%     SIZE_32x32 = iconsSizeEnums(1);  % (1) = 16x16,  (2) = 32x32
-%     busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32);  % icon, label
-%     busyIndicator.setPaintsWhenStopped(false);  % default = false
-%     busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-%     javacomponent(busyIndicator.getComponent, [hf.Position(3)*0.2,hf.Position(4)*0.035,40,40], hf);
-%     busyIndicator.getComponent.setBackground(java.awt.Color(0,0,0,0.1));
-%     busyIndicator.start;
-    
-    % create main figure
-    mainFig = figure('Units','normalized','outerposition',hf.Position,...
-        'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],'DockControls','off',...
-        'doublebuffer', 'off','Menubar','figure','ToolBar','none','Visible','on',...
-        'WindowStyle','normal','NumberTitle','off',...
-        'PaperPositionMode','manual',...
-        'InvertHardcopy','off','Tag','mainFigure');
+    %
+    %     % R2010a and newer
+    %     iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
+    %     iconsSizeEnums = javaMethod('values',iconsClassName);
+    %     SIZE_32x32 = iconsSizeEnums(1);  % (1) = 16x16,  (2) = 32x32
+    %     busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32);  % icon, label
+    %     busyIndicator.setPaintsWhenStopped(false);  % default = false
+    %     busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
+    %     javacomponent(busyIndicator.getComponent, [hf.Position(3)*0.2,hf.Position(4)*0.035,40,40], hf);
+    %     busyIndicator.getComponent.setBackground(java.awt.Color(0,0,0,0.1));
+    %     busyIndicator.start;
+
+
+    % Calculate centered position (10% smaller)
+    hfPos = hf.Position;
+    scale = 0.9; % 10% smaller
+    newWidth = hfPos(3) * scale;
+    newHeight = hfPos(4) * scale;
+    newX = hfPos(1) + (hfPos(3) - newWidth) / 2;
+    newY = hfPos(2) + (hfPos(4) - newHeight) / 2;
+
+    set(mainFig, 'OuterPosition', hf.Position);
+
+    set(mainFig,'Visible','on');
+    figure(hf);
+    set(hf,'Visible','on');
+    figure(hf);
+    set(hf,'WindowStyle','modal');
+    % figure(hf);
+    % set(hf,'WindowStyle','normal');
+    drawnow;
 
     %%Remove unwanted Menu icons
     editMenu = findall(mainFig, 'Tag', 'figMenuFile' ,'-or','Tag', 'figMenuEdit',...
         '-or','Tag', 'figMenuView','-or','Tag', 'figMenuInsert','-or','Tag', 'figMenuDesktop',...
         '-or','Tag', 'figMenuHelp');
     delete(editMenu);
-    
+
     % Add Menu for Design
     mDesign = uimenu(mainFig,'Text','App Design','Tag','menuDesignSelection');
     mDesignitem1 = uimenu(mDesign,'Text','Dark','Tag','menuDesignDark');
@@ -85,7 +106,7 @@ try
     mDesignitem2.MenuSelectedFcn = @changeAppDesign;
     mDesignitem3 = uimenu(mDesign,'Text','Default','Tag','menuDesignDefault');
     mDesignitem3.MenuSelectedFcn = @changeAppDesign;
-    
+
     % Add Menu for Settings
     mSettings = uimenu(mainFig,'Text','App Settings');
     mSettingsitem1 = uimenu(mSettings,'Text','Load Default Settings');
@@ -94,7 +115,7 @@ try
     mSettingsitem2.MenuSelectedFcn = @loadUserSettings;
     mSettingsitem3 = uimenu(mSettings,'Text','Save User Settings');
     mSettingsitem3.MenuSelectedFcn = @saveUserSettings;
-    
+
     % Add Menu for Info
     if(newVersionAvailable && checkSuccessfull)
         AboutText =['About (NEW VERSION ' newVersion ' AVAILABLE)'];
@@ -104,10 +125,9 @@ try
     mInfo1 = uimenu(mainFig,'Text',AboutText);
     mInfo1.MenuSelectedFcn = @openInformationFigure;
 
-    
-    figure(hf);
-    set(hf,'WindowStyle','modal');
-    
+
+
+
     % hide needless ToogleTool objects in the main figure
     set( findall(mainFig,'ToolTipString','Edit Plot') ,'Visible','Off');
     set( findall(mainFig,'ToolTipString','Insert Colorbar') ,'Visible','Off');
@@ -120,7 +140,7 @@ try
     set( findall(mainFig,'ToolTipString','Link Plot') ,'Visible','Off');
     set( findall(mainFig,'ToolTipString','Save Figure') ,'Visible','Off');
     set( findall(mainFig,'ToolTipString','Open File') ,'Visible','Off');
-    
+
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
     InfoText.String='Loading please wait...   Initialize VIEW-Components...';
@@ -139,12 +159,12 @@ try
     drawnow;pause(0.5);
     mainCard.Selection = 1;
     drawnow;
-    
+
     InfoText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
     uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
         '-and','-not','Style','pushbutton');
-    
+
     for i = 1:numel(uiControls)
         reverseEnable = false;
         if(strcmp(uiControls(i).Enable ,'off'))
@@ -152,48 +172,48 @@ try
             appDesignElementChanger(uiControls(i));
             reverseEnable = true;
         end
-        
+
         if(strcmp(uiControls(i).Style,'edit'))
             uiControls(i).String = getSettingsValue(uiControls(i).Tag);
         else
             uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
         end
-        
+
         if(reverseEnable)
             set( uiControls(i), 'Enable', 'off');
             appDesignElementChanger(uiControls(i));
         end
     end
-    
+
     drawnow;pause(1);
-    
+
     InfoText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
     modelEditHandle = modelEdit();
     modelAnalyzeHandle = modelAnalyze();
     modelResultsHandle = modelResults();
     pause(0.2)
-    
+
     InfoText.String='Loading please wait...   Initialize CONTROLLER-Components...';
     %Init CONTROLLER's
     controllerEditHandle = controllerEdit(mainFig, mainCard, viewEditHandle, modelEditHandle);
     controllerAnalyzeHandle = controllerAnalyze(mainFig, mainCard, viewAnalyzeHandle, modelAnalyzeHandle);
     controllerResultsHandle = controllerResults(mainFig, mainCard, viewResultsHandle, modelResultsHandle);
     pause(0.2)
-    
+
     InfoText.String='Loading please wait...   Connecting components...';
     %Connecting Model's and their Controller's
     modelEditHandle.controllerEditHandle = controllerEditHandle;
     modelAnalyzeHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     modelResultsHandle.controllerResultsHandle = controllerResultsHandle;
     pause(0.2)
-    
+
     InfoText.String='Loading please wait...   Update app design...';
     appDesignChanger(mainCard,getSettingsValue('Style'));
     appDesignElementChanger(mainCard);
     drawnow;
     pause(0.2)
-    
+
     InfoText.String='Loading please wait...   Start application...';
     %Connecting Controller's to each other
     controllerEditHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
@@ -201,19 +221,19 @@ try
     controllerAnalyzeHandle.controllerResultsHandle = controllerResultsHandle;
     controllerResultsHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     pause(0.2)
-    
+
     InfoText.String='Run application';
     drawnow;
     pause(0.5);
-    
+
     % delete starting screen
-%     busyIndicator.stop;
+    %     busyIndicator.stop;
     delete(hf);
     set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
     set(mainFig,'WindowState','maximized');
     delete(InfoText);
     delete(VersionText);
-    
+
 catch ME
     % FIRST: Stop all timers immediately
     timers = timerfindall;
@@ -232,7 +252,7 @@ catch ME
     if exist('VersionText', 'var') && isvalid(VersionText)
         delete(VersionText);
     end
-    
+
     % Delete all objects in main figure
     if exist('mainFig', 'var') && isvalid(mainFig)
         delete(findall(mainFig));
@@ -247,7 +267,7 @@ catch ME
     Text = cell(5*stackDepth + 2, 1);
     Text{1} = ME.message;
     Text{2} = '';
-    
+
     % Stack always exists in MException, no need to check
     for i = 1:stackDepth
         idx = (i - 1) * 5 + 2;
@@ -256,7 +276,7 @@ catch ME
         Text{idx+3} = sprintf('Line: %d', ME.stack(i).line);
         Text{idx+4} = repmat('-', 1, 42);
     end
-    
+
     % Display error dialog
     mode = struct('WindowStyle', 'modal', 'Interpreter', 'tex');
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
@@ -291,24 +311,24 @@ for i = 1:numel(uiControls)
         appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
-    
+
     if(strcmp(uiControls(i).Style,'edit'))
         uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
     else
         uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
     end
-    
+
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
         appDesignElementChanger(uiControls(i));
     end
-    
+
     if isprop(uiControls(i),'Callback')
         if ~isempty(uiControls(i).Callback)
             feval(get(uiControls(i),'Callback'),uiControls(i));
         end
     end
-end 
+end
 workbar(2,'load settings','Load DEFAULT settings',mainFigObj);
 end
 
@@ -327,24 +347,24 @@ for i = 1:numel(uiControls)
         appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
-    
+
     if(strcmp(uiControls(i).Style,'edit'))
         uiControls(i).String = getSettingsValue(uiControls(i).Tag);
     else
         uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
     end
-    
+
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
         appDesignElementChanger(uiControls(i));
     end
-    
+
     if isprop(uiControls(i),'Callback')
         if ~isempty(uiControls(i).Callback)
             feval(get(uiControls(i),'Callback'),uiControls(i));
         end
     end
-end 
+end
 workbar(2,'load settings','Load USER settings',mainFigObj);
 end
 
@@ -366,13 +386,13 @@ for i = 1:numel(uiControls)
         appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
-    
+
     if(strcmp(uiControls(i).Style,'edit'))
         setSettingsValue(uiControls(i).Tag, uiControls(i).String);
     else
         setSettingsValue(uiControls(i).Tag, num2str(uiControls(i).Value));
     end
-    
+
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
         appDesignElementChanger(uiControls(i));
@@ -384,8 +404,8 @@ end
 
 function openInformationFigure(src,~)
 
-    mainFigObj=findobj('Tag','mainFigure');
-    showInfoFigure(mainFigObj);
+mainFigObj=findobj('Tag','mainFigure');
+showInfoFigure(mainFigObj);
 
 end
 

@@ -124,7 +124,7 @@ classdef viewEdit < handle
                 fontSizeM = 12; % Font size medium
                 fontSizeB = 16; % Font size big
             end
-             mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+            % mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
             set(mainCard,'Visible','off');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, 'Spacing',2,'Padding',2);
             
@@ -172,8 +172,7 @@ classdef viewEdit < handle
             
             HButtonBoxAlpha1_1 = uix.HBox('Parent', HBoxAlpha2, 'Padding', 2);
             ThresholdModeText = uicontrol( 'Parent', HButtonBoxAlpha1_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Image:' );
-            %%jh = findjobj(ThresholdModeText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+
             
             HButtonBoxAlpha1_2 = uix.HBox('Parent', HBoxAlpha2, 'Padding', 5);
             obj.B_ImageOverlaySelection = uicontrol( 'Parent', HButtonBoxAlpha1_2,'Style','popupmenu','Tag','popupmenuOverlay','FontUnits','normalized','Fontsize',0.6, 'String', {'RGB Image' , 'Green Plane', 'Blue Plane', 'Red Plane', 'Farred Plane'} ,'Enable','on');
@@ -186,8 +185,7 @@ classdef viewEdit < handle
             
             HButtonBoxAlpha2_1 = uix.HButtonBox('Parent', HBoxAlpha2,'ButtonSize',[6000 20],'Padding', 2 );
             AlphaText = uicontrol( 'Parent', HButtonBoxAlpha2_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Alpha:');
-            %jh = findjobj_fast(AlphaText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+
             
             HButtonBoxAlpha2_4 = uix.HButtonBox('Parent', HBoxAlpha2,'ButtonSize',[20 20],'Padding', 2 );
             obj.B_AlphaActive = uicontrol( 'Parent', HButtonBoxAlpha2_4,'Style','checkbox','Value',1,'Tag','checkboxAlpha','Enable','off');
@@ -209,8 +207,7 @@ classdef viewEdit < handle
             
             HButtonBoxBinari1_1 = uix.HButtonBox('Parent', HBoxBinari1,'ButtonSize',[6000 20],'Padding', 2 );
             ThresholdModeText = uicontrol( 'Parent', HButtonBoxBinari1_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Mode:' );
-            %jh = findjobj_fast(ThresholdModeText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+
             
             HButtonBoxBinari1_2 = uix.HButtonBox('Parent', HBoxBinari1,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_ThresholdMode = uicontrol( 'Parent', HButtonBoxBinari1_2,'Style','popupmenu','Tag','popupmenuThresholdMode','FontUnits','normalized','Fontsize',0.6, 'String', {'Manual global threshold' , 'Automatic adaptive threshold', 'Combined manual and adaptive', 'Automatic Watershed I', 'Automatic Watershed II'} ,'Enable','off');
@@ -222,8 +219,7 @@ classdef viewEdit < handle
             
             HButtonBoxBinari2_1 = uix.HButtonBox('Parent', HBoxBinari2,'ButtonSize',[6000 20],'Padding', 2 );
             ThresholdModeText = uicontrol( 'Parent', HButtonBoxBinari2_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Green Plane:' );
-            %jh = findjobj_fast(ThresholdModeText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+
             
             HButtonBoxBinari2_2 = uix.HButtonBox('Parent', HBoxBinari2,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_FiberForeBackGround = uicontrol( 'Parent', HButtonBoxBinari2_2,'Style','popupmenu','Tag','popupmenuForeBackGround','FontUnits','normalized','Fontsize',0.6, 'String', {'Fibers in Background (Black Pixels)','Fibers in Forground (White Pixels)' } ,'Enable','off');
@@ -236,8 +232,6 @@ classdef viewEdit < handle
             
             HButtonBoxBinari3_1 = uix.HButtonBox('Parent', HBoxBinari3,'ButtonSize',[6000 20],'Padding', 2 );
             ThresholdText = uicontrol( 'Parent', HButtonBoxBinari3_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left','String', 'Threshold:' );
-            %jh = findjobj_fast(ThresholdText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             
             HButtonBoxBinari3_2 = uix.HButtonBox('Parent', HBoxBinari3,'ButtonSize',[6000 18],'Padding', 2 );
             obj.B_Threshold = uicontrol( 'Parent', HButtonBoxBinari3_2,'Style','slider','FontUnits','normalized','Fontsize',0.6, 'String', 'Thresh','Tag','sliderBinaryThresh' ,'Enable','off');
@@ -253,8 +247,7 @@ classdef viewEdit < handle
             
             HButtonBoxBinari5_1 = uix.HButtonBox('Parent', HBoxBinari5,'ButtonSize',[6000 20],'Padding', 2 );
             LineWidthText = uicontrol( 'Parent', HButtonBoxBinari5_1,'Style','text', 'FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left','String', 'Pen width:');
-            %jh = findjobj_fast(LineWidthText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+
 
             HButtonBoxBinari5_2 = uix.HButtonBox('Parent', HBoxBinari5,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_LineWidth = uicontrol( 'Parent', HButtonBoxBinari5_2,'Style','slider','FontUnits','normalized','Fontsize',0.6, 'String', 'Pen width','Min',0,'Max',100,'SliderStep',[1/100,1/100],'Tag','sliderLineWidtht' );
@@ -271,8 +264,6 @@ classdef viewEdit < handle
             
             HButtonBoxBinari6_1 = uix.HButtonBox('Parent', HBoxBinari6,'ButtonSize',[6000 20],'Padding', 2 );
             ColorText = uicontrol( 'Parent', HButtonBoxBinari6_1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Pen color:' );
-            %jh = findjobj_fast(ColorText);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             
             HButtonBoxBinari6_2 = uix.HButtonBox('Parent', HBoxBinari6,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_Color = uicontrol( 'Parent', HButtonBoxBinari6_2,'Style','popupmenu','Tag','popupmenuBinaryColor','FontUnits','normalized','Fontsize',0.6, 'String', {'White' , 'Black', 'White fill region', 'Black fill region'} ,'Enable','off');
@@ -292,25 +283,17 @@ classdef viewEdit < handle
             HButtonBoxMorph5 = uix.HButtonBox('Parent', MainVBoxMorph,'ButtonSize',[3000 40],'Spacing',0,'Padding', 2 );
             
             tempH = uicontrol( 'Parent', HButtonBoxMorph1,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Morphol. operation:');
-            %jh = findjobj_fast(tempH);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             String = {'choose operation' ,'remove incomplete objects','close small gaps' ,'smoothing','erode', 'dilate', 'skel' ,'thin','shrink','majority','remove','open','close'};
             obj.B_MorphOP = uicontrol( 'Parent', HButtonBoxMorph1,'Style','popupmenu','Tag','popupmenuMorphOP','FontUnits','normalized','Fontsize',0.6, 'String', String ,'Enable','off');
             
             tempH = uicontrol( 'Parent', HButtonBoxMorph2,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Structuring element:');
-            %jh = findjobj_fast(tempH);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             String = {'choose SE' , 'diamond', 'disk', 'octagon' ,'square'};
             obj.B_ShapeSE = uicontrol( 'Parent', HButtonBoxMorph2,'Style','popupmenu','Tag','popupmenuShapeSE','FontUnits','normalized','Fontsize',0.6, 'String', String,'Enable','off' );
             
             tempH = uicontrol( 'Parent', HButtonBoxMorph3,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Size of structuring element:');
-            %jh = findjobj_fast(tempH);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             obj.B_SizeSE = uicontrol( 'Parent', HButtonBoxMorph3,'Style','edit','FontUnits','normalized','Fontsize',0.6,'String','1','Enable','off','Tag','editSizeSE' );
             
             tempH = uicontrol( 'Parent', HButtonBoxMorph4,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'No. of iterations / Size gaps:');
-            %jh = findjobj_fast(tempH);
-            %jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
             obj.B_NoIteration = uicontrol( 'Parent', HButtonBoxMorph4,'Style','edit','FontUnits','normalized','Fontsize',0.6,'String','1','Enable','off','Tag','editNoIteration' );
             
             obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, 'String', 'Run morphological operation','FontUnits','normalized','Fontsize',0.5 ,'Enable','off','Tag','buttonMorphOP' );
