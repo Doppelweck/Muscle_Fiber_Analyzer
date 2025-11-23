@@ -13,10 +13,10 @@ try
     catch
     end
 
-    setSettingsValue('Version','1.5');
+    setSettingsValue('Version','1.6');
     setSettingsValue('Day','11');
     setSettingsValue('Month','March');
-    setSettingsValue('Year','2024');
+    setSettingsValue('Year','2025');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
     writeVersionToTxt(versionString);
@@ -97,7 +97,8 @@ try
         '-or','Tag', 'figMenuView','-or','Tag', 'figMenuInsert','-or','Tag', 'figMenuDesktop',...
         '-or','Tag', 'figMenuHelp');
     delete(editMenu);
-
+    
+    uimenu(mainFig,'Enable','off','Text','  |  ')
     % Add Menu for Design
     mDesign = uimenu(mainFig,'Text','App Design','Tag','menuDesignSelection');
     mDesignitem1 = uimenu(mDesign,'Text','Dark','Tag','menuDesignDark');
@@ -107,6 +108,7 @@ try
     mDesignitem3 = uimenu(mDesign,'Text','Default','Tag','menuDesignDefault');
     mDesignitem3.MenuSelectedFcn = @changeAppDesign;
 
+    uimenu(mainFig,'Enable','off','Text','  |  ')
     % Add Menu for Settings
     mSettings = uimenu(mainFig,'Text','App Settings');
     mSettingsitem1 = uimenu(mSettings,'Text','Load Default Settings');
@@ -116,6 +118,7 @@ try
     mSettingsitem3 = uimenu(mSettings,'Text','Save User Settings');
     mSettingsitem3.MenuSelectedFcn = @saveUserSettings;
 
+    uimenu(mainFig,'Enable','off','Text','  |  ')
     % Add Menu for Info
     if(newVersionAvailable && checkSuccessfull)
         AboutText =['About (NEW VERSION ' newVersion ' AVAILABLE)'];
@@ -124,6 +127,8 @@ try
     end
     mInfo1 = uimenu(mainFig,'Text',AboutText);
     mInfo1.MenuSelectedFcn = @openInformationFigure;
+
+    uimenu(mainFig,'Enable','off','Text','  |  ')
 
 
 
