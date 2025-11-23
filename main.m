@@ -1,5 +1,5 @@
 try
-
+    theme("light");
     % find starting path
     warning('off', 'all');
     try %%Not need for .exe
@@ -291,6 +291,7 @@ drawnow;
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
 appDesignChanger(mainFigObj,getSettingsValue('Style'));
 appDesignElementChanger(mainFigObj);
+theme(mainFigObj,"light");
 drawnow;
 mainCordObj.Visible = 'on';
 drawnow;
