@@ -119,7 +119,7 @@ classdef viewAnalyze < handle
                 
             end
             
-%             mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+%            mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
             set(mainCard,'Visible','off');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard ,'Spacing',2,'Padding',2);
             
@@ -174,16 +174,12 @@ classdef viewAnalyze < handle
             obj.B_AreaActive = uicontrol( 'Parent', HButtonBoxPara21,'Style','checkbox','FontUnits','normalized','Fontsize',0.6,'Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
             HButtonBoxPara22 = uix.HButtonBox('Parent', HBoxPara2,'ButtonSize',[600 20],'Padding', 0 );
             tempH = uicontrol( 'Parent', HButtonBoxPara22,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', ['Area (' sprintf('\x3BCm^2') ') from:']);
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara23 = uix.HButtonBox('Parent', HBoxPara2,'ButtonSize',[600 20],'Padding', 0 );
             obj.B_MinArea = uicontrol( 'Parent', HButtonBoxPara23,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','MinAreaValue', 'String', '100' ,'Tag','editMinArea');
             
             HButtonBoxPara24 = uix.HButtonBox('Parent', HBoxPara2,'ButtonSize',[600 20],'Padding', 0 );
             tempH = uicontrol( 'Parent', HButtonBoxPara24,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'to' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
 
             HButtonBoxPara25 = uix.HButtonBox('Parent', HBoxPara2,'ButtonSize',[600 20],'Padding', 0 );
             obj.B_MaxArea = uicontrol( 'Parent', HButtonBoxPara25,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
@@ -198,16 +194,12 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara32 = uix.HButtonBox('Parent', HBoxPara3,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara32,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Aspect Ratio from:' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara33 = uix.HButtonBox('Parent', HBoxPara3,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_MinAspectRatio = uicontrol( 'Parent', HButtonBoxPara33,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','MinAspectRatioValue', 'String', '1' ,'Tag','editMinAspectRatio');
             
             HButtonBoxPara34 = uix.HButtonBox('Parent', HBoxPara3,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara34,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'to' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara35 = uix.HButtonBox('Parent', HBoxPara3,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_MaxAspectRatio= uicontrol( 'Parent', HButtonBoxPara35,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
@@ -222,8 +214,6 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara42 = uix.HButtonBox('Parent', HBoxPara4,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara42,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Minimal Color Value:' ,'Tag','editMinColorValue');
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara43 = uix.HButtonBox('Parent', HBoxPara4,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_ColorValue = uicontrol( 'Parent', HButtonBoxPara43,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
@@ -238,8 +228,6 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara52 = uix.HButtonBox('Parent', HBoxPara5,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara52,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Minimal Roundness:' ,'Tag','editMinRoundness');
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara53 = uix.HButtonBox('Parent', HBoxPara5,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_MinRoundness = uicontrol( 'Parent', HButtonBoxPara53,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
@@ -259,24 +247,18 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara62 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara62,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'B/R thresh:' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara63 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_BlueRedThresh = uicontrol( 'Parent', HButtonBoxPara63,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editBlueRedThresh', 'String', '1');
             
             HButtonBoxPara64 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara64,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'Blue dist:' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara65 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_BlueRedDistBlue = uicontrol( 'Parent', HButtonBoxPara65,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editBlueRedDistBlue', 'String', '0.1');
             
             HButtonBoxPara66 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara66,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'Red dist:' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara67 = uix.HButtonBox('Parent', HBoxPara6,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_BlueRedDistRed = uicontrol( 'Parent', HButtonBoxPara67,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editBlueRedDistRed', 'String', '0.1' );
@@ -292,24 +274,18 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara72 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara72,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'FR/R thresh:' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara73 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_FarredRedThresh = uicontrol( 'Parent', HButtonBoxPara73,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editFarredRedThresh', 'String', '1' );
             
             HButtonBoxPara74 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara74,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'Farred dist:');
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara75 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_FarredRedDistFarred = uicontrol( 'Parent', HButtonBoxPara75,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editFarredRedDistFarred', 'String', '0.1' );
             
             HButtonBoxPara76 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara76,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String', 'Red dist:');
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara77 = uix.HButtonBox('Parent', HBoxPara7,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_FarredRedDistRed = uicontrol( 'Parent', HButtonBoxPara77,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editFarredRedDistRed', 'String', '0.1' );
@@ -325,8 +301,6 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara712 = uix.HButtonBox('Parent', HBoxPara71,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara712,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Searching for 1/2-Hybrid Fibers allowed?' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             set( HBoxPara71, 'Widths', [-8 -92] );
             
@@ -337,8 +311,6 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara722 = uix.HButtonBox('Parent', HBoxPara72,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara722,'Style','text','FontUnits','normalized','Fontsize',0.6, 'HorizontalAlignment','left', 'String', 'Searching for 2ax-Hybrid Fibers allowed?' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             set( HBoxPara72, 'Widths', [-8 -92] );
             
@@ -348,16 +320,12 @@ classdef viewAnalyze < handle
             
             HButtonBoxPara81 = uix.HButtonBox('Parent', HBoxPara8,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara81,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String',sprintf('Xs: \x3BCm/pixel'));
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara82 = uix.HButtonBox('Parent', HBoxPara8,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_XScale = uicontrol( 'Parent', HButtonBoxPara82,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editXScale', 'String', '1' );
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8,'ButtonSize',[600 20],'Padding', 1 );
             tempH = uicontrol( 'Parent', HButtonBoxPara83,'Style','text','FontUnits','normalized','Fontsize',0.6, 'String',sprintf('Ys: \x3BCm/pixel') );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8,'ButtonSize',[600 20],'Padding', 1 );
             obj.B_YScale = uicontrol( 'Parent', HButtonBoxPara83,'Style','edit','FontUnits','normalized','Fontsize',0.6,'Tag','editYScale', 'String', '1' );

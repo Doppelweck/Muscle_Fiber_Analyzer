@@ -19,8 +19,8 @@ set(hf, 'Units','pixels');
 set(hf,'Position',figpos);
 movegui(hf,'center');
 set(hf,'CloseRequestFcn','');
-set(hf,'Visible','on');
-set(hf,'WindowStyle','normal');
-
+set(hf,'Visible','off');
+set(hf,'WindowStyle','modal');
+% Lock position before returning
 end
 

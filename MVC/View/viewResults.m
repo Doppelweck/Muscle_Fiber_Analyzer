@@ -80,7 +80,7 @@ classdef viewResults < handle
                 fontSizeM = 12; % Font size medium
                 fontSizeB = 16; % Font size big 
             end
-%             mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+%            mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
             set(mainCard,'Visible','off');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
             
@@ -119,8 +119,6 @@ classdef viewResults < handle
             
             HButtonBoxSave11 = uix.HButtonBox('Parent', HBoxSave1,'ButtonSize',[6000 20],'Padding', 2);
             tempH = uicontrol( 'Parent', HButtonBoxSave11,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Overview plots as .pdf: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave12 = uix.HButtonBox('Parent', HBoxSave1,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SavePlots = uicontrol( 'Parent', HButtonBoxSave12,'Style','checkbox','Value',1,'Tag','checkboxSaveOverview');
@@ -132,8 +130,6 @@ classdef viewResults < handle
             
             HButtonBoxSave21 = uix.HButtonBox('Parent', HBoxSave2,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave21,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Histogram plots as .pdf: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave22 = uix.HButtonBox('Parent', HBoxSave2,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SaveHisto = uicontrol( 'Parent', HButtonBoxSave22,'Style','checkbox','Value',1,'Tag','checkboxSaveHistogram');
@@ -145,8 +141,6 @@ classdef viewResults < handle
             
             HButtonBoxSave31 = uix.HButtonBox('Parent', HBoxSave3,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave31,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Processed Image as .pdf: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave32 = uix.HButtonBox('Parent', HBoxSave3,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SavePicProc = uicontrol( 'Parent', HButtonBoxSave32,'Style','checkbox','Value',1,'Tag','checkboxSavePicProcessed');
@@ -158,8 +152,6 @@ classdef viewResults < handle
             
             HButtonBoxSave41 = uix.HButtonBox('Parent', HBoxSave4,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave41,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Fiber-Grouping Image as .pdf: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave42 = uix.HButtonBox('Parent', HBoxSave4,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SavePicGroups = uicontrol( 'Parent', HButtonBoxSave42,'Style','checkbox','Value',1,'Tag','checkboxSavePicGroups');
@@ -171,8 +163,6 @@ classdef viewResults < handle
             
             HButtonBoxSave51 = uix.HButtonBox('Parent', HBoxSave5,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave51,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Fiber-Table as Excel spreadsheet: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave52 = uix.HButtonBox('Parent', HBoxSave5,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SaveFiberTable = uicontrol( 'Parent', HButtonBoxSave52,'Style','checkbox','Value',1,'Tag','checkboxSaveFiberTable'); 
@@ -184,8 +174,6 @@ classdef viewResults < handle
             
             HButtonBoxSave61 = uix.HButtonBox('Parent', HBoxSave6,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave61,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Scatterplot all Fibers as .pdf: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave62 = uix.HButtonBox('Parent', HBoxSave6,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SaveScatterAll = uicontrol( 'Parent', HButtonBoxSave62,'Style','checkbox','Value',1,'Tag','checkboxSaveScatterAll');
@@ -197,8 +185,6 @@ classdef viewResults < handle
             
             HButtonBoxSave71 = uix.HButtonBox('Parent', HBoxSave7,'ButtonSize',[6000 20],'Padding', 2 );
             tempH = uicontrol( 'Parent', HButtonBoxSave71,'Style','text','FontUnits','normalized','Fontsize',0.7, 'HorizontalAlignment','left','String', 'Save Binary Mask as .tif: ' );
-            jh = findjobj_fast(tempH);
-            jh.setVerticalAlignment(javax.swing.JLabel.CENTER);
             
             HButtonBoxSave72 = uix.HButtonBox('Parent', HBoxSave7,'ButtonSize',[6000 20],'Padding', 2 );
             obj.B_SaveBinaryMask = uicontrol( 'Parent', HButtonBoxSave72,'Style','checkbox','Value',1,'Tag','checkboxSaveBinaryMask');
