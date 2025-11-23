@@ -66,6 +66,9 @@ classdef viewResults < handle
     
     methods
         function obj = viewResults(mainCard)
+            if nargin < 1 || isempty(mainCard)
+                mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+            end
             
             if ismac
                 fontSizeS = 10; % Font size small
@@ -80,7 +83,7 @@ classdef viewResults < handle
                 fontSizeM = 12; % Font size medium
                 fontSizeB = 16; % Font size big 
             end
-%            mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+
             set(mainCard,'Visible','off');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
             

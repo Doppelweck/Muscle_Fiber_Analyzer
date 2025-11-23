@@ -103,6 +103,9 @@ classdef viewAnalyze < handle
     
     methods
         function obj = viewAnalyze(mainCard)
+            if nargin < 1 || isempty(mainCard)
+                mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+            end
             
             if ismac
                 fontSizeS = 10; % Font size small
@@ -119,7 +122,6 @@ classdef viewAnalyze < handle
                 
             end
             
-%            mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
             set(mainCard,'Visible','off');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard ,'Spacing',2,'Padding',2);
             
