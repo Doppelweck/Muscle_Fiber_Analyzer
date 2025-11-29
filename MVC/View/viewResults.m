@@ -369,9 +369,9 @@ classdef viewResults < handle
             %           obj:    Handle to viewAnalyze object
             %
             
-            BackAnalToolTip = sprintf(['Go back to analyze mode.']);
+            BackAnalToolTip = sprintf('Go back to analyze mode.');
             
-            NewPicToolTip = sprintf(['Select a new image for further processing.']);
+            NewPicToolTip = sprintf('Select a new image for further processing.');
             
             SaveToolTip = sprintf(['Saves the data in the same \n',...
                 ' directory as the selected RGB image.',...

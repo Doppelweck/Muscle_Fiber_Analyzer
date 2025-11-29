@@ -184,7 +184,7 @@ classdef viewEdit < handle
             ThresholdModeText = uilabel( 'Parent', HButtonBoxAlpha1_1,'HorizontalAlignment','left', 'Text', 'Image:' );
 
             
-            HButtonBoxAlpha1_2 = uix.HButtonBox('Parent', HBoxAlpha1, params.default_HButtonBox{:})
+            HButtonBoxAlpha1_2 = uix.HButtonBox('Parent', HBoxAlpha1, params.default_HButtonBox{:});
             obj.B_ImageOverlaySelection = uidropdown( 'Parent', HButtonBoxAlpha1_2,'Tag','popupmenuOverlay','Items', {'RGB Image' , 'Green Plane', 'Blue Plane', 'Red Plane', 'Farred Plane'} ,'Enable','on','BackgroundColor',[1,0,1]);
             
             set( HBoxAlpha1, 'Widths', [-1.3 -3.7] );
@@ -603,28 +603,28 @@ classdef viewEdit < handle
             CheckMaskToolTip = sprintf(['Shows found objects in different RGB colors \n',...
                 'to check the mask for further segmentation.']);
             
-            StartAnaModeToolTip = sprintf(['Starts image analyzing mode.']);
+            StartAnaModeToolTip = sprintf('Starts image analyzing mode.');
             
-            ThreshModeToolTip = sprintf(['Select threshold method for image binarization.']);
+            ThreshModeToolTip = sprintf('Select threshold method for image binarization.');
             
-            ThreshToolTip = sprintf(['Select threshold for image binarization.']);
+            ThreshToolTip = sprintf('Select threshold for image binarization.');
             
-            AlphaToolTip = sprintf(['Change transparency of the binary image.']);
+            AlphaToolTip = sprintf('Change transparency of the binary image.');
             
-            LineWidthToolTip = sprintf(['Change linewidth for drawing into the binary image.']);
+            LineWidthToolTip = sprintf('Change linewidth for drawing into the binary image.');
             
-            ColorToolTip = sprintf(['Choose color mode for drawing into the binary image.']);
+            ColorToolTip = sprintf('Choose color mode for drawing into the binary image.');
             
             InvertToolTip = sprintf(['Invert the binary image. \n',...
                 'Has no effect on segmentation.']);
             
-            MorphToolTip = sprintf(['Select morphological method.']);
+            MorphToolTip = sprintf('Select morphological method.');
             
-            StructuringToolTip = sprintf(['Select structuring element']);
+            StructuringToolTip = sprintf('Select structuring element');
             
-            StructuringSizeToolTip = sprintf(['Select the size of the structuring element']);
+            StructuringSizeToolTip = sprintf('Select the size of the structuring element');
             
-            NoOfIterationsToolTip = sprintf(['Select the number of iterations']);
+            NoOfIterationsToolTip = sprintf('Select the number of iterations');
             
             RunMorphToolTip = sprintf(['Perform the morphological operation \n',...
                 'to the binary image']);

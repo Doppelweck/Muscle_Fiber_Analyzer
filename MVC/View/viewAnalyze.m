@@ -747,16 +747,16 @@ classdef viewAnalyze < handle
             %           obj:    Handle to viewAnalyze object
             %
             
-            BackEditToolTip = sprintf(['Go back to edit mode.']);
+            BackEditToolTip = sprintf('Go back to edit mode.');
             
             ShowResultsToolTip = sprintf(['Switch to Result-Mode. \n',...
                 'Show classification results']);
             
-            StartAnaToolTip = sprintf(['Start fiber type classification']);
+            StartAnaToolTip = sprintf('Start fiber type classification');
             
-            PreviewToolTip = sprintf(['Show preview classification results']);
+            PreviewToolTip = sprintf('Show preview classification results');
             
-            ClassModeToolTip = sprintf(['Select classification method.']);
+            ClassModeToolTip = sprintf('Select classification method.');
             
             MinAreaToolTip = sprintf(['Select minimal area value. \n',...
                 'Smaller objects will be removed.']);
@@ -777,17 +777,17 @@ classdef viewAnalyze < handle
                 'Value form the HSV color model (lightness).',...
                 'Objects with samller color value\n will be classified as Type-0 fiber.']);
             
-            BRTreshToolTip = sprintf(['Slope of Blue/Red classification function.']);
+            BRTreshToolTip = sprintf('Slope of Blue/Red classification function.');
             
-            BRDistBhToolTip = sprintf(['Blue offset of Blue/Red classification function in percent']);
+            BRDistBhToolTip = sprintf('Blue offset of Blue/Red classification function in percent');
             
-            BRDistRhToolTip = sprintf(['Red offset of Blue/Red classification function in percent']);
+            BRDistRhToolTip = sprintf('Red offset of Blue/Red classification function in percent');
             
-            FRRTreshToolTip = sprintf(['Slope of Farred/Red classification function.']);
+            FRRTreshToolTip = sprintf('Slope of Farred/Red classification function.');
             
-            FRRDistFRhToolTip = sprintf(['Farred offset of Farred/Red classification function in percent']);
+            FRRDistFRhToolTip = sprintf('Farred offset of Farred/Red classification function in percent');
             
-            FRRDistRhToolTip = sprintf(['Farred offset of Farred/Red classification function in percent']);
+            FRRDistRhToolTip = sprintf('Farred offset of Farred/Red classification function in percent');
             
             set(obj.B_BackEdit,'tooltipstring',BackEditToolTip);
             set(obj.B_StartResults,'tooltipstring',ShowResultsToolTip);
