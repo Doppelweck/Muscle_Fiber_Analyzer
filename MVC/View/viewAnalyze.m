@@ -121,6 +121,11 @@ classdef viewAnalyze < handle
                 fontSizeB = 16; % Font size big
                 
             end
+
+            params.box_spacing_padding = {'Spacing',2,'Padding',2 };
+            params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.5};
             
             set(mainCard,'Visible','off');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard ,'Spacing',2,'Padding',2);
