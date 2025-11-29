@@ -330,7 +330,7 @@ classdef viewEdit < handle
             
             set(obj.B_ThresholdMode,'Value','Automatic Watershed I');
             %%%%%%%%%%%%%%% call edit functions for GUI
-            %obj.setToolTipStrings();
+            obj.setToolTipStrings();
             
             %appDesignChanger(mainCard,getSettingsValue('Style'));
             
@@ -643,11 +643,11 @@ classdef viewEdit < handle
             set(obj.B_AlphaValue,'tooltipstring',AlphaToolTip);
             set(obj.B_LineWidth,'tooltipstring',LineWidthToolTip);
             set(obj.B_LineWidthValue,'tooltipstring',LineWidthToolTip);
-            set(obj.B_Color,'tooltipstring',ColorToolTip);
+            set(obj.B_Color,'Tooltip',ColorToolTip);
             set(obj.B_Invert,'tooltipstring',InvertToolTip);
             
-            set(obj.B_MorphOP,'tooltipstring',MorphToolTip);
-            set(obj.B_ShapeSE,'tooltipstring',StructuringToolTip);
+            set(obj.B_MorphOP,'Tooltip',MorphToolTip);
+            set(obj.B_ShapeSE,'Tooltip',StructuringToolTip);
             set(obj.B_SizeSE,'tooltipstring',StructuringSizeToolTip);
             set(obj.B_NoIteration,'tooltipstring',NoOfIterationsToolTip);
             set(obj.B_StartMorphOP,'tooltipstring',RunMorphToolTip); 
