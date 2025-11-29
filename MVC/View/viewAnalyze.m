@@ -104,7 +104,7 @@ classdef viewAnalyze < handle
     methods
         function obj = viewAnalyze(mainCard)
             if nargin < 1 || isempty(mainCard)
-                mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 theme(mainCard,"light");
             end
             

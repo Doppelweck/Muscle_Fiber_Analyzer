@@ -67,7 +67,7 @@ classdef viewResults < handle
     methods
         function obj = viewResults(mainCard)
             if nargin < 1 || isempty(mainCard)
-                mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 theme(mainCard,"light");
             end
             
@@ -339,7 +339,7 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
             
-            appDesignChanger(mainCard,getSettingsValue('Style'));
+            %appDesignChanger(mainCard,getSettingsValue('Style'));
             set(mainCard,'Visible','on');
 
         end
