@@ -132,7 +132,7 @@ classdef viewEdit < handle
             params.box_spacing_padding = {'Spacing',2,'Padding',2 };
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.5};
+            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
             
             set(mainCard,'Visible','off');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.box_spacing_padding{:});
