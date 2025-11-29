@@ -312,7 +312,7 @@ classdef viewEdit < handle
 
             obj.B_NoIteration = uicontrol( 'Parent', HButtonBoxMorph4,'Style','edit', 'String','1','Enable','off','Tag','editNoIteration' );
             
-            obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, 'String', 'Run morphological operation','Enable','off','Tag','buttonMorphOP' );
+            obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', 'Run morphological operation','Enable','off','Tag','buttonMorphOP' );
             
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HButtonBox('Parent', PanelInfo,'ButtonSize',[3000 3000]);
