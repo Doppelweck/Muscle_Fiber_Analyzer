@@ -139,7 +139,7 @@ classdef controllerAnalyze < handle
             set(obj.viewAnalyzeHandle.B_StartAnalyze,'Callback',@obj.startAnalyzeEvent);
             set(obj.viewAnalyzeHandle.B_PreResults,'Callback',@obj.showPreResultsEvent);
             
-            set(obj.viewAnalyzeHandle.B_AnalyzeMode,'Callback',@obj.analyzeModeEvent)
+            set(obj.viewAnalyzeHandle.B_AnalyzeMode,'ValueChangedFcn',@obj.analyzeModeEvent)
             
             set(obj.viewAnalyzeHandle.B_AreaActive,'Callback',@obj.activeParaEvent);
             set(obj.viewAnalyzeHandle.B_RoundnessActive,'Callback',@obj.activeParaEvent);

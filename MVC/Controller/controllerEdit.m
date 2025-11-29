@@ -149,16 +149,16 @@ classdef controllerEdit < handle
             set(obj.viewEditHandle.B_ThresholdValue,'Callback',@obj.thresholdEvent);
             set(obj.viewEditHandle.B_AlphaValue,'Callback',@obj.alphaMapEvent);
             set(obj.viewEditHandle.B_AlphaActive,'Callback',@obj.alphaMapEvent);
-            set(obj.viewEditHandle.B_ImageOverlaySelection,'Callback',@obj.alphaImageEvent);
+            set(obj.viewEditHandle.B_ImageOverlaySelection,'ValueChangedFcn',@obj.alphaImageEvent);
             set(obj.viewEditHandle.B_LineWidthValue,'Callback',@obj.lineWidthEvent);
-            set(obj.viewEditHandle.B_Color,'Callback',@obj.colorEvent);
-            set(obj.viewEditHandle.B_MorphOP,'Callback',@obj.morphOpEvent);
-            set(obj.viewEditHandle.B_ShapeSE,'Callback',@obj.structurElementEvent);
+            set(obj.viewEditHandle.B_Color,'ValueChangedFcn',@obj.colorEvent);
+            set(obj.viewEditHandle.B_MorphOP,'ValueChangedFcn',@obj.morphOpEvent);
+            set(obj.viewEditHandle.B_ShapeSE,'ValueChangedFcn',@obj.structurElementEvent);
             set(obj.viewEditHandle.B_SizeSE,'Callback',@obj.morphValuesEvent);
             set(obj.viewEditHandle.B_NoIteration,'Callback',@obj.morphValuesEvent);
             set(obj.viewEditHandle.B_StartMorphOP,'Callback',@obj.startMorphOPEvent);
-            set(obj.viewEditHandle.B_ThresholdMode,'Callback',@obj.thresholdModeEvent);
-            set(obj.viewEditHandle.B_FiberForeBackGround,'Callback',@obj.fibersInForeOrBackground);
+            set(obj.viewEditHandle.B_ThresholdMode,'ValueChangedFcn',@obj.thresholdModeEvent);
+            set(obj.viewEditHandle.B_FiberForeBackGround,'ValueChangedFcn',@obj.fibersInForeOrBackground);
             
         end
         
