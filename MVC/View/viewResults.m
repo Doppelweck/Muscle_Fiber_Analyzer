@@ -68,6 +68,7 @@ classdef viewResults < handle
         function obj = viewResults(mainCard)
             if nargin < 1 || isempty(mainCard)
                 mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                theme(mainCard,"light");
             end
             
             if ismac
@@ -83,6 +84,11 @@ classdef viewResults < handle
                 fontSizeM = 12; % Font size medium
                 fontSizeB = 16; % Font size big 
             end
+
+            params.box_spacing_padding = {'Spacing',2,'Padding',2 };
+            params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
 
             set(mainCard,'Visible','off');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
