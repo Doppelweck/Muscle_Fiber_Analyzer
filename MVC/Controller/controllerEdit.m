@@ -192,11 +192,11 @@ classdef controllerEdit < handle
             %           obj:    Handle to controllerEdit object
             %
             
-            obj.modelEditHandle.ThresholdMode = obj.viewEditHandle.B_ThresholdMode.Value;
+            obj.modelEditHandle.ThresholdMode = obj.viewEditHandle.B_ThresholdMode.ValueIndex;
             obj.modelEditHandle.ThresholdValue = obj.viewEditHandle.B_Threshold.Value;
             obj.modelEditHandle.AlphaMapValue = obj.viewEditHandle.B_Alpha.Value;
             obj.modelEditHandle.AlphaMapActive = obj.viewEditHandle.B_AlphaActive.Value;
-            obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.Value;
+            obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.ValueIndex;
         end
         
         function setInitPicsGUI(obj)
@@ -275,7 +275,7 @@ classdef controllerEdit < handle
             
             mainTitel = ['Fiber types classification tool: ' obj.modelEditHandle.FileName];
             set(obj.mainFigure,'Name', mainTitel);
-            appDesignChanger(obj.panelEdit,getSettingsValue('Style'));
+            %appDesignChanger(obj.panelEdit,getSettingsValue('Style'));
         end
         
         function newFileEvent(obj,~,~)
@@ -301,7 +301,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off');
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off');
                 
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 
                 format = obj.modelEditHandle.openNewFile();
                 obj.busyIndicator(1);
@@ -361,7 +361,7 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 
-                                appDesignElementChanger(obj.panelControl);
+                                %appDesignElementChanger(obj.panelControl);
                                 % check wich morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
@@ -423,7 +423,7 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 % check wich morphOp buttons must be enabled
                                 
-                                appDesignElementChanger(obj.panelControl);
+                                %appDesignElementChanger(obj.panelControl);
                                 
                                 obj.morphOpEvent();
                                 
@@ -464,11 +464,11 @@ classdef controllerEdit < handle
                                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                     % check wich morphOp buttons must be enabled
-                                    appDesignElementChanger(obj.panelControl);
+                                    %appDesignElementChanger(obj.panelControl);
                                     obj.morphOpEvent();
                                 end
                                 
-                                appDesignElementChanger(obj.panelControl);
+                                %appDesignElementChanger(obj.panelControl);
                                 
                                 
                                 
@@ -514,9 +514,9 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
                                 set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 3 )
+                                if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
+                                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 2 ||...
+                                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
                                     set(obj.viewEditHandle.B_Threshold,'Enable','on');
                                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
                                 else
@@ -532,7 +532,7 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 
-                                appDesignElementChanger(obj.panelControl);
+                                %appDesignElementChanger(obj.panelControl);
                                 % check wich morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
@@ -598,7 +598,7 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 % check wich morphOp buttons must be enabled
                                 
-                                appDesignElementChanger(obj.panelControl);
+                                %appDesignElementChanger(obj.panelControl);
                                 obj.morphOpEvent();
                                 
                             case 'false'
@@ -638,7 +638,7 @@ classdef controllerEdit < handle
                                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                     
-                                    appDesignElementChanger(obj.panelControl);
+                                    %appDesignElementChanger(obj.panelControl);
                                     % check wich morphOp buttons must be enabled
                                     obj.morphOpEvent();
                                 end
@@ -684,7 +684,7 @@ classdef controllerEdit < handle
                             % check wich morphOp buttons must be enabled
                             obj.morphOpEvent();
                         end
-                        appDesignElementChanger(obj.panelControl);
+                        %appDesignElementChanger(obj.panelControl);
                         
                     case 'notSupported'
                         
@@ -741,14 +741,14 @@ classdef controllerEdit < handle
                         end
                         
                 end
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 obj.busyIndicator(0);
             catch
                 obj.busyIndicator(0);
                 obj.errorMessage();
                 %disable GUI objects
                 set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
             end
         end
         
@@ -1085,7 +1085,7 @@ classdef controllerEdit < handle
             end
             
             set(obj.viewEditHandle.B_NewPic,'Enable','on');
-            appDesignElementChanger(obj.panelControl);
+            %appDesignElementChanger(obj.panelControl);
             %             obj.busyIndicator(0);
         end
         
@@ -1183,7 +1183,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off');
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off');
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 
                 obj.modelEditHandle.checkMask(obj.CheckMaskActive);
                 
@@ -1205,8 +1205,8 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
                 set(obj.viewEditHandle.B_LineWidth,'Enable','on');
                 set(obj.viewEditHandle.B_LineWidthValue,'Enable','on');
-                if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                        obj.viewEditHandle.B_ThresholdMode.Value == 3 )
+                if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
+                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
                     %activate only if threshold is nessesary
                     set(obj.viewEditHandle.B_Threshold,'Enable','on');
                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
@@ -1217,7 +1217,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                 
                 
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 % check wich morphOp buttons must be enabled
                 obj.morphOpEvent();
                 
@@ -1679,7 +1679,7 @@ classdef controllerEdit < handle
             %Check if Fibers are shown as Black or White Pixel within the
             %green Plane and change Value in the Model
             
-            obj.modelEditHandle.FiberForeBackGround = src.Value;
+            obj.modelEditHandle.FiberForeBackGround = src.ValueIndex;
             %Create binary image with current Threshold Mode.
             
             obj.busyIndicator(1);
@@ -1705,7 +1705,7 @@ classdef controllerEdit < handle
             %           evnt:   callback event data
             %
             
-            Mode = src.Value;
+            Mode = src.ValueIndex;
             
             obj.modelEditHandle.InfoMessage = '   - Binarization operation';
             
@@ -1837,6 +1837,7 @@ classdef controllerEdit < handle
                         obj.modelEditHandle.createBinary();
                     else
                         % Value is ok
+                        set(obj.viewEditHandle.B_Threshold,'Value',1);
                         set(obj.viewEditHandle.B_Threshold,'Value',Value);
                         
                         %Set threshold value in the model
@@ -1930,6 +1931,9 @@ classdef controllerEdit < handle
                             % Value is ok
                             
                             %Copy the textedit value into the text slider in the GUI
+                            % 
+                            set(obj.viewEditHandle.B_Alpha,'Value',0);
+                            set(obj.viewEditHandle.B_Alpha,'Value',1);
                             set(obj.viewEditHandle.B_Alpha,'Value',Value);
                             
                             %Set alphamap value in the model
@@ -1992,7 +1996,7 @@ classdef controllerEdit < handle
             
             
                 
-            switch obj.viewEditHandle.B_ImageOverlaySelection.Value
+            switch obj.viewEditHandle.B_ImageOverlaySelection.ValueIndex
                 case 1 %RGB
                     Pic = obj.modelEditHandle.PicRGBFRPlanes;
                 case 2
@@ -2056,7 +2060,7 @@ classdef controllerEdit < handle
                     if Value < ValueMin
                         Value = ValueMin;
                     end
-                    
+                    set(obj.viewEditHandle.B_LineWidth,'Value',1);
                     set(obj.viewEditHandle.B_LineWidth,'Value',Value);
                     set(obj.viewEditHandle.B_LineWidthValue,'String',num2str(Value));
                     obj.modelEditHandle.LineWidthValue = Value;
@@ -2096,21 +2100,21 @@ classdef controllerEdit < handle
             %           evnt:   callback event data
             %
             
-            if src.Value == 1
+            if src.ValueIndex == 1
                 % White Color
                 obj.modelEditHandle.ColorValue = 1;
-            elseif src.Value == 2
+            elseif src.ValueIndex == 2
                 % Black Color
                 obj.modelEditHandle.ColorValue = 0;
-            elseif src.Value == 3
+            elseif src.ValueIndex == 3
                 % White Color fill region
                 obj.modelEditHandle.ColorValue = 1;
-            elseif src.Value == 4
+            elseif src.ValueIndex == 4
                 % Black Color fill region
                 obj.modelEditHandle.ColorValue = 0;
             else
                 % Error Code
-                obj.modelEditHandle.InfoMessage = '! ERROR in lineWidthEvent() FUNCTION !';
+                obj.modelEditHandle.InfoMessage = '! ERROR in colorEvent() FUNCTION !';
             end
             
         end
@@ -2148,9 +2152,8 @@ classdef controllerEdit < handle
             %           evnt:   callback event data
             %
             
-            %check wich morph operation is selected
-            Strings = obj.viewEditHandle.B_MorphOP.String;
-            String = Strings{obj.viewEditHandle.B_MorphOP.Value};
+            %check which morph operation is selected
+            String = obj.viewEditHandle.B_MorphOP.Value;
             
             if isempty(obj.modelEditHandle.handlePicBW)
                 
@@ -2159,7 +2162,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_MorphOP,'Enable','off')
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 
             else
             
@@ -2222,7 +2225,7 @@ classdef controllerEdit < handle
                     obj.viewEditHandle.B_MorphOP.Value = 1;
                     obj.modelEditHandle.morphOP = 'choose operation';
                     set(obj.viewEditHandle.B_MorphOP,'Enable','on')
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
             end
             
@@ -2243,7 +2246,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 
             elseif strcmp(tempMorpStr,'erode') || strcmp(tempMorpStr,'dilate') ||...
                     strcmp(tempMorpStr,'open') || strcmp(tempMorpStr,'close')
@@ -2256,7 +2259,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
                 
                 if ~strcmp(tempSEStr,'') && ~strcmp(tempSEStr,'choose SE')
                     % Morph options with choosen structuring element
@@ -2266,7 +2269,7 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_SizeSE,'Enable','on')
                     set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 end
             elseif   strcmp(tempMorpStr,'smoothing') || strcmp(tempMorpStr,'skel') ...
@@ -2277,7 +2280,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
             else
                 % Morph options that dont need a structuring element
                 
@@ -2287,7 +2290,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                appDesignElementChanger(obj.panelControl);
+                %appDesignElementChanger(obj.panelControl);
             end
             
             end
@@ -2311,7 +2314,7 @@ classdef controllerEdit < handle
             %
             
             %check wich structering element is selected
-            String = src.String{src.Value};
+            String = src.Value;
             
             switch String
                 
@@ -2394,7 +2397,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
             end
-            appDesignElementChanger(obj.panelControl);
+            %appDesignElementChanger(obj.panelControl);
         end
         
         function morphValuesEvent(obj,~,~)
@@ -2477,15 +2480,15 @@ classdef controllerEdit < handle
             if ~isempty(obj.modelEditHandle.handlePicBW)
                 set(obj.mainFigure,'WindowButtonUpFcn',@obj.stopDragEvent);
                 set(obj.mainFigure,'WindowButtonMotionFcn',@obj.dragEvent);
-                if (obj.viewEditHandle.B_Color.Value == 1 || ...
-                        obj.viewEditHandle.B_Color.Value == 2 )
+                if (obj.viewEditHandle.B_Color.ValueIndex == 1 || ...
+                        obj.viewEditHandle.B_Color.ValueIndex == 2 )
                     % Color Black or white is selected to use free hand draw
                     % mode.
                     Pos = get(obj.viewEditHandle.hAP, 'CurrentPoint');
                     obj.modelEditHandle.startDragFcn(Pos);
                     
-                elseif (obj.viewEditHandle.B_Color.Value == 3 || ...
-                        obj.viewEditHandle.B_Color.Value == 4 )
+                elseif (obj.viewEditHandle.B_Color.ValueIndex == 3 || ...
+                        obj.viewEditHandle.B_Color.ValueIndex == 4 )
                     % Color Black or white is selected to use region fill
                     % mode.
                     Pos = get(obj.viewEditHandle.hAP, 'CurrentPoint');
@@ -2513,8 +2516,8 @@ classdef controllerEdit < handle
             %get cursor positon in binary pic
             Pos = get(obj.viewEditHandle.hAP, 'CurrentPoint');
             %call drag fcn in model with given cursor position
-            if (obj.viewEditHandle.B_Color.Value == 1 || ...
-                    obj.viewEditHandle.B_Color.Value == 2 )
+            if (obj.viewEditHandle.B_Color.ValueIndex == 1 || ...
+                    obj.viewEditHandle.B_Color.ValueIndex == 2 )
                 obj.modelEditHandle.DragFcn(Pos);
             else
                 obj.modelEditHandle.fillRegion(Pos);
@@ -2652,59 +2655,7 @@ classdef controllerEdit < handle
         
         function busyIndicator(obj,status)
             % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-            
-            if status
-                %create indicator object and disable GUI elements
-                set(obj.mainFigure,'pointer','watch');
-                try
-                    % R2010a and newer
-                    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-                    iconsSizeEnums = javaMethod('values',iconsClassName);
-                    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
-                    obj.modelEditHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'busy...');  % icon, label
-                catch
-                    % R2009b and earlier
-                    redColor   = java.awt.Color(1,0,0);
-                    blackColor = java.awt.Color(0,0,0);
-                    obj.modelEditHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(redColor, blackColor);
-                end
-                
-                obj.modelEditHandle.busyIndicator.setPaintsWhenStopped(false);  % default = false
-                obj.modelEditHandle.busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-                javacomponent(obj.modelEditHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                obj.modelEditHandle.busyIndicator.start;
-                
-%                 figHandles = findobj('Type','figure');
-                
-                %find all objects that are enabled and disable them
-                obj.modelEditHandle.busyObj = getUIControlEnabledHandles(obj.viewEditHandle);
-%                 findall(obj.panelEdit, '-property', 'Enable','-and','Enable','on',...
-%                     '-and','-not','style','listbox','-and','-not','style','text','-and','-not','Type','uitable');
-                set( obj.modelEditHandle.busyObj, 'Enable', 'off');
-                appDesignElementChanger(obj.panelControl);
-                
-            else
-                %delete indicator object and disable GUI elements
-                
-%                 figHandles = findobj('Type','figure');
-                
-                
-                if ~isempty(obj.modelEditHandle.busyObj)
-                    valid = isvalid(obj.modelEditHandle.busyObj);
-                    obj.modelEditHandle.busyObj(~valid)=[];
-                    set( obj.modelEditHandle.busyObj, 'Enable', 'on')
-                    appDesignElementChanger(obj.panelControl);
-                end
-                
-                if ~isempty(obj.modelEditHandle.busyIndicator)
-                    obj.modelEditHandle.busyIndicator.stop;
-                    [~, hContainer] = javacomponent(obj.modelEditHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                    obj.modelEditHandle.busyIndicator = [];
-                    delete(hContainer);
-                end
-                workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
-                set(obj.mainFigure,'pointer','arrow');
-            end
+            my_busy_indicator(obj,status);
         end
               
         function errorMessage(obj)
