@@ -1702,61 +1702,8 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','on');
         end
         
-        function busyIndicator(obj,status)
-            % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-            
-            if status
-                %create indicator object and disable GUI elements
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','watch');
-                try
-                    % R2010a and newer
-                    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-                    iconsSizeEnums = javaMethod('values',iconsClassName);
-                    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
-                    obj.modelResultsHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'busy...');  % icon, label
-                catch
-                    % R2009b and earlier
-                    redColor   = java.awt.Color(1,0,0);
-                    blackColor = java.awt.Color(0,0,0);
-                    obj.modelResultsHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(redColor, blackColor);
-                end
-                
-                obj.modelResultsHandle.busyIndicator.setPaintsWhenStopped(false);  % default = false
-                obj.modelResultsHandle.busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-                javacomponent(obj.modelResultsHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                obj.modelResultsHandle.busyIndicator.start;
-                
-                
-                %find all objects that are enabled and disable them
-                obj.modelResultsHandle.busyObj = getUIControlEnabledHandles(obj.viewResultsHandle);
-%                 findall(figHandles, '-property', 'Enable','-and','Enable','on',...
-%                     '-and','-not','style','listbox','-and','-not','style','text','-and','-not','Type','uitable');
-                set( obj.modelResultsHandle.busyObj, 'Enable', 'off')
-                appDesignElementChanger(obj.panelControl);
-                
-            else
-                %delete indicator object and disable GUI elements
-                
-                if ~isempty(obj.modelResultsHandle.busyObj)
-                    valid = isvalid(obj.modelResultsHandle.busyObj);
-                    obj.modelResultsHandle.busyObj(~valid)=[];
-                    set( obj.modelResultsHandle.busyObj, 'Enable', 'on')
-                    appDesignElementChanger(obj.panelControl);
-                end
-                
-                if ~isempty(obj.modelResultsHandle.busyIndicator)
-                    obj.modelResultsHandle.busyIndicator.stop;
-                    [~, hContainer] = javacomponent(obj.modelResultsHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                    delete(hContainer) ;
-                    obj.modelResultsHandle.busyIndicator = [];
-                end
-                
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','arrow');
-                workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
-            end
-            
+        function busyIndicator(obj,status)  
+            my_busy_indicator(obj,status)  
         end
         
         function errorMessage(obj)
