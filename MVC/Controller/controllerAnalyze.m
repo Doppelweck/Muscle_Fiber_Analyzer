@@ -2254,63 +2254,7 @@ classdef controllerAnalyze < handle
         end
         
         function busyIndicator(obj,status)
-            % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-
-            if status
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','watch');
-                %create indicator object and disable GUI elements
-                
-                try
-                    % R2010a and newer
-                    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-                    iconsSizeEnums = javaMethod('values',iconsClassName);
-                    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
-                    obj.modelAnalyzeHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'busy...');  % icon, label
-                catch
-                    % R2009b and earlier
-                    redColor   = java.awt.Color(1,0,0);
-                    blackColor = java.awt.Color(0,0,0);
-                    obj.modelAnalyzeHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(redColor, blackColor);
-                end
-                
-                obj.modelAnalyzeHandle.busyIndicator.setPaintsWhenStopped(false);  % default = false
-                obj.modelAnalyzeHandle.busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-                javacomponent(obj.modelAnalyzeHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                obj.modelAnalyzeHandle.busyIndicator.start;
-                
-                
-                %find all objects that are enabled and disable them
-                obj.modelAnalyzeHandle.busyObj = getUIControlEnabledHandles(obj.viewAnalyzeHandle);
-%                 findall(obj.panelAnalyze, '-property', 'Enable','-and','Enable','on',...
-%                     '-and','-not','style','listbox','-and','-not','style','text','-and','-not','Type','uitable');
-                set( obj.modelAnalyzeHandle.busyObj, 'Enable', 'off')
-                appDesignElementChanger(obj.panelControl);
-                
-            else
-                %delete indicator object and disable GUI elements
-                
-%                 figHandles = findobj('Type','figure');
-                
-                
-                if ~isempty(obj.modelAnalyzeHandle.busyObj)
-                    valid = isvalid(obj.modelAnalyzeHandle.busyObj);
-                    obj.modelAnalyzeHandle.busyObj(~valid)=[];
-                    set( obj.modelAnalyzeHandle.busyObj, 'Enable', 'on')
-                    appDesignElementChanger(obj.panelControl);
-                end
-                
-                if ~isempty(obj.modelAnalyzeHandle.busyIndicator)
-                    obj.modelAnalyzeHandle.busyIndicator.stop;
-                    [~, hContainer] = javacomponent(obj.modelAnalyzeHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                    obj.modelAnalyzeHandle.busyIndicator = [];
-                    delete(hContainer) ;
-                end
-                workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
-                
-                set(obj.mainFigure,'pointer','arrow');
-            end
-            
+            my_busy_indicator(obj,status);
         end
         
         function errorMessage(obj)
