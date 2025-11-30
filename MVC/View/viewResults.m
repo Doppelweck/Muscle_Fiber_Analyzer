@@ -67,7 +67,7 @@ classdef viewResults < handle
     methods
         function obj = viewResults(mainCard)
             if nargin < 1 || isempty(mainCard)
-                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 theme(mainCard,"light");
             end
             
@@ -90,7 +90,7 @@ classdef viewResults < handle
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
 
-            set(mainCard,'Visible','off');
+            set(mainCard,'Visible','on');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
             
             obj.panelAxes = uix.Panel( 'Title', 'RESULTS', 'Parent', obj.panelResults,'FontSize',fontSizeB,'Padding',2);
@@ -101,7 +101,7 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%% Panel controls %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            PanelVBox = uix.VBox('Parent',obj.panelControl,'Spacing', 0,'Padding',2);
+            PanelVBox = uix.VBox('Parent',obj.panelControl, params.box_spacing_padding{:});
             
             PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB,'Padding',2);
             PanelSave = uix.Panel('Parent',PanelVBox,'Title','Save options','FontSize',fontSizeB,'Padding',2);
@@ -110,7 +110,7 @@ classdef viewResults < handle
             set( PanelVBox, 'Heights', [-13 -35 -52], 'Spacing', 2 );
             
             %%%%%%%%%%%%%%%%%% Panel control %%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxControl = uix.VButtonBox('Parent', PanelControl,'ButtonSize',[600 600],'Spacing', 2 ,'Padding',2 );
+            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.box_spacing_padding{:} );
             
             HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40], 'Spacing',5,'Padding', 2);
             obj.B_BackAnalyze = uicontrol( 'Parent', HBoxControl1, 'String', sprintf('\x25C4 Classification'),'FontUnits','normalized','Fontsize',0.4 );
@@ -219,7 +219,7 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HButtonBox('Parent', PanelInfo,'ButtonSize',[3000 3000]);
             obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','FontSize',fontSizeM,'String',{});
-            uitab
+            
             %%%%%%%%%%%%%%%%%%% Panel with Tabs %%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -315,7 +315,7 @@ classdef viewResults < handle
             
             obj.hAPProcessed = axes('Parent',mainPicProcPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            %axis image
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             
@@ -323,7 +323,7 @@ classdef viewResults < handle
             
             obj.hAPGroups = axes('Parent',mainPicGroupPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            %axis image
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             
