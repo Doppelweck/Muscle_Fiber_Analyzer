@@ -138,7 +138,7 @@ classdef viewAnalyze < handle
             
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes), 'FontUnits','normalized','Fontsize',0.012);
             axtoolbar(obj.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            %axis image
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,'Spacing', 2,'Padding',2);
@@ -153,7 +153,7 @@ classdef viewAnalyze < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%
-            VBBoxControl = uix.VButtonBox('Parent', PanelControl,'ButtonSize',[600 600],'Spacing', 2 ,'Padding',2);
+            VBBoxControl = uix.VBox('Parent', PanelControl, params.box_spacing_padding{:});
             
             HBBoxControl1 = uix.HButtonBox('Parent', VBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2  );
             obj.B_BackEdit =     uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x25C4 Segmentation'),'Tag','pushbuttonBackEdit');
@@ -466,7 +466,7 @@ classdef viewAnalyze < handle
             
             HBoxInfo7 = uix.HBox('Parent', VBoxMainInfoFiber);
             obj.B_AxesInfo = axes('Parent',uicontainer('Parent', HBoxInfo7),'FontUnits','normalized','Fontsize',0.015);
-            axis image
+            %axis image
             set(obj.B_AxesInfo, 'LooseInset', [0,0,0,0]);
             
             set( VBoxMainInfoFiber, 'Heights', [-6 -6 -6 -6 -6 -6 -64], 'Spacing', 1 );
