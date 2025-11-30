@@ -112,8 +112,9 @@ classdef viewEdit < handle
             % constructor
             if nargin < 1 || isempty(mainCard)
                 
-                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"light");
+                mainFig = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
+                theme(mainFig,"light");
             end
             if ismac
                 fontSizeS = 10; % Font size small
@@ -134,22 +135,22 @@ classdef viewEdit < handle
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
             
-            set(mainCard,'Visible','off');
+            set(mainCard,'Visible','on');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.box_spacing_padding{:});
             
-            obj.panelAxes = uix.Panel('Parent',  obj.panelEdit,'FontSize',fontSizeB,'Padding',0);
+            obj.panelAxes = uix.Panel('Parent',  obj.panelEdit,'FontSize',fontSizeB);
             obj.panelControl = uix.Panel('Parent',  obj.panelEdit,'Title', 'SEGMENTATION' ,'FontSize',fontSizeB,'TitlePosition','centertop','Padding',0);
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
             set(  obj.panelEdit, 'Widths', [-80 -20] );
             set(obj.panelAxes,'Title','PICTURE');
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes),'FontUnits','normalized','Fontsize',0.012,'Title','PICTURE');
-            axis image
+            %%axis image
 
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,params.box_spacing_padding{:});
             
-            PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB);
+            PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB,'BorderWidth',5);
             PanelAlpha = uix.Panel('Parent',PanelVBox,'Title','Image Overlay','FontSize',fontSizeB);
             PanelBinari = uix.Panel('Parent',PanelVBox,'Title','Binarization','FontSize',fontSizeB);
             PanelMorphOp = uix.Panel('Parent',PanelVBox,'Title','Morphological operations','FontSize',fontSizeB);
@@ -159,17 +160,17 @@ classdef viewEdit < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxControl = uix.VButtonBox('Parent', PanelControl,'ButtonSize',[600 600],'Spacing', 2 ,'Padding',2);
+            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.box_spacing_padding{:} );
             
-            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2 );
+            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 0 ,'Padding',0 );
             obj.B_NewPic =           uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:}, 'String', sprintf('\x2633 New file') );
             obj.B_StartAnalyzeMode = uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('Analyze \x25BA') ,'Enable','off');
             
-            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2 );
+            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 0 ,'Padding',0 );
             obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x2593 Check mask') ,'Enable','off');
             obj.B_CheckPlanes = uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:}, 'String', sprintf('Check planes \x2750') ,'Enable','off');
             
-            HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2 );
+            HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40],'Spacing', 0 ,'Padding',0 );
             obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x21BA Undo') );
             obj.B_Redo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('Redo \x21BB') );
             
@@ -315,7 +316,7 @@ classdef viewEdit < handle
             obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', 'Run morphological operation','Enable','off','Tag','buttonMorphOP' );
             
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            hBoxSize=uix.HButtonBox('Parent', PanelInfo,'ButtonSize',[3000 3000]);
+            hBoxSize=uix.HBox('Parent', PanelInfo, params.box_spacing_padding{:});
             obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','Fontsize', fontSizeM,'String',{''});
             
             %%%%%%%%%%%%%% Set Init Values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -391,21 +392,21 @@ classdef viewEdit < handle
             
             VBox1ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGBFRPlane = axes('Parent',VBox1ColorPlane,'ActivePositionProperty','position');
-            axis image
+            %axis image
             imshow(Pics{3})
             uicontrol( 'Parent', VBox1ColorPlane,'Style','text', 'String', 'RGB Image generated from Red Green Blue and FarRed plane','FontUnits','normalized','Fontsize',0.35);
             set(VBox1ColorPlane,'Heights',[-10 40])
             
             VBox2ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGBPlane = axes('Parent',VBox2ColorPlane,'ActivePositionProperty','position');
-            axis image
+            %axis image
             imshow(Pics{9})
             uicontrol( 'Parent', VBox2ColorPlane,'Style','text', 'String', 'RGB Image generated from Red Green and Blue Plane (no FarRed)','FontUnits','normalized','Fontsize',0.35);
             set(VBox2ColorPlane,'Heights',[-10 40])
             
             VBox3ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneGreen = axes('Parent',uicontainer('Parent', VBox3ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckPlaneGreen, 'position', [0 0 1 1]);
             imshow(Pics{5})
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
@@ -414,7 +415,7 @@ classdef viewEdit < handle
             
             VBox4ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneBlue = axes('Parent',uicontainer('Parent', VBox4ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckPlaneBlue, 'position', [0 0 1 1]);
             imshow(Pics{6})
 
@@ -424,7 +425,7 @@ classdef viewEdit < handle
             
             VBox5ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneRed = axes('Parent',uicontainer('Parent', VBox5ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckPlaneRed, 'position', [0 0 1 1]);
             imshow(Pics{7})
 
@@ -434,7 +435,7 @@ classdef viewEdit < handle
             
             VBox6ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneFarRed = axes('Parent',uicontainer('Parent', VBox6ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckPlaneFarRed, 'position', [0 0 1 1]);
             imshow(Pics{8})
 
@@ -468,7 +469,7 @@ classdef viewEdit < handle
             VBox1Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGB_noBC= axes('Parent',VBox1Brightness,'ActivePositionProperty','position');
             imshow(Pics{10})
-            axis image
+            %axis image
             VButtonBox1 = uix.VButtonBox('Parent', VBox1Brightness,'ButtonSize',[2000 20]);
             uicontrol( 'Parent', VButtonBox1,'Style','text', 'String', 'RGB Image befor brightness correction','FontUnits','normalized','Fontsize',0.7);
             uix.Empty( 'Parent', VBox1Brightness );
@@ -478,7 +479,7 @@ classdef viewEdit < handle
             VBox2Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGB_BC = axes('Parent',VBox2Brightness,'ActivePositionProperty','position');
             imshow(Pics{3})
-            axis image
+            %axis image
             VButtonBox2 = uix.VButtonBox('Parent', VBox2Brightness,'ButtonSize',[2000 20]);
             uicontrol( 'Parent', VButtonBox2,'Style','text', 'String', 'RGB Image after brightness correction','FontUnits','normalized','Fontsize',0.7);
             uix.Empty( 'Parent', VBox2Brightness );
@@ -487,7 +488,7 @@ classdef viewEdit < handle
             % Brightness correction image for Green Plane
             VBox3Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessGreen = axes('Parent',uicontainer('Parent', VBox3Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckBrightnessGreen, 'position', [0 0 1 1]);
             imshow(Pics{11},[])
             caxis([0, 1])
@@ -504,7 +505,7 @@ classdef viewEdit < handle
             % Brightness correction image for Blue Plane
             VBox4Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessBlue = axes('Parent',uicontainer('Parent', VBox4Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckBrightnessBlue, 'position', [0 0 1 1]);
             imshow(Pics{13},[])
             caxis([0, 1])
@@ -521,7 +522,7 @@ classdef viewEdit < handle
             % Brightness correction image for Red Plane
             VBox5Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessRed = axes('Parent',uicontainer('Parent', VBox5Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckBrightnessRed, 'position', [0 0 1 1]);
             imshow(Pics{15},[])
             caxis([0, 1])
@@ -538,7 +539,7 @@ classdef viewEdit < handle
             % Brightness correction image for FarRed Plane
             VBox6Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessFarRed = axes('Parent',uicontainer('Parent', VBox6Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            %axis image
             set(obj.B_AxesCheckBrightnessFarRed, 'position', [0 0 1 1]);
             imshow(Pics{17},[])
             caxis([0, 1])
