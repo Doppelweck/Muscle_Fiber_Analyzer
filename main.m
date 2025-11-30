@@ -1,5 +1,6 @@
 try
-    theme("light");
+    
+    
     % find starting path
     warning('off', 'all');
     try %%Not need for .exe
@@ -8,10 +9,13 @@ try
         addpath(genpath('MVC'));
         addpath(genpath('Functions'));
         addpath(genpath('Icons'));
-        pause(0.1);
+        pause(0.5);
         cl;
     catch
     end
+    
+    build_up_time_delay = 1.001;
+    
 
     setSettingsValue('Version','1.6');
     setSettingsValue('Day','11');
@@ -36,16 +40,19 @@ try
     end
 
     % create main figure
-    mainFig = uifigure('Units','pixels',...
-        'Visible','off',...
+    mainFig = figure(...
+        'Visible','on',...
         'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],...
         'DockControls','off',...
-        'Menubar','none','ToolBar','none',...
         'WindowStyle','normal','NumberTitle','off',...
         'Tag','mainFigure');
+    theme(mainFig,getSettingsValue('Style'))
+
+
+
 
     %Create Start Screen
-    hf = startSrcreen();
+    hf = startSrcreen('normal');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
         'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);
@@ -87,7 +94,6 @@ try
     figure(hf);
     set(hf,'Visible','on');
     figure(hf);
-    set(hf,'WindowStyle','modal');
     % figure(hf);
     % set(hf,'WindowStyle','normal');
     drawnow;
@@ -105,7 +111,7 @@ try
     mDesignitem1.MenuSelectedFcn = @changeAppDesign;
     mDesignitem2 = uimenu(mDesign,'Text','Light','Tag','menuDesignLight');
     mDesignitem2.MenuSelectedFcn = @changeAppDesign;
-    mDesignitem3 = uimenu(mDesign,'Text','Default','Tag','menuDesignDefault');
+    mDesignitem3 = uimenu(mDesign,'Text','Auto','Tag','menuDesignDefault');
     mDesignitem3.MenuSelectedFcn = @changeAppDesign;
 
     uimenu(mainFig,'Enable','off','Text','  |  ')
@@ -153,15 +159,15 @@ try
     viewEditHandle = viewEdit(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1;
-    drawnow;pause(0.5);
+    drawnow;pause(build_up_time_delay);
     viewAnalyzeHandle = viewAnalyze(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2;
-    drawnow;pause(0.5);
+    drawnow;pause(build_up_time_delay);
     viewResultsHandle = viewResults(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3;
-    drawnow;pause(0.5);
+    drawnow;pause(build_up_time_delay);
     mainCard.Selection = 1;
     drawnow;
 
@@ -174,7 +180,6 @@ try
         reverseEnable = false;
         if(strcmp(uiControls(i).Enable ,'off'))
             set( uiControls(i), 'Enable', 'on');
-            appDesignElementChanger(uiControls(i));
             reverseEnable = true;
         end
 
@@ -186,38 +191,35 @@ try
 
         if(reverseEnable)
             set( uiControls(i), 'Enable', 'off');
-            appDesignElementChanger(uiControls(i));
         end
     end
 
-    drawnow;pause(1);
+    drawnow;pause(build_up_time_delay);
 
     InfoText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
     modelEditHandle = modelEdit();
     modelAnalyzeHandle = modelAnalyze();
     modelResultsHandle = modelResults();
-    pause(0.2)
+    pause(build_up_time_delay)
 
     InfoText.String='Loading please wait...   Initialize CONTROLLER-Components...';
     %Init CONTROLLER's
     controllerEditHandle = controllerEdit(mainFig, mainCard, viewEditHandle, modelEditHandle);
     controllerAnalyzeHandle = controllerAnalyze(mainFig, mainCard, viewAnalyzeHandle, modelAnalyzeHandle);
     controllerResultsHandle = controllerResults(mainFig, mainCard, viewResultsHandle, modelResultsHandle);
-    pause(0.2)
+    pause(build_up_time_delay)
 
     InfoText.String='Loading please wait...   Connecting components...';
     %Connecting Model's and their Controller's
     modelEditHandle.controllerEditHandle = controllerEditHandle;
     modelAnalyzeHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     modelResultsHandle.controllerResultsHandle = controllerResultsHandle;
-    pause(0.2)
+    pause(build_up_time_delay)
 
     InfoText.String='Loading please wait...   Update app design...';
-    appDesignChanger(mainCard,getSettingsValue('Style'));
-    appDesignElementChanger(mainCard);
     drawnow;
-    pause(0.2)
+    pause(build_up_time_delay)
 
     InfoText.String='Loading please wait...   Start application...';
     %Connecting Controller's to each other
@@ -225,14 +227,14 @@ try
     controllerAnalyzeHandle.controllerEditHandle = controllerEditHandle;
     controllerAnalyzeHandle.controllerResultsHandle = controllerResultsHandle;
     controllerResultsHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
-    pause(0.2)
+    pause(build_up_time_delay)
 
     InfoText.String='Run application';
     drawnow;
-    pause(0.5);
+    pause(build_up_time_delay);
 
-    % delete starting screen
-    %     busyIndicator.stop;
+    theme(mainFig,getSettingsValue('Style'))
+
     delete(hf);
     set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
     set(mainFig,'WindowState','maximized');
@@ -265,7 +267,7 @@ catch ME
 
     % Stop any ongoing parallel operations
     drawnow; % Process any pending graphics callbacks
-    pause(0.1); % Brief pause to let callbacks finish
+    pause(1); % Brief pause to let callbacks finish
 
     % Use MException object directly instead of lasterror
     stackDepth = numel(ME.stack);
@@ -289,44 +291,58 @@ end
 
 function changeAppDesign(src,~)
 
-setSettingsValue('Style',lower(src.Text));
+style = lower(src.Text);
+
 mainCordObj=findobj(src.Parent.Parent,'Tag','mainCard');
 mainCordObj.Visible = 'off';
 drawnow;
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-appDesignChanger(mainFigObj,getSettingsValue('Style'));
-appDesignElementChanger(mainFigObj);
-theme(mainFigObj,"light");
+theme(mainFigObj,style)
+
 drawnow;
 mainCordObj.Visible = 'on';
 drawnow;
 end
 
 function loadDefaultSettings(src,~)
-
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
+theme(mainFigObj,getDefaultSettingsValue('Style'))
 
-uiControls = findobj(mainFigObj,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
-    '-and','-not','Style','pushbutton');
+uiControls = find_all_ui_elements(mainFigObj);
+
 
 for i = 1:numel(uiControls)
-    workbar(i/numel(uiControls),'load settings','Load DEFAULT settings',mainFigObj);
+    workbar(i/numel(uiControls),'load settings','Load USER settings',mainFigObj);
     reverseEnable = false;
     if(strcmp(uiControls(i).Enable ,'off'))
         set( uiControls(i), 'Enable', 'on');
-        appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
 
-    if(strcmp(uiControls(i).Style,'edit'))
-        uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-    else
-        uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
+    try
+        ui_type = uiControls(i).Style;
+    catch 
+        ui_type = uiControls(i).Type;
     end
+
+    switch ui_type
+        case 'edit'
+            uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
+        case 'uidropdown'
+            uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
+        otherwise
+            uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
+    end
+
 
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
-        appDesignElementChanger(uiControls(i));
+    end
+
+    if isprop(uiControls(i),'ValueChangedFcn')
+        if ~isempty(uiControls(i).Callback)
+            feval(get(uiControls(i),'ValueChangedFcn'),uiControls(i));
+        end
     end
 
     if isprop(uiControls(i),'Callback')
@@ -335,34 +351,49 @@ for i = 1:numel(uiControls)
         end
     end
 end
-workbar(2,'load settings','Load DEFAULT settings',mainFigObj);
+workbar(2,'load settings','Load USER settings',mainFigObj);
 end
 
 function loadUserSettings(src,~)
-% mainCordObj=findobj(src.Parent.Parent,'Tag','mainCard');
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
 
-uiControls = findobj(mainFigObj,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
-    '-and','-not','Style','pushbutton');
+mainFigObj=findobj(src.Parent.Parent,'Type','figure');
+theme(mainFigObj,getSettingsValue('Style'))
+
+uiControls = find_all_ui_elements(mainFigObj);
+
 
 for i = 1:numel(uiControls)
     workbar(i/numel(uiControls),'load settings','Load USER settings',mainFigObj);
     reverseEnable = false;
     if(strcmp(uiControls(i).Enable ,'off'))
         set( uiControls(i), 'Enable', 'on');
-        appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
 
-    if(strcmp(uiControls(i).Style,'edit'))
-        uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-    else
-        uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
+    try
+        ui_type = uiControls(i).Style;
+    catch 
+        ui_type = uiControls(i).Type;
     end
+
+    switch ui_type
+        case 'edit'
+            uiControls(i).String = getSettingsValue(uiControls(i).Tag);
+        case 'uidropdown'
+            uiControls(i).Value = getSettingsValue(uiControls(i).Tag);
+        otherwise
+            uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
+    end
+
 
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
-        appDesignElementChanger(uiControls(i));
+    end
+
+    if isprop(uiControls(i),'ValueChangedFcn')
+        if ~isempty(uiControls(i).ValueChangedFcn)
+            feval(get(uiControls(i),'ValueChangedFcn'),uiControls(i));
+        end
     end
 
     if isprop(uiControls(i),'Callback')
@@ -378,34 +409,40 @@ function saveUserSettings(src,~)
 
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
 
-uiControls = findobj(mainFigObj,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
-    '-and','-not','Style','pushbutton');
+setSettingsValue('Style',mainFigObj.Theme.BaseColorStyle)
+
+uiControls = find_all_ui_elements(mainFigObj);
 
 for i = 1:numel(uiControls)
-    if i==37
-        disp('')
-    end
+
     workbar(i/numel(uiControls),'Save settings','Save USER settings',mainFigObj);
     reverseEnable = false;
     if(strcmp(uiControls(i).Enable ,'off'))
         set( uiControls(i), 'Enable', 'on');
-        appDesignElementChanger(uiControls(i));
         reverseEnable = true;
     end
+    ui_tag = uiControls(i).Tag;
+    try
+        ui_type = uiControls(i).Style;
+    catch 
+        ui_type = uiControls(i).Type;
+    end
 
-    if(strcmp(uiControls(i).Style,'edit'))
-        setSettingsValue(uiControls(i).Tag, uiControls(i).String);
-    else
-        setSettingsValue(uiControls(i).Tag, num2str(uiControls(i).Value));
+    switch ui_type
+        case 'edit'
+            setSettingsValue(ui_tag, uiControls(i).String);
+        case 'uidropdown'
+            setSettingsValue(ui_tag, uiControls(i).Value);
+        otherwise
+            setSettingsValue(ui_tag, num2str(uiControls(i).Value));
     end
 
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
-        appDesignElementChanger(uiControls(i));
     end
 
 end
-workbar(2,'Save settings','Save USER settings',mainFigObj);
+    workbar(2,'Save settings','Save USER settings',mainFigObj);
 end
 
 function openInformationFigure(src,~)
