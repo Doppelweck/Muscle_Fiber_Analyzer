@@ -186,7 +186,7 @@ classdef viewEdit < handle
 
             
             HButtonBoxAlpha1_2 = uix.HButtonBox('Parent', HBoxAlpha1, params.default_HButtonBox{:});
-            obj.B_ImageOverlaySelection = uidropdown( 'Parent', HButtonBoxAlpha1_2,'Tag','popupmenuOverlay','Items', {'RGB Image' , 'Green Plane', 'Blue Plane', 'Red Plane', 'Farred Plane'} ,'Enable','on','BackgroundColor',[1,0,1]);
+            obj.B_ImageOverlaySelection = uidropdown( 'Parent', HButtonBoxAlpha1_2,'Tag','popupmenuOverlay','Items', {'RGB Image' , 'Green Plane', 'Blue Plane', 'Red Plane', 'Farred Plane'} ,'Enable','on');
             
             set( HBoxAlpha1, 'Widths', [-1.3 -3.7] );
             
