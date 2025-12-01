@@ -1,22 +1,22 @@
 
-function my_busy_indicator(obj,status)
+function my_busy_indicator(obj,status,viewHandle,modelHandel)
 % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
 
 if status
     %create indicator object and disable GUI elements
     set(obj.mainFigure,'pointer','watch');
 
-    obj.modelEditHandle.busyObj = getUIControlEnabledHandles(obj.viewEditHandle);
+   modelHandel.busyObj = getUIControlEnabledHandles(viewHandle);
 
-    set( obj.modelEditHandle.busyObj, 'Enable', 'off');
+    set( modelHandel.busyObj, 'Enable', 'off');
     %appDesignElementChanger(obj.panelControl);
 
 else
 
-    if ~isempty(obj.modelEditHandle.busyObj)
-        valid = isvalid(obj.modelEditHandle.busyObj);
-        obj.modelEditHandle.busyObj(~valid)=[];
-        set( obj.modelEditHandle.busyObj, 'Enable', 'on')
+    if ~isempty(modelHandel.busyObj)
+        valid = isvalid(modelHandel.busyObj);
+        modelHandel.busyObj(~valid)=[];
+        set( modelHandel.busyObj, 'Enable', 'on')
         %appDesignElementChanger(obj.panelControl);
     end
 
