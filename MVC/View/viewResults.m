@@ -90,7 +90,7 @@ classdef viewResults < handle
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
 
-            set(mainCard,'Visible','on');
+            set(mainCard,'Visible','off');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
             
             obj.panelAxes = uix.Panel( 'Title', 'RESULTS', 'Parent', obj.panelResults,'FontSize',fontSizeB,'Padding',2);

@@ -14,7 +14,7 @@ try
     catch
     end
     
-    build_up_time_delay = 1.001;
+    build_up_time_delay = 0.001;
     
 
     setSettingsValue('Version','1.6');
@@ -41,7 +41,7 @@ try
 
     % create main figure
     mainFig = figure(...
-        'Visible','on',...
+        'Visible','off',...
         'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],...
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
@@ -52,7 +52,7 @@ try
 
 
     %Create Start Screen
-    hf = startSrcreen('normal');
+    hf = startSrcreen('modal');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
         'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);
@@ -80,77 +80,25 @@ try
     %     busyIndicator.start;
 
 
-    % Calculate centered position (10% smaller)
-    hfPos = hf.Position;
-    scale = 0.9; % 10% smaller
-    newWidth = hfPos(3) * scale;
-    newHeight = hfPos(4) * scale;
-    newX = hfPos(1) + (hfPos(3) - newWidth) / 2;
-    newY = hfPos(2) + (hfPos(4) - newHeight) / 2;
-
     set(mainFig, 'OuterPosition', hf.Position);
+    
+    set(hf,'Visible','on');
+    figure(hf);drawnow;
+    set(hf,'WindowStyle','alwaysontop');
+
+
+    update_menu_bar_main_figure(mainFig,versionString,...
+        @changeAppDesign,...
+        @loadUserSettings,...
+        @saveUserSettings,...
+        @openInformationFigure);
 
     set(mainFig,'Visible','on');
-    figure(hf);
     set(hf,'Visible','on');
-    figure(hf);
-    % figure(hf);
-    % set(hf,'WindowStyle','normal');
-    drawnow;
-
-    %%Remove unwanted Menu icons
-    editMenu = findall(mainFig, 'Tag', 'figMenuFile' ,'-or','Tag', 'figMenuEdit',...
-        '-or','Tag', 'figMenuView','-or','Tag', 'figMenuInsert','-or','Tag', 'figMenuDesktop',...
-        '-or','Tag', 'figMenuHelp');
-    delete(editMenu);
-    
-    uimenu(mainFig,'Enable','off','Text','  |  ')
-    % Add Menu for Design
-    mDesign = uimenu(mainFig,'Text','App Design','Tag','menuDesignSelection');
-    mDesignitem1 = uimenu(mDesign,'Text','Dark','Tag','menuDesignDark');
-    mDesignitem1.MenuSelectedFcn = @changeAppDesign;
-    mDesignitem2 = uimenu(mDesign,'Text','Light','Tag','menuDesignLight');
-    mDesignitem2.MenuSelectedFcn = @changeAppDesign;
-    mDesignitem3 = uimenu(mDesign,'Text','Auto','Tag','menuDesignDefault');
-    mDesignitem3.MenuSelectedFcn = @changeAppDesign;
-
-    uimenu(mainFig,'Enable','off','Text','  |  ')
-    % Add Menu for Settings
-    mSettings = uimenu(mainFig,'Text','App Settings');
-    mSettingsitem1 = uimenu(mSettings,'Text','Load Default Settings');
-    mSettingsitem1.MenuSelectedFcn = @loadDefaultSettings;
-    mSettingsitem2 = uimenu(mSettings,'Text','Load User Settings');
-    mSettingsitem2.MenuSelectedFcn = @loadUserSettings;
-    mSettingsitem3 = uimenu(mSettings,'Text','Save User Settings');
-    mSettingsitem3.MenuSelectedFcn = @saveUserSettings;
-
-    uimenu(mainFig,'Enable','off','Text','  |  ')
-    % Add Menu for Info
-    if(newVersionAvailable && checkSuccessfull)
-        AboutText =['About (NEW VERSION ' newVersion ' AVAILABLE)'];
-    else
-        AboutText ='About';
-    end
-    mInfo1 = uimenu(mainFig,'Text',AboutText);
-    mInfo1.MenuSelectedFcn = @openInformationFigure;
-
-    uimenu(mainFig,'Enable','off','Text','  |  ')
-
-
-
-
-    % hide needless ToogleTool objects in the main figure
-    set( findall(mainFig,'ToolTipString','Edit Plot') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Insert Colorbar') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Insert Legend') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Hide Plot Tools') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','New Figure') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Show Plot Tools') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Brush/Select Data') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Show Plot Tools and Dock Figure') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Link Plot') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Save Figure') ,'Visible','Off');
-    set( findall(mainFig,'ToolTipString','Open File') ,'Visible','Off');
+    set(hf,'WindowStyle','alwaysontop');
+    set(hf,'WindowStyle','modal');
+    figure(hf);drawnow;
+    pause(build_up_time_delay);
 
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
@@ -158,18 +106,17 @@ try
     %Init VIEW's
     viewEditHandle = viewEdit(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Edit...';
-    mainCard.Selection = 1;
+    mainCard.Selection = 1; drawnow;
     drawnow;pause(build_up_time_delay);
     viewAnalyzeHandle = viewAnalyze(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Analyze...';
-    mainCard.Selection = 2;
+    mainCard.Selection = 2; drawnow;
     drawnow;pause(build_up_time_delay);
     viewResultsHandle = viewResults(mainCard);
     InfoText.String='Loading please wait...   Initialize VIEW-Results...';
-    mainCard.Selection = 3;
+    mainCard.Selection = 3; drawnow;
     drawnow;pause(build_up_time_delay);
-    mainCard.Selection = 1;
-    drawnow;
+    mainCard.Selection = 1; drawnow;
 
     InfoText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
@@ -234,10 +181,13 @@ try
     pause(build_up_time_delay);
 
     theme(mainFig,getSettingsValue('Style'))
-
-    delete(hf);
-    set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
     set(mainFig,'WindowState','maximized');
+    drawnow;
+    pause(2);
+    delete(hf);
+    set(mainFig,'WindowState','maximized');
+    %set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
+    drawnow;
     delete(InfoText);
     delete(VersionText);
 
@@ -304,7 +254,7 @@ mainCordObj.Visible = 'on';
 drawnow;
 end
 
-function loadDefaultSettings(src,~)
+function loadUserSettings(src,~)
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
 theme(mainFigObj,getDefaultSettingsValue('Style'))
 
@@ -325,67 +275,39 @@ for i = 1:numel(uiControls)
         ui_type = uiControls(i).Type;
     end
 
-    switch ui_type
-        case 'edit'
-            uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-        case 'uidropdown'
-            uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
+    switch src.Text
+        case 'Load User Settings'
+            switch ui_type
+                case 'edit'
+                    uiControls(i).String = getSettingsValue(uiControls(i).Tag);
+                case 'uidropdown'
+                    uiControls(i).Value = getSettingsValue(uiControls(i).Tag);
+                otherwise
+                    uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
+            end
+
+        case 'Load Default Settings'
+            switch ui_type
+                case 'edit'
+                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
+                case 'uidropdown'
+                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
+                otherwise
+                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
+           end
+
         otherwise
-            uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
+            switch ui_type
+                case 'edit'
+                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
+                case 'uidropdown'
+                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
+                otherwise
+                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
+           end
+
     end
-
-
-    if(reverseEnable)
-        set( uiControls(i), 'Enable', 'off');
-    end
-
-    if isprop(uiControls(i),'ValueChangedFcn')
-        if ~isempty(uiControls(i).Callback)
-            feval(get(uiControls(i),'ValueChangedFcn'),uiControls(i));
-        end
-    end
-
-    if isprop(uiControls(i),'Callback')
-        if ~isempty(uiControls(i).Callback)
-            feval(get(uiControls(i),'Callback'),uiControls(i));
-        end
-    end
-end
-workbar(2,'load settings','Load USER settings',mainFigObj);
-end
-
-function loadUserSettings(src,~)
-
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,getSettingsValue('Style'))
-
-uiControls = find_all_ui_elements(mainFigObj);
-
-
-for i = 1:numel(uiControls)
-    workbar(i/numel(uiControls),'load settings','Load USER settings',mainFigObj);
-    reverseEnable = false;
-    if(strcmp(uiControls(i).Enable ,'off'))
-        set( uiControls(i), 'Enable', 'on');
-        reverseEnable = true;
-    end
-
-    try
-        ui_type = uiControls(i).Style;
-    catch 
-        ui_type = uiControls(i).Type;
-    end
-
-    switch ui_type
-        case 'edit'
-            uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-        case 'uidropdown'
-            uiControls(i).Value = getSettingsValue(uiControls(i).Tag);
-        otherwise
-            uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
-    end
-
-
+          
     if(reverseEnable)
         set( uiControls(i), 'Enable', 'off');
     end

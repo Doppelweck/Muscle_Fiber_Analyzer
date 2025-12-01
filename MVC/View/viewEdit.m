@@ -134,8 +134,9 @@ classdef viewEdit < handle
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
+            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2};
             
-            set(mainCard,'Visible','on');
+            set(mainCard,'Visible','off');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.box_spacing_padding{:});
             
             obj.panelAxes = uix.Panel('Parent',  obj.panelEdit,'FontSize',fontSizeB);
@@ -374,6 +375,7 @@ classdef viewEdit < handle
                 'MenuBar','none','Name','Check Color Planes',...
                 'Units','normalized','Visible','off','Tag','CheckPlanesFigure',...
                 'InvertHardcopy','off');
+            theme(obj.hFCP ,mainFig.Theme)
             %get position of mainFigure
             posMainFig = get(mainFig,'Position');
             
