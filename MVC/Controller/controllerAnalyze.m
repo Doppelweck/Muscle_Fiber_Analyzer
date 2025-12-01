@@ -92,7 +92,7 @@ classdef controllerAnalyze < handle
             %           obj:    Handle to controllerAnalyze object.
             %
             
-            obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.Value;
+            obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex;
             
             obj.modelAnalyzeHandle.AreaActive = obj.viewAnalyzeHandle.B_AreaActive.Value;
             obj.modelAnalyzeHandle.MinArea = str2double(obj.viewAnalyzeHandle.B_MinArea.String);
@@ -885,7 +885,7 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinArea,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxArea,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_RoundnessActive.Tag
                     % RoundActive has changed. If it is zero, Roundness parameter
@@ -895,7 +895,7 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_AspectRatioActive.Tag
                     % AspectRatioActive has changed. If it is zero AspectRatio parameters
@@ -907,7 +907,7 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_BlueRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -921,7 +921,7 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_FarredRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -935,7 +935,7 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
+                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_ColorValueActive.Tag
                     % ColorValueActive has changed. If it is zero ColorValue parameters
@@ -945,7 +945,7 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     end
-                     appDesignElementChanger(obj.panelControl);
+                     %appDesignElementChanger(obj.panelControl);
                      
                 otherwise
                     % Error Code
@@ -998,7 +998,7 @@ classdef controllerAnalyze < handle
             obj.busyIndicator(1);
             
             obj.mainCardPanel.Selection = 2;
-            obj.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber informations';
+            obj.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber Informations';
             
             %get all pic data from the model
             PicData = obj.controllerEditHandle.modelEditHandle.sendPicsToController();
@@ -1014,7 +1014,7 @@ classdef controllerAnalyze < handle
             obj.modelAnalyzeHandle.PicPlaneFarRed = PicData{8};
             obj.modelAnalyzeHandle.PicPRGBPlanes = PicData{9};
             
-            switch obj.viewAnalyzeHandle.B_AnalyzeMode.Value
+            switch obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex
                 
                 case 1
                     
@@ -1063,6 +1063,11 @@ classdef controllerAnalyze < handle
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
                     axis(obj.viewAnalyzeHandle.hAP, 'on')
                     axis(obj.viewAnalyzeHandle.hAP, 'image')
+                otherwise
+
+                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">ERROR Transfer Data from EDIT to RESULT </FONT></HTML>';
+                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">   - startAnalyzeMode() fcn </FONT></HTML>';
+
             end
             
             lhx=xlabel(obj.viewAnalyzeHandle.hAP, sprintf('x/\x3BCm'),'Fontsize',12);
@@ -1149,7 +1154,7 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            appDesignElementChanger(obj.panelControl);
+            %appDesignElementChanger(obj.panelControl);
             obj.modelAnalyzeHandle.InfoMessage = '-Set Parameters and press "Start analyzing"';
             obj.modelAnalyzeHandle.InfoMessage = ' ';
         end
@@ -1201,7 +1206,7 @@ classdef controllerAnalyze < handle
                 
                 % Set all Vlaues form the GUI objects in the correspondending
                 % model properties.
-                obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.Value;
+                obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex;
                 
                 obj.modelAnalyzeHandle.AreaActive = obj.viewAnalyzeHandle.B_AreaActive.Value;
                 if obj.modelAnalyzeHandle.AreaActive == 1
@@ -1261,7 +1266,7 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            appDesignElementChanger(obj.panelControl);
+            %appDesignElementChanger(obj.panelControl);
             
         end
         
@@ -1534,65 +1539,65 @@ classdef controllerAnalyze < handle
             
             %show info in GUI fiber information panel.
             %Label Number
-            curretnStyleColor = obj.viewAnalyzeHandle.B_TextMeanGreen.ForegroundColor;
-            set(obj.viewAnalyzeHandle.B_TextObjNo,'String', Info{1} );
+            curretnStyleColor = obj.viewAnalyzeHandle.B_TextMeanGreen.FontColor;
+            set(obj.viewAnalyzeHandle.B_TextObjNo,'Text', Info{1} );
             %Area. Display text in red when out of range
             if obj.modelAnalyzeHandle.AreaActive && ~isempty(str2double(Info{2}))
                 if obj.modelAnalyzeHandle.MaxArea < str2double(Info{2})
-                    obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextArea.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextArea.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextArea.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextArea,'String', Info{2} );
+            set(obj.viewAnalyzeHandle.B_TextArea,'Text', Info{2} );
             
             % Aspect Ratio. Display text in red when out of range
             if obj.modelAnalyzeHandle.AspectRatioActive && ~isempty(str2double(Info{3}))
                 if obj.modelAnalyzeHandle.MinAspectRatio > str2double(Info{3}) ||...
                         obj.modelAnalyzeHandle.MaxAspectRatio < str2double(Info{3})
-                    obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextAspectRatio,'String', Info{3} );
+            set(obj.viewAnalyzeHandle.B_TextAspectRatio,'Text', Info{3} );
             
             % Roundnes. Display text in red when out of range
             if obj.modelAnalyzeHandle.RoundnessActive && isnumeric(str2double(Info{4}))
                 if obj.modelAnalyzeHandle.MinRoundness > str2double(Info{4})
-                    obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextRoundness.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextRoundness.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextRoundness.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextRoundness,'String', Info{4} );
+            set(obj.viewAnalyzeHandle.B_TextRoundness,'Text', Info{4} );
             
-            set(obj.viewAnalyzeHandle.B_TextBlueRedRatio,'String', Info{5} );
-            set(obj.viewAnalyzeHandle.B_TextFarredRedRatio,'String', Info{6} );
-            set(obj.viewAnalyzeHandle.B_TextMeanRed,'String', Info{7} );
-            set(obj.viewAnalyzeHandle.B_TextMeanGreen,'String', Info{8} );
-            set(obj.viewAnalyzeHandle.B_TextMeanBlue,'String', Info{9} );
-            set(obj.viewAnalyzeHandle.B_TextMeanFarred,'String', Info{10} );
+            set(obj.viewAnalyzeHandle.B_TextBlueRedRatio,'Text', Info{5} );
+            set(obj.viewAnalyzeHandle.B_TextFarredRedRatio,'Text', Info{6} );
+            set(obj.viewAnalyzeHandle.B_TextMeanRed,'Text', Info{7} );
+            set(obj.viewAnalyzeHandle.B_TextMeanGreen,'Text', Info{8} );
+            set(obj.viewAnalyzeHandle.B_TextMeanBlue,'Text', Info{9} );
+            set(obj.viewAnalyzeHandle.B_TextMeanFarred,'Text', Info{10} );
             
             % Roundnes. Display text in red when out of range
             if obj.modelAnalyzeHandle.ColorValueActive && isnumeric(str2double(Info{11}))
                 if obj.modelAnalyzeHandle.ColorValue > str2double(Info{11})
-                    obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextColorValue.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextColorValue.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextColorValue.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextColorValue,'String', Info{11} );
+            set(obj.viewAnalyzeHandle.B_TextColorValue,'Text', Info{11} );
             
-            set(obj.viewAnalyzeHandle.B_TextFiberType,'String', Info{12} );
+            set(obj.viewAnalyzeHandle.B_TextFiberType,'Text', Info{12} );
             
             axis(obj.viewAnalyzeHandle.B_AxesInfo,'image');
             obj.modelAnalyzeHandle.handleInfoAxes.CData = Info{13};
@@ -2255,7 +2260,7 @@ classdef controllerAnalyze < handle
         end
         
         function busyIndicator(obj,status)
-            my_busy_indicator(obj,status);
+            my_busy_indicator(obj,status, obj.viewAnalyzeHandle,obj.modelAnalyzeHandle);
         end
         
         function errorMessage(obj)
