@@ -127,12 +127,13 @@ classdef viewAnalyze < handle
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
+            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
             
             set(mainCard,'Visible','off');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard ,'Spacing',2,'Padding',2);
             
-            obj.panelAxes = uix.Panel('Parent', obj.panelAnalyze, 'Title', 'PICTURE','FontSize',fontSizeB,'Padding',2);
-            obj.panelControl = uix.Panel('Parent', obj.panelAnalyze, 'Title', 'CLASSIFICATION','FontSize',fontSizeB,'TitlePosition','centertop');
+            obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'PICTURE');
+            obj.panelControl = uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'CLASSIFICATION','TitlePosition','centertop');
             set( obj.panelAnalyze, 'MinimumWidths', [1 320] );
             set( obj.panelAnalyze, 'Widths', [-80 -20] );
             
@@ -143,10 +144,10 @@ classdef viewAnalyze < handle
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,'Spacing', 2,'Padding',2);
             
-            PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB,'Padding',2);
-            PanelPara = uix.Panel('Parent',PanelVBox,'Title','Parameter','FontSize',fontSizeB,'Padding',2);
-            obj.PanelFiberInformation = uix.Panel('Parent',PanelVBox,'Title','Fiber informations','FontSize',fontSizeB,'Padding',2);
-            PanelInfo = uix.Panel('Parent',PanelVBox,'Title','Info:','FontSize',fontSizeB,'Padding',0);
+            PanelControl =              uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Main Controls');
+            PanelPara =                 uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Parameter');
+            obj.PanelFiberInformation = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Fiber Informations');
+            PanelInfo =                 uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
             
             set( PanelVBox, 'Heights', [-13 -30 -41 -16], 'Spacing', 2 );

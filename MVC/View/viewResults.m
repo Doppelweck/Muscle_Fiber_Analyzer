@@ -89,12 +89,14 @@ classdef viewResults < handle
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
+            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
+
 
             set(mainCard,'Visible','off');
             obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
             
-            obj.panelAxes = uix.Panel( 'Title', 'RESULTS', 'Parent', obj.panelResults,'FontSize',fontSizeB,'Padding',2);
-            obj.panelControl = uix.Panel( 'Title', 'RESULTS', 'Parent', obj.panelResults,'FontSize',fontSizeB,'TitlePosition','centertop','Padding',0);
+            obj.panelAxes =    uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'FIBER INFORMATIONS' );
+            obj.panelControl = uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'RESULTS', 'TitlePosition','centertop');
             set( obj.panelResults, 'MinimumWidths', [1 320] );
             set( obj.panelResults, 'Widths', [-4 -1] );
             
@@ -103,9 +105,9 @@ classdef viewResults < handle
             
             PanelVBox = uix.VBox('Parent',obj.panelControl, params.box_spacing_padding{:});
             
-            PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB,'Padding',2);
-            PanelSave = uix.Panel('Parent',PanelVBox,'Title','Save options','FontSize',fontSizeB,'Padding',2);
-            PanelInfo = uix.Panel('Parent',PanelVBox,'Title','Info:','FontSize',fontSizeB,'Padding',0);
+            PanelControl = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Main Controls');
+            PanelSave =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Save Options');
+            PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
             set( PanelVBox, 'Heights', [-13 -35 -52], 'Spacing', 2 );
             

@@ -134,28 +134,27 @@ classdef viewEdit < handle
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
-            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2};
+            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
             
             set(mainCard,'Visible','off');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.box_spacing_padding{:});
             
-            obj.panelAxes = uix.Panel('Parent',  obj.panelEdit,'FontSize',fontSizeB);
-            obj.panelControl = uix.Panel('Parent',  obj.panelEdit,'Title', 'SEGMENTATION' ,'FontSize',fontSizeB,'TitlePosition','centertop','Padding',0);
+            obj.panelAxes =    uix.Panel('Parent',  obj.panelEdit, params.default_panel{:},'Title','PICTURE');
+            obj.panelControl = uix.Panel('Parent',  obj.panelEdit,params.default_panel{:},'Title', 'SEGMENTATION','TitlePosition','centertop');
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
             set(  obj.panelEdit, 'Widths', [-80 -20] );
-            set(obj.panelAxes,'Title','PICTURE');
-            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes),'FontUnits','normalized','Fontsize',0.012,'Title','PICTURE');
+            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes),'FontUnits','normalized','Fontsize',0.012);
             %%axis image
 
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,params.box_spacing_padding{:});
             
-            PanelControl = uix.Panel('Parent',PanelVBox,'Title','Main controls','FontSize',fontSizeB,'BorderWidth',5);
-            PanelAlpha = uix.Panel('Parent',PanelVBox,'Title','Image Overlay','FontSize',fontSizeB);
-            PanelBinari = uix.Panel('Parent',PanelVBox,'Title','Binarization','FontSize',fontSizeB);
-            PanelMorphOp = uix.Panel('Parent',PanelVBox,'Title','Morphological operations','FontSize',fontSizeB);
-            PanelInfo = uix.Panel('Parent',PanelVBox,'Units','normalized','Title','Info:','FontSize',fontSizeB);
+            PanelControl = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Main Controls');
+            PanelAlpha =   uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Image Overlay');
+            PanelBinari =  uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Binarization');
+            PanelMorphOp = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Morphological Operations');
+            PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Units','normalized','Title','Info Log');
             
             set( PanelVBox, 'Heights', [-18 -10 -22 -23 -27], 'Spacing', 2 );
             
