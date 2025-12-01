@@ -139,7 +139,7 @@ classdef viewAnalyze < handle
             
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes), 'FontUnits','normalized','Fontsize',0.012);
             axtoolbar(obj.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            %axis image
+            axis image
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,'Spacing', 2,'Padding',2);
@@ -467,7 +467,7 @@ classdef viewAnalyze < handle
             
             HBoxInfo7 = uix.HBox('Parent', VBoxMainInfoFiber);
             obj.B_AxesInfo = axes('Parent',uicontainer('Parent', HBoxInfo7),'FontUnits','normalized','Fontsize',0.015);
-            %axis image
+            axis image
             set(obj.B_AxesInfo, 'LooseInset', [0,0,0,0]);
             
             set( VBoxMainInfoFiber, 'Heights', [-6 -6 -6 -6 -6 -6 -64], 'Spacing', 1 );

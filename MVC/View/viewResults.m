@@ -68,7 +68,7 @@ classdef viewResults < handle
         function obj = viewResults(mainCard)
             if nargin < 1 || isempty(mainCard)
                 mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"light");
+                theme(mainCard,"dark");
             end
             
             if ismac
@@ -317,7 +317,7 @@ classdef viewResults < handle
             
             obj.hAPProcessed = axes('Parent',mainPicProcPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            %axis image
+            axis image
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             
@@ -325,7 +325,7 @@ classdef viewResults < handle
             
             obj.hAPGroups = axes('Parent',mainPicGroupPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            %axis image
+            axis image
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             
