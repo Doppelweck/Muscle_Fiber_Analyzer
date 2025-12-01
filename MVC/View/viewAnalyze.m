@@ -123,14 +123,15 @@ classdef viewAnalyze < handle
                 
             end
 
-            params.box_spacing_padding = {'Spacing',2,'Padding',2 };
+            params.default_box_spacing_padding = {'Spacing',2,'Padding',2 };
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_HButtonBox_Main = {'ButtonSize', [600 40], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
             params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
             
             set(mainCard,'Visible','off');
-            obj.panelAnalyze = uix.HBox( 'Parent', mainCard ,'Spacing',2,'Padding',2);
+            obj.panelAnalyze = uix.HBox( 'Parent', mainCard , params.default_box_spacing_padding{:});
             
             obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'PICTURE');
             obj.panelControl = uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'CLASSIFICATION','TitlePosition','centertop');
@@ -142,7 +143,7 @@ classdef viewAnalyze < handle
             axis image
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             
-            PanelVBox = uix.VBox('Parent',obj.panelControl,'Spacing', 2,'Padding',2);
+            PanelVBox = uix.VBox('Parent',obj.panelControl,params.default_box_spacing_padding{:});
             
             PanelControl =              uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Main Controls');
             PanelPara =                 uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Parameter');
@@ -150,26 +151,26 @@ classdef viewAnalyze < handle
             PanelInfo =                 uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
             
-            set( PanelVBox, 'Heights', [-13 -30 -41 -16], 'Spacing', 2 );
+            set( PanelVBox, 'Heights', [-13 -30 -41 -16]);
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%
-            VBBoxControl = uix.VBox('Parent', PanelControl, params.box_spacing_padding{:});
+            VBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:});
             
-            HBBoxControl1 = uix.HButtonBox('Parent', VBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2  );
+            HBBoxControl1 = uix.HButtonBox('Parent',  VBBoxControl,params.default_HButtonBox_Main{:}  );
             obj.B_BackEdit =     uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x25C4 Segmentation'),'Tag','pushbuttonBackEdit');
             obj.B_StartResults = uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Results \x25BA'),'Tag','pushbuttonStartResults');
             
-            HBBoxControl2 = uix.HButtonBox('Parent', VBBoxControl,'ButtonSize',[600 40],'Spacing', 5 ,'Padding',2  );
+            HBBoxControl2 = uix.HButtonBox('Parent',  VBBoxControl,params.default_HButtonBox_Main{:} );
             obj.B_StartAnalyze = uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x21DB Start analyzing'),'Tag','pushbuttonAnalyze' );
             obj.B_PreResults =   uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Preview results \x2750') ,'Tag','pushbuttonPreResults');
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%% Panel Para %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBoxPara = uix.VBox('Parent', PanelPara,'Padding', 5);
+            mainVBoxPara = uix.VBox('Parent', PanelPara,params.default_box_spacing_padding{:});
             
             %%%%%%%%%%%%%%%% 1. Row Analyze Mode
-            HBoxPara1 = uix.HBox('Parent', mainVBoxPara, params.box_spacing_padding{:});
+            HBoxPara1 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:});
             
             HButtonBoxPara12 = uix.HButtonBox('Parent', HBoxPara1, params.default_HButtonBox{:} );
             String= {'Color-Ratio-Based triple labeling' ; 'Color-Ratio-Based quad labeling';...
@@ -177,7 +178,7 @@ classdef viewAnalyze < handle
             obj.B_AnalyzeMode = uidropdown( 'Parent', HButtonBoxPara12, 'Items', String ,'Value','Color-Ratio-Based quad labeling','Tag','popupmenuAnalyzeMode');
                        
             %%%%%%%%%%%%%%%% 2. Row: Area
-            HBoxPara2 = uix.HBox('Parent', mainVBoxPara, params.box_spacing_padding{:});
+            HBoxPara2 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:});
             
             HButtonBoxPara21 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
             obj.B_AreaActive = uicontrol( 'Parent', HButtonBoxPara21,'Style','checkbox','Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
@@ -197,7 +198,7 @@ classdef viewAnalyze < handle
             set( HBoxPara2, 'Widths', [-8 -34 -22 -12 -22] );
             
             %%%%%%%%%%%%%%%% 3. Aspect Ratio
-            HBoxPara3 = uix.HBox('Parent', mainVBoxPara, params.box_spacing_padding{:} );
+            HBoxPara3 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
             
             HButtonBoxPara31 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
             obj.B_AspectRatioActive = uicontrol( 'Parent', HButtonBoxPara31,'Style','checkbox','Value',1,'Tag','AspectRatioActive','Tag','checkboxAspectRatioActive');
@@ -217,7 +218,7 @@ classdef viewAnalyze < handle
             set( HBoxPara3, 'Widths', [-8 -34 -22 -12 -22] );
             
             %%%%%%%%%%%%%%%% 4. Row Color Value HSV ColorRoom
-            HBoxPara4 = uix.HBox('Parent', mainVBoxPara, params.box_spacing_padding{:} );
+            HBoxPara4 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
             
             HButtonBoxPara41 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
             obj.B_ColorValueActive = uicontrol( 'Parent', HButtonBoxPara41,'Style','checkbox','Value',1,'Tag','ColorValueActive','Tag','checkboxColorValueActive');
@@ -231,7 +232,7 @@ classdef viewAnalyze < handle
             set( HBoxPara4, 'Widths', [-8 -34 -56] );
             
             %%%%%%%%%%%%%%%% 5. Row: Roundness
-            HBoxPara5 = uix.HBox('Parent', mainVBoxPara,  params.box_spacing_padding{:} );
+            HBoxPara5 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
             
             HButtonBoxPara51 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
             obj.B_RoundnessActive = uicontrol( 'Parent', HButtonBoxPara51,'Style','checkbox','Value',1,'Tag','RoundnessActive','Tag','checkboxRoundnessActive');
@@ -250,7 +251,7 @@ classdef viewAnalyze < handle
             
             VBoxMainPara1 = uix.VBox('Parent', obj.ParaCard );
             
-            HBoxPara6 = uix.HBox('Parent', VBoxMainPara1,  params.box_spacing_padding{:} );
+            HBoxPara6 = uix.HBox('Parent', VBoxMainPara1,  params.default_box_spacing_padding{:} );
             
             HButtonBoxPara61 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedThreshActive = uicontrol( 'Parent', HButtonBoxPara61,'style','checkbox','Value',1,'Tag','checkboxBlueRedThreshActive');
@@ -277,7 +278,7 @@ classdef viewAnalyze < handle
             
 
             %%%%%%%%%%%%%%%% 7. Row FarRed Red thresh
-            HBoxPara7 = uix.HBox('Parent', VBoxMainPara1, params.box_spacing_padding{:} );
+            HBoxPara7 = uix.HBox('Parent', VBoxMainPara1, params.default_box_spacing_padding{:} );
             
             HButtonBoxPara71 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedThreshActive = uicontrol( 'Parent', HButtonBoxPara71,'style','checkbox','Value',1,'Tag','checkboxFarredRedThreshActive');
@@ -304,7 +305,7 @@ classdef viewAnalyze < handle
             
             VBoxMainPara2 = uix.VBox('Parent', obj.ParaCard,'Padding',0,'Spacing', 0);
             
-            HBoxPara71 = uix.HBox('Parent', VBoxMainPara2, params.box_spacing_padding{:} );
+            HBoxPara71 = uix.HBox('Parent', VBoxMainPara2, params.default_box_spacing_padding{:} );
             
             HButtonBoxPara711 = uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:} );
             obj.B_12HybridFiberActive = uicontrol( 'Parent', HButtonBoxPara711,'style','checkbox','Value',1,'Tag','checkboxHybrid12FiberActive');
@@ -314,7 +315,7 @@ classdef viewAnalyze < handle
             
             set( HBoxPara71, 'Widths', [-8 -92] );
             
-            HBoxPara72 = uix.HBox('Parent', VBoxMainPara2, params.box_spacing_padding{:} );
+            HBoxPara72 = uix.HBox('Parent', VBoxMainPara2, params.default_box_spacing_padding{:} );
             
             HButtonBoxPara721 = uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:} );
             obj.B_2axHybridFiberActive = uicontrol( 'Parent', HButtonBoxPara721,'style','checkbox','Value',1,'Tag','checkboxHybrid2axFiberActive');
@@ -326,7 +327,7 @@ classdef viewAnalyze < handle
             
             obj.ParaCard.Selection = 1;
             %%%%%%%%%%%%%%%% 8. Pixel Scale
-            HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.box_spacing_padding{:} );
+            HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
 
             HButtonBoxPara80 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
@@ -349,9 +350,9 @@ classdef viewAnalyze < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% Panel FiberInformation %%%%%%%%%%%%%%%%%%%%%
-            VBoxMainInfoFiber = uix.VBox('Parent', obj.PanelFiberInformation, params.box_spacing_padding{:} );
+            VBoxMainInfoFiber = uix.VBox('Parent', obj.PanelFiberInformation, params.default_box_spacing_padding{:} );
             
-            HBoxInfo1 = uix.HBox('Parent', VBoxMainInfoFiber,  params.box_spacing_padding{:} );
+            HBoxInfo1 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo11 = uix.HButtonBox('Parent', HBoxInfo1, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo11, 'HorizontalAlignment','left', 'Text', 'Label No.:' );
@@ -370,7 +371,7 @@ classdef viewAnalyze < handle
             set( HBoxInfo1, 'Widths', [-2 -2 -2 -2 -2] );
             
             
-            HBoxInfo2 = uix.HBox('Parent', VBoxMainInfoFiber, params.box_spacing_padding{:} );
+            HBoxInfo2 = uix.HBox('Parent', VBoxMainInfoFiber, params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo21 = uix.HButtonBox('Parent', HBoxInfo2, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo21,  'HorizontalAlignment','left',  'Text', 'Aspect Ratio:' );
@@ -389,7 +390,7 @@ classdef viewAnalyze < handle
             set( HBoxInfo2, 'Widths', [-2 -2 -2 -2 -2] );
             
             
-            HBoxInfo3 = uix.HBox('Parent', VBoxMainInfoFiber,  params.box_spacing_padding{:} );
+            HBoxInfo3 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo31 = uix.HButtonBox('Parent', HBoxInfo3, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo31, 'HorizontalAlignment','left', 'Text', 'mean Red:' );
@@ -408,7 +409,7 @@ classdef viewAnalyze < handle
             set( HBoxInfo3, 'Widths', [-2 -2 -2 -2 -2] );
             
             
-            HBoxInfo4 = uix.HBox('Parent', VBoxMainInfoFiber,  params.box_spacing_padding{:} );
+            HBoxInfo4 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo41 = uix.HButtonBox('Parent', HBoxInfo4, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo41, 'HorizontalAlignment','left',  'Text', 'mean Blue:' );
@@ -427,7 +428,7 @@ classdef viewAnalyze < handle
             set( HBoxInfo4, 'Widths', [-2 -2 -2 -2 -2] );
             
             
-            HBoxInfo5 = uix.HBox('Parent', VBoxMainInfoFiber,   params.box_spacing_padding{:} );
+            HBoxInfo5 = uix.HBox('Parent', VBoxMainInfoFiber,   params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo51 = uix.HButtonBox('Parent', HBoxInfo5, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo51,  'HorizontalAlignment','left' ,'Text', 'Blue/Red:' );
@@ -446,7 +447,7 @@ classdef viewAnalyze < handle
             set( HBoxInfo5, 'Widths', [-2 -2 -2 -2 -2] );
             
             
-            HBoxInfo6 = uix.HBox('Parent', VBoxMainInfoFiber,  params.box_spacing_padding{:} );
+            HBoxInfo6 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
             
             HButtonBoxInfo61 = uix.HButtonBox('Parent', HBoxInfo6, params.default_HButtonBox{:} );
             uilabel( 'Parent', HButtonBoxInfo61,  'HorizontalAlignment','left' , 'Text', 'Color Value:' );

@@ -85,15 +85,16 @@ classdef viewResults < handle
                 fontSizeB = 16; % Font size big 
             end
 
-            params.box_spacing_padding = {'Spacing',2,'Padding',2 };
+            params.default_box_spacing_padding = {'Spacing',2,'Padding',2 };
             params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
+            params.default_HButtonBox_Main = {'ButtonSize', [600 40], 'Spacing', 2, 'Padding', 2};
             params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
             params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
             params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
 
 
             set(mainCard,'Visible','off');
-            obj.panelResults = uix.HBox( 'Parent', mainCard,'Spacing',2,'Padding',2);
+            obj.panelResults = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
             obj.panelAxes =    uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'FIBER INFORMATIONS' );
             obj.panelControl = uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'RESULTS', 'TitlePosition','centertop');
@@ -103,30 +104,30 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%% Panel controls %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            PanelVBox = uix.VBox('Parent',obj.panelControl, params.box_spacing_padding{:});
+            PanelVBox = uix.VBox('Parent',obj.panelControl, params.default_box_spacing_padding{:});
             
             PanelControl = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Main Controls');
             PanelSave =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Save Options');
             PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
-            set( PanelVBox, 'Heights', [-13 -35 -52], 'Spacing', 2 );
+            set( PanelVBox, 'Heights', [-13 -35 -52]);
             
             %%%%%%%%%%%%%%%%%% Panel control %%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.box_spacing_padding{:} );
+            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:} );
             
-            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40], 'Spacing',5,'Padding', 2);
-            obj.B_BackAnalyze = uicontrol( 'Parent', HBoxControl1, 'String', sprintf('\x25C4 Classification'),'FontUnits','normalized','Fontsize',0.4 );
-            obj.B_CloseProgramm = uicontrol( 'Parent', HBoxControl1,'FontUnits','normalized','Fontsize',0.4, 'String', sprintf('Close program \x2612') );
+            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
+            obj.B_BackAnalyze =   uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x25C4 Classification'));
+            obj.B_CloseProgramm = uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Close program \x2612') );
             
-            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,'ButtonSize',[600 40], 'Spacing',5,'Padding', 2);
-            obj.B_NewPic = uicontrol( 'Parent', HBoxControl2,'FontUnits','normalized','Fontsize',0.4, 'String', sprintf('\x2633 New file') );
-            obj.B_Save = uicontrol( 'Parent', HBoxControl2, 'String', sprintf('Save data \x2611'),'FontUnits','normalized','Fontsize',0.4 );
+            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
+            obj.B_NewPic = uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x2633 New file') );
+            obj.B_Save =   uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Save data \x2611') );
             
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxSave = uix.VBox('Parent', PanelSave,'Spacing',0,'Padding', 5 );
+            mainVBBoxSave = uix.VBox('Parent', PanelSave,params.default_box_spacing_padding{:});
             
             %%%%%%%%%%%%%%%% 1. Row Save Overview plots 
-            HBoxSave1 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:} );
+            HBoxSave1 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
             
             HButtonBoxSave11 = uix.HButtonBox('Parent', HBoxSave1, params.default_HButtonBox{:});
             tempH = uilabel( 'Parent', HButtonBoxSave11, 'HorizontalAlignment','left','Text', 'Save Overview plots as .pdf: ..................................................................................' );
@@ -138,7 +139,7 @@ classdef viewResults < handle
             set( HBoxSave1, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 2. Row Save Histogram plots 
-            HBoxSave2 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:} );
+            HBoxSave2 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
             
             HButtonBoxSave21 = uix.HButtonBox('Parent', HBoxSave2, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave21, 'HorizontalAlignment','left','Text', 'Save Histogram plots as .pdf: ..................................................................................' );
@@ -150,7 +151,7 @@ classdef viewResults < handle
             set( HBoxSave2, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 3. Row Save Processed image
-            HBoxSave3 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:}  );
+            HBoxSave3 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
             
             HButtonBoxSave31 = uix.HButtonBox('Parent', HBoxSave3, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave31, 'HorizontalAlignment','left','Text', 'Save Processed Image as .pdf: ..................................................................................' );
@@ -162,7 +163,7 @@ classdef viewResults < handle
             set( HBoxSave3, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 4. Row Save Fiber Groups image
-            HBoxSave4 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:}  );
+            HBoxSave4 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
             
             HButtonBoxSave41 = uix.HButtonBox('Parent', HBoxSave4, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave41, 'HorizontalAlignment','left','Text', 'Save Fiber-Grouping Image as .pdf: ..................................................................................' );
@@ -174,7 +175,7 @@ classdef viewResults < handle
             set( HBoxSave4, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 5. Row Save Fiber Table 
-            HBoxSave5 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:}  );
+            HBoxSave5 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
             
             HButtonBoxSave51 = uix.HButtonBox('Parent', HBoxSave5, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave51, 'HorizontalAlignment','left','Text', 'Save Fiber-Table as Excel spreadsheet: ..................................................................................' );
@@ -186,7 +187,7 @@ classdef viewResults < handle
             set( HBoxSave5, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 6. Row Save Scatter all 
-            HBoxSave6 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:}  );
+            HBoxSave6 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
             
             HButtonBoxSave61 = uix.HButtonBox('Parent', HBoxSave6, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave61, 'HorizontalAlignment','left','Text', 'Save Scatterplot all Fibers as .pdf: ..................................................................................' );
@@ -198,7 +199,7 @@ classdef viewResults < handle
             set( HBoxSave6, 'Widths', [-10 -1] );
             
             %%%%%%%%%%%%%%%% 7. Row Save Binary Mask
-            HBoxSave7 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:}  );
+            HBoxSave7 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
             
             HButtonBoxSave71 = uix.HButtonBox('Parent', HBoxSave7, params.default_HButtonBox{:} );
             tempH = uilabel( 'Parent', HButtonBoxSave71,  'HorizontalAlignment','left','Text', 'Save Binary Mask as .tif: ..................................................................................' );
@@ -210,7 +211,7 @@ classdef viewResults < handle
             set( HBoxSave7, 'Widths', [-10 -1] );
 
             %%%%%%%%%%%%%%%% 7. Row Save dir
-            HBoxSave8 = uix.HBox('Parent', mainVBBoxSave, params.box_spacing_padding{:} );
+            HBoxSave8 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
             
             HButtonBoxSave81 = uix.HButtonBox('Parent', HBoxSave8,'ButtonSize',[600 30],'Padding', 2 );
             obj.B_SaveOpenDir = uicontrol( 'Parent', HButtonBoxSave81,'FontUnits','normalized','Fontsize',0.5, 'String', 'Open results folder' );
