@@ -2635,22 +2635,8 @@ classdef controllerEdit < handle
             % Listener callback function of the InfoMessage propertie in
             % the model. Is called when InfoMessage string changes. Appends
             % the text in InfoMessage to the log text in the GUI.
-            %
-            %   updateInfoLogEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            temp=get(obj.viewEditHandle.B_InfoText, 'String');
-            InfoText = cat(1, temp, {obj.modelEditHandle.InfoMessage});
-            set(obj.viewEditHandle.B_InfoText, 'String', InfoText);
-            set(obj.viewEditHandle.B_InfoText, 'Value' , length(obj.viewEditHandle.B_InfoText.String));
-            drawnow;
-            pause(0.05)
+            
+            controller_helper_update_Info_Log(obj.viewEditHandle, obj.modelEditHandle)         
         end
         
         function busyIndicator(obj,status)

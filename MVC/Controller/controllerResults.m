@@ -1407,22 +1407,8 @@ classdef controllerResults < handle
             % Listener callback function of the InfoMessage propertie in
             % the model. Is called when InfoMessage string changes. Appends
             % the text in InfoMessage to the log text in the GUI.
-            %
-            %   updateInfoLogEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerResult object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
-            InfoText = cat(1, get(obj.viewResultsHandle.B_InfoText, 'String'), {obj.modelResultsHandle.InfoMessage});
-            set(obj.viewResultsHandle.B_InfoText, 'String', InfoText);
-            set(obj.viewResultsHandle.B_InfoText, 'Value' , length(obj.viewResultsHandle.B_InfoText.String));
-            drawnow;
-            pause(0.02)
+            controller_helper_update_Info_Log(obj.viewResultsHandle, obj.modelResultsHandle)  
         end
         
         function newPictureEvent(obj,~,~)
