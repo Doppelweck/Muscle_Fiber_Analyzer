@@ -1,5 +1,4 @@
 function controller_helper_busy_indicator(obj,status,viewHandle,modelHandel)
-% See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
 
 if status
     %create indicator object and disable GUI elements
