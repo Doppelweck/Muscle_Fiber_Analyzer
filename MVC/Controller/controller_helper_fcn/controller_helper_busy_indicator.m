@@ -1,5 +1,4 @@
-
-function my_busy_indicator(obj,status,viewHandle,modelHandel)
+function controller_helper_busy_indicator(obj,status,viewHandle,modelHandel)
 % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
 
 if status

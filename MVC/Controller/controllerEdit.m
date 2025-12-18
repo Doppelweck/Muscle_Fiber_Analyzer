@@ -2641,7 +2641,7 @@ classdef controllerEdit < handle
         
         function busyIndicator(obj,status)
             % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-            my_busy_indicator(obj,status,obj.viewEditHandle,obj.modelEditHandle);
+            controller_helper_busy_indicator(obj,status,obj.viewEditHandle,obj.modelEditHandle);
         end
               
         function errorMessage(obj)

@@ -2246,7 +2246,7 @@ classdef controllerAnalyze < handle
         end
         
         function busyIndicator(obj,status)
-            my_busy_indicator(obj,status, obj.viewAnalyzeHandle,obj.modelAnalyzeHandle);
+            controller_helper_busy_indicator(obj,status, obj.viewAnalyzeHandle,obj.modelAnalyzeHandle);
         end
         
         function errorMessage(obj)

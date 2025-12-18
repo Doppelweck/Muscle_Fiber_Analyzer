@@ -1689,7 +1689,7 @@ classdef controllerResults < handle
         end
         
         function busyIndicator(obj,status)  
-            my_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle)  
+            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle)  
         end
         
         function errorMessage(obj)
