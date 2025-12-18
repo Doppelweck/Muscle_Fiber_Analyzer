@@ -1242,10 +1242,10 @@ classdef controllerEdit < handle
             obj.busyIndicator(1);
             
             % get the values of the color popupmenus
-            Values(1) = obj.viewEditHandle.B_ColorPlaneGreen.Value;
-            Values(2) = obj.viewEditHandle.B_ColorPlaneBlue.Value;
-            Values(3) = obj.viewEditHandle.B_ColorPlaneRed.Value;
-            Values(4) = obj.viewEditHandle.B_ColorPlaneFarRed.Value;
+            Values(1) = obj.viewEditHandle.B_ColorPlaneGreen.ValueIndex;
+            Values(2) = obj.viewEditHandle.B_ColorPlaneBlue.ValueIndex;
+            Values(3) = obj.viewEditHandle.B_ColorPlaneRed.ValueIndex;
+            Values(4) = obj.viewEditHandle.B_ColorPlaneFarRed.ValueIndex;
             
             % check if each color is selected once
             C = unique(Values);
@@ -1302,10 +1302,10 @@ classdef controllerEdit < handle
                     obj.viewEditHandle.B_AxesCheckRGB_BC.Children.CData = obj.modelEditHandle.PicRGBFRPlanes;
                     
                     %reset the color popupmenus
-                    obj.viewEditHandle.B_ColorPlaneGreen.Value = 1;
-                    obj.viewEditHandle.B_ColorPlaneBlue.Value = 2;
-                    obj.viewEditHandle.B_ColorPlaneRed.Value = 3;
-                    obj.viewEditHandle.B_ColorPlaneFarRed.Value = 4;
+                    obj.viewEditHandle.B_ColorPlaneGreen.ValueIndex = 1;
+                    obj.viewEditHandle.B_ColorPlaneBlue.ValueIndex = 2;
+                    obj.viewEditHandle.B_ColorPlaneRed.ValueIndex = 3;
+                    obj.viewEditHandle.B_ColorPlaneFarRed.ValueIndex = 4;
                     
                     obj.modelEditHandle.InfoMessage = '   - Planes was changed';
                 else
@@ -1502,10 +1502,10 @@ classdef controllerEdit < handle
                 imshow(obj.modelEditHandle.PicBCFarRed,'Parent',obj.viewEditHandle.B_AxesCheckBrightnessFarRed);
                 caxis(obj.viewEditHandle.B_AxesCheckBrightnessFarRed,[0, 1])
                 
-                obj.viewEditHandle.B_CurBrightImGreen.String = obj.modelEditHandle.FilenameBCGreen;
-                obj.viewEditHandle.B_CurBrightImBlue.String = obj.modelEditHandle.FilenameBCBlue;
-                obj.viewEditHandle.B_CurBrightImRed.String = obj.modelEditHandle.FilenameBCRed;
-                obj.viewEditHandle.B_CurBrightImFarRed.String = obj.modelEditHandle.FilenameBCFarRed;
+                obj.viewEditHandle.B_CurBrightImGreen.Text = obj.modelEditHandle.FilenameBCGreen;
+                obj.viewEditHandle.B_CurBrightImBlue.Text = obj.modelEditHandle.FilenameBCBlue;
+                obj.viewEditHandle.B_CurBrightImRed.Text = obj.modelEditHandle.FilenameBCRed;
+                obj.viewEditHandle.B_CurBrightImFarRed.Text = obj.modelEditHandle.FilenameBCFarRed;
                 
                 %show new images in the COlor Plane Tab
                 obj.viewEditHandle.B_AxesCheckRGBPlane.Children.CData = obj.modelEditHandle.PicRGBPlanes;
@@ -1573,10 +1573,10 @@ classdef controllerEdit < handle
             
             imshow(obj.modelEditHandle.PicBCFarRed,'Parent',obj.viewEditHandle.B_AxesCheckBrightnessFarRed);
             
-            obj.viewEditHandle.B_CurBrightImGreen.String = obj.modelEditHandle.FilenameBCGreen;
-            obj.viewEditHandle.B_CurBrightImBlue.String = obj.modelEditHandle.FilenameBCBlue;
-            obj.viewEditHandle.B_CurBrightImRed.String = obj.modelEditHandle.FilenameBCRed;
-            obj.viewEditHandle.B_CurBrightImFarRed.String = obj.modelEditHandle.FilenameBCFarRed;
+            obj.viewEditHandle.B_CurBrightImGreen.Text = obj.modelEditHandle.FilenameBCGreen;
+            obj.viewEditHandle.B_CurBrightImBlue.Text = obj.modelEditHandle.FilenameBCBlue;
+            obj.viewEditHandle.B_CurBrightImRed.Text = obj.modelEditHandle.FilenameBCRed;
+            obj.viewEditHandle.B_CurBrightImFarRed.Text = obj.modelEditHandle.FilenameBCFarRed;
             
             obj.viewEditHandle.B_AxesCheckRGBPlane.Children.CData = obj.modelEditHandle.PicRGBPlanes;
             obj.viewEditHandle.B_AxesCheckRGBFRPlane.Children.CData = obj.modelEditHandle.PicRGBFRPlanes;
@@ -1647,10 +1647,10 @@ classdef controllerEdit < handle
             imshow(obj.modelEditHandle.PicBCFarRed,[],'Parent',obj.viewEditHandle.B_AxesCheckBrightnessFarRed);
             caxis(obj.viewEditHandle.B_AxesCheckBrightnessFarRed,[0, 1])
             
-            obj.viewEditHandle.B_CurBrightImGreen.String = obj.modelEditHandle.FilenameBCGreen;
-            obj.viewEditHandle.B_CurBrightImBlue.String = obj.modelEditHandle.FilenameBCBlue;
-            obj.viewEditHandle.B_CurBrightImRed.String = obj.modelEditHandle.FilenameBCRed;
-            obj.viewEditHandle.B_CurBrightImFarRed.String = obj.modelEditHandle.FilenameBCFarRed;
+            obj.viewEditHandle.B_CurBrightImGreen.Text = obj.modelEditHandle.FilenameBCGreen;
+            obj.viewEditHandle.B_CurBrightImBlue.Text = obj.modelEditHandle.FilenameBCBlue;
+            obj.viewEditHandle.B_CurBrightImRed.Text = obj.modelEditHandle.FilenameBCRed;
+            obj.viewEditHandle.B_CurBrightImFarRed.Text = obj.modelEditHandle.FilenameBCFarRed;
             
             obj.viewEditHandle.B_AxesCheckRGBPlane.Children.CData = obj.modelEditHandle.PicRGBPlanes;
             obj.viewEditHandle.B_AxesCheckRGBFRPlane.Children.CData = obj.modelEditHandle.PicRGBFRPlanes;

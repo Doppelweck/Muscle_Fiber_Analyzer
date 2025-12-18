@@ -318,7 +318,7 @@ classdef viewEdit < handle
             
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
-            obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','Fontsize', fontSizeM,'String',{''});
+            obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{''});
             
             %%%%%%%%%%%%%% Set Init Values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             set(obj.B_LineWidth,'Value',1);
@@ -381,7 +381,7 @@ classdef viewEdit < handle
             
             set(obj.hFCP, 'position', [posMainFig(1) posMainFig(2) 0.8 0.8]);
             movegui(obj.hFCP,'center')
-            set(obj.hFCP,'WindowStyle','modal');
+            %set(obj.hFCP,'WindowStyle','modal');
             
             tabPanel = uix.TabPanel( 'Parent', obj.hFCP, 'FontSize',fontSizeB,'Padding',5,'TabWidth',300, 'Tag', 'checkPlanesTabPanel');
             
@@ -396,14 +396,14 @@ classdef viewEdit < handle
             obj.B_AxesCheckRGBFRPlane = axes('Parent',VBox1ColorPlane,'ActivePositionProperty','position');
             axis image
             imshow(Pics{3})
-            uicontrol( 'Parent', VBox1ColorPlane,'Style','text', 'String', 'RGB Image generated from Red Green Blue and FarRed plane','FontUnits','normalized','Fontsize',0.35);
+            uilabel( 'Parent', VBox1ColorPlane, 'HorizontalAlignment','center', 'Text', 'RGB Image generated from Red Green Blue and FarRed plane');
             set(VBox1ColorPlane,'Heights',[-10 40])
             
             VBox2ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGBPlane = axes('Parent',VBox2ColorPlane,'ActivePositionProperty','position');
             axis image
             imshow(Pics{9})
-            uicontrol( 'Parent', VBox2ColorPlane,'Style','text', 'String', 'RGB Image generated from Red Green and Blue Plane (no FarRed)','FontUnits','normalized','Fontsize',0.35);
+            uilabel( 'Parent', VBox2ColorPlane, 'HorizontalAlignment','center','Text', 'RGB Image generated from Red Green and Blue Plane (no FarRed)');
             set(VBox2ColorPlane,'Heights',[-10 40])
             
             VBox3ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
@@ -412,7 +412,7 @@ classdef viewEdit < handle
             set(obj.B_AxesCheckPlaneGreen, 'position', [0 0 1 1]);
             imshow(Pics{5})
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
-            obj.B_ColorPlaneGreen = uicontrol( 'Parent', VBox3ColorPlane,'Style','popupmenu','Tag','popupmenu', 'String', String, 'Value' ,1,'FontUnits','normalized','Fontsize',0.35);
+            obj.B_ColorPlaneGreen = uidropdown( 'Parent', VBox3ColorPlane,'Tag','popupmenu', 'Items', String, 'ValueIndex' ,1);
             set(VBox3ColorPlane,'Heights',[-10 40])
             
             VBox4ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
@@ -422,7 +422,7 @@ classdef viewEdit < handle
             imshow(Pics{6})
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
-            obj.B_ColorPlaneBlue = uicontrol( 'Parent', VBox4ColorPlane,'Style','popupmenu','Tag','popupmenu', 'String', String , 'Value' ,2,'FontUnits','normalized','Fontsize',0.35);
+            obj.B_ColorPlaneBlue = uidropdown( 'Parent', VBox4ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,2);
             set(VBox4ColorPlane,'Heights',[-10 40])
             
             VBox5ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
@@ -432,7 +432,7 @@ classdef viewEdit < handle
             imshow(Pics{7})
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
-            obj.B_ColorPlaneRed = uicontrol( 'Parent', VBox5ColorPlane,'Style','popupmenu','Tag','popupmenu', 'String', String , 'Value' ,3,'FontUnits','normalized','Fontsize',0.35);
+            obj.B_ColorPlaneRed = uidropdown( 'Parent', VBox5ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,3);
             set(VBox5ColorPlane,'Heights',[-10 40])
             
             VBox6ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
@@ -442,13 +442,13 @@ classdef viewEdit < handle
             imshow(Pics{8})
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
-            obj.B_ColorPlaneFarRed = uicontrol( 'Parent', VBox6ColorPlane,'Style','popupmenu','Tag','popupmenu', 'String', String , 'Value' ,4,'FontUnits','normalized','Fontsize',0.35);
+            obj.B_ColorPlaneFarRed = uidropdown( 'Parent', VBox6ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,4);
             set(VBox6ColorPlane,'Heights',[-10 40])
             
             HBox = uix.HBox('Parent',MainVBoxColorPlane,'Spacing', 5,'Padding',5);
             
             HButtonBox1ColorPlane = uix.HButtonBox('Parent',HBox,'Spacing', 5,'Padding',5,'ButtonSize',[600 600]);
-            obj.B_CheckPText = uicontrol( 'Parent', HButtonBox1ColorPlane,'Style','text', 'String', 'Confirm changes with OK.','FontSize',fontSizeB);
+            obj.B_CheckPText = uilabel( 'Parent', HButtonBox1ColorPlane,'HorizontalAlignment','center','Text', 'Confirm changes with OK.','FontSize',fontSizeB*1.5);
             
             HButtonBox2ColorPlane = uix.HButtonBox('Parent',HBox,'Spacing', 5,'Padding',5,'ButtonSize',[600 600]);
             obj.B_CheckPBack = uicontrol( 'Parent', HButtonBox2ColorPlane,'String', 'Back to Edit-Mode','FontSize',fontSizeB);
@@ -473,7 +473,7 @@ classdef viewEdit < handle
             imshow(Pics{10})
             axis image
             VButtonBox1 = uix.VButtonBox('Parent', VBox1Brightness,'ButtonSize',[2000 20]);
-            uicontrol( 'Parent', VButtonBox1,'Style','text', 'String', 'RGB Image befor brightness correction','FontUnits','normalized','Fontsize',0.7);
+            uilabel( 'Parent', VButtonBox1, 'HorizontalAlignment','center', 'Text', 'RGB Image befor brightness correction');
             uix.Empty( 'Parent', VBox1Brightness );
             set(VBox1Brightness,'Heights',[-10 30 30])
             
@@ -483,7 +483,7 @@ classdef viewEdit < handle
             imshow(Pics{3})
             axis image
             VButtonBox2 = uix.VButtonBox('Parent', VBox2Brightness,'ButtonSize',[2000 20]);
-            uicontrol( 'Parent', VButtonBox2,'Style','text', 'String', 'RGB Image after brightness correction','FontUnits','normalized','Fontsize',0.7);
+            uilabel( 'Parent', VButtonBox2,'HorizontalAlignment','center', 'Text', 'RGB Image after brightness correction');
             uix.Empty( 'Parent', VBox2Brightness );
             set(VBox2Brightness,'Heights',[-10 30 30])
             
@@ -495,8 +495,10 @@ classdef viewEdit < handle
             imshow(Pics{11},[])
             caxis([0, 1])
             HBox31Brightness = uix.HButtonBox('Parent',VBox3Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
-            uicontrol( 'Parent', HBox31Brightness,'Style','text', 'String', 'Current image Green plane:','FontUnits','normalized','Fontsize',0.6);
-            obj.B_CurBrightImGreen = uicontrol( 'Parent', HBox31Brightness,'Style','text', 'String', Pics{12},'FontUnits','normalized','Fontsize',0.6);
+
+            uilabel( 'Parent', HBox31Brightness,'HorizontalAlignment','center', 'Text', 'Current image Green plane:');
+            obj.B_CurBrightImGreen = uilabel( 'Parent', HBox31Brightness,'HorizontalAlignment','center', 'Text', Pics{12});
+
             HBox32Brightness = uix.HButtonBox('Parent',VBox3Brightness,'Spacing', 1,'Padding',1,'ButtonSize',[600 30]);
             obj.B_SelectBrightImGreen = uicontrol( 'Parent', HBox32Brightness,'String', 'Select new image','FontUnits','normalized','Fontsize',0.5,'Tag','SelectBCGreen');
             obj.B_CreateBrightImGreen = uicontrol( 'Parent', HBox32Brightness,'String', 'Create image','FontUnits','normalized','Fontsize',0.5,'Tag','CreateBCGreen');
@@ -512,8 +514,10 @@ classdef viewEdit < handle
             imshow(Pics{13},[])
             caxis([0, 1])
             HBox41Brightness = uix.HButtonBox('Parent',VBox4Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
-            uicontrol( 'Parent', HBox41Brightness,'Style','text', 'String', 'Current image Blue plane:','FontUnits','normalized','Fontsize',0.6);
-            obj.B_CurBrightImBlue = uicontrol( 'Parent', HBox41Brightness,'Style','text', 'String', Pics{14},'FontUnits','normalized','Fontsize',0.6);
+
+            uilabel( 'Parent', HBox41Brightness,'HorizontalAlignment','center', 'Text', 'Current image Blue plane:');
+            obj.B_CurBrightImBlue = uilabel( 'Parent', HBox41Brightness,'HorizontalAlignment','center', 'Text', Pics{14});
+
             HBox42Brightness = uix.HButtonBox('Parent',VBox4Brightness,'Spacing', 1,'Padding',1,'ButtonSize',[600 30]);
             obj.B_SelectBrightImBlue = uicontrol( 'Parent', HBox42Brightness,'String', 'Select new image','FontUnits','normalized','Fontsize',0.5,'Tag','SelectBCBlue');
             obj.B_CreateBrightImBlue = uicontrol( 'Parent', HBox42Brightness,'String', 'Create image','FontUnits','normalized','Fontsize',0.5,'Tag','CreateBCBlue');
@@ -529,8 +533,10 @@ classdef viewEdit < handle
             imshow(Pics{15},[])
             caxis([0, 1])
             HBox51Brightness = uix.HButtonBox('Parent',VBox5Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
-            uicontrol( 'Parent', HBox51Brightness,'Style','text', 'String', 'Current image Red plane:','FontUnits','normalized','Fontsize',0.6);
-            obj.B_CurBrightImRed = uicontrol( 'Parent', HBox51Brightness,'Style','text', 'String', Pics{16},'FontUnits','normalized','Fontsize',0.6);
+
+            uilabel( 'Parent', HBox51Brightness,'HorizontalAlignment','center', 'Text', 'Current image Red plane:');
+            obj.B_CurBrightImRed = uilabel( 'Parent', HBox51Brightness,'HorizontalAlignment','center', 'Text', Pics{16});
+
             HBox52Brightness = uix.HButtonBox('Parent',VBox5Brightness,'Spacing', 1,'Padding',1,'ButtonSize',[600 30]);
             obj.B_SelectBrightImRed = uicontrol( 'Parent', HBox52Brightness,'String', 'Select new image','FontUnits','normalized','Fontsize',0.5,'Tag','SelectBCRed');
             obj.B_CreateBrightImRed = uicontrol( 'Parent', HBox52Brightness,'String', 'Create image','FontUnits','normalized','Fontsize',0.5,'Tag','CreateBCRed');
@@ -546,8 +552,10 @@ classdef viewEdit < handle
             imshow(Pics{17},[])
             caxis([0, 1])
             HBox61Brightness = uix.HButtonBox('Parent',VBox6Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
-            uicontrol( 'Parent', HBox61Brightness,'Style','text', 'String', 'Current image Farred plane:','FontUnits','normalized','Fontsize',0.6);
-            obj.B_CurBrightImFarRed = uicontrol( 'Parent', HBox61Brightness,'Style','text', 'String', Pics{18},'FontUnits','normalized','Fontsize',0.6);
+
+            uilabel( 'Parent', HBox61Brightness,'HorizontalAlignment','center', 'Text', 'Current image Farred plane:');
+            obj.B_CurBrightImFarRed = uilabel( 'Parent', HBox61Brightness,'HorizontalAlignment','center', 'Text', Pics{18});
+
             HBox62Brightness = uix.HButtonBox('Parent',VBox6Brightness,'Spacing', 1,'Padding',1,'ButtonSize',[600 30]);
             obj.B_SelectBrightImFarRed = uicontrol( 'Parent', HBox62Brightness,'String', 'Select new image','FontUnits','normalized','Fontsize',0.5,'Tag','SelectBCFarRed');
             obj.B_CreateBrightImFarRed = uicontrol( 'Parent', HBox62Brightness,'String', 'Create image','FontUnits','normalized','Fontsize',0.5,'Tag','CreateBCFarRed');
