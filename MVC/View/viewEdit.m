@@ -168,8 +168,8 @@ classdef viewEdit < handle
             obj.B_StartAnalyzeMode = uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('Analyze \x25BA') ,'Enable','off');
             
             HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x2593 Check mask') ,'Enable','off');
-            obj.B_CheckPlanes = uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:}, 'String', sprintf('Check planes \x2750') ,'Enable','off');
+            obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x2593 Check Mask') ,'Enable','off');
+            obj.B_CheckPlanes = uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:}, 'String', sprintf('Check Planes \x2750') ,'Enable','off');
             
             HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:} );
             obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x21BA Undo') );
@@ -314,7 +314,7 @@ classdef viewEdit < handle
 
             obj.B_NoIteration = uicontrol( 'Parent', HButtonBoxMorph4,'Style','edit', 'String','1','Enable','off','Tag','editNoIteration' );
             
-            obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', 'Run morphological operation','Enable','off','Tag','buttonMorphOP' );
+            obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', 'Run Morphological Operation','Enable','off','Tag','buttonMorphOP' );
             
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
