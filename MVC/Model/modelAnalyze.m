@@ -1668,7 +1668,6 @@ classdef modelAnalyze < handle
                         h.YData=[tempStats.ColorBlue];
                         h.CData = Color;
                     end
-                    appDesignChanger(f,getSettingsValue('Style'));
                     hPoly = impoly(hAM);
                     
                     if isvalid(fig) && obj.ManualClassifyMode == 1
@@ -1760,7 +1759,6 @@ classdef modelAnalyze < handle
                         xlim([ 0 maxLim+10 ] );
                         daspect([1 1 1])
                         grid on
-                        appDesignChanger(f,getSettingsValue('Style'));
                     else
                         h.XData=[type2Stats.ColorRed];
                         h.YData=[type2Stats.ColorFarRed];
