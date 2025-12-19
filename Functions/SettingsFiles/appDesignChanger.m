@@ -1,7 +1,7 @@
 function [mainBackgroundColor, mainTextColor, mainTextHighColor] = appDesignChanger(curFig,colorMode)
 %APPDESIGNCHANGER Summary of this function goes here
 %   Detailed explanation goes here
-
+return
 black = [0 0 0];
 white = [1 1 1];
 

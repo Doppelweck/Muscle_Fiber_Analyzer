@@ -1,5 +1,6 @@
 function appDesignElementChanger(curFig)
 
+return
 
 colorMode = getSettingsValue('Style');
 

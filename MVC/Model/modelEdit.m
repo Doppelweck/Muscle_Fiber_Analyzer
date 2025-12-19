@@ -1733,6 +1733,7 @@ classdef modelEdit < handle
             if ~isempty(obj.handlePicBW)
                 if obj.AlphaMapActive
                 set(obj.handlePicBW,'AlphaData',obj.AlphaMapValue);
+                drawnow
                 else
                     set(obj.handlePicBW,'AlphaData',1);
                 end
@@ -2200,7 +2201,7 @@ classdef modelEdit < handle
                 otherwise
                     obj.InfoMessage = '! ERROR in runMorphOperation() FUNCTION !';
             end
-            
+            drawnow;
             obj.addToBuffer();
         end
         

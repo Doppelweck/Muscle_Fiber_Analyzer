@@ -1,10 +1,11 @@
-function hf = startSrcreen()
+function hf = startSrcreen(WindowStyle)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 Pic = imread('StartScreen5.png');
 [m n]= size(Pic);
 hf  = figure('Visible','off','MenuBar','none','NumberTitle','off',...
-    'WindowStyle','normal','Units','pixels','ToolBar','none');
+    'WindowStyle','modal','Units','pixels','ToolBar','none');
+theme(hf ,'light')
 ha = axes('Parent',hf,'Visible','on','Units','pixels');
 axis image
 % Pic = imread('StartScreen.png');
@@ -20,7 +21,7 @@ set(hf,'Position',figpos);
 movegui(hf,'center');
 set(hf,'CloseRequestFcn','');
 set(hf,'Visible','off');
-set(hf,'WindowStyle','modal');
+set(hf,'WindowStyle',WindowStyle);
 % Lock position before returning
 end
 

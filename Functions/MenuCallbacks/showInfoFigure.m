@@ -48,7 +48,7 @@ set(modalFig, 'Position', [(Pix_SS(3)-width)/2 (Pix_SS(4)-height)/1.5 width heig
 
 
 label_1 = uicontrol('Style', 'text', 'Parent', modalFig, 'Position', [20, modalFigHeight-40, modalFigWidht-250, 24], 'String', 'Muscle-Fiber-Classification-Tool');
-set(label_1,'FontUnits','pixels','FontSize', 24, 'FontWeight', 'bold', 'HorizontalAlignment', 'left');
+set(label_1,'FontUnits','pixels','FontSize', 22, 'FontWeight', 'bold', 'HorizontalAlignment', 'left');
 
 versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
 label_2 = uicontrol('Style', 'text', 'Parent', modalFig, 'Position', [20, label_1.Position(2)-30, modalFigWidht-250, 25], 'String', versionString);

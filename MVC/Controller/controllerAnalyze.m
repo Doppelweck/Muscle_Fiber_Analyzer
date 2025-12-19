@@ -92,7 +92,7 @@ classdef controllerAnalyze < handle
             %           obj:    Handle to controllerAnalyze object.
             %
             
-            obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.Value;
+            obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex;
             
             obj.modelAnalyzeHandle.AreaActive = obj.viewAnalyzeHandle.B_AreaActive.Value;
             obj.modelAnalyzeHandle.MinArea = str2double(obj.viewAnalyzeHandle.B_MinArea.String);
@@ -139,7 +139,7 @@ classdef controllerAnalyze < handle
             set(obj.viewAnalyzeHandle.B_StartAnalyze,'Callback',@obj.startAnalyzeEvent);
             set(obj.viewAnalyzeHandle.B_PreResults,'Callback',@obj.showPreResultsEvent);
             
-            set(obj.viewAnalyzeHandle.B_AnalyzeMode,'Callback',@obj.analyzeModeEvent)
+            set(obj.viewAnalyzeHandle.B_AnalyzeMode,'ValueChangedFcn',@obj.analyzeModeEvent)
             
             set(obj.viewAnalyzeHandle.B_AreaActive,'Callback',@obj.activeParaEvent);
             set(obj.viewAnalyzeHandle.B_RoundnessActive,'Callback',@obj.activeParaEvent);
@@ -564,286 +564,280 @@ classdef controllerAnalyze < handle
             %
             obj.modelAnalyzeHandle.InfoMessage = '-changing analyze mode';
             
-            if src.Value == 1
-                obj.modelAnalyzeHandle.InfoMessage = '   -Color-Based triple labeling';
-                obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 2 12h fibers';
-                % Color-Based triple labeling classification
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
-                catch
-                end
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',1)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
+            switch src.ValueIndex
+                case 1
+                    obj.modelAnalyzeHandle.InfoMessage = '   -Color-Based triple labeling';
+                    obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 2 12h fibers';
+                    % Color-Based triple labeling classification
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
+                    catch
+                    end
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',1)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
+                    
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 1;
+                    
+                case 2
+                    obj.modelAnalyzeHandle.InfoMessage = '   -Color-Based quad labeling';
+                    obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 12h 2x 2a 2ax fibers';
+                    % Color-Based quad labeling classification
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',1)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',1)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','on')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
+                    
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 1;
                 
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                case 3
+                    obj.modelAnalyzeHandle.InfoMessage = '   -OPTICS -Cluster-Based triple labeling';
+                    obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 2 and 12h fibers';
+                    
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',1)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
+                    
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 2;
                 
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                case 4
+                    obj.modelAnalyzeHandle.InfoMessage = '   -OPTICS -Cluster-Based quad labeling';
+                    obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 12h 2x 2a 2ax fibers';
+                    
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',1)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',1)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
+                    
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 2;
                 
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
+                case 5
+                    obj.modelAnalyzeHandle.InfoMessage = '   -Manual Classification triple labeling';
+                    
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 1;
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
                 
-                obj.viewAnalyzeHandle.ParaCard.Selection = 1;
+                case 6
+                    obj.modelAnalyzeHandle.InfoMessage = '   -Manual Classification quad labeling';
+                    
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 1;
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
                 
-            elseif src.Value == 2
-                obj.modelAnalyzeHandle.InfoMessage = '   -Color-Based quad labeling';
-                obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 12h 2x 2a 2ax fibers';
-                % Color-Based quad labeling classification
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',1)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',1)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','on')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
-                
-                obj.viewAnalyzeHandle.ParaCard.Selection = 1;
-                
-            elseif src.Value == 3
-                obj.modelAnalyzeHandle.InfoMessage = '   -OPTICS -Cluster-Based triple labeling';
-                obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 2 and 12h fibers';
-                
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',1)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
-                
-                obj.viewAnalyzeHandle.ParaCard.Selection = 2;
-                
-            elseif src.Value == 4
-                obj.modelAnalyzeHandle.InfoMessage = '   -OPTICS -Cluster-Based quad labeling';
-                obj.modelAnalyzeHandle.InfoMessage = '      -searching for Type 1 12h 2x 2a 2ax fibers';
-                
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',1)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',1)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
-                
-                obj.viewAnalyzeHandle.ParaCard.Selection = 2;
-                
-            elseif src.Value == 5
-                obj.modelAnalyzeHandle.InfoMessage = '   -Manual Classification triple labeling';
-                
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.viewAnalyzeHandle.ParaCard.Selection = 1;
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
-                
-            elseif src.Value == 6
-                obj.modelAnalyzeHandle.InfoMessage = '   -Manual Classification quad labeling';
-                
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',1);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                appDesignElementChanger(obj.panelControl);
-                obj.viewAnalyzeHandle.ParaCard.Selection = 1;
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
-                
-            elseif src.Value == 7
-                obj.modelAnalyzeHandle.InfoMessage = '   - No Classification';
-                obj.modelAnalyzeHandle.InfoMessage = '      - only determination of fiber object properties';
-                
-                try
-                    obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
-                catch
-                end
-                
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
-                
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
-                set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
-                
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',0);
-                set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',0);
-                set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','off')
-                set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',0);
-                appDesignElementChanger(obj.panelControl);
-                obj.viewAnalyzeHandle.ParaCard.Selection = 1;
-                obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
+                case 7
+                    obj.modelAnalyzeHandle.InfoMessage = '   - No Classification';
+                    obj.modelAnalyzeHandle.InfoMessage = '      - only determination of fiber object properties';
+                    
+                    try
+                        obj.modelAnalyzeHandle.handlePicRGB.CData = obj.modelAnalyzeHandle.PicPRGBFRPlanes;
+                    catch
+                    end
+                    
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_BlueRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedThreshActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_FarredRedThresh,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','off')
+                    
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_12HybridFiberActive,'Value',0)
+                    set(obj.viewAnalyzeHandle.B_2axHybridFiberActive,'Value',0)
+                    
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_RoundnessActive,'Value',0);
+                    set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Value',0);
+                    set(obj.viewAnalyzeHandle.B_AspectRatioActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','off')
+                    set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',0);
+                    obj.viewAnalyzeHandle.ParaCard.Selection = 1;
+                    obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
             end
             
         end
@@ -884,7 +878,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinArea,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxArea,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_RoundnessActive.Tag
                     % RoundActive has changed. If it is zero, Roundness parameter
@@ -894,7 +887,6 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_AspectRatioActive.Tag
                     % AspectRatioActive has changed. If it is zero AspectRatio parameters
@@ -906,7 +898,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_BlueRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -920,7 +911,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_FarredRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -934,7 +924,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','on')
                     end
-                    appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_ColorValueActive.Tag
                     % ColorValueActive has changed. If it is zero ColorValue parameters
@@ -944,7 +933,6 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     end
-                     appDesignElementChanger(obj.panelControl);
                      
                 otherwise
                     % Error Code
@@ -997,7 +985,7 @@ classdef controllerAnalyze < handle
             obj.busyIndicator(1);
             
             obj.mainCardPanel.Selection = 2;
-            obj.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber informations';
+            obj.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber Informations';
             
             %get all pic data from the model
             PicData = obj.controllerEditHandle.modelEditHandle.sendPicsToController();
@@ -1013,7 +1001,7 @@ classdef controllerAnalyze < handle
             obj.modelAnalyzeHandle.PicPlaneFarRed = PicData{8};
             obj.modelAnalyzeHandle.PicPRGBPlanes = PicData{9};
             
-            switch obj.viewAnalyzeHandle.B_AnalyzeMode.Value
+            switch obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex
                 
                 case 1
                     
@@ -1062,6 +1050,11 @@ classdef controllerAnalyze < handle
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
                     axis(obj.viewAnalyzeHandle.hAP, 'on')
                     axis(obj.viewAnalyzeHandle.hAP, 'image')
+                otherwise
+
+                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">ERROR Transfer Data from EDIT to RESULT </FONT></HTML>';
+                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">   - startAnalyzeMode() fcn </FONT></HTML>';
+
             end
             
             lhx=xlabel(obj.viewAnalyzeHandle.hAP, sprintf('x/\x3BCm'),'Fontsize',12);
@@ -1115,7 +1108,6 @@ classdef controllerAnalyze < handle
             %change the figure callbacks for the analyze mode
             obj.addWindowCallbacks()
             
-            appDesignChanger(obj.panelAnalyze,getSettingsValue('Style'));
             %change the card panel to selection 2: analyze mode
             obj.mainCardPanel.Selection = 2;
             
@@ -1148,7 +1140,6 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            appDesignElementChanger(obj.panelControl);
             obj.modelAnalyzeHandle.InfoMessage = '-Set Parameters and press "Start analyzing"';
             obj.modelAnalyzeHandle.InfoMessage = ' ';
         end
@@ -1177,7 +1168,7 @@ classdef controllerAnalyze < handle
                     delete(OldFig);
                     %refresh WindowButtonMotionFcn. If a Figure Manipulate
                     %exist, than the WindowButtonMotionFcn is deleted
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % If a Higlight Boundarie Box already exists,
@@ -1187,7 +1178,7 @@ classdef controllerAnalyze < handle
                     delete(OldBox);
                     %refresh WindowButtonMotionFcn. If a Higlight Boundarie Box
                     %exist, than the WindowButtonMotionFcn is deleted
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % If a window for preview results already exists,
@@ -1195,12 +1186,12 @@ classdef controllerAnalyze < handle
                 preFig = findobj('Tag','FigurePreResults');
                 if ~isempty(preFig) && isvalid(preFig)
                     delete(preFig);
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % Set all Vlaues form the GUI objects in the correspondending
                 % model properties.
-                obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.Value;
+                obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex;
                 
                 obj.modelAnalyzeHandle.AreaActive = obj.viewAnalyzeHandle.B_AreaActive.Value;
                 if obj.modelAnalyzeHandle.AreaActive == 1
@@ -1260,7 +1251,6 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            appDesignElementChanger(obj.panelControl);
             
         end
         
@@ -1533,65 +1523,65 @@ classdef controllerAnalyze < handle
             
             %show info in GUI fiber information panel.
             %Label Number
-            curretnStyleColor = obj.viewAnalyzeHandle.B_TextMeanGreen.ForegroundColor;
-            set(obj.viewAnalyzeHandle.B_TextObjNo,'String', Info{1} );
+            curretnStyleColor = obj.viewAnalyzeHandle.B_TextMeanGreen.FontColor;
+            set(obj.viewAnalyzeHandle.B_TextObjNo,'Text', Info{1} );
             %Area. Display text in red when out of range
             if obj.modelAnalyzeHandle.AreaActive && ~isempty(str2double(Info{2}))
                 if obj.modelAnalyzeHandle.MaxArea < str2double(Info{2})
-                    obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextArea.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextArea.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextArea.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextArea.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextArea,'String', Info{2} );
+            set(obj.viewAnalyzeHandle.B_TextArea,'Text', Info{2} );
             
             % Aspect Ratio. Display text in red when out of range
             if obj.modelAnalyzeHandle.AspectRatioActive && ~isempty(str2double(Info{3}))
                 if obj.modelAnalyzeHandle.MinAspectRatio > str2double(Info{3}) ||...
                         obj.modelAnalyzeHandle.MaxAspectRatio < str2double(Info{3})
-                    obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextAspectRatio.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextAspectRatio.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextAspectRatio,'String', Info{3} );
+            set(obj.viewAnalyzeHandle.B_TextAspectRatio,'Text', Info{3} );
             
             % Roundnes. Display text in red when out of range
             if obj.modelAnalyzeHandle.RoundnessActive && isnumeric(str2double(Info{4}))
                 if obj.modelAnalyzeHandle.MinRoundness > str2double(Info{4})
-                    obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextRoundness.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextRoundness.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextRoundness.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextRoundness.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextRoundness,'String', Info{4} );
+            set(obj.viewAnalyzeHandle.B_TextRoundness,'Text', Info{4} );
             
-            set(obj.viewAnalyzeHandle.B_TextBlueRedRatio,'String', Info{5} );
-            set(obj.viewAnalyzeHandle.B_TextFarredRedRatio,'String', Info{6} );
-            set(obj.viewAnalyzeHandle.B_TextMeanRed,'String', Info{7} );
-            set(obj.viewAnalyzeHandle.B_TextMeanGreen,'String', Info{8} );
-            set(obj.viewAnalyzeHandle.B_TextMeanBlue,'String', Info{9} );
-            set(obj.viewAnalyzeHandle.B_TextMeanFarred,'String', Info{10} );
+            set(obj.viewAnalyzeHandle.B_TextBlueRedRatio,'Text', Info{5} );
+            set(obj.viewAnalyzeHandle.B_TextFarredRedRatio,'Text', Info{6} );
+            set(obj.viewAnalyzeHandle.B_TextMeanRed,'Text', Info{7} );
+            set(obj.viewAnalyzeHandle.B_TextMeanGreen,'Text', Info{8} );
+            set(obj.viewAnalyzeHandle.B_TextMeanBlue,'Text', Info{9} );
+            set(obj.viewAnalyzeHandle.B_TextMeanFarred,'Text', Info{10} );
             
             % Roundnes. Display text in red when out of range
             if obj.modelAnalyzeHandle.ColorValueActive && isnumeric(str2double(Info{11}))
                 if obj.modelAnalyzeHandle.ColorValue > str2double(Info{11})
-                    obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=[1 0 0];
+                    obj.viewAnalyzeHandle.B_TextColorValue.FontColor=[1 0 0];
                 else
-                    obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=curretnStyleColor;
+                    obj.viewAnalyzeHandle.B_TextColorValue.FontColor=curretnStyleColor;
                 end
             else
-                obj.viewAnalyzeHandle.B_TextColorValue.ForegroundColor=curretnStyleColor;
+                obj.viewAnalyzeHandle.B_TextColorValue.FontColor=curretnStyleColor;
             end
-            set(obj.viewAnalyzeHandle.B_TextColorValue,'String', Info{11} );
+            set(obj.viewAnalyzeHandle.B_TextColorValue,'Text', Info{11} );
             
-            set(obj.viewAnalyzeHandle.B_TextFiberType,'String', Info{12} );
+            set(obj.viewAnalyzeHandle.B_TextFiberType,'Text', Info{12} );
             
             axis(obj.viewAnalyzeHandle.B_AxesInfo,'image');
             obj.modelAnalyzeHandle.handleInfoAxes.CData = Info{13};
@@ -1728,7 +1718,7 @@ classdef controllerAnalyze < handle
             %
             
             NewFiberType = get(obj.viewAnalyzeHandle.B_FiberTypeManipulate, 'Value');
-            LabelNumber = str2double( get(obj.viewAnalyzeHandle.B_TextObjNo, 'String') );
+            LabelNumber = str2double( get(obj.viewAnalyzeHandle.B_TextObjNo, 'Text') );
             
             %change fiber type
             obj.busyIndicator(1);
@@ -2173,7 +2163,6 @@ classdef controllerAnalyze < handle
                             end
                             legend(ax,LegendString,'Location','Best')
                     end
-                    appDesignChanger(preFig,getSettingsValue('Style'));
                 else % if ~isempty(obj.modelAnalyzeHandle.Stats)
                     obj.modelAnalyzeHandle.InfoMessage = '   - No data are analyzed';
                     obj.modelAnalyzeHandle.InfoMessage = '   - Press "Start analyzing"';
@@ -2216,22 +2205,8 @@ classdef controllerAnalyze < handle
             % Listener callback function of the InfoMessage propertie in
             % the model. Is called when InfoMessage string changes. Appends
             % the text in InfoMessage to the log text in the GUI.
-            %
-            %   updateInfoLogEvent(obj,src,evnt)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
-            InfoText = cat(1, get(obj.viewAnalyzeHandle.B_InfoText, 'String'), {obj.modelAnalyzeHandle.InfoMessage});
-            set(obj.viewAnalyzeHandle.B_InfoText, 'String', InfoText);
-            set(obj.viewAnalyzeHandle.B_InfoText, 'Value' , length(obj.viewAnalyzeHandle.B_InfoText.String));
-            drawnow;
-            pause(0.05)
+            controller_helper_update_Info_Log(obj.viewAnalyzeHandle, obj.modelAnalyzeHandle)  
         end
         
         function newPictureEvent(obj)
@@ -2254,63 +2229,7 @@ classdef controllerAnalyze < handle
         end
         
         function busyIndicator(obj,status)
-            % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-
-            if status
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','watch');
-                %create indicator object and disable GUI elements
-                
-                try
-                    % R2010a and newer
-                    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-                    iconsSizeEnums = javaMethod('values',iconsClassName);
-                    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
-                    obj.modelAnalyzeHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'busy...');  % icon, label
-                catch
-                    % R2009b and earlier
-                    redColor   = java.awt.Color(1,0,0);
-                    blackColor = java.awt.Color(0,0,0);
-                    obj.modelAnalyzeHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(redColor, blackColor);
-                end
-                
-                obj.modelAnalyzeHandle.busyIndicator.setPaintsWhenStopped(false);  % default = false
-                obj.modelAnalyzeHandle.busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-                javacomponent(obj.modelAnalyzeHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                obj.modelAnalyzeHandle.busyIndicator.start;
-                
-                
-                %find all objects that are enabled and disable them
-                obj.modelAnalyzeHandle.busyObj = getUIControlEnabledHandles(obj.viewAnalyzeHandle);
-%                 findall(obj.panelAnalyze, '-property', 'Enable','-and','Enable','on',...
-%                     '-and','-not','style','listbox','-and','-not','style','text','-and','-not','Type','uitable');
-                set( obj.modelAnalyzeHandle.busyObj, 'Enable', 'off')
-                appDesignElementChanger(obj.panelControl);
-                
-            else
-                %delete indicator object and disable GUI elements
-                
-%                 figHandles = findobj('Type','figure');
-                
-                
-                if ~isempty(obj.modelAnalyzeHandle.busyObj)
-                    valid = isvalid(obj.modelAnalyzeHandle.busyObj);
-                    obj.modelAnalyzeHandle.busyObj(~valid)=[];
-                    set( obj.modelAnalyzeHandle.busyObj, 'Enable', 'on')
-                    appDesignElementChanger(obj.panelControl);
-                end
-                
-                if ~isempty(obj.modelAnalyzeHandle.busyIndicator)
-                    obj.modelAnalyzeHandle.busyIndicator.stop;
-                    [~, hContainer] = javacomponent(obj.modelAnalyzeHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                    obj.modelAnalyzeHandle.busyIndicator = [];
-                    delete(hContainer) ;
-                end
-                workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
-                
-                set(obj.mainFigure,'pointer','arrow');
-            end
-            
+            controller_helper_busy_indicator(obj,status, obj.viewAnalyzeHandle,obj.modelAnalyzeHandle);
         end
         
         function errorMessage(obj)

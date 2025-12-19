@@ -274,7 +274,6 @@ classdef controllerResults < handle
                 set(obj.viewResultsHandle.B_NewPic,'Enable','off');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','off');
                 set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
-                appDesignElementChanger(obj.panelControl);
                 %show results data in the GUI
                 obj.modelResultsHandle.startResultMode();
                 
@@ -282,7 +281,6 @@ classdef controllerResults < handle
                 set(obj.viewResultsHandle.B_Save,'Enable','on');
                 set(obj.viewResultsHandle.B_NewPic,'Enable','on');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','on');
-                appDesignElementChanger(obj.panelControl);
                 
                 %Check if a resultsfolder for the file already exist
                 % Dlete file extension in the results folder before save
@@ -303,9 +301,7 @@ classdef controllerResults < handle
                     
                 end
                 
-                
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
-            drawnow;
+                drawnow;
             catch
                 obj.errorMessage();
             end
@@ -379,7 +375,6 @@ classdef controllerResults < handle
                     set(obj.viewResultsHandle.B_NewPic,'Enable','off');
                     set(obj.viewResultsHandle.B_CloseProgramm,'Enable','off');
                     set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
-                    appDesignElementChanger(obj.panelControl);
                     %Save results
                     obj.modelResultsHandle.saveResults();
                     
@@ -393,13 +388,11 @@ classdef controllerResults < handle
                     obj.modelResultsHandle.InfoMessage = '   - no data has been saved';
                 end
                 obj.busyIndicator(0);
-                appDesignElementChanger(obj.panelControl);
                 [y,Fs] = audioread('filling-your-inbox.mp3');
                 sound(y*0.4,Fs);
             catch
                 obj.errorMessage();
             end
-            appDesignElementChanger(obj.panelControl);
         end
         
         function showInfoInTableGUI(obj)
@@ -428,8 +421,7 @@ classdef controllerResults < handle
                 obj.viewResultsHandle.B_TableStatistic.RowName = [];
                 obj.viewResultsHandle.B_TableStatistic.ColumnName = {'Name of parameter','Value of parameter'};
                 obj.viewResultsHandle.B_TableStatistic.Data = obj.modelResultsHandle.StatisticMat;
-                pos = obj.viewResultsHandle.B_TableStatistic.Position(3);
-                obj.viewResultsHandle.B_TableStatistic.ColumnWidth={pos/2 pos/2-20};
+                obj.viewResultsHandle.B_TableStatistic.ColumnWidth={'auto' 'auto'};
             catch
                 obj.errorMessage();
             end
@@ -1032,7 +1024,6 @@ classdef controllerResults < handle
             grid(obj.viewResultsHandle.hAScatterAll, 'on');
             hold(obj.viewResultsHandle.hAScatterAll, 'off');
             axtoolbar(obj.viewResultsHandle.hAScatterAll,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
         end
         
         function showPicProcessedGUI(obj)
@@ -1407,22 +1398,8 @@ classdef controllerResults < handle
             % Listener callback function of the InfoMessage propertie in
             % the model. Is called when InfoMessage string changes. Appends
             % the text in InfoMessage to the log text in the GUI.
-            %
-            %   updateInfoLogEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerResult object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
-            InfoText = cat(1, get(obj.viewResultsHandle.B_InfoText, 'String'), {obj.modelResultsHandle.InfoMessage});
-            set(obj.viewResultsHandle.B_InfoText, 'String', InfoText);
-            set(obj.viewResultsHandle.B_InfoText, 'Value' , length(obj.viewResultsHandle.B_InfoText.String));
-            drawnow;
-            pause(0.02)
+            controller_helper_update_Info_Log(obj.viewResultsHandle, obj.modelResultsHandle)  
         end
         
         function newPictureEvent(obj,~,~)
@@ -1648,7 +1625,6 @@ classdef controllerResults < handle
             delete(lTemp);
             
             obj.modelResultsHandle.ResultUpdateStaus = false;
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
         end
         
         function openSaveDirectory(obj,~,~)
@@ -1702,61 +1678,8 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','on');
         end
         
-        function busyIndicator(obj,status)
-            % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
-            
-            if status
-                %create indicator object and disable GUI elements
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','watch');
-                try
-                    % R2010a and newer
-                    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-                    iconsSizeEnums = javaMethod('values',iconsClassName);
-                    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
-                    obj.modelResultsHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'busy...');  % icon, label
-                catch
-                    % R2009b and earlier
-                    redColor   = java.awt.Color(1,0,0);
-                    blackColor = java.awt.Color(0,0,0);
-                    obj.modelResultsHandle.busyIndicator = com.mathworks.widgets.BusyAffordance(redColor, blackColor);
-                end
-                
-                obj.modelResultsHandle.busyIndicator.setPaintsWhenStopped(false);  % default = false
-                obj.modelResultsHandle.busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-                javacomponent(obj.modelResultsHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                obj.modelResultsHandle.busyIndicator.start;
-                
-                
-                %find all objects that are enabled and disable them
-                obj.modelResultsHandle.busyObj = getUIControlEnabledHandles(obj.viewResultsHandle);
-%                 findall(figHandles, '-property', 'Enable','-and','Enable','on',...
-%                     '-and','-not','style','listbox','-and','-not','style','text','-and','-not','Type','uitable');
-                set( obj.modelResultsHandle.busyObj, 'Enable', 'off')
-                appDesignElementChanger(obj.panelControl);
-                
-            else
-                %delete indicator object and disable GUI elements
-                
-                if ~isempty(obj.modelResultsHandle.busyObj)
-                    valid = isvalid(obj.modelResultsHandle.busyObj);
-                    obj.modelResultsHandle.busyObj(~valid)=[];
-                    set( obj.modelResultsHandle.busyObj, 'Enable', 'on')
-                    appDesignElementChanger(obj.panelControl);
-                end
-                
-                if ~isempty(obj.modelResultsHandle.busyIndicator)
-                    obj.modelResultsHandle.busyIndicator.stop;
-                    [~, hContainer] = javacomponent(obj.modelResultsHandle.busyIndicator.getComponent, [10,10,80,80], obj.mainFigure);
-                    delete(hContainer) ;
-                    obj.modelResultsHandle.busyIndicator = [];
-                end
-                
-%                 figHandles = findobj('Type','figure');
-                set(obj.mainFigure,'pointer','arrow');
-                workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
-            end
-            
+        function busyIndicator(obj,status)  
+            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle)  
         end
         
         function errorMessage(obj)

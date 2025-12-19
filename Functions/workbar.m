@@ -147,11 +147,11 @@ if isempty(progfig)
     progfig = figure('menubar','none',...                   % Turn figure menu display off
          'numbertitle','off',...                            % Turn figure numbering off
          'position',winpos,...                              % Set the position of the figure as above
-         'color',[1 1 1],...                               % Set the figure color
          'resize','off',...                                 % Turn of figure resizing
          'tag','timebar',...                                % Tag the figure for later checking
-         'WindowStyle','modal',...                            % Stay figure in forground                          
+         'WindowStyle','normal',...                         % Stay figure in forground                          
          'Visible','off');
+    theme(progfig,mainFig.Theme);
     
     movegui(progfig,'center');
     set(progfig,'Visible','on')
@@ -190,41 +190,24 @@ if isempty(progfig)
     text(1) = uicontrol(progfig,'style','text',...          % Prepare message text (set the style to text)
         'pos',[10 winheight-30 winwidth-20 20],...          % Set the textbox position and size
         'hor','left',...                                    % Center the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string',message);                                  % Set the text to the input message
     
     text(2) = uicontrol(progfig,'style','text',...          % Prepare static estimated time text
         'pos',[10 5 winwidth-20 20],...                     % Set the textbox position and size
         'hor','left',...                                    % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string',est_text);                                 % Set the static text for estimated time
     
     text(3) = uicontrol(progfig,'style','text',...          % Prepare estimated time
         'pos',[135 5 winwidth-145 20],...                   % Set the textbox position and size
         'hor','left',...                                    % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string','');                                       % Initialize the estimated time as blank
     
     text(4) = uicontrol(progfig,'style','text',...          % Prepare the percentage progress
         'pos',[winwidth-45 winheight-50 40 20],...          % Set the textbox position and size
         'hor','right',...                                   % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the textbox foreground color
         'string','');                                       % Initialize the progress text as blank
     
-    [mainBackgroundColor, mainTextColor, mainTextHighColor] = appDesignChanger(progfig,getSettingsValue('Style'));
-    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-    iconsSizeEnums = javaMethod('values',iconsClassName);
-    SIZE_32x32 = iconsSizeEnums(1);  % (1) = 16x16,  (2) = 32x32
-    busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32);  % icon, label
-    busyIndicator.setPaintsWhenStopped(false);  % default = false
-    busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-    javacomponent(busyIndicator.getComponent, [progfig.Position(3)*0.86,progfig.Position(4)*0.35,20,20], progfig);
-    busyIndicator.getComponent.setBackground(java.awt.Color(mainBackgroundColor(1), mainBackgroundColor(2),mainBackgroundColor(3)));
-    busyIndicator.start;
+
     
     % Set time of last update to ensure a redraw
     lastupdate = clock - 1;
