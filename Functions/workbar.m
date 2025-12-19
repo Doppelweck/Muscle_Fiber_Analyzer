@@ -151,6 +151,7 @@ if isempty(progfig)
          'tag','timebar',...                                % Tag the figure for later checking
          'WindowStyle','normal',...                         % Stay figure in forground                          
          'Visible','off');
+    theme(progfig,mainFig.Theme);
     
     movegui(progfig,'center');
     set(progfig,'Visible','on')
@@ -189,29 +190,21 @@ if isempty(progfig)
     text(1) = uicontrol(progfig,'style','text',...          % Prepare message text (set the style to text)
         'pos',[10 winheight-30 winwidth-20 20],...          % Set the textbox position and size
         'hor','left',...                                    % Center the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string',message);                                  % Set the text to the input message
     
     text(2) = uicontrol(progfig,'style','text',...          % Prepare static estimated time text
         'pos',[10 5 winwidth-20 20],...                     % Set the textbox position and size
         'hor','left',...                                    % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string',est_text);                                 % Set the static text for estimated time
     
     text(3) = uicontrol(progfig,'style','text',...          % Prepare estimated time
         'pos',[135 5 winwidth-145 20],...                   % Set the textbox position and size
         'hor','left',...                                    % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the text color
         'string','');                                       % Initialize the estimated time as blank
     
     text(4) = uicontrol(progfig,'style','text',...          % Prepare the percentage progress
         'pos',[winwidth-45 winheight-50 40 20],...          % Set the textbox position and size
         'hor','right',...                                   % Left align the text in the textbox
-        'backgroundcolor',[1 1 1],...                      % Set the textbox background color
-        'foregroundcolor',0*[1 1 1],...                     % Set the textbox foreground color
         'string','');                                       % Initialize the progress text as blank
     
 
