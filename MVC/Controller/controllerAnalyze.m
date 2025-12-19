@@ -1183,7 +1183,7 @@ classdef controllerAnalyze < handle
                     delete(OldFig);
                     %refresh WindowButtonMotionFcn. If a Figure Manipulate
                     %exist, than the WindowButtonMotionFcn is deleted
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % If a Higlight Boundarie Box already exists,
@@ -1193,7 +1193,7 @@ classdef controllerAnalyze < handle
                     delete(OldBox);
                     %refresh WindowButtonMotionFcn. If a Higlight Boundarie Box
                     %exist, than the WindowButtonMotionFcn is deleted
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % If a window for preview results already exists,
@@ -1201,7 +1201,7 @@ classdef controllerAnalyze < handle
                 preFig = findobj('Tag','FigurePreResults');
                 if ~isempty(preFig) && isvalid(preFig)
                     delete(preFig);
-                    obj.addWindowCallbacks()
+                    obj.addWindowCallbacks();
                 end
                 
                 % Set all Vlaues form the GUI objects in the correspondending
@@ -1734,7 +1734,7 @@ classdef controllerAnalyze < handle
             %
             
             NewFiberType = get(obj.viewAnalyzeHandle.B_FiberTypeManipulate, 'Value');
-            LabelNumber = str2double( get(obj.viewAnalyzeHandle.B_TextObjNo, 'String') );
+            LabelNumber = str2double( get(obj.viewAnalyzeHandle.B_TextObjNo, 'Text') );
             
             %change fiber type
             obj.busyIndicator(1);
