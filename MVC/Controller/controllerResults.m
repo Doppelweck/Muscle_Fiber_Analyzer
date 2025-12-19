@@ -428,8 +428,7 @@ classdef controllerResults < handle
                 obj.viewResultsHandle.B_TableStatistic.RowName = [];
                 obj.viewResultsHandle.B_TableStatistic.ColumnName = {'Name of parameter','Value of parameter'};
                 obj.viewResultsHandle.B_TableStatistic.Data = obj.modelResultsHandle.StatisticMat;
-                pos = obj.viewResultsHandle.B_TableStatistic.Position(3);
-                obj.viewResultsHandle.B_TableStatistic.ColumnWidth={pos/2 pos/2-20};
+                obj.viewResultsHandle.B_TableStatistic.ColumnWidth={'auto' 'auto'};
             catch
                 obj.errorMessage();
             end
