@@ -275,7 +275,6 @@ classdef controllerEdit < handle
             
             mainTitel = ['Fiber types classification tool: ' obj.modelEditHandle.FileName];
             set(obj.mainFigure,'Name', mainTitel);
-            %appDesignChanger(obj.panelEdit,getSettingsValue('Style'));
         end
         
         function newFileEvent(obj,~,~)
@@ -300,9 +299,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_ShapeSE,'Enable','off');
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off');
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off');
-                
-                %appDesignElementChanger(obj.panelControl);
-                
+                                
                 format = obj.modelEditHandle.openNewFile();
                 obj.busyIndicator(1);
                 
@@ -361,7 +358,6 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 
-                                %appDesignElementChanger(obj.panelControl);
                                 % check wich morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
@@ -422,9 +418,7 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 % check wich morphOp buttons must be enabled
-                                
-                                %appDesignElementChanger(obj.panelControl);
-                                
+                                                                
                                 obj.morphOpEvent();
                                 
                             case 'false'
@@ -464,13 +458,8 @@ classdef controllerEdit < handle
                                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                     % check wich morphOp buttons must be enabled
-                                    %appDesignElementChanger(obj.panelControl);
                                     obj.morphOpEvent();
                                 end
-                                
-                                %appDesignElementChanger(obj.panelControl);
-                                
-                                
                                 
                         end % switch statusImag
                         
@@ -532,7 +521,6 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 
-                                %appDesignElementChanger(obj.panelControl);
                                 % check wich morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
@@ -598,7 +586,6 @@ classdef controllerEdit < handle
                                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                 % check wich morphOp buttons must be enabled
                                 
-                                %appDesignElementChanger(obj.panelControl);
                                 obj.morphOpEvent();
                                 
                             case 'false'
@@ -638,7 +625,6 @@ classdef controllerEdit < handle
                                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                                     
-                                    %appDesignElementChanger(obj.panelControl);
                                     % check wich morphOp buttons must be enabled
                                     obj.morphOpEvent();
                                 end
@@ -684,7 +670,6 @@ classdef controllerEdit < handle
                             % check wich morphOp buttons must be enabled
                             obj.morphOpEvent();
                         end
-                        %appDesignElementChanger(obj.panelControl);
                         
                     case 'notSupported'
                         
@@ -741,14 +726,12 @@ classdef controllerEdit < handle
                         end
                         
                 end
-                %appDesignElementChanger(obj.panelControl);
                 obj.busyIndicator(0);
             catch
                 obj.busyIndicator(0);
                 obj.errorMessage();
                 %disable GUI objects
                 set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                %appDesignElementChanger(obj.panelControl);
             end
         end
         
@@ -1085,8 +1068,7 @@ classdef controllerEdit < handle
             end
             
             set(obj.viewEditHandle.B_NewPic,'Enable','on');
-            %appDesignElementChanger(obj.panelControl);
-            %             obj.busyIndicator(0);
+            obj.busyIndicator(0);
         end
         
         function checkPlanesEvent(obj,~,~)
@@ -1183,7 +1165,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off');
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off');
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
-                %appDesignElementChanger(obj.panelControl);
                 
                 obj.modelEditHandle.checkMask(obj.CheckMaskActive);
                 
@@ -1217,7 +1198,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                 
                 
-                %appDesignElementChanger(obj.panelControl);
                 % check wich morphOp buttons must be enabled
                 obj.morphOpEvent();
                 
@@ -2162,7 +2142,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_MorphOP,'Enable','off')
-                %appDesignElementChanger(obj.panelControl);
                 
             else
             
@@ -2225,7 +2204,6 @@ classdef controllerEdit < handle
                     obj.viewEditHandle.B_MorphOP.Value = 1;
                     obj.modelEditHandle.morphOP = 'choose operation';
                     set(obj.viewEditHandle.B_MorphOP,'Enable','on')
-                    %appDesignElementChanger(obj.panelControl);
                     
             end
             
@@ -2246,7 +2224,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                %appDesignElementChanger(obj.panelControl);
                 
             elseif strcmp(tempMorpStr,'erode') || strcmp(tempMorpStr,'dilate') ||...
                     strcmp(tempMorpStr,'open') || strcmp(tempMorpStr,'close')
@@ -2259,7 +2236,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
-                %appDesignElementChanger(obj.panelControl);
                 
                 if ~strcmp(tempSEStr,'') && ~strcmp(tempSEStr,'choose SE')
                     % Morph options with choosen structuring element
@@ -2269,7 +2245,6 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_SizeSE,'Enable','on')
                     set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                    %appDesignElementChanger(obj.panelControl);
                     
                 end
             elseif   strcmp(tempMorpStr,'smoothing') || strcmp(tempMorpStr,'skel') ...
@@ -2280,7 +2255,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','off')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                %appDesignElementChanger(obj.panelControl);
             else
                 % Morph options that dont need a structuring element
                 
@@ -2290,7 +2264,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                 set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                %appDesignElementChanger(obj.panelControl);
             end
             
             end
@@ -2397,7 +2370,6 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
             end
-            %appDesignElementChanger(obj.panelControl);
         end
         
         function morphValuesEvent(obj,~,~)
@@ -2640,7 +2612,6 @@ classdef controllerEdit < handle
         end
         
         function busyIndicator(obj,status)
-            % See: http://undocumentedmatlab.com/blog/animated-busy-spinning-icon
             controller_helper_busy_indicator(obj,status,obj.viewEditHandle,obj.modelEditHandle);
         end
               
