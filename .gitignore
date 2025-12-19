@@ -19,7 +19,9 @@
 *.zip
 
 *.html
-*.pdf
+
+Example\ Images/*.pdf
+Example\ Images/*.tif
 
 # Simulink Code Generation
 slprj/
