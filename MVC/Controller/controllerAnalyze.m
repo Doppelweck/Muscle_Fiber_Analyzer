@@ -600,7 +600,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
                     
                     obj.viewAnalyzeHandle.ParaCard.Selection = 1;
@@ -641,7 +640,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
                     
                     obj.viewAnalyzeHandle.ParaCard.Selection = 1;
@@ -682,7 +680,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
                     
                     obj.viewAnalyzeHandle.ParaCard.Selection = 2;
@@ -723,7 +720,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
                     
                     obj.viewAnalyzeHandle.ParaCard.Selection = 2;
@@ -763,7 +759,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.viewAnalyzeHandle.ParaCard.Selection = 1;
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image without farred plane';
                 
@@ -802,7 +797,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',1);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.viewAnalyzeHandle.ParaCard.Selection = 1;
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
                 
@@ -842,7 +836,6 @@ classdef controllerAnalyze < handle
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Enable','off')
                     set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','off')
                     set(obj.viewAnalyzeHandle.B_ColorValueActive,'Value',0);
-                    %appDesignElementChanger(obj.panelControl);
                     obj.viewAnalyzeHandle.ParaCard.Selection = 1;
                     obj.modelAnalyzeHandle.InfoMessage = '   -show image with farred plane';
             end
@@ -885,7 +878,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinArea,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxArea,'Enable','on')
                     end
-                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_RoundnessActive.Tag
                     % RoundActive has changed. If it is zero, Roundness parameter
@@ -895,7 +887,6 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_MinRoundness,'Enable','on')
                     end
-                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_AspectRatioActive.Tag
                     % AspectRatioActive has changed. If it is zero AspectRatio parameters
@@ -907,7 +898,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_MinAspectRatio,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_MaxAspectRatio,'Enable','on')
                     end
-                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_BlueRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -921,7 +911,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_BlueRedDistBlue,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_BlueRedDistRed,'Enable','on')
                     end
-                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_FarredRedThreshActive.Tag
                     % BlueRedThreshActive has changed. If it is zero AspectRatio parameters
@@ -935,7 +924,6 @@ classdef controllerAnalyze < handle
                         set(obj.viewAnalyzeHandle.B_FarredRedDistFarred,'Enable','on')
                         set(obj.viewAnalyzeHandle.B_FarredRedDistRed,'Enable','on')
                     end
-                    %appDesignElementChanger(obj.panelControl);
                     
                 case obj.viewAnalyzeHandle.B_ColorValueActive.Tag
                     % ColorValueActive has changed. If it is zero ColorValue parameters
@@ -945,7 +933,6 @@ classdef controllerAnalyze < handle
                     elseif Value == 1
                         set(obj.viewAnalyzeHandle.B_ColorValue,'Enable','on')
                     end
-                     %appDesignElementChanger(obj.panelControl);
                      
                 otherwise
                     % Error Code
@@ -1121,7 +1108,6 @@ classdef controllerAnalyze < handle
             %change the figure callbacks for the analyze mode
             obj.addWindowCallbacks()
             
-            appDesignChanger(obj.panelAnalyze,getSettingsValue('Style'));
             %change the card panel to selection 2: analyze mode
             obj.mainCardPanel.Selection = 2;
             
@@ -1154,7 +1140,6 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            %appDesignElementChanger(obj.panelControl);
             obj.modelAnalyzeHandle.InfoMessage = '-Set Parameters and press "Start analyzing"';
             obj.modelAnalyzeHandle.InfoMessage = ' ';
         end
@@ -1266,7 +1251,6 @@ classdef controllerAnalyze < handle
                 set(obj.viewAnalyzeHandle.B_StartResults,'Enable','on');
                 set(obj.viewAnalyzeHandle.B_PreResults,'Enable','on');
             end
-            %appDesignElementChanger(obj.panelControl);
             
         end
         
@@ -2179,7 +2163,6 @@ classdef controllerAnalyze < handle
                             end
                             legend(ax,LegendString,'Location','Best')
                     end
-                    appDesignChanger(preFig,getSettingsValue('Style'));
                 else % if ~isempty(obj.modelAnalyzeHandle.Stats)
                     obj.modelAnalyzeHandle.InfoMessage = '   - No data are analyzed';
                     obj.modelAnalyzeHandle.InfoMessage = '   - Press "Start analyzing"';
