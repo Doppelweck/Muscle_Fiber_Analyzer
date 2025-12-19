@@ -316,9 +316,7 @@ classdef viewEdit < handle
             set(obj.B_ThresholdMode,'Value','Automatic Watershed I');
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
-            
-            %appDesignChanger(mainCard,getSettingsValue('Style'));
-            
+                        
             set(mainCard,'Visible','on');
 
         end % end constructor
@@ -555,7 +553,6 @@ classdef viewEdit < handle
             tabPanel.TabTitles = {'Color Plane images', 'Brightness Correction images'};
             tabPanel.TabWidth = -1;
             set(obj.hFCP,'Visible','on');
-            appDesignChanger(tabPanel,getSettingsValue('Style'));
             drawnow;
         end
         

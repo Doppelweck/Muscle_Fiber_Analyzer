@@ -339,7 +339,6 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
             
-            %appDesignChanger(mainCard,getSettingsValue('Style'));
             set(mainCard,'Visible','on');
             drawnow;
 

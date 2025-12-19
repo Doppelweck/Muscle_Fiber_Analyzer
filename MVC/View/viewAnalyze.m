@@ -463,9 +463,7 @@ classdef viewAnalyze < handle
             
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
-            
-            %appDesignChanger(mainCard,getSettingsValue('Style'));
-            
+                        
             set(mainCard,'Visible','on');
 
         end
@@ -622,7 +620,6 @@ classdef viewAnalyze < handle
                 end
                 
             end
-            %appDesignChanger(obj.hFM,getSettingsValue('Style'));
             set(obj.hFM,'Visible','on')
         end
         
@@ -676,7 +673,6 @@ classdef viewAnalyze < handle
             obj.B_ManualClassForward = uicontrol( 'Parent', BBox, 'String', 'Specify Type 2 Fibers ->','FontUnits','normalized','Fontsize',0.6 ,'Tag','Specify Type 2 Fibers');
             
             set( VBox, 'Heights', [ -8 -1], 'Spacing', 1 ); 
-            %appDesignChanger(obj.hFMC,getSettingsValue('Style'));
             set(obj.hFMC, 'Visible', 'on');
         end
         
@@ -713,7 +709,6 @@ classdef viewAnalyze < handle
             obj.hAPRFRR = axes('Parent',uicontainer('Parent', AxesBox), 'FontUnits','normalized','Fontsize',0.015,'Tag','AxesManualClassify');
             set(obj.hAPRFRR, 'LooseInset', [0,0,0,0]);
             
-            %appDesignChanger(obj.hFPR,getSettingsValue('Style'));
             set(obj.hFPR, 'Visible', 'on');
         end
         
