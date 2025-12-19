@@ -114,28 +114,11 @@ classdef viewEdit < handle
                 
                 mainFig = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
-                theme(mainFig,"light");
+                theme(mainFig,"auto");
             end
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            end
+            
 
-            params.default_box_spacing_padding = {'Spacing',2,'Padding',2 };
-            params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_HButtonBox_Main = {'ButtonSize', [600 40], 'Spacing', 2, 'Padding', 2};
-            params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
-            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
+            params = view_helper_default_params();
             
             set(mainCard,'Visible','off');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});

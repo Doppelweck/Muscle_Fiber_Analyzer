@@ -105,30 +105,10 @@ classdef viewAnalyze < handle
         function obj = viewAnalyze(mainCard)
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"light");
+                theme(mainCard,"auto");
             end
             
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-                
-            end
-
-            params.default_box_spacing_padding = {'Spacing',2,'Padding',2 };
-            params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_HButtonBox_Main = {'ButtonSize', [600 40], 'Spacing', 2, 'Padding', 2};
-            params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
-            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
+            params = view_helper_default_params();
             
             set(mainCard,'Visible','off');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard , params.default_box_spacing_padding{:});
@@ -478,8 +458,8 @@ classdef viewAnalyze < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%% Panel Info Log %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-            obj.B_InfoText = uicontrol('Parent',PanelInfo,'Style','listbox','FontSize', fontSizeM,'String',{});
+            hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
+            obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{});
             
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
@@ -642,7 +622,7 @@ classdef viewAnalyze < handle
                 end
                 
             end
-            appDesignChanger(obj.hFM,getSettingsValue('Style'));
+            %appDesignChanger(obj.hFM,getSettingsValue('Style'));
             set(obj.hFM,'Visible','on')
         end
         
@@ -672,13 +652,13 @@ classdef viewAnalyze < handle
             end
             
             obj.hFMC = figure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
-            set(obj.hFMC,'Tag','FigureManualClassify')
+            set(obj.hFMC,'Tag','FigureManualClassify');
             
             %get position of mainFigure
             posMainFig = get(mainFig,'Position');
             
             set(obj.hFMC, 'position', [posMainFig(1) posMainFig(2) 0.6 0.8]);
-            movegui(obj.hFMC,'center')
+            movegui(obj.hFMC,'center');
             
             set(obj.hFMC,'WindowStyle','normal');
             
@@ -696,7 +676,7 @@ classdef viewAnalyze < handle
             obj.B_ManualClassForward = uicontrol( 'Parent', BBox, 'String', 'Specify Type 2 Fibers ->','FontUnits','normalized','Fontsize',0.6 ,'Tag','Specify Type 2 Fibers');
             
             set( VBox, 'Heights', [ -8 -1], 'Spacing', 1 ); 
-            appDesignChanger(obj.hFMC,getSettingsValue('Style'));
+            %appDesignChanger(obj.hFMC,getSettingsValue('Style'));
             set(obj.hFMC, 'Visible', 'on');
         end
         
@@ -733,7 +713,7 @@ classdef viewAnalyze < handle
             obj.hAPRFRR = axes('Parent',uicontainer('Parent', AxesBox), 'FontUnits','normalized','Fontsize',0.015,'Tag','AxesManualClassify');
             set(obj.hAPRFRR, 'LooseInset', [0,0,0,0]);
             
-            appDesignChanger(obj.hFPR,getSettingsValue('Style'));
+            %appDesignChanger(obj.hFPR,getSettingsValue('Style'));
             set(obj.hFPR, 'Visible', 'on');
         end
         

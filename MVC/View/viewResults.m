@@ -68,32 +68,17 @@ classdef viewResults < handle
         function obj = viewResults(mainCard)
             if nargin < 1 || isempty(mainCard)
                 mainCard = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"dark");
+                theme(mainCard,"auto");
             end
             
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big 
-            end
+            params = view_helper_default_params();
 
-            params.default_box_spacing_padding = {'Spacing',2,'Padding',2 };
-            params.default_HButtonBox = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_HButtonBox_Main = {'ButtonSize', [600 40], 'Spacing', 2, 'Padding', 2};
-            params.default_uiLabel = {'ButtonSize', [600 20], 'Spacing', 2, 'Padding', 2};
-            params.default_normalized_font = {'FontUnits','normalized','Fontsize',0.6};
-            params.default_panel = {'FontSize',fontSizeB,'BorderWidth',2,'Padding', 2, 'Tag','mainPanelsViews'};
+            fontSizeS = 10; % Font size small
+            fontSizeM = 12; % Font size medium
+            fontSizeB = 16; % Font size big
 
 
-            set(mainCard,'Visible','off');
+            set(mainCard,'Visible','on');
             obj.panelResults = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
             obj.panelAxes =    uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'FIBER INFORMATIONS' );
@@ -220,13 +205,12 @@ classdef viewResults < handle
             set( mainVBBoxSave, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1.5] );
             
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
-            hBoxSize=uix.HButtonBox('Parent', PanelInfo,'ButtonSize',[3000 3000]);
-            obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','FontSize',fontSizeM,'String',{});
+            hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
+            obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{});
             
             %%%%%%%%%%%%%%%%%%% Panel with Tabs %%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-            tabPanel = uix.TabPanel('Parent',obj.panelAxes,'FontSize',fontSizeB,'Tag','tabMainPanel');
+            tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
             
             statisticTabPanel =       uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
             histogramTabPanel =       uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
@@ -249,7 +233,7 @@ classdef viewResults < handle
             PanelCount = uix.Panel('Parent',statsVBoxleft,'Padding',5);
             PanelDia = uix.Panel('Parent',statsVBoxMiddle,'Padding',5);
             PanelScatter = uix.Panel('Parent',statsVBoxMiddle,'Padding',5);
-            PanelStatisticTabel = uix.Panel('Parent',statsVBoxRight,'Padding',5,'FontSize',fontSizeM);
+            PanelStatisticTabel = uix.Panel('Parent',statsVBoxRight,'Padding',5);
             
             obj.hAArea = axes('Parent',uicontainer('Parent',PanelArea));
             set(obj.hAArea, 'LooseInset', [0,0,0,0]);
@@ -266,7 +250,8 @@ classdef viewResults < handle
             
            
 
-            obj.B_TableStatistic = uitable('Parent',PanelStatisticTabel,'FontSize',fontSizeS);
+            obj.B_TableStatistic = uitable('Parent',PanelStatisticTabel);
+            obj.B_TableMain.Position =[0 0 1 1];
             
             set(statisticTabHBox,'Widths', [-2 -2 -1.2])
             set( statsVBoxleft, 'Heights', [-1 -1] );
@@ -331,10 +316,10 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             
             mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',fontSizeM);
-            obj.B_TableMain = uitable('Parent',mainTablePanel,'FontSize',fontSizeB);
+            obj.B_TableMain = uitable('Parent',mainTablePanel);
             
-            obj.B_TableMain.FontSize = fontSizeS;
-            obj.B_TableMain.Units = 'normalized';
+            % obj.B_TableMain.FontSize = fontSizeS;
+            % obj.B_TableMain.Units = 'normalized';
             obj.B_TableMain.Position =[0 0 1 1];
             
             set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
