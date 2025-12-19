@@ -274,7 +274,6 @@ classdef controllerResults < handle
                 set(obj.viewResultsHandle.B_NewPic,'Enable','off');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','off');
                 set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
-                appDesignElementChanger(obj.panelControl);
                 %show results data in the GUI
                 obj.modelResultsHandle.startResultMode();
                 
@@ -282,7 +281,6 @@ classdef controllerResults < handle
                 set(obj.viewResultsHandle.B_Save,'Enable','on');
                 set(obj.viewResultsHandle.B_NewPic,'Enable','on');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','on');
-                appDesignElementChanger(obj.panelControl);
                 
                 %Check if a resultsfolder for the file already exist
                 % Dlete file extension in the results folder before save
@@ -303,9 +301,7 @@ classdef controllerResults < handle
                     
                 end
                 
-                
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
-            drawnow;
+                drawnow;
             catch
                 obj.errorMessage();
             end
@@ -379,7 +375,6 @@ classdef controllerResults < handle
                     set(obj.viewResultsHandle.B_NewPic,'Enable','off');
                     set(obj.viewResultsHandle.B_CloseProgramm,'Enable','off');
                     set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
-                    appDesignElementChanger(obj.panelControl);
                     %Save results
                     obj.modelResultsHandle.saveResults();
                     
@@ -393,13 +388,11 @@ classdef controllerResults < handle
                     obj.modelResultsHandle.InfoMessage = '   - no data has been saved';
                 end
                 obj.busyIndicator(0);
-                appDesignElementChanger(obj.panelControl);
                 [y,Fs] = audioread('filling-your-inbox.mp3');
                 sound(y*0.4,Fs);
             catch
                 obj.errorMessage();
             end
-            appDesignElementChanger(obj.panelControl);
         end
         
         function showInfoInTableGUI(obj)
@@ -1031,7 +1024,6 @@ classdef controllerResults < handle
             grid(obj.viewResultsHandle.hAScatterAll, 'on');
             hold(obj.viewResultsHandle.hAScatterAll, 'off');
             axtoolbar(obj.viewResultsHandle.hAScatterAll,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
         end
         
         function showPicProcessedGUI(obj)
@@ -1633,7 +1625,6 @@ classdef controllerResults < handle
             delete(lTemp);
             
             obj.modelResultsHandle.ResultUpdateStaus = false;
-            appDesignChanger(obj.panelResults,getSettingsValue('Style'));
         end
         
         function openSaveDirectory(obj,~,~)
