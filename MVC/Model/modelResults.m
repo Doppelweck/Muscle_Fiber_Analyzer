@@ -1247,7 +1247,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendAreaPlot');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAArea],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 picName ='';
                 clf(fTemp);
@@ -1260,7 +1259,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendNumberPlot');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hACount],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 picName ='';
                 clf(fTemp);
@@ -1273,7 +1271,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendScatterPlotBlueRed');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 picName ='';
                 clf(fTemp);
@@ -1286,7 +1283,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendScatterPlotFarredRed');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 picName ='';
                 delete(fTemp)
@@ -1308,7 +1304,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendAreaHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAreaHist],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 clf(fTemp);
                 
@@ -1319,7 +1314,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendAspectHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAspectHist],fTemp);
                 set(lTemp,'Location','best');
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 clf(fTemp);
                 
@@ -1330,7 +1324,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendDiaHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hADiaHist],fTemp);
                 set(lTemp,'Location','best');
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 clf(fTemp);
                 
@@ -1341,7 +1334,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendRoundHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hARoundHist],fTemp);
                 set(lTemp,'Location','best');
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 delete(fTemp);
                 
@@ -1361,7 +1353,6 @@ classdef modelResults < handle
                     fullFileName = fullfile(SaveDir,picName);
                     fTemp = figure('Visible','off');
                     copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed,fTemp);
-                    appDesignChanger(fTemp,'light');
                     saveTightFigureOrAxes(fTemp,fullFileName);
                     obj.InfoMessage = '         - image has been saved as .pdf vector grafic';
                     delete(fTemp);
@@ -1407,7 +1398,6 @@ classdef modelResults < handle
                     fullFileName = fullfile(SaveDir,picName);
                     fTemp = figure('Visible','off');
                     copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups,fTemp);
-                    appDesignChanger(fTemp,'light');
                     saveTightFigureOrAxes(fTemp,fullFileName);
                     obj.InfoMessage = '         - image has been saved as .pdf vector grafic';
                     delete(fTemp);
@@ -1453,7 +1443,6 @@ classdef modelResults < handle
                 lTemp = findobj('Tag','LegendScatterPlotAll');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
                 set(lTemp,'Location','best')
-                appDesignChanger(fTemp,'light');
                 saveTightFigureOrAxes(fTemp,fullFileName);
                 delete(fTemp)
                 
