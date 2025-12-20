@@ -1294,57 +1294,47 @@ classdef modelResults < handle
         end
         
         function saveHistograms(obj,SaveDir,time)
-            % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
-            if obj.SaveHisto
-                obj.InfoMessage = '      - saving Histograms plots...';
-                
-                obj.InfoMessage = '         - saving Area histogram as .pdf';
-                picName = strcat(fileName ,'_HistogramArea', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendAreaHist');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAreaHist],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving AspectRatio histogram as .pdf';
-                picName = strcat(fileName ,'_HistogramAspectRatio', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendAspectHist');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAspectHist],fTemp);
-                set(lTemp,'Location','best');
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving Diameter histogram as .pdf';
-                picName = strcat(fileName ,'_HistogramDiameter', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendDiaHist');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hADiaHist],fTemp);
-                set(lTemp,'Location','best');
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving Roundness histogram as .pdf';
-                picName = strcat(fileName ,'_HistogramRoundness', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendRoundHist');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hARoundHist],fTemp);
-                set(lTemp,'Location','best');
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                delete(fTemp);
-                
-                obj.InfoMessage = '   - saving Histograms complete';
+            if ~obj.SaveHisto
+                return;
             end
+        
+            obj.InfoMessage = '      - saving Histograms plots...';
+            
+            % Get filename without extension
+            [~, fileName, ~] = fileparts(obj.FileName);
+            
+            % Create temporary figure once
+            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+            
+            % Define histograms to save
+            histograms = {
+                'Area', 'LegendAreaHist', obj.controllerResultsHandle.viewResultsHandle.hAAreaHist;
+                'AspectRatio', 'LegendAspectHist', obj.controllerResultsHandle.viewResultsHandle.hAAspectHist;
+                'Diameter', 'LegendDiaHist', obj.controllerResultsHandle.viewResultsHandle.hADiaHist;
+                'Roundness', 'LegendRoundHist', obj.controllerResultsHandle.viewResultsHandle.hARoundHist
+            };
+            
+            % Loop through each histogram
+            for i = 1:size(histograms, 1)
+                obj.InfoMessage = sprintf('         - saving %s histogram as .pdf', histograms{i,1});
+                
+                % Find and copy objects
+                lTemp = findobj('Tag', histograms{i,2});
+                copyobj([lTemp, histograms{i,3}], fTemp);
+                set(lTemp, 'Location', 'best');
+                
+                % Save PDF
+                picName = sprintf('%s_Histogram%s%s.pdf', fileName, histograms{i,1}, time);
+                fullFileName = fullfile(SaveDir, picName);
+                exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+                
+                % Clear for next histogram
+                clf(fTemp);
+            end
+        
+            % Cleanup
+            close(fTemp);
+            obj.InfoMessage = '   - saving Histograms complete';
         end
         
         function saveProcessedImage(obj,SaveDir,time)
