@@ -1179,13 +1179,15 @@ classdef modelResults < handle
             noOfSaveElements = sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups]);
             
             %Current date and time
-            time = datestr(now,'_yyyy_mm_dd_HHMM');
+            date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm')
+            time = string(date_time);
+            
             
             % Delete file extension
             [path,fileName,ext] = fileparts(obj.FileName);
             
             % Save dir is the same as the dir from the selected Pic
-            SaveDir = [obj.PathName fileName '_RESULTS'];
+            SaveDir = strcat(obj.PathName ,fileName ,'_RESULTS');
             obj.InfoMessage = ['   -' obj.PathName fileName '_RESULTS'];
              
             % Check if reslut folder already exist.
@@ -1203,7 +1205,7 @@ classdef modelResults < handle
             end
             
             %Add folder with time and date in the main result folder.
-            SaveDir = fullfile(SaveDir,[fileName '_RESULTS' time]);
+            SaveDir = fullfile(SaveDir,strcat(fileName ,'_RESULTS' ,time));
             mkdir(SaveDir);
 
             workbar(0/noOfSaveElements,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure);
@@ -1240,7 +1242,7 @@ classdef modelResults < handle
                 obj.InfoMessage = '      - saving axes with statistics plots...';
                 
                 obj.InfoMessage = '         - saving area plot as .pdf';
-                picName = [fileName '_AreaPlot' time '.pdf'];
+                picName = strcat(fileName, '_AreaPlot', time, '.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 
                 fTemp = figure('Visible','off');
@@ -1248,11 +1250,11 @@ classdef modelResults < handle
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAArea],fTemp);
                 set(lTemp,'Location','best')
                 saveTightFigureOrAxes(fTemp,fullFileName);
-                picName ='';
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving number of Fiber-Types as .pdf';
-                picName = [fileName '_NumberPlot' time '.pdf'];
+                picName = strcat(fileName, '_NumberPlot', time, '.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 
 %                 fTemp = figure('Visible','off');
@@ -1260,11 +1262,11 @@ classdef modelResults < handle
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hACount],fTemp);
                 set(lTemp,'Location','best')
                 saveTightFigureOrAxes(fTemp,fullFileName);
-                picName ='';
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving Scatter plot Blue over Red as .pdf';
-                picName = [fileName '_ScatterPlotBlueRed' time '.pdf'];
+                picName = strcat(fileName ,'_ScatterPlotBlueRed', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 
 %                 fTemp = figure('Visible','off');
@@ -1272,11 +1274,11 @@ classdef modelResults < handle
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed],fTemp);
                 set(lTemp,'Location','best')
                 saveTightFigureOrAxes(fTemp,fullFileName);
-                picName ='';
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
-                picName = [fileName '_ScatterPlotFarredRed' time '.pdf'];
+                picName = strcat(fileName, '_ScatterPlotFarredRed', time, '.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 
 %                 fTemp = figure('Visible','off');
@@ -1284,7 +1286,7 @@ classdef modelResults < handle
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed],fTemp);
                 set(lTemp,'Location','best')
                 saveTightFigureOrAxes(fTemp,fullFileName);
-                picName ='';
+                delete(lTemp);
                 delete(fTemp)
                 
                 obj.InfoMessage = '   - saving plots complete';
@@ -1298,43 +1300,47 @@ classdef modelResults < handle
                 obj.InfoMessage = '      - saving Histograms plots...';
                 
                 obj.InfoMessage = '         - saving Area histogram as .pdf';
-                picName = [fileName '_HistogramArea' time '.pdf'];
+                picName = strcat(fileName ,'_HistogramArea', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 fTemp = figure('Visible','off');
                 lTemp = findobj('Tag','LegendAreaHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAreaHist],fTemp);
                 set(lTemp,'Location','best')
                 saveTightFigureOrAxes(fTemp,fullFileName);
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving AspectRatio histogram as .pdf';
-                picName = [fileName '_HistogramAspectRatio' time '.pdf'];
+                picName = strcat(fileName ,'_HistogramAspectRatio', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
 %                 fTemp = figure('Visible','off');
                 lTemp = findobj('Tag','LegendAspectHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAAspectHist],fTemp);
                 set(lTemp,'Location','best');
                 saveTightFigureOrAxes(fTemp,fullFileName);
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving Diameter histogram as .pdf';
-                picName = [fileName '_HistogramDiameter' time '.pdf'];
+                picName = strcat(fileName ,'_HistogramDiameter', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
 %                 fTemp = figure('Visible','off');
                 lTemp = findobj('Tag','LegendDiaHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hADiaHist],fTemp);
                 set(lTemp,'Location','best');
                 saveTightFigureOrAxes(fTemp,fullFileName);
+                delete(lTemp);
                 clf(fTemp);
                 
                 obj.InfoMessage = '         - saving Roundness histogram as .pdf';
-                picName = [fileName '_HistogramRoundness' time '.pdf'];
+                picName = strcat(fileName ,'_HistogramRoundness', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
 %                 fTemp = figure('Visible','off');
                 lTemp = findobj('Tag','LegendRoundHist');
                 copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hARoundHist],fTemp);
                 set(lTemp,'Location','best');
                 saveTightFigureOrAxes(fTemp,fullFileName);
+                delete(lTemp);
                 delete(fTemp);
                 
                 obj.InfoMessage = '   - saving Histograms complete';
@@ -1349,7 +1355,7 @@ classdef modelResults < handle
                 obj.InfoMessage = '      - saving image processed...';
                 try
                     % save picture as vector graphics
-                    picName = [fileName '_ImageProcessed' time '.pdf'];
+                    picName = strcat(fileName ,'_ImageProcessed', time ,'.pdf');
                     fullFileName = fullfile(SaveDir,picName);
                     fTemp = figure('Visible','off');
                     copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed,fTemp);
@@ -1371,7 +1377,7 @@ classdef modelResults < handle
                     
                     frame = getframe(f);
                     frame=frame.cdata;
-                    picName = [fileName '_ImageProcessed' time '.tif'];
+                    picName = strcat(fileName ,'_ImageProcessed', time ,'.pdf');
                     oldPath = pwd;
                     cd(SaveDir)
                     imwrite(frame,picName)
@@ -1394,7 +1400,7 @@ classdef modelResults < handle
                 try
                     picName ='';
                     % save picture as vector graphics
-                    picName = [fileName '_ImageFiberGroups' time '.pdf'];
+                    picName = strcat(fileName ,'_ImageFiberGroups', time ,'.pdf');
                     fullFileName = fullfile(SaveDir,picName);
                     fTemp = figure('Visible','off');
                     copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups,fTemp);
@@ -1417,7 +1423,7 @@ classdef modelResults < handle
                     picName ='';
                     frame = getframe(f);
                     frame=frame.cdata;
-                    picName = [fileName '_ImageFiberGroups' time '.tif'];
+                    picName = strcat(fileName ,'_ImageFiberGroups', time ,'.tif');
                     oldPath = pwd;
                     cd(SaveDir)
                     imwrite(frame,picName)
@@ -1436,7 +1442,7 @@ classdef modelResults < handle
             if obj.SaveScatterAll
                 obj.InfoMessage = '      - saving Scatter all Fibers...';
                 obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
-                picName = [fileName '_ScatterPlotAll' time '.pdf'];
+                picName = strcat(fileName ,'_ScatterPlotAll', time ,'.pdf');
                 fullFileName = fullfile(SaveDir,picName);
                 
                 fTemp = figure('Visible','off');
@@ -1568,7 +1574,7 @@ classdef modelResults < handle
                     javaaddpath(path);
                 end
                 
-                xlsfileName = [fileName '_TablesProcessed' time '.xlsx'];
+                xlsfileName = strcat(fileName, '_TablesProcessed', time, '.xlsx');
                 
                 fullFileName = fullfile(SaveDir,xlsfileName);
                 %                     oldPath = pwd;
@@ -1649,10 +1655,9 @@ classdef modelResults < handle
             [path,fileName,ext] = fileparts(obj.FileName);
             if obj.SaveBinaryMask
                 obj.InfoMessage = '      - saving Binary Mask...';
-                try
-                    picName ='';
-                    
-                    picName = [fileName '_image_Binary' time '.tif'];
+
+                try                    
+                    picName = strcat(fileName ,'_image_Binary', time ,'.tif');
                     oldPath = pwd;
                     cd(SaveDir)
                     imwrite(obj.PicBW,picName)
@@ -1663,6 +1668,7 @@ classdef modelResults < handle
                     warning('Problem while saving Binary Mask');
                     obj.InfoMessage = 'ERROR: Problem while saving Binary Mask';
                 end
+
             end
         end
 
