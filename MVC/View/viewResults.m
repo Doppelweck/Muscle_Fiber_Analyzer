@@ -299,7 +299,7 @@ classdef viewResults < handle
             
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
-            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,'Padding',35,'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
+            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,'Padding',50,'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
             
             obj.hAPProcessed = axes('Parent',mainPicProcPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
@@ -307,7 +307,7 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             
-            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,'Padding',35,'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
+            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,'Padding',50,'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
             
             obj.hAPGroups = axes('Parent',mainPicGroupPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
@@ -330,7 +330,7 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
             
-            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',35,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',fontSizeM);
+            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',fontSizeM);
             
             obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
             set(obj.hAScatterAll, 'LooseInset', [0,0,0,0]);
