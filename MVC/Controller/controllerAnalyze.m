@@ -1052,8 +1052,8 @@ classdef controllerAnalyze < handle
                     axis(obj.viewAnalyzeHandle.hAP, 'image')
                 otherwise
 
-                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">ERROR Transfer Data from EDIT to RESULT </FONT></HTML>';
-                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">   - startAnalyzeMode() fcn </FONT></HTML>';
+                    obj.modelAnalyzeHandle.InfoMessage = 'ERROR Transfer Data from EDIT to RESULT';
+                    obj.modelAnalyzeHandle.InfoMessage = '   - startAnalyzeMode() fcn';
 
             end
             
@@ -1124,7 +1124,7 @@ classdef controllerAnalyze < handle
                 MetaData = PicData{1,19};
                 YScale = str2double(MetaData(2).GlobalScaleFactorforY);
                 set(obj.viewAnalyzeHandle.B_YScale, 'String', num2str(YScale) );
-                obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="orange">-INFO: Program has changed Values: </FONT></HTML>';
+                obj.modelAnalyzeHandle.InfoMessage = '-INFO: Program has changed Values:';
                 obj.modelAnalyzeHandle.InfoMessage = '     -XScale and YScale have been adjusted';
                 obj.modelAnalyzeHandle.InfoMessage = '     -Found in image MetaData';
             catch
