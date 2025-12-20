@@ -1235,62 +1235,54 @@ classdef modelResults < handle
         end
         
         function saveOverviewPlot(obj,SaveDir,time)
-            % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
-            
-            if obj.SavePlots
-                obj.InfoMessage = '      - saving axes with statistics plots...';
-                
-                obj.InfoMessage = '         - saving area plot as .pdf';
-                picName = strcat(fileName, '_AreaPlot', time, '.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                
-                fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendAreaPlot');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAArea],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving number of Fiber-Types as .pdf';
-                picName = strcat(fileName, '_NumberPlot', time, '.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendNumberPlot');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hACount],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving Scatter plot Blue over Red as .pdf';
-                picName = strcat(fileName ,'_ScatterPlotBlueRed', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendScatterPlotBlueRed');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                clf(fTemp);
-                
-                obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
-                picName = strcat(fileName, '_ScatterPlotFarredRed', time, '.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                
-%                 fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendScatterPlotFarredRed');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(lTemp);
-                delete(fTemp)
-                
-                obj.InfoMessage = '   - saving plots complete';
+            if ~obj.SavePlots
+                return;
             end
+            
+            obj.InfoMessage = '      - saving axes with statistics plots...';
+            
+            % Get filename without extension
+            [~, fileName, ~] = fileparts(obj.FileName);
+            
+            % Create temporary figure once
+            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+            
+            % Define plots to save
+            plots = {
+                'area plot', 'AreaPlot', 'LegendAreaPlot', obj.controllerResultsHandle.viewResultsHandle.hAArea;
+                'number of Fiber-Types', 'NumberPlot', 'LegendNumberPlot', obj.controllerResultsHandle.viewResultsHandle.hACount;
+                'Scatter plot Blue over Red', 'ScatterPlotBlueRed', 'LegendScatterPlotBlueRed', obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed;
+                'Scatter plot Farred over Red', 'ScatterPlotFarredRed', 'LegendScatterPlotFarredRed', obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed
+            };
+            
+            % Loop through each plot
+            for i = 1:size(plots, 1)
+                obj.InfoMessage = sprintf('         - saving %s as .pdf', plots{i,1});
+                
+                % Find and copy objects
+                lTemp = findobj('Tag', plots{i,3});
+                copyobj([lTemp, plots{i,4}], fTemp);
+                set(lTemp, 'Location', 'best');
+                
+                % Save PDF
+                picName = sprintf('%s_%s%s.pdf', fileName, plots{i,2}, time);
+                fullFileName = fullfile(SaveDir, picName);
+
+                % Get the axes and export with tight bounds
+                ax = findobj(fTemp, 'Type', 'axes');
+                if ~isempty(ax)
+                    exportgraphics(ax(1), fullFileName, 'ContentType', 'vector');
+                else
+                    exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+                end
+                
+                % Clear for next plot
+                clf(fTemp);
+            end
+            
+            % Cleanup
+            close(fTemp);
+            obj.InfoMessage = '   - saving plots complete';
         end
         
         function saveHistograms(obj,SaveDir,time)
@@ -1326,7 +1318,14 @@ classdef modelResults < handle
                 % Save PDF
                 picName = sprintf('%s_Histogram%s%s.pdf', fileName, histograms{i,1}, time);
                 fullFileName = fullfile(SaveDir, picName);
-                exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+
+                % Get the axes and export with tight bounds
+                ax = findobj(fTemp, 'Type', 'axes');
+                if ~isempty(ax)
+                    exportgraphics(ax(1), fullFileName, 'ContentType', 'vector');
+                else
+                    exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+                end
                 
                 % Clear for next histogram
                 clf(fTemp);
