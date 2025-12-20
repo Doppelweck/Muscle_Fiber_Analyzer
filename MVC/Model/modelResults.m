@@ -1174,7 +1174,8 @@ classdef modelResults < handle
             %
             
             obj.InfoMessage = ' ';
-            obj.InfoMessage = '   - saving data in the same dir than the file was selected';
+            obj.InfoMessage = '*** Saving Data ***';
+            obj.InfoMessage = '   - saving data in the same directory than the file was selected';
             
             noOfSaveElements = sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups]);
             
@@ -1184,7 +1185,7 @@ classdef modelResults < handle
             
             
             % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
+            [~,fileName,~] = fileparts(obj.FileName);
             
             % Save dir is the same as the dir from the selected Pic
             SaveDir = strcat(obj.PathName ,fileName ,'_RESULTS');
