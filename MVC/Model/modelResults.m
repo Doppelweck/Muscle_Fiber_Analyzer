@@ -1640,24 +1640,23 @@ classdef modelResults < handle
         end
         
         function saveBinaryMask(obj,SaveDir,time)
-            % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
-            if obj.SaveBinaryMask
-                obj.InfoMessage = '      - saving Binary Mask...';
-
-                try                    
-                    picName = strcat(fileName ,'_image_Binary', time ,'.tif');
-                    oldPath = pwd;
-                    cd(SaveDir)
-                    imwrite(obj.PicBW,picName)
-                    cd(oldPath)
-                    
-                    obj.InfoMessage = '         - image has been saved as .tif';
-                catch
-                    warning('Problem while saving Binary Mask');
-                    obj.InfoMessage = 'ERROR: Problem while saving Binary Mask';
-                end
-
+            if ~obj.SaveBinaryMask
+                return;
+            end
+            
+            obj.InfoMessage = '      - saving Binary Mask...';
+            
+            % Get filename without extension
+            [~, fileName, ~] = fileparts(obj.FileName);
+            picName = sprintf('%s_image_Binary%s.tif', fileName, time);
+            fullFileName = fullfile(SaveDir, picName);
+            
+            try
+                imwrite(obj.PicBW, fullFileName);
+                obj.InfoMessage = '         - image has been saved as .tif';
+            catch ME
+                warning('Problem while saving Binary Mask: %s');
+                obj.InfoMessage = 'ERROR: Problem while saving Binary Mask';
             end
         end
 
