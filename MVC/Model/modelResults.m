@@ -1179,7 +1179,7 @@ classdef modelResults < handle
             noOfSaveElements = sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups]);
             
             %Current date and time
-            date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm')
+            date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm');
             time = string(date_time);
             
             
@@ -1337,46 +1337,46 @@ classdef modelResults < handle
         end
         
         function saveProcessedImage(obj,SaveDir,time)
-            % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
-            
-            if obj.SavePicProcessed
-                obj.InfoMessage = '      - saving image processed...';
-                try
-                    % save picture as vector graphics
-                    picName = strcat(fileName ,'_ImageProcessed', time ,'.pdf');
-                    fullFileName = fullfile(SaveDir,picName);
-                    fTemp = figure('Visible','off');
-                    copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed,fTemp);
-                    saveTightFigureOrAxes(fTemp,fullFileName);
-                    obj.InfoMessage = '         - image has been saved as .pdf vector grafic';
-                    delete(fTemp);
-                catch
-                    warning('Problem while saving Image as .pdf. Image could not be saved.');
-                    obj.InfoMessage = 'ERROR: Image could not be saved as .pdf vector grafic';
-                    
-                    % save picture as tif file
-                    f = figure('Units','normalized','Visible','off','ToolBar','none','MenuBar', 'none','Color','w');
-                    h = copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed,f);
-                    SizeFig = size(obj.PicPRGBFRPlanes)/max(size(obj.PicPRGBFRPlanes));
-                    set(f,'Position',[0 0 SizeFig(1) SizeFig(2)])
-                    set(h,'Units','normalized');
-                    h.Position = [0 0 1 1];
-                    h.DataAspectRatioMode = 'auto';
-                    
-                    frame = getframe(f);
-                    frame=frame.cdata;
-                    picName = strcat(fileName ,'_ImageProcessed', time ,'.pdf');
-                    oldPath = pwd;
-                    cd(SaveDir)
-                    imwrite(frame,picName)
-                    cd(oldPath)
-                    close(f);
-                    obj.InfoMessage = '         - image has been saved as .tif';
-                end
-                picName ='';
-                
+            if ~obj.SavePicProcessed
+                return;
             end
+
+            obj.InfoMessage = '      - saving image processed...';
+            [~, fileName, ~] = fileparts(obj.FileName);
+            picName = sprintf('%s_ImageProcessed%s.pdf', fileName, time);
+            fullFileName = fullfile(SaveDir, picName);
+
+            % Create temporary figure
+            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+            
+            try
+                % Copy axes and export as PDF
+                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed, fTemp);
+
+                saveTightFigureOrAxes(fTemp,fullFileName);
+                
+                obj.InfoMessage = '         - image has been saved as .pdf vector graphic';
+
+            catch ME
+                warning('Problem saving image as PDF: %s. Attempting TIF fallback.');
+                obj.InfoMessage = 'ERROR: Image could not be saved as .pdf vector graphic';
+                
+                % Fallback: save as TIF
+                close(fTemp);
+                fTemp = figure('Visible', 'off', 'Color', 'white');
+                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed, fTemp);
+                
+                % Get and save frame
+                frame = getframe(fTemp);
+                picName = sprintf('%s_ImageProcessed%s.tif', fileName, time);
+                fullFileName = fullfile(SaveDir, picName);
+                imwrite(frame.cdata, fullFileName);
+                
+                obj.InfoMessage = '         - image has been saved as .tif';
+            end
+
+            % Cleanup
+            close(fTemp);
         end
         
         function saveFiberGroupImage(obj,SaveDir,time)
