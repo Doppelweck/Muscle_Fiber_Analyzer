@@ -35,10 +35,7 @@ classdef controllerResults < handle
         modelResultsHandle; %hande to modelResults instance.
         controllerAnalyzeHandle; %handle to controllerAnalyze instance.
         
-        fontSizeS;
-        fontSizeM;
-        fontSizeB;
-        
+
     end
     
     methods
@@ -63,19 +60,6 @@ classdef controllerResults < handle
             %           obj:            Handle to controllerResults object.
             %
             
-            if ismac
-                obj.fontSizeS = 12; % Font size small
-                obj.fontSizeM = 14; % Font size medium
-                obj.fontSizeB = 16; % Font size big
-            elseif ispc
-                obj.fontSizeS = 12*0.75; % Font size small
-                obj.fontSizeM = 14*0.75; % Font size medium
-                obj.fontSizeB = 16*0.75; % Font size big
-            else
-                obj.fontSizeS = 12; % Font size small
-                obj.fontSizeM = 14; % Font size medium
-                obj.fontSizeB = 16; % Font size big
-            end
             
             obj.mainFigure = mainFigure;
             obj.mainCardPanel = mainCardPanel;
@@ -472,12 +456,12 @@ classdef controllerResults < handle
                     % Place text atop the bar
                     barTopper = sprintf('%d',B(b));
                     text(obj.viewResultsHandle.hACount,x(b), B(b), barTopper,'HorizontalAlignment','center',...
-                        'VerticalAlignment','bottom', 'FontSize', 15,'Tag','areaPlotTextRsults');
+                        'VerticalAlignment','bottom', 'Tag','areaPlotTextRsults');
                 end
                 
                 l1 = legend(obj.viewResultsHandle.hACount,'Type 1','Type 12h','Type 2','undefind',...
                     'Location','Best');
-                set(obj.viewResultsHandle.hACount,'XTickLabel',{'Type 1','Type 12h','Type 2','undefind'},'FontUnits','normalized','Fontsize',0.03);
+                set(obj.viewResultsHandle.hACount,'XTickLabel',{'Type 1','Type 12h','Type 2','undefind'});
                 set(obj.viewResultsHandle.hACount,'XTick',[1 2 3 4]);
                 
             else %quad labeling
@@ -495,24 +479,22 @@ classdef controllerResults < handle
                     % Place text atop the bar
                     barTopper = sprintf('%d',B(b));
                     text(obj.viewResultsHandle.hACount,x(b), B(b), barTopper,'HorizontalAlignment','center',...
-                        'VerticalAlignment','bottom', 'FontSize', 15,'Tag','areaPlotTextRsults');
+                        'VerticalAlignment','bottom','Tag','areaPlotTextRsults');
                 end
                 
                 l1 = legend(obj.viewResultsHandle.hACount,'Type 1','Type 12h','Type 2x','Type 2a','Type 2ax','undefind',...
                     'Location','Best');
-                set(obj.viewResultsHandle.hACount,'XTickLabel',{'Type 1','Type 12h','Type 2x','Type 2a','Type 2ax','undefind'},'FontUnits','normalized','Fontsize',0.03);
+                set(obj.viewResultsHandle.hACount,'XTickLabel',{'Type 1','Type 12h','Type 2x','Type 2a','Type 2ax','undefind'});
                 set(obj.viewResultsHandle.hACount,'XTick',[1 2 3 4 5 6]);
                 
             end
             
             ylim(obj.viewResultsHandle.hACount,[0 ceil((max(B)+round(max(B)/10))/10)*10]);
-            l1.FontSize=obj.fontSizeM;
             
             set(l1,'Tag','LegendNumberPlot');
-            set(obj.viewResultsHandle.hACount,'FontUnits','normalized','Fontsize',0.03);
             
-            ylabel(obj.viewResultsHandle.hACount,'Numbers','FontUnits','normalized','Fontsize',0.045);
-            title(obj.viewResultsHandle.hACount,['Number of fiber types (Total: ' num2str(sum(B)) ')'],'FontUnits','normalized','Fontsize',0.06)
+            ylabel(obj.viewResultsHandle.hACount,'Numbers');
+            title(obj.viewResultsHandle.hACount,['Number of fiber types (Total: ' num2str(sum(B)) ')'])
             
             axtoolbar(obj.viewResultsHandle.hACount,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
             grid(obj.viewResultsHandle.hACount, 'on');
@@ -580,8 +562,7 @@ classdef controllerResults < handle
                 obj.viewResultsHandle.hAArea.Colormap = tempColorMap;
                 l2 = legend(obj.viewResultsHandle.hAArea,tempString,'Location','Best');
                 set(l2,'Tag','LegendAreaPlot');
-                l2.FontSize=obj.fontSizeM;
-                title(obj.viewResultsHandle.hAArea,'Area of fiber types','FontUnits','normalized','Fontsize',0.06)
+                title(obj.viewResultsHandle.hAArea,'Area of fiber types')
             end
             axtoolbar(obj.viewResultsHandle.hAArea,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
         end
@@ -610,7 +591,6 @@ classdef controllerResults < handle
             
             %clear axes
             cla(obj.viewResultsHandle.hAScatterBlueRed)
-            set(obj.viewResultsHandle.hAScatterBlueRed,'FontUnits','normalized','Fontsize',0.03);
             LegendString={};
             PosColorRed =13;
             PosColorBlue =15;
@@ -717,32 +697,31 @@ classdef controllerResults < handle
                 end
                 
                 if obj.modelResultsHandle.AnalyzeMode == 1
-                    title(obj.viewResultsHandle.hAScatterBlueRed,{'Color-Based Triple Labeling (Main Groups)'},'FontUnits','normalized','Fontsize',0.06);
+                    title(obj.viewResultsHandle.hAScatterBlueRed,{'Color-Based Triple Labeling (Main Groups)'});
                 elseif obj.modelResultsHandle.AnalyzeMode == 2
-                    title(obj.viewResultsHandle.hAScatterBlueRed,{'Color-Based Quad Labeling (Main Groups)'},'FontUnits','normalized','Fontsize',0.06);
+                    title(obj.viewResultsHandle.hAScatterBlueRed,{'Color-Based Quad Labeling (Main Groups)'});
                 end
                 
             elseif obj.modelResultsHandle.AnalyzeMode == 3
-                title(obj.viewResultsHandle.hAScatterBlueRed,'Cluster-Based Triple Labeling (Main Groups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterBlueRed,'Cluster-Based Triple Labeling (Main Groups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 4
-                title(obj.viewResultsHandle.hAScatterBlueRed,'Cluster-Based Quad Labeling (Main Groups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterBlueRed,'Cluster-Based Quad Labeling (Main Groups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 5 || obj.modelResultsHandle.AnalyzeMode == 6
-                title(obj.viewResultsHandle.hAScatterBlueRed,'Manual Classification (Main Groups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterBlueRed,'Manual Classification (Main Groups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 7
-                title(obj.viewResultsHandle.hAScatterBlueRed,'No Classification (Main Groups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterBlueRed,'No Classification (Main Groups)');
             end
             
             if ~isempty(LegendString)
                 l3 = legend(obj.viewResultsHandle.hAScatterBlueRed,LegendString,'Location','Best');
                 set(l3,'Tag','LegendScatterPlotBlueRed');
-                l3.FontSize=obj.fontSizeM;
             end
             
             maxBlueValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,PosColorBlue)));
             maxRedValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,PosColorRed)));
             maxLim =  max([maxBlueValue maxRedValue])+50;
-            ylabel(obj.viewResultsHandle.hAScatterBlueRed,'y: mean Blue (B)','FontUnits','normalized','Fontsize',0.045);
-            xlabel(obj.viewResultsHandle.hAScatterBlueRed,'x: mean Red (R)','FontUnits','normalized','Fontsize',0.045);
+            ylabel(obj.viewResultsHandle.hAScatterBlueRed,'y: mean Blue (B)');
+            xlabel(obj.viewResultsHandle.hAScatterBlueRed,'x: mean Red (R)');
             ylim(obj.viewResultsHandle.hAScatterBlueRed,[ 0 maxLim ] );
             xlim(obj.viewResultsHandle.hAScatterBlueRed,[ 0 maxLim ] );
             set(obj.viewResultsHandle.hAScatterBlueRed,'xtick',0:20:maxLim*2);
@@ -775,7 +754,6 @@ classdef controllerResults < handle
             
             cla(obj.viewResultsHandle.hAScatterFarredRed);
             %             axes(obj.viewResultsHandle.hAScatterFarredRed);
-            set(obj.viewResultsHandle.hAScatterFarredRed,'FontUnits','normalized','Fontsize',0.03);
             LegendString = {};
             PosColorRed =13;
             PosColorBlue =15;
@@ -864,25 +842,25 @@ classdef controllerResults < handle
                 
                 
                 if obj.modelResultsHandle.AnalyzeMode == 1
-                    title(obj.viewResultsHandle.hAScatterFarredRed,{'Color-Based Triple Labeling (Type-2 Subgroups)'},'FontUnits','normalized','Fontsize',0.06);
+                    title(obj.viewResultsHandle.hAScatterFarredRed,{'Color-Based Triple Labeling (Type-2 Subgroups)'});
                 elseif obj.modelResultsHandle.AnalyzeMode == 2
-                    title(obj.viewResultsHandle.hAScatterFarredRed,{'Color-Based Quad Labeling (Type-2 Subgroups)'},'FontUnits','normalized','Fontsize',0.06);
+                    title(obj.viewResultsHandle.hAScatterFarredRed,{'Color-Based Quad Labeling (Type-2 Subgroups)'});
                 end
                 
             elseif obj.modelResultsHandle.AnalyzeMode == 3
-                title(obj.viewResultsHandle.hAScatterFarredRed,'Cluster-Based Triple Labeling (Type-2 Subgroups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterFarredRed,'Cluster-Based Triple Labeling (Type-2 Subgroups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 4
-                title(obj.viewResultsHandle.hAScatterFarredRed,'Cluster-Based Quad Labeling (Type-2 Subgroups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterFarredRed,'Cluster-Based Quad Labeling (Type-2 Subgroups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 5 || obj.modelResultsHandle.AnalyzeMode == 6
-                title(obj.viewResultsHandle.hAScatterFarredRed,'Manual Classification (Type-2 Subgroups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterFarredRed,'Manual Classification (Type-2 Subgroups)');
             elseif obj.modelResultsHandle.AnalyzeMode == 7
-                title(obj.viewResultsHandle.hAScatterFarredRed,'No Classification (Type-2 Subgroups)','FontUnits','normalized','Fontsize',0.06);
+                title(obj.viewResultsHandle.hAScatterFarredRed,'No Classification (Type-2 Subgroups)');
             end
             maxFarredValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,14)));
             maxRedValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,PosColorRed)));
             maxLim =max([maxFarredValue maxRedValue])+50;
-            ylabel(obj.viewResultsHandle.hAScatterFarredRed,'y: mean Farred (FR)','FontUnits','normalized','Fontsize',0.045);
-            xlabel(obj.viewResultsHandle.hAScatterFarredRed,'x: mean Red (R)','FontUnits','normalized','Fontsize',0.045);
+            ylabel(obj.viewResultsHandle.hAScatterFarredRed,'y: mean Farred (FR)');
+            xlabel(obj.viewResultsHandle.hAScatterFarredRed,'x: mean Red (R)');
             
             ylim(obj.viewResultsHandle.hAScatterFarredRed,[ 0 maxLim ] );
             xlim(obj.viewResultsHandle.hAScatterFarredRed,[ 0 maxLim ] );
@@ -892,7 +870,6 @@ classdef controllerResults < handle
             if ~isempty(LegendString)
                 l4 = legend(obj.viewResultsHandle.hAScatterFarredRed,LegendString,'Location','Best');
                 set(l4,'Tag','LegendScatterPlotFarredRed');
-                l4.FontSize=obj.fontSizeM;
             end
             
             grid(obj.viewResultsHandle.hAScatterFarredRed, 'on');
@@ -994,19 +971,18 @@ classdef controllerResults < handle
                 end
             end
             hold(obj.viewResultsHandle.hAScatterAll, 'on');
-            title(obj.viewResultsHandle.hAScatterAll,{'Scatter Plot all Fiber Types'},'FontUnits','normalized','Fontsize',0.05);
+            title(obj.viewResultsHandle.hAScatterAll,{'Scatter Plot all Fiber Types'});
             hold(obj.viewResultsHandle.hAScatterAll, 'on');
             
             if ~isempty(LegendString)
                 l5 = legend(obj.viewResultsHandle.hAScatterAll,LegendString,'Location','Best');
                 set(l5,'Tag','LegendScatterPlotAll');
-                l5.FontSize = obj.fontSizeM;
             end
             
             hold(obj.viewResultsHandle.hAScatterAll, 'on');
-            zlabel(obj.viewResultsHandle.hAScatterAll,'z: mean Farred','FontSize',12);
-            ylabel(obj.viewResultsHandle.hAScatterAll,'y: mean Blue','FontSize',12);
-            xlabel(obj.viewResultsHandle.hAScatterAll,'x: mean Red','FontSize',12);
+            zlabel(obj.viewResultsHandle.hAScatterAll,'z: mean Farred');
+            ylabel(obj.viewResultsHandle.hAScatterAll,'y: mean Blue');
+            xlabel(obj.viewResultsHandle.hAScatterAll,'x: mean Red');
             
             maxBlueValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,PosColorBlue)));
             maxRedValue = max(cell2mat(obj.modelResultsHandle.StatsMatData(:,PosColorRed)));
@@ -1073,14 +1049,14 @@ classdef controllerResults < handle
                 c = obj.modelResultsHandle.Stats(k).Centroid;
                 text(axesResultsPicProc,c(1)/obj.modelResultsHandle.XScale, c(2)/obj.modelResultsHandle.YScale, sprintf('%d', k),'Color','g', ...
                     'HorizontalAlignment', 'center', 'FontWeight','bold',...
-                    'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                    'VerticalAlignment', 'middle',...
                     'Clipping','on','Tag','fiberLabelsProcessed');
             end
             axis(axesResultsPicProc, 'image');
             axis(axesResultsPicProc, 'on');
             hold(axesResultsPicProc, 'off');
-            lhx=xlabel(axesResultsPicProc, sprintf('x/\x3BCm'),'Fontsize',obj.fontSizeM);
-            ylabel(axesResultsPicProc, sprintf('y/\x3BCm'),'Fontsize',obj.fontSizeM);
+            lhx=xlabel(axesResultsPicProc, sprintf('x/\x3BCm'));
+            ylabel(axesResultsPicProc, sprintf('y/\x3BCm'));
             set(lhx, 'Units', 'Normalized', 'Position', [1 0]);
             maxPixelX = size(obj.modelResultsHandle.PicPRGBFRPlanes,2);
             Xvalue = obj.modelResultsHandle.XScale;
@@ -1091,7 +1067,6 @@ classdef controllerResults < handle
             axesResultsPicProc.YTick = 0:100:maxPixelY;
             axesResultsPicProc.YTickLabel = axesResultsPicProc.XTick*Yvalue;
             t=title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
-            set(t,'FontUnits','normalized','Fontsize',0.02);
             
         end
         
@@ -1145,7 +1120,7 @@ classdef controllerResults < handle
                         'HorizontalAlignment', 'center', 'EdgeColor','b', ...
                         'BackgroundColor','b','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
-                        'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                        'VerticalAlignment', 'middle',...
                         'Clipping','on','Tag','fiberLabelsProcessed');
                 end
             end
@@ -1164,7 +1139,7 @@ classdef controllerResults < handle
                         'HorizontalAlignment', 'center', 'EdgeColor','m', ...
                         'BackgroundColor','m','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
-                        'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                        'VerticalAlignment', 'middle',...
                         'Clipping','on','Tag','fiberLabelsProcessed');
                 end
             end
@@ -1185,7 +1160,7 @@ classdef controllerResults < handle
                             'HorizontalAlignment', 'center', 'EdgeColor','r', ...
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
-                            'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                            'VerticalAlignment', 'middle',...
                             'Clipping','on','Tag','fiberLabelsProcessed');
                     end
                 end
@@ -1206,7 +1181,7 @@ classdef controllerResults < handle
                             'HorizontalAlignment', 'center', 'EdgeColor','r', ...
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
-                            'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                            'VerticalAlignment', 'middle',...
                             'Clipping','on','Tag','fiberLabelsProcessed');
                     end
                 end
@@ -1225,7 +1200,7 @@ classdef controllerResults < handle
                             'HorizontalAlignment', 'center', 'EdgeColor','y', ...
                             'BackgroundColor','y','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
-                            'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                            'VerticalAlignment', 'middle',...
                             'Clipping','on','Tag','fiberLabelsProcessed');
                     end
                 end
@@ -1244,7 +1219,7 @@ classdef controllerResults < handle
                             'HorizontalAlignment', 'center', 'EdgeColor',[255/255 100/255 0], ...
                             'BackgroundColor',[255/255 100/255 0],'Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
-                            'VerticalAlignment', 'middle','FontSize',obj.fontSizeB,...
+                            'VerticalAlignment', 'middle',...
                             'Clipping','on','Tag','fiberLabelsProcessed');
                     end
                 end
@@ -1255,8 +1230,8 @@ classdef controllerResults < handle
             axis(axesResultsGroups, 'image');
             axis(axesResultsGroups, 'on');
             hold(axesResultsGroups, 'off');
-            lhx=xlabel(axesResultsGroups, sprintf('x/\x3BCm'),'Fontsize',obj.fontSizeM);
-            ylabel(axesResultsGroups, sprintf('y/\x3BCm'),'Fontsize',obj.fontSizeM);
+            lhx=xlabel(axesResultsGroups, sprintf('x/\x3BCm'));
+            ylabel(axesResultsGroups, sprintf('y/\x3BCm'));
             set(lhx, 'Units', 'Normalized', 'Position', [1 0]);
             maxPixelX = size(obj.modelResultsHandle.PicPRGBFRPlanes,2);
             Xvalue = obj.modelResultsHandle.XScale;
@@ -1267,7 +1242,6 @@ classdef controllerResults < handle
             axesResultsGroups.YTick = 0:100:maxPixelY;
             axesResultsGroups.YTickLabel = axesResultsGroups.XTick*Yvalue;
             t=title(axesResultsGroups,'Image with Fiber-Type-Groups highlighted and number of objects within each Group.');
-            set(t,'FontUnits','normalized','Fontsize',0.02)
             
         end
         
@@ -1305,13 +1279,11 @@ classdef controllerResults < handle
                 sigma=std([tempStats.Area]);
                 xline(obj.viewResultsHandle.hAAreaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
                 
-                set(obj.viewResultsHandle.hAAreaHist,'FontUnits','normalized','Fontsize',0.03);
-                title(obj.viewResultsHandle.hAAreaHist,'Area Histogram','FontUnits','normalized','Fontsize',0.06);
-                xlabel(obj.viewResultsHandle.hAAreaHist,['Area in \mum^2 ( Bin width: ' binWidth ' \mum^2 )'],'FontUnits','normalized','Fontsize',0.045);
-                ylabel(obj.viewResultsHandle.hAAreaHist,'Frequency','FontUnits','normalized','Fontsize',0.045);
+                title(obj.viewResultsHandle.hAAreaHist,'Area Histogram');
+                xlabel(obj.viewResultsHandle.hAAreaHist,['Area in \mum^2 ( Bin width: ' binWidth ' \mum^2 )']);
+                ylabel(obj.viewResultsHandle.hAAreaHist,'Frequency');
                 grid(obj.viewResultsHandle.hAAreaHist, 'on');
                 l1=legend(obj.viewResultsHandle.hAAreaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAreaHist');
-                l1.FontSize=obj.fontSizeM;
             
                 axtoolbar(obj.viewResultsHandle.hAAreaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
                 %%%%%%%%% Aspect Ratio Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1330,13 +1302,11 @@ classdef controllerResults < handle
                 sigma=std([tempStats.AspectRatio]);
                 xline(obj.viewResultsHandle.hAAspectHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
                 
-                set(obj.viewResultsHandle.hAAspectHist,'FontUnits','normalized','Fontsize',0.03);
-                title(obj.viewResultsHandle.hAAspectHist,'Aspect Ratio Histogram','FontUnits','normalized','Fontsize',0.06);
-                xlabel(obj.viewResultsHandle.hAAspectHist,['Aspect Ratio ( Bin width: ' binWidth ' )'],'FontUnits','normalized','Fontsize',0.045);
-                ylabel(obj.viewResultsHandle.hAAspectHist,'Frequency','FontUnits','normalized','Fontsize',0.045);
+                title(obj.viewResultsHandle.hAAspectHist,'Aspect Ratio Histogram');
+                xlabel(obj.viewResultsHandle.hAAspectHist,['Aspect Ratio ( Bin width: ' binWidth ' )']);
+                ylabel(obj.viewResultsHandle.hAAspectHist,'Frequency');
                 grid(obj.viewResultsHandle.hAAspectHist, 'on');
                 l2=legend(obj.viewResultsHandle.hAAspectHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAspectHist');
-                l2.FontSize=obj.fontSizeM;
                 axtoolbar(obj.viewResultsHandle.hAAspectHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
                 
                 %%%%%%%%% Diameters Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1355,13 +1325,11 @@ classdef controllerResults < handle
                 sigma=std([tempStats.minDiameter]);
                 xline(obj.viewResultsHandle.hADiaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
                 
-                set(obj.viewResultsHandle.hADiaHist,'FontUnits','normalized','Fontsize',0.03);
-                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Fertet-Diameter (Breadth) ','FontUnits','normalized','Fontsize',0.06);
-                xlabel(obj.viewResultsHandle.hADiaHist,['Diameters in \mum ( Bin width: ' binWidth ' \mum )'] ,'FontUnits','normalized','Fontsize',0.045);
-                ylabel(obj.viewResultsHandle.hADiaHist,'Frequency','FontUnits','normalized','Fontsize',0.045);
+                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Fertet-Diameter (Breadth) ');
+                xlabel(obj.viewResultsHandle.hADiaHist,['Diameters in \mum ( Bin width: ' binWidth ' \mum )'] );
+                ylabel(obj.viewResultsHandle.hADiaHist,'Frequency');
                 grid(obj.viewResultsHandle.hADiaHist, 'on');
                 l3=legend(obj.viewResultsHandle.hADiaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendDiaHist');
-                l3.FontSize=obj.fontSizeM;
                 axtoolbar(obj.viewResultsHandle.hADiaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
                 
                 %%%%%%%%% Roundness Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1380,13 +1348,11 @@ classdef controllerResults < handle
                 sigma=std([tempStats.Roundness]);
                 xline(obj.viewResultsHandle.hARoundHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
                 
-                set(obj.viewResultsHandle.hARoundHist,'FontUnits','normalized','Fontsize',0.03);
-                title(obj.viewResultsHandle.hARoundHist,'Roundness Histogram','FontUnits','normalized','Fontsize',0.06);
-                xlabel(obj.viewResultsHandle.hARoundHist,['Roundness ( Bin width: ' binWidth ' )'],'FontUnits','normalized','Fontsize',0.045);
-                ylabel(obj.viewResultsHandle.hARoundHist,'Frequency','FontUnits','normalized','Fontsize',0.045);
+                title(obj.viewResultsHandle.hARoundHist,'Roundness Histogram');
+                xlabel(obj.viewResultsHandle.hARoundHist,['Roundness ( Bin width: ' binWidth ' )']);
+                ylabel(obj.viewResultsHandle.hARoundHist,'Frequency');
                 grid(obj.viewResultsHandle.hARoundHist, 'on');
                 l4=legend(obj.viewResultsHandle.hARoundHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendRoundHist');
-                l4.FontSize=obj.fontSizeM;
                 axtoolbar(obj.viewResultsHandle.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
             else
                 obj.modelResultsHandle.InfoMessage = '      - ERROR: No Data for Histogram';
