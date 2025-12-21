@@ -299,7 +299,7 @@ classdef viewResults < handle
             
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
-            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,'Padding',50,'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
+            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,'Padding',30,'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
             
             obj.hAPProcessed = axes('Parent',mainPicProcPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
@@ -308,7 +308,7 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             
-            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,'Padding',50,'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
+            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,'Padding',30,'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
             
             obj.hAPGroups = axes('Parent',mainPicGroupPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
