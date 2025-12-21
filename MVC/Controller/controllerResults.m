@@ -184,7 +184,7 @@ classdef controllerResults < handle
             %           InfoText:   Info text log.
             %
             %change the card panel to selection 3: results mode
-            obj.panelAxes.Visible = 0;
+            %obj.panelAxes.Visible = 0;
             obj.busyIndicator(1);
             obj.mainCardPanel.Selection = 3;
             
@@ -1066,7 +1066,8 @@ classdef controllerResults < handle
             Yvalue = obj.modelResultsHandle.YScale;
             axesResultsPicProc.YTick = 0:100:maxPixelY;
             axesResultsPicProc.YTickLabel = axesResultsPicProc.XTick*Yvalue;
-            t=title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
+            title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
+            set(axesResultsPicProc,'Box','off');
             
         end
         
@@ -1241,7 +1242,9 @@ classdef controllerResults < handle
             Yvalue = obj.modelResultsHandle.YScale;
             axesResultsGroups.YTick = 0:100:maxPixelY;
             axesResultsGroups.YTickLabel = axesResultsGroups.XTick*Yvalue;
-            t=title(axesResultsGroups,'Image with Fiber-Type-Groups highlighted and number of objects within each Group.');
+            title(axesResultsGroups,'Image with Fiber-Type-Groups highlighted and number of objects within each Group.');
+            set(axesResultsGroups,'Box','off');
+
             
         end
         

@@ -304,6 +304,7 @@ classdef viewResults < handle
             obj.hAPProcessed = axes('Parent',mainPicProcPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
             axis image
+            set(obj.hAPProcessed,'Box','off');
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             
@@ -312,6 +313,7 @@ classdef viewResults < handle
             obj.hAPGroups = axes('Parent',mainPicGroupPanel,'Units','normalized','Position',[0 0 1 1]);
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
             axis image
+            set(obj.hAPGroups,'Box','off');
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             

@@ -1070,6 +1070,7 @@ classdef controllerAnalyze < handle
             Yvalue = str2double(obj.viewAnalyzeHandle.B_YScale.String);
             obj.viewAnalyzeHandle.hAP.YTick = 0:100:maxPixelY;
             obj.viewAnalyzeHandle.hAP.YTickLabel = obj.viewAnalyzeHandle.hAP.XTick*Yvalue;
+            set(obj.viewAnalyzeHandle.hAP,'Box','off');
             
             % set panel title to filename and path
             Titel = [obj.modelAnalyzeHandle.PathName obj.modelAnalyzeHandle.FileName];

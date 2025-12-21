@@ -268,7 +268,7 @@ classdef controllerEdit < handle
             obj.viewEditHandle.hAP.XTick = 0:100:maxPixelX;
             maxPixelY = size(PicBW,1);
             obj.viewEditHandle.hAP.YTick = 0:100:maxPixelY;
-            
+            set(obj.viewEditHandle.hAP,'Box','off');
             Titel = [obj.modelEditHandle.PathName obj.modelEditHandle.FileName];
             obj.viewEditHandle.panelAxes.Title = Titel;
             

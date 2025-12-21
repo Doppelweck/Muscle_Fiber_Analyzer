@@ -131,6 +131,8 @@ classdef viewEdit < handle
             axis image
 
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
+            set(obj.hAP,'Box','off');
+
             
             PanelVBox = uix.VBox('Parent',obj.panelControl,params.default_box_spacing_padding{:});
             
