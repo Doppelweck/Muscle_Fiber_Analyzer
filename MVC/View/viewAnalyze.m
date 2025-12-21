@@ -139,12 +139,12 @@ classdef viewAnalyze < handle
             VBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:});
             
             HBBoxControl1 = uix.HButtonBox('Parent',  VBBoxControl,params.default_HButtonBox_Main{:}  );
-            obj.B_BackEdit =     uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x25C4 Segmentation'),'Tag','pushbuttonBackEdit');
-            obj.B_StartResults = uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Results \x25BA'),'Tag','pushbuttonStartResults');
+            obj.B_BackEdit =     uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x276E\x276E Segmentation'),'Tag','pushbuttonBackEdit');
+            obj.B_StartResults = uicontrol( 'Parent', HBBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Results \x276F\x276F'),'Tag','pushbuttonStartResults');
             
             HBBoxControl2 = uix.HButtonBox('Parent',  VBBoxControl,params.default_HButtonBox_Main{:} );
-            obj.B_StartAnalyze = uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x21DB Start analyzing'),'Tag','pushbuttonAnalyze' );
-            obj.B_PreResults =   uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Preview results \x2750') ,'Tag','pushbuttonPreResults');
+            obj.B_StartAnalyze = uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x25BA Start Analyzing'),'Tag','pushbuttonAnalyze' );
+            obj.B_PreResults =   uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Preview Results \x2750') ,'Tag','pushbuttonPreResults');
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%% Panel Para %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

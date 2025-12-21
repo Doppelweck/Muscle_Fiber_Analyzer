@@ -149,16 +149,16 @@ classdef viewEdit < handle
             mainVBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:} );
             
             HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl, params.default_HButtonBox_Main{:});
-            obj.B_NewPic =           uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:}, 'String', sprintf('\x2633 New file') );
-            obj.B_StartAnalyzeMode = uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('Analyze \x25BA') ,'Enable','off');
+            obj.B_NewPic =           uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:}, 'String', sprintf('\x25A8 New file') );
+            obj.B_StartAnalyzeMode = uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('Analyze \x276F\x276F') ,'Enable','off');
             
             HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x2593 Check Mask') ,'Enable','off');
+            obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x25D0 Check Mask') ,'Enable','off');
             obj.B_CheckPlanes = uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:}, 'String', sprintf('Check Planes \x2750') ,'Enable','off');
             
             HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:} );
-            obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x21BA Undo') );
-            obj.B_Redo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('Redo \x21BB') );
+            obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x23EE Undo') );
+            obj.B_Redo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('Redo \x23ED') );
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Image Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -245,7 +245,7 @@ classdef viewEdit < handle
             HBoxBinari5 = uix.HBox('Parent', mainVBoxBinari, params.default_box_spacing_padding{:});
             
             HButtonBoxBinari5_1 = uix.HButtonBox('Parent', HBoxBinari5, params.default_HButtonBox{:});
-            LineWidthText = uilabel( 'Parent', HButtonBoxBinari5_1, 'HorizontalAlignment','left','Text', 'Pen width:');
+            LineWidthText = uilabel( 'Parent', HButtonBoxBinari5_1, 'HorizontalAlignment','left','Text', 'Pen Width:');
 
 
             HButtonBoxBinari5_2 = uix.HButtonBox('Parent', HBoxBinari5, params.default_HButtonBox{:});
@@ -262,7 +262,7 @@ classdef viewEdit < handle
             HBoxBinari6 = uix.HBox('Parent', mainVBoxBinari, params.default_box_spacing_padding{:});
             
             HButtonBoxBinari6_1 = uix.HButtonBox('Parent', HBoxBinari6, params.default_HButtonBox{:});
-            ColorText = uilabel( 'Parent', HButtonBoxBinari6_1,'HorizontalAlignment','left', 'Text', 'Pen color:' );
+            ColorText = uilabel( 'Parent', HButtonBoxBinari6_1,'HorizontalAlignment','left', 'Text', 'Pen Color:' );
             
             HButtonBoxBinari6_2 = uix.HButtonBox('Parent', HBoxBinari6, params.default_HButtonBox{:});
             obj.B_Color = uidropdown( 'Parent', HButtonBoxBinari6_2, 'Tag','popupmenuBinaryColor', 'Items', {'White' , 'Black', 'White fill region', 'Black fill region'} ,'Enable','off');
@@ -286,12 +286,12 @@ classdef viewEdit < handle
             String = {'choose operation' ,'remove incomplete objects','close small gaps' ,'smoothing','erode', 'dilate', 'skel' ,'thin','shrink','majority','remove','open','close'};
             obj.B_MorphOP = uidropdown( 'Parent', HButtonBoxMorph1, 'Tag','popupmenuMorphOP', 'Items', String ,'Enable','off');
               
-            tempH = uilabel( 'Parent', HButtonBoxMorph2,  'HorizontalAlignment','left', 'Text', 'Structuring element:');
+            tempH = uilabel( 'Parent', HButtonBoxMorph2,  'HorizontalAlignment','left', 'Text', 'Structuring Element:');
 
             String = {'choose SE' , 'diamond', 'disk', 'octagon' ,'square'};
             obj.B_ShapeSE = uidropdown( 'Parent', HButtonBoxMorph2, 'Tag','popupmenuShapeSE', 'Items', String,'Enable','off' );
             
-            tempH = uilabel( 'Parent', HButtonBoxMorph3, 'HorizontalAlignment','left', 'Text', 'Size of structuring element:');
+            tempH = uilabel( 'Parent', HButtonBoxMorph3, 'HorizontalAlignment','left', 'Text', 'Size of Structuring Element:');
 
             obj.B_SizeSE = uicontrol( 'Parent', HButtonBoxMorph3,'Style','edit', 'String','1','Enable','off','Tag','editSizeSE' );
             

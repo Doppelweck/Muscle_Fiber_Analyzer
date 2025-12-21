@@ -101,12 +101,12 @@ classdef viewResults < handle
             mainVBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:} );
             
             HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_BackAnalyze =   uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x25C4 Classification'));
-            obj.B_CloseProgramm = uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Close program \x2612') );
+            obj.B_BackAnalyze =   uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x276E\x276E Classification'));
+            obj.B_CloseProgramm = uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Close Program \x23FB') );
             
             HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_NewPic = uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x2633 New file') );
-            obj.B_Save =   uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Save data \x2611') );
+            obj.B_NewPic = uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x25A8 New File') );
+            obj.B_Save =   uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Save Data \x26DB') );
             
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
             mainVBBoxSave = uix.VBox('Parent', PanelSave,params.default_box_spacing_padding{:});
@@ -199,7 +199,7 @@ classdef viewResults < handle
             HBoxSave8 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
             
             HButtonBoxSave81 = uix.HButtonBox('Parent', HBoxSave8,'ButtonSize',[600 30],'Padding', 2 );
-            obj.B_SaveOpenDir = uicontrol( 'Parent', HButtonBoxSave81,'FontUnits','normalized','Fontsize',0.5, 'String', 'Open results folder' );
+            obj.B_SaveOpenDir = uicontrol( 'Parent', HButtonBoxSave81,'FontUnits','normalized','Fontsize',0.5, 'String', 'Open Results Folder' );
             
             %%%%%%%%
             set( mainVBBoxSave, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1.5] );
