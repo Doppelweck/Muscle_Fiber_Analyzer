@@ -118,7 +118,7 @@ classdef viewAnalyze < handle
             set( obj.panelAnalyze, 'MinimumWidths', [1 320] );
             set( obj.panelAnalyze, 'Widths', [-80 -20] );
             
-            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes), 'FontUnits','normalized','Fontsize',0.012);
+            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
             axtoolbar(obj.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
             axis image
             set(obj.hAP, 'LooseInset', [0,0,0,0]);

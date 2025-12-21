@@ -127,7 +127,7 @@ classdef viewEdit < handle
             obj.panelControl = uix.Panel('Parent',  obj.panelEdit,params.default_panel{:},'Title', 'SEGMENTATION','TitlePosition','centertop');
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
             set(  obj.panelEdit, 'Widths', [-80 -20] );
-            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes),'FontUnits','normalized','Fontsize',0.012);
+            obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
             axis image
 
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
