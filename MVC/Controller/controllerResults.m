@@ -1328,7 +1328,7 @@ classdef controllerResults < handle
                 sigma=std([tempStats.minDiameter]);
                 xline(obj.viewResultsHandle.hADiaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
                 
-                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Fertet-Diameter (Breadth) ');
+                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Feret-Diameter (Breadth) ');
                 xlabel(obj.viewResultsHandle.hADiaHist,['Diameters in \mum ( Bin width: ' binWidth ' \mum )'] );
                 ylabel(obj.viewResultsHandle.hADiaHist,'Frequency');
                 grid(obj.viewResultsHandle.hADiaHist, 'on');
