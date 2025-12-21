@@ -258,7 +258,7 @@ classdef controllerEdit < handle
             axis(obj.viewEditHandle.hAP, 'on');
             axis(obj.viewEditHandle.hAP, 'image');
             hold(obj.viewEditHandle.hAP, 'off');
-            title(obj.viewEditHandle.hAP,'Create Binary Mask');
+            title(obj.viewEditHandle.hAP,'Binary Mask for Object Segmentation');
             
             lhx=xlabel(obj.viewEditHandle.hAP, 'x/pixel','Fontsize',12);
             ylabel(obj.viewEditHandle.hAP, 'y/pixel','Fontsize',12);
