@@ -1173,11 +1173,18 @@ classdef modelResults < handle
             %           obj:    Handle to modelResults object.
             %
             
+            if ~sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups])
+                obj.InfoMessage = ' ';
+                obj.InfoMessage = '*** Saving Data ***';
+                obj.InfoMessage = '   - No Data to Save is selected';
+                return
+            end
+
             obj.InfoMessage = ' ';
             obj.InfoMessage = '*** Saving Data ***';
             obj.InfoMessage = '   - saving data in the same directory than the file was selected';
             
-            noOfSaveElements = sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups]);
+           
             
             %Current date and time
             date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm');
@@ -1209,34 +1216,39 @@ classdef modelResults < handle
             SaveDir = fullfile(SaveDir,strcat(fileName ,'_RESULTS' ,time));
             mkdir(SaveDir);
 
+            noOfSaveElements = 7;
+
             workbar(0/noOfSaveElements,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveFiberTable(SaveDir,time,0/noOfSaveElements);
-            pause(0.1);
+            obj.saveFiberTable(SaveDir,time);
+
             workbar(1/noOfSaveElements,'saving plots','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveOverviewPlot(SaveDir,time);
-            pause(0.1);
+
             workbar(2/noOfSaveElements,'saving Histograms','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveHistograms(SaveDir,time);
-            pause(0.1);
+
             workbar(3/noOfSaveElements,'saving processed image','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveProcessedImage(SaveDir,time);
-            pause(0.1);
+
             workbar(4/noOfSaveElements,'saving fiber group image','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveFiberGroupImage(SaveDir,time);
-            pause(0.1);
+
             workbar(5/noOfSaveElements,'saving scatter plot','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveScatterPlot(SaveDir,time);
-            pause(0.1);
+
             workbar(6/noOfSaveElements,'saving biary mask','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveBinaryMask(SaveDir,time);
-            pause(0.1);
-            obj.InfoMessage = '   - Saving data complete';
+
             workbar(1.2,'completed','Saving Results',obj.controllerResultsHandle.mainFigure);
-            pause(0.1);
+            obj.InfoMessage = '   - Saving data complete';
+            pause(0.3);
+            drawnow;
+
         end
         
         function saveOverviewPlot(obj,SaveDir,time)
             if ~obj.SavePlots
+                pause(0.1);
                 return;
             end
             
@@ -1288,6 +1300,7 @@ classdef modelResults < handle
         
         function saveHistograms(obj,SaveDir,time)
             if ~obj.SaveHisto
+                pause(0.1);
                 return;
             end
         
@@ -1339,6 +1352,7 @@ classdef modelResults < handle
         
         function saveProcessedImage(obj,SaveDir,time)
             if ~obj.SavePicProcessed
+                pause(0.1);
                 return;
             end
 
@@ -1382,6 +1396,7 @@ classdef modelResults < handle
         
         function saveFiberGroupImage(obj,SaveDir,time)
             if ~obj.SavePicGroups
+                pause(0.1);
                 return;
             end
             
@@ -1426,31 +1441,33 @@ classdef modelResults < handle
         end
         
         function saveScatterPlot(obj,SaveDir,time)
-            % Delete file extension
-            [~,fileName,~] = fileparts(obj.FileName);
-            
-            if obj.SaveScatterAll
-                obj.InfoMessage = '      - saving Scatter all Fibers...';
-                obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
-                picName = strcat(fileName ,'_ScatterPlotAll', time ,'.pdf');
-                fullFileName = fullfile(SaveDir,picName);
-                
-                fTemp = figure('Visible','off');
-                lTemp = findobj('Tag','LegendScatterPlotAll');
-                copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
-                set(lTemp,'Location','best')
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                delete(fTemp)
-                
-                obj.InfoMessage = '   - saving Scatter complete';
-                
+            if ~obj.SaveScatterAll
+                pause(0.1);
+                return
             end
+
+            [~,fileName,~] = fileparts(obj.FileName);
+
+            obj.InfoMessage = '      - saving Scatter all Fibers...';
+            obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
+            picName = strcat(fileName ,'_ScatterPlotAll', time ,'.pdf');
+            fullFileName = fullfile(SaveDir,picName);
+            
+            fTemp = figure('Visible','off');
+            lTemp = findobj('Tag','LegendScatterPlotAll');
+            copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
+            set(lTemp,'Location','best')
+            saveTightFigureOrAxes(fTemp,fullFileName);
+            delete(fTemp)
+            
+            obj.InfoMessage = '   - saving Scatter complete';
+                  
         end
         
-        function saveFiberTable(obj,SaveDir,time,currentProgress)
-            % Delete file extension
+        function saveFiberTable(obj,SaveDir,time)
             [~,fileName,~] = fileparts(obj.FileName);
              if ~obj.SaveFiberTable
+                 pause(0.1);
                  return;
              end
 
@@ -1476,12 +1493,10 @@ classdef modelResults < handle
             end
             options.Resize='off';
             options.WindowStyle='modal';
-            workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'off');
             answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options)';
             if isempty(answer)
                 answer = cell(1,size(prompt,2));
             end
-            workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
             InfoAnimal = cell(size(obj.StatsMatData,1),size(prompt,2));
             InfoAnimalT1 = cell(size(obj.StatsMatDataT1,1),size(prompt,2));
             InfoAnimalT12h = cell(size(obj.StatsMatDataT12h,1),size(prompt,2));
@@ -1529,42 +1544,33 @@ classdef modelResults < handle
             end
 
             obj.InfoMessage = '      - creating .xlsx file';
-            workbar(currentProgress+0.02,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
             
             xlsfileName = strcat(fileName, '_TablesProcessed', time, '.xlsx');
             
             fullFileName = fullfile(SaveDir,xlsfileName);
             
             try
-                workbar(currentProgress+0.04,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write all fiber types ';
                 writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2')
     
-                workbar(currentProgress+0.06,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write statistic table ';
                 writecell(obj.StatisticMat, fullFileName, 'Sheet','Statistics','Range','B2');
                 
-                workbar(currentProgress+0.07,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 1 fibers ';
                 writecell(CellFiberTableT1,   fullFileName, 'Sheet','Type 1','Range','B2');
                 
-                workbar(currentProgress+0.08,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 12h fibers ';
                 writecell(CellFiberTableT12h, fullFileName, 'Sheet','Type 12h','Range','B2');
                 
-                workbar(currentProgress+0.09,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 2 fibers ';
                 writecell(CellFiberTableT2,   fullFileName, 'Sheet','Type 2','Range','B2');
                 
-                workbar(currentProgress+0.10,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 2x fibers ';
                 writecell(CellFiberTableT2x,  fullFileName, 'Sheet','Type 2x','Range','B2');
                 
-                workbar(currentProgress+0.11,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 2a fibers ';
                 writecell(CellFiberTableT2a,  fullFileName, 'Sheet','Type 2a','Range','B2');
                 
-                workbar(currentProgress+0.12,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 2ax fibers ';
                 writecell(CellFiberTableT2ax, fullFileName, 'Sheet','Type 2ax','Range','B2');
 
@@ -1576,6 +1582,7 @@ classdef modelResults < handle
         
         function saveBinaryMask(obj,SaveDir,time)
             if ~obj.SaveBinaryMask
+                pause(0.1);
                 return;
             end
             

@@ -4,7 +4,7 @@ if status
     %create indicator object and disable GUI elements
     set(obj.mainFigure,'pointer','watch');
 
-   modelHandel.busyObj = getUIControlEnabledHandles(viewHandle);
+    modelHandel.busyObj = getUIControlEnabledHandles(viewHandle);
 
     set( modelHandel.busyObj, 'Enable', 'off');
     %appDesignElementChanger(obj.panelControl);

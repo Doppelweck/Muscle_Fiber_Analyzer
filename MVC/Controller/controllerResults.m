@@ -371,9 +371,10 @@ classdef controllerResults < handle
                     obj.modelResultsHandle.InfoMessage = '- no data is selected for saving';
                     obj.modelResultsHandle.InfoMessage = '   - no data has been saved';
                 end
-                obj.busyIndicator(0);
+                
                 [y,Fs] = audioread('filling-your-inbox.mp3');
                 sound(y*0.4,Fs);
+                obj.busyIndicator(0);
             catch
                 obj.errorMessage();
             end
