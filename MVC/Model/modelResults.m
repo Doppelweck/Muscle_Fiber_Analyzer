@@ -1453,7 +1453,7 @@ classdef modelResults < handle
             picName = strcat(fileName ,'_ScatterPlotAll', time ,'.pdf');
             fullFileName = fullfile(SaveDir,picName);
             
-            fTemp = figure('Visible','off');
+            fTemp = figure('Visible','off', 'Theme', 'light');
             lTemp = findobj('Tag','LegendScatterPlotAll');
             copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
             set(lTemp,'Location','best')
