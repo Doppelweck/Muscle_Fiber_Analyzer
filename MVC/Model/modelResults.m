@@ -1427,7 +1427,7 @@ classdef modelResults < handle
         
         function saveScatterPlot(obj,SaveDir,time)
             % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
+            [~,fileName,~] = fileparts(obj.FileName);
             
             if obj.SaveScatterAll
                 obj.InfoMessage = '      - saving Scatter all Fibers...';
@@ -1449,195 +1449,129 @@ classdef modelResults < handle
         
         function saveFiberTable(obj,SaveDir,time,currentProgress)
             % Delete file extension
-            [path,fileName,ext] = fileparts(obj.FileName);
-             if obj.SaveFiberTable
-                obj.InfoMessage = '      - creating Fiber-Type struct';
-                                
-                %Get infos from the file name
-                [pathstr,name,ext] = fileparts(obj.FileName);
-                %split string into parts
+            [~,fileName,~] = fileparts(obj.FileName);
+             if ~obj.SaveFiberTable
+                 return;
+             end
 
-                strComp = strsplit(name,{' ','-','_'});
-                
-                %dialog input box parameter
-                prompt = {'Date','Animal code','Muscle code','Image number','Microscope magnification','treated/control'};
-                dlg_title = 'Completion of the Excel table';
-                num_lines = [1,50];
-                defaultans = {};
-                for i=1:1:size(prompt,2)
-                    if i <= size(strComp,2)
-                        defaultans{1,i}=strComp{1,i};
-                    else
-                        defaultans{1,i}='';
-                    end
-                end
-                options.Resize='off';
-                options.WindowStyle='modal';
-                workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'off');
-                answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options)';
-                if isempty(answer)
-                    answer = cell(1,size(prompt,2));
-                end
-                workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                InfoAnimal = cell(size(obj.StatsMatData,1),size(prompt,2));
-                InfoAnimalT1 = cell(size(obj.StatsMatDataT1,1),size(prompt,2));
-                InfoAnimalT12h = cell(size(obj.StatsMatDataT12h,1),size(prompt,2));
-                InfoAnimalT2 = cell(size(obj.StatsMatDataT2,1),size(prompt,2));
-                InfoAnimalT2x = cell(size(obj.StatsMatDataT2x,1),size(prompt,2));
-                InfoAnimalT2a = cell(size(obj.StatsMatDataT2a,1),size(prompt,2));
-                InfoAnimalT2ax = cell(size(obj.StatsMatDataT2ax,1),size(prompt,2));
+            obj.InfoMessage = '      - creating Fiber-Type struct';
+                            
+            %Get infos from the file name
+            [~,name,~] = fileparts(obj.FileName);
+            %split string into parts
 
-                
-                for i=1:1:size(prompt,2)
-                    [InfoAnimal{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT1{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT12h{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT2{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT2x{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT2a{:,i}] = deal(answer{1,i});
-                    [InfoAnimalT2ax{:,i}] = deal(answer{1,i});
-                end
-                
-                Header = {'Label' sprintf('XPos (\x3BCm)') sprintf('YPos (\x3BCm)')... 
-                    sprintf('Area (\x3BCm^2)') sprintf('min Cross Section Area (\x3BCm^2)'),sprintf('max Cross Section Area (\x3BCm^2)')...
-                    sprintf('Perimeter (\x3BCm)') sprintf('minDiameter (\x3BCm)') ...
-                    sprintf('maxDiameter (\x3BCm)')  'Roundness' ...
-                    'AspectRatio' 'ColorValue' 'meanRed' 'meanGreen' ...
-                    'meanBlue' 'meanFarred' 'Blue/Red' 'Farred/Red'...
-                    'FiberMainGroup' 'FiberType'};
-                
-                %add animal informations to header
-                Header = cat(2,prompt,Header);
-                
-                CellFiberTable = cat(1,Header,cat(2,InfoAnimal,obj.StatsMatData));
-                CellFiberTableT1 = cat(1,Header,cat(2,InfoAnimalT1,obj.StatsMatDataT1));
-                CellFiberTableT12h = cat(1,Header,cat(2,InfoAnimalT12h,obj.StatsMatDataT12h));
-                CellFiberTableT2 = cat(1,Header,cat(2,InfoAnimalT2,obj.StatsMatDataT2));
-                CellFiberTableT2x = cat(1,Header,cat(2,InfoAnimalT2x,obj.StatsMatDataT2x));
-                CellFiberTableT2a = cat(1,Header,cat(2,InfoAnimalT2a,obj.StatsMatDataT2a));
-                CellFiberTableT2ax = cat(1,Header,cat(2,InfoAnimalT2ax,obj.StatsMatDataT2ax));
-                
+            strComp = strsplit(name,{' ','-','_'});
             
+            %dialog input box parameter
+            prompt = {'Date','Animal code','Muscle code','Image number','Microscope magnification','treated/control'};
+            dlg_title = 'Completion of the Excel table';
+            num_lines = [1,50];
+            defaultans = {};
+            for i=1:1:size(prompt,2)
+                if i <= size(strComp,2)
+                    defaultans{1,i}=strComp{1,i};
+                else
+                    defaultans{1,i}='';
+                end
+            end
+            options.Resize='off';
+            options.WindowStyle='modal';
+            workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'off');
+            answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options)';
+            if isempty(answer)
+                answer = cell(1,size(prompt,2));
+            end
+            workbar(currentProgress,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
+            InfoAnimal = cell(size(obj.StatsMatData,1),size(prompt,2));
+            InfoAnimalT1 = cell(size(obj.StatsMatDataT1,1),size(prompt,2));
+            InfoAnimalT12h = cell(size(obj.StatsMatDataT12h,1),size(prompt,2));
+            InfoAnimalT2 = cell(size(obj.StatsMatDataT2,1),size(prompt,2));
+            InfoAnimalT2x = cell(size(obj.StatsMatDataT2x,1),size(prompt,2));
+            InfoAnimalT2a = cell(size(obj.StatsMatDataT2a,1),size(prompt,2));
+            InfoAnimalT2ax = cell(size(obj.StatsMatDataT2ax,1),size(prompt,2));
 
+            
+            for i=1:1:size(prompt,2)
+                [InfoAnimal{:,i}] = deal(answer{1,i});
+                [InfoAnimalT1{:,i}] = deal(answer{1,i});
+                [InfoAnimalT12h{:,i}] = deal(answer{1,i});
+                [InfoAnimalT2{:,i}] = deal(answer{1,i});
+                [InfoAnimalT2x{:,i}] = deal(answer{1,i});
+                [InfoAnimalT2a{:,i}] = deal(answer{1,i});
+                [InfoAnimalT2ax{:,i}] = deal(answer{1,i});
+            end
+            
+            Header = {'Label' sprintf('XPos (\x3BCm)') sprintf('YPos (\x3BCm)')... 
+                sprintf('Area (\x3BCm^2)') sprintf('min Cross Section Area (\x3BCm^2)'),sprintf('max Cross Section Area (\x3BCm^2)')...
+                sprintf('Perimeter (\x3BCm)') sprintf('minDiameter (\x3BCm)') ...
+                sprintf('maxDiameter (\x3BCm)')  'Roundness' ...
+                'AspectRatio' 'ColorValue' 'meanRed' 'meanGreen' ...
+                'meanBlue' 'meanFarred' 'Blue/Red' 'Farred/Red'...
+                'FiberMainGroup' 'FiberType'};
+            
+            %add animal informations to header
+            Header = cat(2,prompt,Header);
+            
+            CellFiberTable = cat(1,Header,cat(2,InfoAnimal,obj.StatsMatData));
+            CellFiberTableT1 = cat(1,Header,cat(2,InfoAnimalT1,obj.StatsMatDataT1));
+            CellFiberTableT12h = cat(1,Header,cat(2,InfoAnimalT12h,obj.StatsMatDataT12h));
+            CellFiberTableT2 = cat(1,Header,cat(2,InfoAnimalT2,obj.StatsMatDataT2));
+            CellFiberTableT2x = cat(1,Header,cat(2,InfoAnimalT2x,obj.StatsMatDataT2x));
+            CellFiberTableT2a = cat(1,Header,cat(2,InfoAnimalT2a,obj.StatsMatDataT2a));
+            CellFiberTableT2ax = cat(1,Header,cat(2,InfoAnimalT2ax,obj.StatsMatDataT2ax));
+            
+            
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Save DataFile as xls file
             
-            if ~isempty(CellFiberTable)
-                obj.InfoMessage = '      - creating .xlsx file';
-                workbar(currentProgress+0.02,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                if ismac
-                    % OS is macintosh. xlswrite is not supported. Use
-                    % undocumented function from the file exchange Matlab
-                    % Forum for creating .xlsx files on a macintosh OS.
-                    
-                    obj.InfoMessage = '         - UNIX-Systems (macOS) dont support xlswrite() MatLab function';
-                    obj.InfoMessage = '         - trying to create excel sheet with undocumented function...';
-                    
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-ooxml-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-ooxml-schemas-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/xmlbeans-2.3.0.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/dom4j-1.6.1.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/stax-api-1.0.1.jar'];
-                    javaaddpath(path);
-                    
-                elseif ispc
-                    
-                    obj.InfoMessage = '         - trying to create excel sheet with undocumented function...';
-                    
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-ooxml-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/poi-ooxml-schemas-3.8-20120326.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/xmlbeans-2.3.0.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/dom4j-1.6.1.jar'];
-                    javaaddpath(path);
-                    path = [pwd '/Functions/xlwrite_for_macOSX/poi_library/stax-api-1.0.1.jar'];
-                    javaaddpath(path);
-                end
-                
-                xlsfileName = strcat(fileName, '_TablesProcessed', time, '.xlsx');
-                
-                fullFileName = fullfile(SaveDir,xlsfileName);
-                %                     oldPath = pwd;
-                %                     cd(SaveDir);
-                obj.InfoMessage = '            - write all fiber types ';
+            if isempty(CellFiberTable)
+                return;
+            end
+
+            obj.InfoMessage = '      - creating .xlsx file';
+            workbar(currentProgress+0.02,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
+            
+            xlsfileName = strcat(fileName, '_TablesProcessed', time, '.xlsx');
+            
+            fullFileName = fullfile(SaveDir,xlsfileName);
+            
+            try
                 workbar(currentProgress+0.04,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Fyber Types';
-                startRange = 'B2';
-                % undocumented function from the file exchange Matlab Forum
-                % for creating .xlsx files on a macintosh OS
-                status = xlwrite(fullFileName, CellFiberTable , sheetName, startRange);
-                
+                obj.InfoMessage = '            - write all fiber types ';
+                writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2')
+    
                 workbar(currentProgress+0.06,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Statistics';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write statistic table ';
-                status = xlwrite(fullFileName, obj.StatisticMat , sheetName, startRange);
+                writecell(obj.StatisticMat, fullFileName, 'Sheet','Statistics','Range','B2');
                 
                 workbar(currentProgress+0.07,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Type 1';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write Type 1 fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT1 , sheetName, startRange);
+                writecell(CellFiberTableT1,   fullFileName, 'Sheet','Type 1','Range','B2');
                 
-                sheetName = 'Type 12h';
-                startRange = 'B2';
+                workbar(currentProgress+0.08,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
                 obj.InfoMessage = '            - write Type 12h fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT12h , sheetName, startRange);
+                writecell(CellFiberTableT12h, fullFileName, 'Sheet','Type 12h','Range','B2');
                 
                 workbar(currentProgress+0.09,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Type 2';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write Type 2 fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT2 , sheetName, startRange);
+                writecell(CellFiberTableT2,   fullFileName, 'Sheet','Type 2','Range','B2');
                 
                 workbar(currentProgress+0.10,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Type 2x';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write Type 2x fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT2x , sheetName, startRange);
+                writecell(CellFiberTableT2x,  fullFileName, 'Sheet','Type 2x','Range','B2');
                 
                 workbar(currentProgress+0.11,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Type 2a';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write Type 2a fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT2a , sheetName, startRange);
+                writecell(CellFiberTableT2a,  fullFileName, 'Sheet','Type 2a','Range','B2');
                 
                 workbar(currentProgress+0.12,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure,'on');
-                sheetName = 'Type 2ax';
-                startRange = 'B2';
                 obj.InfoMessage = '            - write Type 2ax fibers ';
-                status = xlwrite(fullFileName, CellFiberTableT2ax , sheetName, startRange);
-                
-                %                     cd(oldPath);
-                
-                if status
-                    obj.InfoMessage = '         - .xlxs file has been created';
-                else
-                    obj.InfoMessage = '         - .xlxs file could not be created';
-                    obj.InfoMessage = '         - creating .txt file instead...';
-                    txtfileName = [fileName '_TablesProcessed' time '.txt'];
-                    oldPath = pwd;
-                    cd(SaveDir)
-                    fid=fopen(txtfileName,'a+');
-                    % undocumented function from the file exchange Matlab Forum
-                    % for creating .txt files.
-                    cell2file(fid,DataFile,'EndOfLine','\r\n');
-                    fclose(fid);
-                    cd(oldPath)
-                    obj.InfoMessage = '         - .txt file has been created';
-                end
+                writecell(CellFiberTableT2ax, fullFileName, 'Sheet','Type 2ax','Range','B2');
+
+                obj.InfoMessage = '         - .xlxs file has been created';
+            catch
+                obj.InfoMessage = '         - ERROR .xlxs file could not be created';
             end
-             end
         end
         
         function saveBinaryMask(obj,SaveDir,time)
