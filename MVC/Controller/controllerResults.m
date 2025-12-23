@@ -336,6 +336,7 @@ classdef controllerResults < handle
             %           obj:    Handle to controllerResults object.
             %
             try
+                % Store save options from GUI checkboxes
                 obj.modelResultsHandle.SaveFiberTable = obj.viewResultsHandle.B_SaveFiberTable.Value;
                 obj.modelResultsHandle.SaveScatterAll = obj.viewResultsHandle.B_SaveScatterAll.Value;
                 obj.modelResultsHandle.SavePlots = obj.viewResultsHandle.B_SavePlots.Value;
@@ -345,31 +346,35 @@ classdef controllerResults < handle
                 obj.modelResultsHandle.SaveBinaryMask = obj.viewResultsHandle.B_SaveBinaryMask.Value;
                 
                 obj.busyIndicator(1);
-                if ( obj.modelResultsHandle.SaveFiberTable || ...
-                        obj.modelResultsHandle.SaveScatterAll || ...
-                        obj.modelResultsHandle.SavePlots || ...
-                        obj.modelResultsHandle.SaveHisto || ...
-                        obj.modelResultsHandle.SavePicProcessed || ...
-                        obj.modelResultsHandle.SaveBinaryMask || ...
-                        obj.modelResultsHandle.SavePicGroups)
+
+                % Check if any data is selected for saving
+                anySaveSelected = obj.modelResultsHandle.SaveFiberTable || ...
+                                 obj.modelResultsHandle.SaveScatterAll || ...
+                                 obj.modelResultsHandle.SavePlots || ...
+                                 obj.modelResultsHandle.SaveHisto || ...
+                                 obj.modelResultsHandle.SavePicProcessed || ...
+                                 obj.modelResultsHandle.SaveBinaryMask || ...
+                                 obj.modelResultsHandle.SavePicGroups;
+
+                if anySaveSelected
+                   
+                    buttons = {obj.viewResultsHandle.B_BackAnalyze, ...
+                              obj.viewResultsHandle.B_Save, ...
+                              obj.viewResultsHandle.B_NewPic, ...
+                              obj.viewResultsHandle.B_CloseProgramm, ...
+                              obj.viewResultsHandle.B_SaveOpenDir};
                     
+                    set([buttons{:}], 'Enable', 'off');
                     
-                    set(obj.viewResultsHandle.B_BackAnalyze,'Enable','off');
-                    set(obj.viewResultsHandle.B_Save,'Enable','off');
-                    set(obj.viewResultsHandle.B_NewPic,'Enable','off');
-                    set(obj.viewResultsHandle.B_CloseProgramm,'Enable','off');
-                    set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
                     %Save results
                     obj.modelResultsHandle.saveResults();
                     
-                    set(obj.viewResultsHandle.B_BackAnalyze,'Enable','on');
-                    set(obj.viewResultsHandle.B_Save,'Enable','on');
-                    set(obj.viewResultsHandle.B_NewPic,'Enable','on');
-                    set(obj.viewResultsHandle.B_CloseProgramm,'Enable','on');
-                    set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','on');
+                    set([buttons{:}], 'Enable', 'on');
+
                 else
-                    obj.modelResultsHandle.InfoMessage = '- no data is selected for saving';
-                    obj.modelResultsHandle.InfoMessage = '   - no data has been saved';
+                    obj.modelResultsHandle.InfoMessage = ' ';
+                    obj.modelResultsHandle.InfoMessage = '*** Saving Data ***';
+                    obj.modelResultsHandle.InfoMessage = '   - No Data to Save is selected';
                 end
                 
                 [y,Fs] = audioread('filling-your-inbox.mp3');

@@ -1173,23 +1173,13 @@ classdef modelResults < handle
             %           obj:    Handle to modelResults object.
             %
             
-            if ~sum([obj.SaveBinaryMask obj.SaveFiberTable obj.SaveScatterAll obj.SavePlots obj.SaveHisto obj.SavePicProcessed obj.SavePicGroups])
-                obj.InfoMessage = ' ';
-                obj.InfoMessage = '*** Saving Data ***';
-                obj.InfoMessage = '   - No Data to Save is selected';
-                return
-            end
-
             obj.InfoMessage = ' ';
             obj.InfoMessage = '*** Saving Data ***';
             obj.InfoMessage = '   - saving data in the same directory than the file was selected';
             
-           
-            
             %Current date and time
             date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm');
             time = string(date_time);
-            
             
             % Delete file extension
             [~,fileName,~] = fileparts(obj.FileName);
