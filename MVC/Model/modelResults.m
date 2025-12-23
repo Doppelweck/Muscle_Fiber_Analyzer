@@ -268,10 +268,6 @@ classdef modelResults < handle
             tempCell = rmfield(tempCell,'Boundarie');
             %remove field Centroid
             tempCell = rmfield(tempCell,'Centroid');
-            %remove field Solidity
-%             tempCell = rmfield(tempCell,'Solidity');
-            %remove field AreaMaxCS (max Area Cross Section)
-%             tempCell = rmfield(tempCell,'AreaMaxCS');
 
             %order Fields for Excel Sheet and GUI Table
             tempCell=orderfields(tempCell, {'Area','AreaMinCS','AreaMaxCS', 'Perimeter', 'minDiameter',...
@@ -283,20 +279,16 @@ classdef modelResults < handle
             %transform struct to temporary cellarray
             tempCell = struct2cell(tempCell)';
             
-            for i=1:1:size(obj.Stats,1)
-                % seperate centroid in X and Y values
-                FCPX(i,1) = round(obj.Stats(i).Centroid(1));
-                FCPY(i,1) = round(obj.Stats(i).Centroid(2));
-            end
+            % seperate centroid in X and Y values
+            centroids = round(vertcat(obj.Stats.Centroid),2);
+
+            % Create X and Y Cell-Vector (as integers to avoid .000)
+            FCPX = num2cell(round(centroids(:, 1),2));
+            FCPY = num2cell(round(centroids(:, 2),2));
             
-            % Create X and Y Cell-Vector
-            FCPX = mat2cell(FCPX,ones(size(obj.Stats,1),1),1);
-            FCPY = mat2cell(FCPY,ones(size(obj.Stats,1),1),1);
-            
-            % Create Label No Cell-Vector
-            LabelNo = [1:1:size(obj.Stats,1)]';
-            LabelNo = mat2cell(LabelNo,ones(size(obj.Stats,1),1),1);
-            
+            % Create Label No Cell-Vector (as integers to avoid .000)
+            LabelNo = num2cell(int32((1:size(obj.Stats, 1))'));
+                       
             %create Cell array
             obj.StatsMatData = cat(2, LabelNo,FCPX,FCPY,tempCell);
             
@@ -855,7 +847,7 @@ classdef modelResults < handle
             
             obj.InfoMessage = '      - create convex hull';
             BW_C = zeros(size(obj.LabelMat));
-            [m n] = size(obj.LabelMat);
+            [m, n] = size(obj.LabelMat);
             
             for i=1:1:size(obj.Stats,1)
                 % seperate centroid in X and Y values
@@ -895,7 +887,7 @@ classdef modelResults < handle
                 Value = unique( I_Label(Imag==i));
                 I_Label(I_Label==Value)=i;
             end
-%
+
             obj.InfoMessage = '      - searching for fiber type groups...';
             IsType1 = find( strcmp({obj.Stats.FiberType} , 'Type 1') );
             IsType12h = find( strcmp({obj.Stats.FiberType} , 'Type 12h') );
@@ -922,14 +914,13 @@ classdef modelResults < handle
                     IBWT1(I_Label==IsType1(i))=1;
                 end
                 IBWT1_C=imclose(IBWT1,se);
-%                 IBWT1 = bwmorph(IBWT1_C,'thin',2);
                 [BWT1_Bound,BWT1_Label] = bwboundaries(IBWT1_C,8,'noholes');
                 LrgbT1(:,:,1)=IBWT1_C*0;
                 LrgbT1(:,:,2)=IBWT1_C*0;
                 LrgbT1(:,:,3)=IBWT1_C*1;
                 
                 nG = max(max(BWT1_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT1_Label==i));
@@ -961,14 +952,13 @@ classdef modelResults < handle
                     IBWT12h(I_Label==IsType12h(i))=1;
                 end
                 IBWT12h_C=imclose(IBWT12h,se);
-%                 IBWT12h = bwmorph(IBWT12h_C,'thin',2);
                 [BWT12h_Bound,BWT12h_Label] = bwboundaries(IBWT12h_C,8,'noholes');
                 LrgbT12h(:,:,1)=IBWT12h_C*1;
                 LrgbT12h(:,:,2)=IBWT12h_C*0;
                 LrgbT12h(:,:,3)=IBWT12h_C*1;
                 
                 nG = max(max(BWT12h_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT12h_Label==i));
@@ -1000,14 +990,13 @@ classdef modelResults < handle
                     IBWT2(I_Label==IsType2(i))=1;
                 end
                 IBWT2_C=imclose(IBWT2,se);
-%                 IBWT2 = bwmorph(IBWT2_C,'thin',2);
                 [BWT2_Bound,BWT2_Label] = bwboundaries(IBWT2_C,8,'noholes');
                 LrgbT2(:,:,1)=IBWT2_C*1;
                 LrgbT2(:,:,2)=IBWT2_C*0;
                 LrgbT2(:,:,3)=IBWT2_C*0;
                 
                 nG = max(max(BWT2_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT2_Label==i));
@@ -1041,14 +1030,13 @@ classdef modelResults < handle
                     IBWT2x(I_Label==IsType2x(i))=1;
                 end
                 IBWT2x_C=imclose(IBWT2x,se);
-%                 IBWT2x = bwmorph(IBWT2x_C,'thin',2);
                 [BWT2x_Bound,BWT2x_Label] = bwboundaries(IBWT2x_C,8,'noholes');
                 LrgbT2x(:,:,1)=IBWT2x_C*1;
                 LrgbT2x(:,:,2)=IBWT2x_C*0;
                 LrgbT2x(:,:,3)=IBWT2x_C*0;
                 
                 nG = max(max(BWT2x_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT2x_Label==i));
@@ -1081,14 +1069,13 @@ classdef modelResults < handle
                     IBWT2a(I_Label==IsType2a(i))=1;
                 end
                 IBWT2a_C=imclose(IBWT2a,se);
-%                 IBWT2a = bwmorph(IBWT2a_C,'thin',2);
                 [BWT2a_Bound,BWT2a_Label] = bwboundaries(IBWT2a_C,8,'noholes');
                 LrgbT2a(:,:,1)=IBWT2a_C*1;
                 LrgbT2a(:,:,2)=IBWT2a_C*1;
                 LrgbT2a(:,:,3)=IBWT2a_C*0;
                 
                 nG = max(max(BWT2a_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT2a_Label==i));
@@ -1119,14 +1106,13 @@ classdef modelResults < handle
                     IBWT2ax(I_Label==IsType2ax(i))=1;
                 end
                 IBWT2ax_C=imclose(IBWT2ax,se);
-%                 IBWT2ax = bwmorph(IBWT2ax_C,'thin',2);
                 [BWT2ax_Bound,BWT2ax_Label] = bwboundaries(IBWT2ax_C,8,'noholes');
                 LrgbT2ax(:,:,1)=IBWT2ax_C*1;
                 LrgbT2ax(:,:,2)=IBWT2ax_C*100/255;
                 LrgbT2ax(:,:,3)=IBWT2ax_C*0;
                 
                 nG = max(max(BWT2ax_Label)); %find number of fiber type groups
-                NoObj = [];
+                NoObj = zeros(1, nG);
                 for i=1:1:nG
                     %Find number of fibers within each group
                     Vec=unique(obj.LabelMat(BWT2ax_Label==i));
@@ -1473,20 +1459,19 @@ classdef modelResults < handle
             prompt = {'Date','Animal code','Muscle code','Image number','Microscope magnification','treated/control'};
             dlg_title = 'Completion of the Excel table';
             num_lines = [1,50];
-            defaultans = {};
-            for i=1:1:size(prompt,2)
-                if i <= size(strComp,2)
-                    defaultans{1,i}=strComp{1,i};
-                else
-                    defaultans{1,i}='';
-                end
-            end
+
+            defaultans = repmat({''}, 1, size(prompt, 2));
+            % Fill with strComp values where available
+            numToFill = min(size(prompt, 2), size(strComp, 2));
+            defaultans(1:numToFill) = strComp(1:numToFill);
+
             options.Resize='off';
             options.WindowStyle='modal';
             answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options)';
             if isempty(answer)
                 answer = cell(1,size(prompt,2));
             end
+            
             InfoAnimal = cell(size(obj.StatsMatData,1),size(prompt,2));
             InfoAnimalT1 = cell(size(obj.StatsMatDataT1,1),size(prompt,2));
             InfoAnimalT12h = cell(size(obj.StatsMatDataT12h,1),size(prompt,2));
