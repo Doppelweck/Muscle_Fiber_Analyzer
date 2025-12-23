@@ -412,10 +412,16 @@ classdef controllerResults < handle
                 
                 obj.viewResultsHandle.B_TableMain.Data = obj.modelResultsHandle.StatsMatData;
                 obj.viewResultsHandle.B_TableMain.ColumnWidth={45 45 45 60 100 100 'auto'};
+                s = uistyle('HorizontalAlignment','right');
+                addStyle(obj.viewResultsHandle.B_TableMain,s);
+
                 obj.viewResultsHandle.B_TableStatistic.RowName = [];
                 obj.viewResultsHandle.B_TableStatistic.ColumnName = {'Name of parameter','Value of parameter'};
                 obj.viewResultsHandle.B_TableStatistic.Data = obj.modelResultsHandle.StatisticMat;
                 obj.viewResultsHandle.B_TableStatistic.ColumnWidth={'auto' 'auto'};
+                s = uistyle('HorizontalAlignment','left');
+                addStyle(obj.viewResultsHandle.B_TableStatistic,s);
+
             catch
                 obj.errorMessage();
             end
