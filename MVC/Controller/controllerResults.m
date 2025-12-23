@@ -260,6 +260,10 @@ classdef controllerResults < handle
                 set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','off');
                 %show results data in the GUI
                 obj.modelResultsHandle.startResultMode();
+
+                % Set location to 'best' for all
+                allLegends = findall(obj.mainFigure, 'Type', 'Legend');
+                set(allLegends, 'Location', 'best');
                 
                 set(obj.viewResultsHandle.B_BackAnalyze,'Enable','on');
                 set(obj.viewResultsHandle.B_Save,'Enable','on');
@@ -291,8 +295,8 @@ classdef controllerResults < handle
             end
             end
             
-            obj.busyIndicator(0);
             obj.panelAxes.Visible = 1;
+            obj.busyIndicator(0);
         end
         
         function backAnalyzeModeEvent(obj,~,~)
@@ -363,7 +367,7 @@ classdef controllerResults < handle
                               obj.viewResultsHandle.B_NewPic, ...
                               obj.viewResultsHandle.B_CloseProgramm, ...
                               obj.viewResultsHandle.B_SaveOpenDir};
-                    
+
                     set([buttons{:}], 'Enable', 'off');
                     
                     %Save results
@@ -422,22 +426,8 @@ classdef controllerResults < handle
             
             AnalyzeMode = obj.modelResultsHandle.AnalyzeMode;
             
-            % Define costom color map
-            ColorMapMain(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapMain(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapMain(3,:) = [255 51 51]; % Red Fiber Type 2
-            ColorMapMain(4,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapMain(5,:) = [51 255 51]; % Green Collagen
-            ColorMapMain = ColorMapMain/255;
-            
-            ColorMapAll(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapAll(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapAll(3,:) = [255 51 51]; % Red Fiber Type 2x
-            ColorMapAll(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-            ColorMapAll(5,:) = [255 153 51]; % orange Fiber Type 2ax
-            ColorMapAll(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapAll(7,:) = [51 255 51]; % Green Collagen
-            ColorMapAll = ColorMapAll/255;
+            % Get costom color map
+            [ColorMapMain,ColorMapAll] = view_helper_fiber_color_map();
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Plot Count Numbers in Axes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -510,22 +500,8 @@ classdef controllerResults < handle
         function showAxesFiberAreaGUI(obj)
             AnalyzeMode = obj.modelResultsHandle.AnalyzeMode;
             
-            % Define costom color map
-            ColorMapMain(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapMain(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapMain(3,:) = [255 51 51]; % Red Fiber Type 2
-            ColorMapMain(4,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapMain(5,:) = [51 255 51]; % Green Collagen
-            ColorMapMain = ColorMapMain/255;
-            
-            ColorMapAll(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapAll(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapAll(3,:) = [255 51 51]; % Red Fiber Type 2x
-            ColorMapAll(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-            ColorMapAll(5,:) = [255 153 51]; % orange Fiber Type 2ax
-            ColorMapAll(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapAll(7,:) = [51 255 51]; % Green Collagen
-            ColorMapAll = ColorMapAll/255;
+            % Get costom color map
+            [ColorMapMain,ColorMapAll] = view_helper_fiber_color_map();
             
             obj.modelResultsHandle.InfoMessage = '      - plot area...';
             
@@ -576,22 +552,8 @@ classdef controllerResults < handle
         function showAxesScatterBlueRedGUI(obj)
             AnalyzeMode = obj.modelResultsHandle.AnalyzeMode;
             
-            % Define costom color map
-            ColorMapMain(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapMain(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapMain(3,:) = [255 51 51]; % Red Fiber Type 2
-            ColorMapMain(4,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapMain(5,:) = [51 255 51]; % Green Collagen
-            ColorMapMain = ColorMapMain/255;
-            
-            ColorMapAll(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapAll(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapAll(3,:) = [255 51 51]; % Red Fiber Type 2x
-            ColorMapAll(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-            ColorMapAll(5,:) = [255 153 51]; % orange Fiber Type 2ax
-            ColorMapAll(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapAll(7,:) = [51 255 51]; % Green Collagen
-            ColorMapAll = ColorMapAll/255;
+            % Get costom color map
+            [ColorMapMain,ColorMapAll] = view_helper_fiber_color_map();
             
             obj.modelResultsHandle.InfoMessage = '      - plot scatter...';
             
@@ -741,22 +703,8 @@ classdef controllerResults < handle
         function showAxesScatterFarredRedGUI(obj)
             AnalyzeMode = obj.modelResultsHandle.AnalyzeMode;
             
-            % Define costom color map
-            ColorMapMain(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapMain(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapMain(3,:) = [255 51 51]; % Red Fiber Type 2
-            ColorMapMain(4,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapMain(5,:) = [51 255 51]; % Green Collagen
-            ColorMapMain = ColorMapMain/255;
-            
-            ColorMapAll(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapAll(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapAll(3,:) = [255 51 51]; % Red Fiber Type 2x
-            ColorMapAll(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-            ColorMapAll(5,:) = [255 153 51]; % orange Fiber Type 2ax
-            ColorMapAll(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapAll(7,:) = [51 255 51]; % Green Collagen
-            ColorMapAll = ColorMapAll/255;
+            % Get costom color map
+            [ColorMapMain,ColorMapAll] = view_helper_fiber_color_map();
             
             cla(obj.viewResultsHandle.hAScatterFarredRed);
             %             axes(obj.viewResultsHandle.hAScatterFarredRed);
@@ -901,22 +849,8 @@ classdef controllerResults < handle
             
             AnalyzeMode = obj.modelResultsHandle.AnalyzeMode;
             
-            % Define costom color map
-            ColorMapMain(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapMain(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapMain(3,:) = [255 51 51]; % Red Fiber Type 2
-            ColorMapMain(4,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapMain(5,:) = [51 255 51]; % Green Collagen
-            ColorMapMain = ColorMapMain/255;
-            
-            ColorMapAll(1,:) = [51 51 255]; % Blue Fiber Type 1
-            ColorMapAll(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-            ColorMapAll(3,:) = [255 51 51]; % Red Fiber Type 2x
-            ColorMapAll(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-            ColorMapAll(5,:) = [255 153 51]; % orange Fiber Type 2ax
-            ColorMapAll(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-            ColorMapAll(7,:) = [51 255 51]; % Green Collagen
-            ColorMapAll = ColorMapAll/255;
+            % Get costom color map
+            [ColorMapMain,ColorMapAll] = view_helper_fiber_color_map();
             
             cla(obj.viewResultsHandle.hAScatterAll);
             LegendString={};
