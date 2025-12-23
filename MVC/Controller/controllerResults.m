@@ -654,19 +654,19 @@ classdef controllerResults < handle
                     f_Bdist = BlueRedTh * R / (1-BlueRedDistB); %blue dist fcn
                     f_Rdist = BlueRedTh * R * (1-BlueRedDistR); %red dist fcn
                     
-                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_Bdist,'b');
+                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_Bdist,'Color',ColorMapAll(1,:),'LineWidth',1.5); %Blue line
                     LegendString{end+1} = ['f_{Bdist}(R) = ' num2str(BlueRedTh) ' * R / (1-' num2str(BlueRedDistB) ')'];
                     
-                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_Rdist,'r');
+                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_Rdist,'Color',ColorMapAll(3,:),'LineWidth',1.5); %Red line
                     LegendString{end+1}= ['f_{Rdist}(R) = ' num2str(BlueRedTh) ' * R * (1-' num2str(BlueRedDistR) ')'];
                     
-                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_BRthresh,'k');
+                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_BRthresh,'Color',ColorMapAll(2,:),'LineWidth',1.5); %Magenta line
                     LegendString{end+1}= ['f_{BRthresh}(R) = ' num2str(BlueRedTh) ' * R'];
                     
                 else
                     BlueRedTh = 1;
                     f_BRthresh =  BlueRedTh * R; %Blue/Red thresh fcn
-                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_BRthresh,'k');
+                    plot(obj.viewResultsHandle.hAScatterBlueRed,R,f_BRthresh,'Color',ColorMapAll(2,:),'LineWidth',1.5); %Magenta line
                     LegendString{end+1} = 'BRthresh(R) = R (not active)';
                 end
                 
@@ -782,13 +782,13 @@ classdef controllerResults < handle
                     f_FRdist = FarredRedTh * R / (1-FarredRedDistFR); %farred dist fcn
                     f_Rdist = FarredRedTh * R * (1-FarredRedDistR); %red dist fcn
                     
-                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_FRdist,'y');
+                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_FRdist,'Color',ColorMapAll(4,:),'LineWidth',1.5); %Yellow line
                     LegendString{end+1} = ['f_{FRdist}(R) = ' num2str(FarredRedTh) ' * R / (1-' num2str(FarredRedDistFR) ')'];
                     
-                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_Rdist,'r');
+                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_Rdist,'Color',ColorMapAll(3,:),'LineWidth',1.5); %Red line
                     LegendString{end+1} = ['f_{Rdist}(R) = ' num2str(FarredRedTh) ' * R * (1-' num2str(FarredRedDistR) ')'];
                     
-                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_FRRthresh,'k');
+                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_FRRthresh,'Color',ColorMapAll(5,:),'LineWidth',1.5); %Orange line
                     LegendString{end+1} = ['f_{BRthresh}(R) = ' num2str(FarredRedTh) ' * R'];
                 elseif ~obj.modelResultsHandle.FarredRedThreshActive && obj.modelResultsHandle.AnalyzeMode == 2
                     % creat classification function line obj
@@ -796,7 +796,7 @@ classdef controllerResults < handle
                     f_BRthresh =  FarredRedTh * R; %Blue/Red thresh fcn
                     LegendString{end+1} = 'f_{FRthresh}(R) = R (not active)';
                     hold(obj.viewResultsHandle.hAScatterFarredRed, 'on');
-                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_BRthresh,'k');
+                    plot(obj.viewResultsHandle.hAScatterFarredRed,R,f_BRthresh,'Color',ColorMapAll(5,:),'LineWidth',1.5); %Orange line
                     
                 end
                 

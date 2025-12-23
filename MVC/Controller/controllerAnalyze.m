@@ -1816,13 +1816,7 @@ classdef controllerAnalyze < handle
                     set(preFig,'CloseRequestFcn', @obj.closePreResultsEvent)
                      
                     %Color Map for FIber Types
-                    ColorMap(1,:) = [51 51 255]; % Blue Fiber Type 1
-                    ColorMap(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-                    ColorMap(3,:) = [255 51 51]; % Red Fiber Type 2x
-                    ColorMap(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-                    ColorMap(5,:) = [255 153 51]; % orange Fiber Type 2ax
-                    ColorMap(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-                    ColorMap = ColorMap/255;
+                    [~,ColorMap] = view_helper_fiber_color_map();
                     
                     %find all Type 1 Fibers
                     Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 1');
@@ -2064,14 +2058,14 @@ classdef controllerAnalyze < handle
                                 plot(ax,R,f_Rdist,'r','LineWidth',1.5);
                                 LegendString{end+1}= ['f_{Rdist}(R) = ' num2str(BlueRedTh) ' * R * (1-' num2str(BlueRedDistR) ')'];
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k','LineWidth',1.5);
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(2,:),'LineWidth',1.5); %Magenta
                                 LegendString{end+1}= ['f_{BRthresh}(R) = ' num2str(BlueRedTh) ' * R'];
                             elseif obj.modelAnalyzeHandle.AnalyzeMode == 1 || obj.modelAnalyzeHandle.AnalyzeMode == 2
                                 BlueRedTh = 1;
                                 f_BRthresh =  BlueRedTh * R; %Blue/Red thresh fcn
                                 LegendString{end+1}= 'f_{BRthresh}(R) = R (not active)';
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k');
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(2,:),'LineWidth',1.5); %Magenta
                                 
                             end
                             
@@ -2140,14 +2134,14 @@ classdef controllerAnalyze < handle
                                 plot(ax,R,f_Rdist,'r','LineWidth',1.5);
                                 LegendString{end+1} = ['f_{Rdist}(R) = ' num2str(FarredRedTh) ' * R * (1-' num2str(FarredRedDistR) ')'];
                                 
-                                plot(ax,R,f_FRRthresh,'k','LineWidth',1.5);
+                                plot(ax,R,f_FRRthresh,'Color',ColorMap(5,:),'LineWidth',1.5); %Orange
                                 LegendString{end+1} = ['f_{FRthresh}(R) = ' num2str(FarredRedTh) ' * R'];
                             elseif obj.modelAnalyzeHandle.AnalyzeMode == 2
                                 FarredRedTh = 1;
                                 f_BRthresh =  FarredRedTh * R; %Blue/Red thresh fcn
                                 LegendString{end+1} = 'f_{FRthresh}(R) = R (not active)';
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k');
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(5,:),'LineWidth',1.5);
                             end
                             
                             maxLim =  max([Rmax FRmax]);
