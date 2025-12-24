@@ -258,17 +258,17 @@ classdef controllerEdit < handle
             axis(obj.viewEditHandle.hAP, 'on');
             axis(obj.viewEditHandle.hAP, 'image');
             hold(obj.viewEditHandle.hAP, 'off');
-            title(obj.viewEditHandle.hAP,'Create Binary Mask');
+            title(obj.viewEditHandle.hAP,'Binary Mask for Object Segmentation');
             
             lhx=xlabel(obj.viewEditHandle.hAP, 'x/pixel','Fontsize',12);
             ylabel(obj.viewEditHandle.hAP, 'y/pixel','Fontsize',12);
             axtoolbar(obj.viewEditHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            set(lhx, 'Units', 'Normalized', 'Position', [1.05 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             maxPixelX = size(PicBW,2);
             obj.viewEditHandle.hAP.XTick = 0:100:maxPixelX;
             maxPixelY = size(PicBW,1);
             obj.viewEditHandle.hAP.YTick = 0:100:maxPixelY;
-            
+            set(obj.viewEditHandle.hAP,'Box','off');
             Titel = [obj.modelEditHandle.PathName obj.modelEditHandle.FileName];
             obj.viewEditHandle.panelAxes.Title = Titel;
             

@@ -348,16 +348,6 @@ classdef modelAnalyze < handle
                 % Surface of fiber object
                 A_Fiber = obj.Stats(i).Area;
                 
-                % Similarity between fiber object surface and maxDiameter
-                % circle surface
-                Ratiomax = A_Fiber/A_Cmax;
-                
-                % Similarity between fiber object surface and minDiameter
-                % circle surface
-                Ratiomin = A_Fiber/A_Cmin;
-                
-                % Roundenss. Normalized distance between Ratiomax and Ratiomin
-                %                 obj.Stats(i).Roundness = 1 - (abs( Ratiomax -  Ratiomin))/max([Ratiomax  Ratiomin]);
                 obj.Stats(i).Roundness =A_Fiber/A_Cmax;
                 obj.Stats(i).AreaMaxCS = A_Cmax;
                 obj.Stats(i).AreaMinCS = A_Cmin;
@@ -365,7 +355,6 @@ classdef modelAnalyze < handle
                 workbar(percent,'Please Wait...calculating roundness','Roundness',obj.controllerAnalyzeHandle.mainFigure);
                pause(0.0002);
             end
-%             workbar(1,'Please Wait...calculating roundness','Roundness',obj.controllerAnalyzeHandle.mainFigure);
         end
         
         function calculateDiameters(obj)
@@ -574,7 +563,7 @@ classdef modelAnalyze < handle
                 if obj.AreaActive && ( obj.Stats(i).Area > obj.MaxArea )
                     
                     % Object Area is to big. FiberType 0: No Fiber (white)
-                    obj.Stats(i).FiberTypeMainGroup = 0;
+                    obj.Stats(i).FiberTypeMainGroup = int32(0);
                     obj.Stats(i).FiberType = 'undefined';
                     
                     
@@ -583,14 +572,14 @@ classdef modelAnalyze < handle
                     
                     % ApsectRatio is to small or to great.
                     % FiberType 0: No Fiber (white)
-                    obj.Stats(i).FiberTypeMainGroup = 0;
+                    obj.Stats(i).FiberTypeMainGroup = int32(0);
                     obj.Stats(i).FiberType = 'undefined';
                     
                     
                 elseif obj.RoundnessActive && ( obj.Stats(i).Roundness < obj.MinRoundness )
                     
                     % Object Roundness is to small. FiberType 0: No Fiber (white))
-                    obj.Stats(i).FiberTypeMainGroup = 0;
+                    obj.Stats(i).FiberTypeMainGroup = int32(0);
                     obj.Stats(i).FiberType = 'undefined';
                     
                     
@@ -598,7 +587,7 @@ classdef modelAnalyze < handle
                     
                     % Object ColorValue is to small. FiberType 0: No Fiber
                     % (white).
-                    obj.Stats(i).FiberTypeMainGroup = 0;
+                    obj.Stats(i).FiberTypeMainGroup = int32(0);
                     obj.Stats(i).FiberType = 'undefined';
                     
                 else
@@ -963,7 +952,7 @@ classdef modelAnalyze < handle
                 for i=1:1:size(tempStats,1)
                     percent = (i)/size(tempStats,1);
                     workbar(percent,'Please Wait...save Cluster data','OPTICS-Clustering',obj.controllerAnalyzeHandle.mainFigure);
-                    obj.Stats(tempStats(i).Label).FiberTypeMainGroup = tempStats(i).FiberTypeMainGroup;
+                    obj.Stats(tempStats(i).Label).FiberTypeMainGroup = int32(tempStats(i).FiberTypeMainGroup);
                     obj.Stats(tempStats(i).Label).FiberType = tempStats(i).FiberType;
                 end
                 
@@ -994,7 +983,7 @@ classdef modelAnalyze < handle
                     end
                     
                     for i=noElements:-1:1
-                        if tempStats(i).FiberTypeMainGroup ~= 2;
+                        if tempStats(i).FiberTypeMainGroup ~= 2
                             tempStats(i) = [];
                         end
                     end
@@ -1299,7 +1288,7 @@ classdef modelAnalyze < handle
                 for i=1:1:size(tempStats,1)
                     percent = (i)/size(tempStats,1);
                     workbar(percent,'Please Wait...save Cluster data','OPTICS-Clustering',obj.controllerAnalyzeHandle.mainFigure);
-                    obj.Stats(tempStats(i).Label).FiberTypeMainGroup = tempStats(i).FiberTypeMainGroup;
+                    obj.Stats(tempStats(i).Label).FiberTypeMainGroup = int32(tempStats(i).FiberTypeMainGroup);
                     obj.Stats(tempStats(i).Label).FiberType = tempStats(i).FiberType;
                 end
                 
@@ -1323,14 +1312,14 @@ classdef modelAnalyze < handle
                     %Blue/Red thresh is active. Searching for Type 1 2 and
                     %12 hybrid fibers.
                     if obj.Stats(i).ColorRatioBlueRed >= obj.BlueRedThresh/(1 - obj.BlueRedDistBlue)
-                        obj.Stats(i).FiberTypeMainGroup = 1;
+                        obj.Stats(i).FiberTypeMainGroup = int32(1);
                         obj.Stats(i).FiberType = 'Type 1';
                     elseif obj.Stats(i).ColorRatioBlueRed <= obj.BlueRedThresh*(1 - obj.BlueRedDistRed)
-                        obj.Stats(i).FiberTypeMainGroup = 2;
+                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                         obj.Stats(i).FiberType = 'Type 2';
                     else
                         % Type 1 2 hybrid
-                        obj.Stats(i).FiberTypeMainGroup = 3;
+                        obj.Stats(i).FiberTypeMainGroup = int32(3);
                         obj.Stats(i).FiberType = 'Type 12h';
                     end
                 else
@@ -1338,11 +1327,11 @@ classdef modelAnalyze < handle
                     %1 and 2 fibers.
                     if obj.Stats(i).ColorRatioBlueRed >= 1
                         % Type 1 fiber (blue)
-                        obj.Stats(i).FiberTypeMainGroup = 1;
+                        obj.Stats(i).FiberTypeMainGroup = int32(1);
                         obj.Stats(i).FiberType = 'Type 1';
                     else
                         % Type 2 fiber (red)
-                        obj.Stats(i).FiberTypeMainGroup = 2;
+                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                         obj.Stats(i).FiberType = 'Type 2';
                     end
                 end
@@ -1359,23 +1348,23 @@ classdef modelAnalyze < handle
                             % Farred/Red Thresh is active. Searching for
                             % Type 2x 2a and 2ax hybrid fibers.
                             if obj.Stats(i).ColorRatioFarredRed  >= obj.FarredRedThresh/(1 - obj.FarredRedDistFarred)
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2a';
                             elseif obj.Stats(i).ColorRatioFarredRed  <= obj.FarredRedThresh*(1 - obj.FarredRedDistFarred)
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2x';
                             else
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2ax';
                             end
                         else
                             % Farred/Red Thresh is not active. Searching
                             % only for Type 2x and 2a fibers.
                             if obj.Stats(i).ColorRatioFarredRed  >= 1
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2a';
                             else
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2x';
                             end
                         end
@@ -1405,12 +1394,12 @@ classdef modelAnalyze < handle
                         %Check for Limit Blue
                         if obj.Stats(i).ColorRatioBlueRed  < obj.BlueRedThresh/(1 - obj.BlueRedDistBlue)
                             % Type 1 2 hybrid
-                            obj.Stats(i).FiberTypeMainGroup = 3;
+                            obj.Stats(i).FiberTypeMainGroup = int32(3);
                             obj.Stats(i).FiberType = 'Type 12h';
                             
                         else
                             % Type 1 fiber
-                            obj.Stats(i).FiberTypeMainGroup = 1;
+                            obj.Stats(i).FiberTypeMainGroup = int32(1);
                             obj.Stats(i).FiberType = 'Type 1';
                             
                         end
@@ -1420,7 +1409,7 @@ classdef modelAnalyze < handle
                         %Check for Limit Blue
                         if obj.Stats(i).ColorRatioBlueRed  > obj.BlueRedThresh*(1 - obj.BlueRedDistRed)
                             % Type 1 2 hybrid (magenta)
-                            obj.Stats(i).FiberTypeMainGroup = 3;
+                            obj.Stats(i).FiberTypeMainGroup = int32(3);
                             obj.Stats(i).FiberType = 'Type 12h';
                             
                         else
@@ -1438,24 +1427,24 @@ classdef modelAnalyze < handle
                                         %Check for Limit FarRed
                                         if obj.Stats(i).ColorRatioFarredRed  < obj.FarredRedThresh/(1 - obj.FarredRedDistFarred)
                                             % Type 2ax fiber (orange hybrid 2a 2x fiber)
-                                            obj.Stats(i).FiberTypeMainGroup = 2;
+                                            obj.Stats(i).FiberTypeMainGroup = int32(2);
                                             obj.Stats(i).FiberType = 'Type 2ax';
                                             
                                         else
                                             % Type 2a fiber
-                                            obj.Stats(i).FiberTypeMainGroup = 2;
+                                            obj.Stats(i).FiberTypeMainGroup = int32(2);
                                             obj.Stats(i).FiberType = 'Type 2a';
                                             
                                         end
                                     elseif obj.Stats(i).ColorRatioFarredRed < obj.FarredRedThresh
                                         if obj.Stats(i).ColorRatioFarredRed  > obj.FarredRedThresh*(1 - obj.FarredRedDistFarred)
                                             % Type 2ax fiber (orange hybrid 2a 2x fiber)
-                                            obj.Stats(i).FiberTypeMainGroup = 2;
+                                            obj.Stats(i).FiberTypeMainGroup = int32(2);
                                             obj.Stats(i).FiberType = 'Type 2ax';
                                             
                                         else
                                             % Type 2x fiber
-                                            obj.Stats(i).FiberTypeMainGroup = 2;
+                                            obj.Stats(i).FiberTypeMainGroup = int32(2);
                                             obj.Stats(i).FiberType = 'Type 2x';
                                             
                                         end
@@ -1463,19 +1452,19 @@ classdef modelAnalyze < handle
                                 else % Farred/Red Thresh is not active
                                     if obj.Stats(i).ColorRatioBlueRed  <= 1
                                         % Type 2x fiber
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2x';
                                         
                                     elseif obj.Stats(i).ColorRatioBlueRed  > 1
                                         % Type 2a fiber
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2a';
                                         
                                         
                                     end
                                 end
                             else
-                                obj.Stats(i).FiberTypeMainGroup = 2;
+                                obj.Stats(i).FiberTypeMainGroup = int32(2);
                                 obj.Stats(i).FiberType = 'Type 2x';
                                 
                             end
@@ -1487,7 +1476,7 @@ classdef modelAnalyze < handle
                     %1 and 2 fibers
                     if obj.Stats(i).ColorRatioBlueRed >= 1
                         % Type 1 fiber (blue)
-                        obj.Stats(i).FiberTypeMainGroup = 1;
+                        obj.Stats(i).FiberTypeMainGroup = int32(1);
                         obj.Stats(i).FiberType = 'Type 1';
                         
                     elseif obj.Stats(i).ColorRatioBlueRed < 1
@@ -1505,12 +1494,12 @@ classdef modelAnalyze < handle
                                     %Check for Limit FarRed
                                     if obj.Stats(i).ColorRatioBlueRed  < obj.FarredRedThresh/(1 - obj.FarredRedDistFarred)
                                         % Type 2ax fiber (orange hybrid 2a 2x fiber)
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2ax';
                                         
                                     else
                                         % Type 2a fiber
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2a';
                                         
                                         
@@ -1518,12 +1507,12 @@ classdef modelAnalyze < handle
                                 elseif obj.Stats(i).ColorRatioFarredRed < obj.FarredRedThresh
                                     if obj.Stats(i).ColorRatioFarredRed  > obj.FarredRedThresh*(1 - obj.FarredRedDistFarred)
                                         % Type 2ax fiber (orange hybrid 2a 2x fiber)
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2ax';
                                         
                                     else
                                         % Type 2x fiber
-                                        obj.Stats(i).FiberTypeMainGroup = 2;
+                                        obj.Stats(i).FiberTypeMainGroup = int32(2);
                                         obj.Stats(i).FiberType = 'Type 2x';
                                         
                                     end
@@ -1531,22 +1520,22 @@ classdef modelAnalyze < handle
                             else % Farred/Red Thresh is not active
                                 if obj.Stats(i).ColorRatioBlueRed  <= 1
                                     % Type 2x fiber
-                                    obj.Stats(i).FiberTypeMainGroup = 2;
+                                    obj.Stats(i).FiberTypeMainGroup = int32(2);
                                     obj.Stats(i).FiberType = 'Type 2x';
                                 elseif obj.Stats(i).ColorRatioBlueRed  > 1
                                     % Type 2a fiber
-                                    obj.Stats(i).FiberTypeMainGroup = 2;
+                                    obj.Stats(i).FiberTypeMainGroup = int32(2);
                                     obj.Stats(i).FiberType = 'Type 2a';
                                     
                                 end
                             end
                         else
-                            obj.Stats(i).FiberTypeMainGroup = 2;
+                            obj.Stats(i).FiberTypeMainGroup = int32(2);
                             obj.Stats(i).FiberType = 'Type 2x';
                             
                         end
                     else
-                        obj.Stats(i).FiberTypeMainGroup = 0;
+                        obj.Stats(i).FiberTypeMainGroup = int32(0);
                         obj.Stats(i).FiberType = 'undefined';
                         
                     end
@@ -1575,7 +1564,7 @@ classdef modelAnalyze < handle
             end
             
             for i=noElements:-1:1
-                if strcmp(tempStats(i).FiberType , 'undefined');
+                if strcmp(tempStats(i).FiberType , 'undefined')
                     tempStats(i) = [];
                 end
             end
@@ -1798,7 +1787,7 @@ classdef modelAnalyze < handle
                             
                             for i=1:1:size(type2Stats,1)
                                 tempStats([tempStats.Label]==type2Stats(i).Label).FiberType = type2Stats(i).FiberType;
-                                tempStats([tempStats.Label]==type2Stats(i).Label).FiberTypeMainGroup = type2Stats(i).FiberTypeMainGroup;
+                                tempStats([tempStats.Label]==type2Stats(i).Label).FiberTypeMainGroup = int32(type2Stats(i).FiberTypeMainGroup);
                             end
                         end
                     end
@@ -1816,7 +1805,7 @@ classdef modelAnalyze < handle
             for i=1:1:size(tempStats,1)
                 
                 obj.Stats(tempStats(i).Label).FiberType = tempStats(i).FiberType;
-                obj.Stats(tempStats(i).Label).FiberTypeMainGroup = tempStats(i).FiberTypeMainGroup;
+                obj.Stats(tempStats(i).Label).FiberTypeMainGroup = int32(tempStats(i).FiberTypeMainGroup);
                 
             end  
         end
@@ -1896,19 +1885,19 @@ classdef modelAnalyze < handle
                     case 1
                         %Fiber Type 1 (blue)
                         newFiberType = 'Type 1';
-                        newFiberTypeMainGroup = 1;
+                        newFiberTypeMainGroup = int32(1);
                     case 2
                         %Fiber Type 12h (hybird fiber) (magenta)
                         newFiberType = 'Type 12h';
-                        newFiberTypeMainGroup = 3;
+                        newFiberTypeMainGroup = int32(3);
                     case 3
                         %Fiber Type 2x (red)
                         newFiberType = 'Type 2';
-                        newFiberTypeMainGroup = 2;
+                        newFiberTypeMainGroup = int32(2);
                     case 4
                         %Fiber Type 0 (white)
                         newFiberType = 'undefined';
-                        newFiberTypeMainGroup = 0;
+                        newFiberTypeMainGroup = int32(0);
                 end
                 
             else
@@ -1917,27 +1906,27 @@ classdef modelAnalyze < handle
                     case 1
                         %Fiber Type 1 (blue)
                         newFiberType = 'Type 1';
-                        newFiberTypeMainGroup = 1;
+                        newFiberTypeMainGroup = int32(1);
                     case 2
                         %Fiber Type 12h (hybird fiber) (magenta)
                         newFiberType = 'Type 12h';
-                        newFiberTypeMainGroup = 3;
+                        newFiberTypeMainGroup = int32(3);
                     case 3
                         %Fiber Type 2x (red)
                         newFiberType = 'Type 2x';
-                        newFiberTypeMainGroup = 2;
+                        newFiberTypeMainGroup = int32(2);
                     case 4
                         %Fiber Type 2a (yellow)
                         newFiberType = 'Type 2a';
-                        newFiberTypeMainGroup = 2;
+                        newFiberTypeMainGroup = int32(2);
                     case 5
                         %Fiber Type 2ax (orange)
                         newFiberType = 'Type 2ax';
-                        newFiberTypeMainGroup = 2;
+                        newFiberTypeMainGroup = int32(2);
                     case 6
                         %Fiber Type 0 (white)
                         newFiberType = 'undefined';
-                        newFiberTypeMainGroup = 0;
+                        newFiberTypeMainGroup = int32(0);
                 end
             end
             
@@ -1962,7 +1951,7 @@ classdef modelAnalyze < handle
                 
                 % Fiber Type has changed
                 obj.Stats(labelNo).FiberType = newFiberType;
-                obj.Stats(labelNo).FiberTypeMainGroup = newFiberTypeMainGroup;
+                obj.Stats(labelNo).FiberTypeMainGroup = int32(newFiberTypeMainGroup);
                 obj.controllerAnalyzeHandle.plotBoundaries()
 
                 obj.InfoMessage = ['   - Fiber-Type object No. ' num2str(labelNo) ' changed by user'];

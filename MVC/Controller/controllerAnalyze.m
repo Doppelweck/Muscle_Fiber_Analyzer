@@ -1052,8 +1052,8 @@ classdef controllerAnalyze < handle
                     axis(obj.viewAnalyzeHandle.hAP, 'image')
                 otherwise
 
-                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">ERROR Transfer Data from EDIT to RESULT </FONT></HTML>';
-                    obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="red">   - startAnalyzeMode() fcn </FONT></HTML>';
+                    obj.modelAnalyzeHandle.InfoMessage = 'ERROR Transfer Data from EDIT to RESULT';
+                    obj.modelAnalyzeHandle.InfoMessage = '   - startAnalyzeMode() fcn';
 
             end
             
@@ -1061,7 +1061,7 @@ classdef controllerAnalyze < handle
             ylabel(obj.viewAnalyzeHandle.hAP, sprintf('y/\x3BCm'),'Fontsize',12);
             title(obj.viewAnalyzeHandle.hAP,'Analyzing Fibers')
             axtoolbar(obj.viewAnalyzeHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            set(lhx, 'Units', 'Normalized', 'Position', [1.05 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             Xvalue = str2double(obj.viewAnalyzeHandle.B_XScale.String);
             maxPixelX = size(obj.modelAnalyzeHandle.PicPRGBFRPlanes,2);
             obj.viewAnalyzeHandle.hAP.XTick = 0:100:maxPixelX;
@@ -1070,6 +1070,7 @@ classdef controllerAnalyze < handle
             Yvalue = str2double(obj.viewAnalyzeHandle.B_YScale.String);
             obj.viewAnalyzeHandle.hAP.YTick = 0:100:maxPixelY;
             obj.viewAnalyzeHandle.hAP.YTickLabel = obj.viewAnalyzeHandle.hAP.XTick*Yvalue;
+            set(obj.viewAnalyzeHandle.hAP,'Box','off');
             
             % set panel title to filename and path
             Titel = [obj.modelAnalyzeHandle.PathName obj.modelAnalyzeHandle.FileName];
@@ -1124,7 +1125,7 @@ classdef controllerAnalyze < handle
                 MetaData = PicData{1,19};
                 YScale = str2double(MetaData(2).GlobalScaleFactorforY);
                 set(obj.viewAnalyzeHandle.B_YScale, 'String', num2str(YScale) );
-                obj.modelAnalyzeHandle.InfoMessage = '<HTML><FONT color="orange">-INFO: Program has changed Values: </FONT></HTML>';
+                obj.modelAnalyzeHandle.InfoMessage = '-INFO: Program has changed Values:';
                 obj.modelAnalyzeHandle.InfoMessage = '     -XScale and YScale have been adjusted';
                 obj.modelAnalyzeHandle.InfoMessage = '     -Found in image MetaData';
             catch
@@ -1815,13 +1816,7 @@ classdef controllerAnalyze < handle
                     set(preFig,'CloseRequestFcn', @obj.closePreResultsEvent)
                      
                     %Color Map for FIber Types
-                    ColorMap(1,:) = [51 51 255]; % Blue Fiber Type 1
-                    ColorMap(2,:) = [255 51 255]; % Magenta Fiber Type 12h
-                    ColorMap(3,:) = [255 51 51]; % Red Fiber Type 2x
-                    ColorMap(4,:) = [255 255 51]; % Yellow Fiber Type 2a
-                    ColorMap(5,:) = [255 153 51]; % orange Fiber Type 2ax
-                    ColorMap(6,:) = [224 224 224]; % Grey Fiber Type undifiend
-                    ColorMap = ColorMap/255;
+                    [~,ColorMap] = view_helper_fiber_color_map();
                     
                     %find all Type 1 Fibers
                     Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 1');
@@ -2063,14 +2058,14 @@ classdef controllerAnalyze < handle
                                 plot(ax,R,f_Rdist,'r','LineWidth',1.5);
                                 LegendString{end+1}= ['f_{Rdist}(R) = ' num2str(BlueRedTh) ' * R * (1-' num2str(BlueRedDistR) ')'];
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k','LineWidth',1.5);
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(2,:),'LineWidth',1.5); %Magenta
                                 LegendString{end+1}= ['f_{BRthresh}(R) = ' num2str(BlueRedTh) ' * R'];
                             elseif obj.modelAnalyzeHandle.AnalyzeMode == 1 || obj.modelAnalyzeHandle.AnalyzeMode == 2
                                 BlueRedTh = 1;
                                 f_BRthresh =  BlueRedTh * R; %Blue/Red thresh fcn
                                 LegendString{end+1}= 'f_{BRthresh}(R) = R (not active)';
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k');
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(2,:),'LineWidth',1.5); %Magenta
                                 
                             end
                             
@@ -2139,14 +2134,14 @@ classdef controllerAnalyze < handle
                                 plot(ax,R,f_Rdist,'r','LineWidth',1.5);
                                 LegendString{end+1} = ['f_{Rdist}(R) = ' num2str(FarredRedTh) ' * R * (1-' num2str(FarredRedDistR) ')'];
                                 
-                                plot(ax,R,f_FRRthresh,'k','LineWidth',1.5);
+                                plot(ax,R,f_FRRthresh,'Color',ColorMap(5,:),'LineWidth',1.5); %Orange
                                 LegendString{end+1} = ['f_{FRthresh}(R) = ' num2str(FarredRedTh) ' * R'];
                             elseif obj.modelAnalyzeHandle.AnalyzeMode == 2
                                 FarredRedTh = 1;
                                 f_BRthresh =  FarredRedTh * R; %Blue/Red thresh fcn
                                 LegendString{end+1} = 'f_{FRthresh}(R) = R (not active)';
                                 hold(ax, 'on')
-                                plot(ax,R,f_BRthresh,'k');
+                                plot(ax,R,f_BRthresh,'Color',ColorMap(5,:),'LineWidth',1.5);
                             end
                             
                             maxLim =  max([Rmax FRmax]);
