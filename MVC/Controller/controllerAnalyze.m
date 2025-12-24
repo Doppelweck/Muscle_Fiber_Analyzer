@@ -1061,7 +1061,7 @@ classdef controllerAnalyze < handle
             ylabel(obj.viewAnalyzeHandle.hAP, sprintf('y/\x3BCm'),'Fontsize',12);
             title(obj.viewAnalyzeHandle.hAP,'Analyzing Fibers')
             axtoolbar(obj.viewAnalyzeHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            set(lhx, 'Units', 'Normalized', 'Position', [1.05 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             Xvalue = str2double(obj.viewAnalyzeHandle.B_XScale.String);
             maxPixelX = size(obj.modelAnalyzeHandle.PicPRGBFRPlanes,2);
             obj.viewAnalyzeHandle.hAP.XTick = 0:100:maxPixelX;

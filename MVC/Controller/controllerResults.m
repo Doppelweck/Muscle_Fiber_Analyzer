@@ -1003,7 +1003,7 @@ classdef controllerResults < handle
             hold(axesResultsPicProc, 'off');
             lhx=xlabel(axesResultsPicProc, sprintf('x/\x3BCm'));
             ylabel(axesResultsPicProc, sprintf('y/\x3BCm'));
-            set(lhx, 'Units', 'Normalized', 'Position', [1 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             maxPixelX = size(obj.modelResultsHandle.PicPRGBFRPlanes,2);
             Xvalue = obj.modelResultsHandle.XScale;
             axesResultsPicProc.XTick = 0:100:maxPixelX;
@@ -1014,6 +1014,7 @@ classdef controllerResults < handle
             axesResultsPicProc.YTickLabel = axesResultsPicProc.XTick*Yvalue;
             title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
             set(axesResultsPicProc,'Box','off');
+            %set(axesResultsPicProc, 'LooseInset', [0,0,0,0]);
             
         end
         
@@ -1179,7 +1180,7 @@ classdef controllerResults < handle
             hold(axesResultsGroups, 'off');
             lhx=xlabel(axesResultsGroups, sprintf('x/\x3BCm'));
             ylabel(axesResultsGroups, sprintf('y/\x3BCm'));
-            set(lhx, 'Units', 'Normalized', 'Position', [1 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             maxPixelX = size(obj.modelResultsHandle.PicPRGBFRPlanes,2);
             Xvalue = obj.modelResultsHandle.XScale;
             axesResultsGroups.XTick = 0:100:maxPixelX;

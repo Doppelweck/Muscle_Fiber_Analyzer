@@ -263,7 +263,7 @@ classdef controllerEdit < handle
             lhx=xlabel(obj.viewEditHandle.hAP, 'x/pixel','Fontsize',12);
             ylabel(obj.viewEditHandle.hAP, 'y/pixel','Fontsize',12);
             axtoolbar(obj.viewEditHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            set(lhx, 'Units', 'Normalized', 'Position', [1.05 0]);
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
             maxPixelX = size(PicBW,2);
             obj.viewEditHandle.hAP.XTick = 0:100:maxPixelX;
             maxPixelY = size(PicBW,1);
