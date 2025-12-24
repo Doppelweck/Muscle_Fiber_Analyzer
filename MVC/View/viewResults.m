@@ -31,6 +31,7 @@ classdef viewResults < handle
         panelResults; %handle to mainPanelBox in  in resultsVIEW
         hAPProcessed; %handle to axes with processed image in the picture Panel all planes.
         hAPGroups; %handle to axes with image created from the Red Green and Blue color-planes.
+        tabPanel;
         
         hAArea; %handle to axes with area plot.  
         hACount; %handle to axes with counter plot.
@@ -211,19 +212,19 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%% Panel with Tabs %%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
+            obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
             
-            statisticTabPanel =       uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
-            histogramTabPanel =       uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
-            pictureTabPanel =         uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
-            pictureRGBPlaneTabPanel = uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
-            tableTabPanel =           uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
-            scatterAllTabPanel =      uix.Panel('Parent',tabPanel,'BorderType','line','Tag','tabPanel');
+            statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            pictureTabPanel =         uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            pictureRGBPlaneTabPanel = uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            tableTabPanel =           uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
             
-            tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
-            tabPanel.TabWidth = -1;
+            obj.tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
+            obj.tabPanel.TabWidth = -1;
             %%%%%%%%%%%%%%%%%%% Tab Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            tabPanel.Selection = 1;drawnow;
+            obj.tabPanel.Selection = 1;drawnow;
             statisticTabHBox = uix.HBox('Parent',statisticTabPanel,'Spacing',2,'Padding',2);
             
             statsVBoxleft = uix.VBox( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
@@ -272,7 +273,7 @@ classdef viewResults < handle
             drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Histogramms %%%%%%%%%%%%%%%%%%%%%%
-            tabPanel.Selection = 2; drawnow;
+            obj.tabPanel.Selection = 2; drawnow;
             histoTabHBox = uix.HBox('Parent',histogramTabPanel,'Spacing',2,'Padding',2);
             
             histoVBoxleft = uix.VBox( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
@@ -298,7 +299,7 @@ classdef viewResults < handle
             drawnow;
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
-            tabPanel.Selection = 3; drawnow;
+            obj.tabPanel.Selection = 3; drawnow;
             mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
             
             obj.hAPProcessed = axes('Parent',uicontainer('Parent',mainPicProcPanel));
@@ -308,7 +309,7 @@ classdef viewResults < handle
             set(obj.hAPProcessed,'Box','off');
             drawnow;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
-            tabPanel.Selection = 4;drawnow;
+            obj.tabPanel.Selection = 4;drawnow;
             mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
             
             obj.hAPGroups = axes('Parent',uicontainer('Parent',mainPicGroupPanel));
@@ -318,7 +319,7 @@ classdef viewResults < handle
             set(obj.hAPGroups,'Box','off');
             drawnow;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
-            tabPanel.Selection = 5;drawnow;
+            obj.tabPanel.Selection = 5;drawnow;
             mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',fontSizeM);
             obj.B_TableMain = uitable('Parent',mainTablePanel);
             
@@ -333,7 +334,7 @@ classdef viewResults < handle
             set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
             drawnow;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
-            tabPanel.Selection = 6;drawnow;
+            obj.tabPanel.Selection = 6;drawnow;
             mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',fontSizeM);
             
             obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
@@ -345,7 +346,7 @@ classdef viewResults < handle
             
             set(mainCard,'Visible','on');
             
-            tabPanel.Selection = 1;drawnow;
+            obj.tabPanel.Selection = 1;drawnow;
 
         end
                 

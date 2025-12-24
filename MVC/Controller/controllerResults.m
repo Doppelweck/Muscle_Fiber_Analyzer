@@ -34,6 +34,7 @@ classdef controllerResults < handle
         viewResultsHandle; %hande to viewResults instance.
         modelResultsHandle; %hande to modelResults instance.
         controllerAnalyzeHandle; %handle to controllerAnalyze instance.
+        tabPanel;
         
 
     end
@@ -71,6 +72,7 @@ classdef controllerResults < handle
             obj.panelResults = obj.viewResultsHandle.panelResults;
             obj.panelControl = obj.viewResultsHandle.panelControl;
             obj.panelAxes = obj.viewResultsHandle.panelAxes;
+            obj.tabPanel = obj.viewResultsHandle.tabPanel;
             
             obj.addMyCallback();
             
@@ -187,6 +189,8 @@ classdef controllerResults < handle
             %obj.panelAxes.Visible = 0;
             obj.busyIndicator(1);
             obj.mainCardPanel.Selection = 3;
+
+            tabPanelSelection = obj.tabPanel.Selection;
             
             if obj.modelResultsHandle.ResultUpdateStaus
                 %nothing has changed. 
@@ -289,7 +293,9 @@ classdef controllerResults < handle
                     
                 end
                 
+                set(obj.tabPanel,'Selection',tabPanelSelection);
                 drawnow;
+                
             catch
                 obj.errorMessage();
             end

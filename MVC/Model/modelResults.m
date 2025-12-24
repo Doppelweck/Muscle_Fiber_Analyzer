@@ -214,9 +214,10 @@ classdef modelResults < handle
             workbar(0.25,'find Fiber Groups','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.findFiberGroups();
             
+            set(obj.controllerResultsHandle.tabPanel,'Selection',1);
             workbar(0.5,'plot Fiber Count','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesFiberCountGUI();
-            
+            drawnow;
             workbar(0.55,'plot Fiber Area','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesFiberAreaGUI();
             
@@ -225,22 +226,27 @@ classdef modelResults < handle
             
             workbar(0.65,'plot Fiber Farre Blue','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesScatterFarredRedGUI();
-            
-            workbar(0.7,'plot all Fiber Scatter','Updating Results',obj.controllerResultsHandle.mainFigure);
-            obj.controllerResultsHandle.showAxesScatterAllGUI();
-            
-            workbar(0.75,'plot Info Table in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
-            obj.controllerResultsHandle.showInfoInTableGUI();
-            
-            workbar(0.8,'plot Histogram in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',2);
+            workbar(0.7,'plot Histogram in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showHistogramGUI();
-            
-            workbar(0.85,'plot Imaged Processed in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',3);
+            workbar(0.75,'plot Imaged Processed in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showPicProcessedGUI();
-            
-            workbar(0.9,'plot Fiber Groups in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',4);
+            workbar(0.8,'plot Fiber Groups in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showPicGroupsGUI();
-            
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',5);
+            workbar(0.85,'plot Info Table in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            obj.controllerResultsHandle.showInfoInTableGUI();
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',6);
+            workbar(0.9,'plot all Fiber Scatter','Updating Results',obj.controllerResultsHandle.mainFigure);
+            obj.controllerResultsHandle.showAxesScatterAllGUI();
+            drawnow;
             workbar(1,'complete','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.ResultUpdateStaus = true;
             end
