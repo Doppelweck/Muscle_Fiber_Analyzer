@@ -678,20 +678,6 @@ classdef viewAnalyze < handle
         end
         
         function showFigurePreResults(obj,mainFig)
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big 
-            end
-            
             obj.hFPR = figure('NumberTitle','off','Units','normalized','Name','Preview Results','Visible','off','MenuBar','none','ToolBar','none',...
                 'WindowStyle', 'modal', 'Theme',mainFig.Theme);
             set(obj.hFPR,'Tag','FigurePreResults')
