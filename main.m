@@ -67,25 +67,12 @@ try
     %     text(hf.Children,0.05,0.07,'2017','units','normalized','FontUnits','normalized','FontSize',0.045,'Color','[1 0.5 0]');
     % setAlwaysOnTop(hf,true);
     drawnow;
-    %
-    %     % R2010a and newer
-    %     iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-    %     iconsSizeEnums = javaMethod('values',iconsClassName);
-    %     SIZE_32x32 = iconsSizeEnums(1);  % (1) = 16x16,  (2) = 32x32
-    %     busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32);  % icon, label
-    %     busyIndicator.setPaintsWhenStopped(false);  % default = false
-    %     busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-    %     javacomponent(busyIndicator.getComponent, [hf.Position(3)*0.2,hf.Position(4)*0.035,40,40], hf);
-    %     busyIndicator.getComponent.setBackground(java.awt.Color(0,0,0,0.1));
-    %     busyIndicator.start;
-
 
     set(mainFig, 'OuterPosition', hf.Position);
     
     set(hf,'Visible','on');
     figure(hf);drawnow;
     set(hf,'WindowStyle','alwaysontop');
-
 
     update_menu_bar_main_figure(mainFig,versionString,...
         @changeAppDesign,...
