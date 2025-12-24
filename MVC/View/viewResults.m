@@ -204,7 +204,7 @@ classdef viewResults < handle
             %%%%%%%%
             set( mainVBBoxSave, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1.5] );
             drawnow;
-            
+
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
             obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{});
@@ -344,7 +344,8 @@ classdef viewResults < handle
             obj.setToolTipStrings();
             
             set(mainCard,'Visible','on');
-            drawnow;
+            
+            tabPanel.Selection = 1;drawnow;
 
         end
                 
