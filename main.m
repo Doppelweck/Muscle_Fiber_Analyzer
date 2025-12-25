@@ -14,7 +14,7 @@ try
     catch
     end
     
-    build_up_time_delay = 0.001;
+    build_up_time_delay = 0.300;
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -53,7 +53,7 @@ try
 
 
     %Create Start Screen
-    hf = startSrcreen('modal');
+    hf = startSrcreen();
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
         'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);

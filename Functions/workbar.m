@@ -60,7 +60,11 @@ arguments
     isVisible char = 'on'
 end
 
-persistent progfig progpatch starttime lastupdate text winState
+persistent progfig progpatch starttime lastupdate text winState windowStyle
+
+if isempty(windowStyle)
+    windowStyle = getWindowsStyleFromSettings();
+end
 
 % Set defaults for variables not passed in
 if nargin < 1
@@ -88,6 +92,8 @@ if nargin < 3 && isempty(progfig)
     progtitle = '';
     mainFig =[];
 end
+
+
 
 % If task completed, close figure and clear vars, then exit
 percentdone = floor(100*fractiondone);
@@ -149,7 +155,7 @@ if isempty(progfig)
          'position',winpos,...                              % Set the position of the figure as above
          'resize','off',...                                 % Turn of figure resizing
          'tag','timebar',...                                % Tag the figure for later checking
-         'WindowStyle','normal',...                         % Stay figure in forground                          
+         'WindowStyle',windowStyle,...                         % Stay figure in forground                          
          'Visible','off');
     theme(progfig,mainFig.Theme);
     

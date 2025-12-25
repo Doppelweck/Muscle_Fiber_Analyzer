@@ -1,6 +1,7 @@
-function hf = startSrcreen(WindowStyle)
+function hf = startSrcreen()
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
+
 Pic = imread('StartScreen5.png');
 [m n]= size(Pic);
 hf  = figure('Visible','off','MenuBar','none','NumberTitle','off',...
@@ -21,7 +22,7 @@ set(hf,'Position',figpos);
 movegui(hf,'center');
 set(hf,'CloseRequestFcn','');
 set(hf,'Visible','off');
-set(hf,'WindowStyle',WindowStyle);
+set(hf,'WindowStyle',getWindowsStyleFromSettings());
 % Lock position before returning
 end
 
