@@ -1650,72 +1650,38 @@ classdef modelEdit < handle
                 case 2 %Foreground. Fibers are shown as white Pixels.
                     tempGreenPlane = imcomplement(obj.PicPlaneGreen_adj);
             end
-            
-            if ~isempty(tempGreenPlane)
-                % Picture was choosen by User.
-                if strcmp (obj.PicBWisInvert , 'false')
-                    % Binary pictur is not invert
-                    switch obj.ThresholdMode
-                        
-                        case 1 % Use manual global threshold for binarization
-                            
-                            obj.PicBW = im2bw(tempGreenPlane,thresh);
-                            obj.handlePicBW.CData = obj.PicBW;
 
-                        case 2 % Use automatic adaptive threshold for binarization
-                            
-                            obj.PicBW = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 3 % Use automatic adaptive and manual global threshold for binarization
-                            
-                            PicBW1 = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            PicBW2 = im2bw(tempGreenPlane,thresh);
-                            obj.PicBW = PicBW1 | PicBW2;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 4 % Use automatic setup for binarization (Watershed I)
-                            obj.PicBW = obj.autoBinarizationWatershed_1();
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 5 % Use automatic setup for binarization (Watershed II)
-                            obj.PicBW = obj.autoBinarizationWatershed_2();
-                            obj.handlePicBW.CData = obj.PicBW;
-                    end
-                else
-                    % Binary pictur is invert
-                    switch obj.ThresholdMode
-                        
-                        case 1 % Use manual global threshold for binarization
-                            
-                            temp = im2bw(tempGreenPlane,thresh);
-                            obj.PicBW = ~temp;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 2 % Use automatic adaptive threshold for binarization
-                            
-                            temp = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.PicBW = ~temp;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 3 % Use automatic adaptive and manual global threshold for binarization
-                            
-                            temp1 = im2bw(tempGreenPlane,thresh);
-                            temp2 = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.PicBW = ~(temp1 | temp2);
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 4 % Use automatic setup for binarization (Watershed I)
-                            obj.PicBW = ~obj.autoBinarizationWatershed_1();
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 5 % Use automatic setup for binarization (Watershed II)
-                            obj.PicBW = ~obj.autoBinarizationWatershed_2();
-                            obj.handlePicBW.CData = obj.PicBW;
-                    end
-                    
-                end
+            if isempty(tempGreenPlane)
+                return; % no image selected
             end
+            
+            % Determine binary image based on threshold mode
+            switch obj.ThresholdMode
+                case 1
+                    bw = im2bw(tempGreenPlane, thresh);
+                case 2
+                    bw = imbinarize(tempGreenPlane, 'adaptive', 'ForegroundPolarity', 'bright', 'Sensitivity', abs(1-thresh));
+                case 3
+                    bw1 = im2bw(tempGreenPlane, thresh);
+                    bw2 = imbinarize(tempGreenPlane, 'adaptive', 'ForegroundPolarity', 'bright', 'Sensitivity', abs(1-thresh));
+                    bw = bw1 | bw2;
+                case 4
+                    bw = obj.autoBinarizationWatershed_1();
+                case 5
+                    bw = obj.autoBinarizationWatershed_2();
+                otherwise
+                    error('Unsupported ThresholdMode: %d', obj.ThresholdMode);
+            end
+
+            % Apply inversion if needed
+            if strcmp(obj.PicBWisInvert, 'true')
+                bw = ~bw;
+            end
+
+            % Store binary image and update GUI
+            obj.PicBW = bw;
+            obj.handlePicBW.CData = obj.PicBW;
+
         end
         
         function alphaMapEvent(obj)
