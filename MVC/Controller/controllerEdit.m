@@ -199,83 +199,6 @@ classdef controllerEdit < handle
             obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.ValueIndex;
         end
         
-        function setInitPicsGUI(obj)
-            % set the initalize images in the axes handels viewEdit to show
-            % the images in the GUI.
-            %
-            %   setInitPicsGUI(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
-            
-            % get Pics from the model
-            switch obj.viewEditHandle.B_ImageOverlaySelection.Value
-                case 1 %RGB
-                    Pic = obj.modelEditHandle.PicRGBFRPlanes;
-                case 2
-                    Pic = obj.modelEditHandle.PicPlaneGreen_RGB;
-                case 3
-                    Pic = obj.modelEditHandle.PicPlaneBlue_RGB;
-                case 4
-                    Pic = obj.modelEditHandle.PicPlaneRed_RGB;
-                case 5
-                    Pic = obj.modelEditHandle.PicPlaneFarRed_RGB;
-                otherwise
-                    Pic = obj.modelEditHandle.PicRGBFRPlanes;
-            end
-            PicBW = obj.modelEditHandle.PicBW;
-            
-            % set axes in the GUI as the current axes
-            %             axes(obj.viewEditHandle.hAP);
-            
-            if isa(obj.modelEditHandle.handlePicRGB,'struct')
-                % first start of the programm. No image handle exist.
-                % create image handle for Pic RGB
-                obj.modelEditHandle.handlePicRGB = imshow(Pic ,'Parent',obj.viewEditHandle.hAP);
-            else
-                % New image was selected. Change data in existing handle
-                obj.modelEditHandle.handlePicRGB.CData = Pic;
-            end
-            
-            hold(obj.viewEditHandle.hAP, 'on');
-            
-            if isa(obj.modelEditHandle.handlePicBW,'struct')
-                % first start of the programm. No image handle exist.
-                % create image handle for Pic BW
-                obj.modelEditHandle.handlePicBW = imshow(PicBW,'Parent',obj.viewEditHandle.hAP);
-                
-                % Callback for modelEditHandle.handlePicBW must be refresh
-                obj.addMyCallbacks();
-            else
-                % New image was selected. Change data in existing handle
-                obj.modelEditHandle.handlePicBW.CData = PicBW;
-            end
-            
-            % show x and y axis
-            axis(obj.viewEditHandle.hAP, 'on');
-            axis(obj.viewEditHandle.hAP, 'image');
-            hold(obj.viewEditHandle.hAP, 'off');
-            title(obj.viewEditHandle.hAP,'Binary Mask for Object Segmentation');
-            
-            lhx=xlabel(obj.viewEditHandle.hAP, 'x/pixel','Fontsize',12);
-            ylabel(obj.viewEditHandle.hAP, 'y/pixel','Fontsize',12);
-            axtoolbar(obj.viewEditHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
-            maxPixelX = size(PicBW,2);
-            obj.viewEditHandle.hAP.XTick = 0:100:maxPixelX;
-            maxPixelY = size(PicBW,1);
-            obj.viewEditHandle.hAP.YTick = 0:100:maxPixelY;
-            set(obj.viewEditHandle.hAP,'Box','off');
-            Titel = [obj.modelEditHandle.PathName obj.modelEditHandle.FileName];
-            obj.viewEditHandle.panelAxes.Title = Titel;
-            
-            
-            mainTitel = ['Fiber types classification tool: ' obj.modelEditHandle.FileName];
-            set(obj.mainFigure,'Name', mainTitel);
-        end
         
         function newFileEvent(obj,~,~)
             try
@@ -298,24 +221,7 @@ classdef controllerEdit < handle
                             
                             case 'SuccessIndentify'
                                 
-                                %Convert all images to uint8
-                                %brightness adjustment of color plane images
-                                obj.modelEditHandle.brightnessAdjustment();
-                                %create RGB images
-                                obj.modelEditHandle.createRGBImages();
-                                %reset invert status of binary pic
-                                obj.modelEditHandle.PicBWisInvert = 'false';
-                                %create binary pic
-                                obj.modelEditHandle.createBinary();
-                                %reset pic buffer for undo redo functionality
-                                obj.modelEditHandle.PicBuffer = {};
-                                %load binary pic in the buffer
-                                obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
-                                %reset buffer pointer
-                                obj.modelEditHandle.PicBufferPointer = 1;
-                                
-                                %show images in GUI
-                                obj.setInitPicsGUI();
+                                obj.initImages();
                                 
                                 %enable all UI controls
                                 view_helper_set_enabled_ui_controls(uicontrols, 'on');
@@ -331,23 +237,7 @@ classdef controllerEdit < handle
                                 
                             case 'ErrorIndentify'
                                 
-                                %brightness adjustment of color plane images
-                                obj.modelEditHandle.brightnessAdjustment();
-                                %create RGB images
-                                obj.modelEditHandle.createRGBImages();
-                                %reset invert status of binary pic
-                                obj.modelEditHandle.PicBWisInvert = 'false';
-                                %create binary pic
-                                obj.modelEditHandle.createBinary();
-                                %reset pic buffer for undo redo functionality
-                                obj.modelEditHandle.PicBuffer = {};
-                                %load binary pic in the buffer
-                                obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
-                                %reset buffer pointer
-                                obj.modelEditHandle.PicBufferPointer = 1;
-                                
-                                %show images in GUI
-                                obj.setInitPicsGUI();
+                                obj.initImages();
                                 
                                 infotext = {'Info! Image Identification:',...
                                     '',...
@@ -406,27 +296,7 @@ classdef controllerEdit < handle
                             
                             case 'SuccessIndentify'
                                 
-                                %search for images for brightnes adjustment.
-                                %Only called for BioFormat files.
-                                obj.modelEditHandle.searchForBrighntessImages();
-                                
-                                %brightness adjustment of color plane images
-                                obj.modelEditHandle.brightnessAdjustment();
-                                %create RGB images
-                                obj.modelEditHandle.createRGBImages();
-                                %reset invert status of binary pic
-                                obj.modelEditHandle.PicBWisInvert = 'false';
-                                %create binary pic
-                                obj.modelEditHandle.createBinary();
-                                %reset pic buffer for undo redo functionality
-                                obj.modelEditHandle.PicBuffer = {};
-                                %load binary pic in the buffer
-                                obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
-                                %reset buffer pointer
-                                obj.modelEditHandle.PicBufferPointer = 1;
-                                
-                                %show images in GUI
-                                obj.setInitPicsGUI();
+                                obj.initImages();
                                 
                                 %enable all UI controls
                                 view_helper_set_enabled_ui_controls(uicontrols, 'on');
@@ -442,27 +312,7 @@ classdef controllerEdit < handle
                                 
                             case 'ErrorIndentify'
                                 
-                                %search for images for brightnes adjustment.
-                                %Only called for BioFormat files.
-                                obj.modelEditHandle.searchForBrighntessImages();
-                                
-                                %brightness adjustment of color plane images
-                                obj.modelEditHandle.brightnessAdjustment();
-                                %create RGB images
-                                obj.modelEditHandle.createRGBImages();
-                                %reset invert status of binary pic
-                                obj.modelEditHandle.PicBWisInvert = 'false';
-                                %create binary pic
-                                obj.modelEditHandle.createBinary();
-                                %reset pic buffer for undo redo functionality
-                                obj.modelEditHandle.PicBuffer = {};
-                                %load binary pic in the buffer
-                                obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
-                                %reset buffer pointer
-                                obj.modelEditHandle.PicBufferPointer = 1;
-                                
-                                %show images in GUI
-                                obj.setInitPicsGUI();
+                                obj.initImages();
                                 
                                 infotext = {'Info! Plane Identification:',...
                                     '',...
@@ -577,6 +427,105 @@ classdef controllerEdit < handle
                 %disable GUI objects
                 set(obj.viewEditHandle.B_NewPic,'Enable','on');
             end
+        end
+        
+        function initImages(obj,~,~)
+            %Convert all images to uint8
+            %brightness adjustment of color plane images
+            obj.modelEditHandle.brightnessAdjustment();
+            %create RGB images
+            obj.modelEditHandle.createRGBImages();
+            %reset invert status of binary pic
+            obj.modelEditHandle.PicBWisInvert = 'false';
+            %create binary pic
+            obj.modelEditHandle.createBinary();
+            %reset pic buffer for undo redo functionality
+            obj.modelEditHandle.PicBuffer = {};
+            %load binary pic in the buffer
+            obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
+            %reset buffer pointer
+            obj.modelEditHandle.PicBufferPointer = 1;
+            
+            %show images in GUI
+            obj.setInitPicsGUI();
+        end
+
+        function setInitPicsGUI(obj)
+            % set the initalize images in the axes handels viewEdit to show
+            % the images in the GUI.
+            %
+            %   setInitPicsGUI(obj);
+            %
+            %   ARGUMENTS:
+            %
+            %       - Input
+            %           obj:    Handle to controllerEdit object
+            %
+            
+            % get Pics from the model
+            switch obj.viewEditHandle.B_ImageOverlaySelection.Value
+                case 1 %RGB
+                    Pic = obj.modelEditHandle.PicRGBFRPlanes;
+                case 2
+                    Pic = obj.modelEditHandle.PicPlaneGreen_RGB;
+                case 3
+                    Pic = obj.modelEditHandle.PicPlaneBlue_RGB;
+                case 4
+                    Pic = obj.modelEditHandle.PicPlaneRed_RGB;
+                case 5
+                    Pic = obj.modelEditHandle.PicPlaneFarRed_RGB;
+                otherwise
+                    Pic = obj.modelEditHandle.PicRGBFRPlanes;
+            end
+            PicBW = obj.modelEditHandle.PicBW;
+            
+            % set axes in the GUI as the current axes
+            %             axes(obj.viewEditHandle.hAP);
+            
+            if isa(obj.modelEditHandle.handlePicRGB,'struct')
+                % first start of the programm. No image handle exist.
+                % create image handle for Pic RGB
+                obj.modelEditHandle.handlePicRGB = imshow(Pic ,'Parent',obj.viewEditHandle.hAP);
+            else
+                % New image was selected. Change data in existing handle
+                obj.modelEditHandle.handlePicRGB.CData = Pic;
+            end
+            
+            hold(obj.viewEditHandle.hAP, 'on');
+            
+            if isa(obj.modelEditHandle.handlePicBW,'struct')
+                % first start of the programm. No image handle exist.
+                % create image handle for Pic BW
+                obj.modelEditHandle.handlePicBW = imshow(PicBW,'Parent',obj.viewEditHandle.hAP);
+                
+                % Callback for modelEditHandle.handlePicBW must be refresh
+                obj.addMyCallbacks();
+            else
+                % New image was selected. Change data in existing handle
+                obj.modelEditHandle.handlePicBW.CData = PicBW;
+            end
+            
+            % show x and y axis
+            axis(obj.viewEditHandle.hAP, 'on');
+            axis(obj.viewEditHandle.hAP, 'image');
+            hold(obj.viewEditHandle.hAP, 'off');
+            title(obj.viewEditHandle.hAP,'Binary Mask for Object Segmentation');
+            
+            lhx=xlabel(obj.viewEditHandle.hAP, 'x/pixel','Fontsize',12);
+            ylabel(obj.viewEditHandle.hAP, 'y/pixel','Fontsize',12);
+            axtoolbar(obj.viewEditHandle.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
+            set(lhx, 'Units', 'Normalized', 'Position', [1.01 0]);
+            maxPixelX = size(PicBW,2);
+            obj.viewEditHandle.hAP.XTick = 0:100:maxPixelX;
+            maxPixelY = size(PicBW,1);
+            obj.viewEditHandle.hAP.YTick = 0:100:maxPixelY;
+            set(obj.viewEditHandle.hAP,'Box','off');
+            Titel = [obj.modelEditHandle.PathName obj.modelEditHandle.FileName];
+            obj.viewEditHandle.panelAxes.Title = Titel;
+            
+            
+            mainTitel = ['Fiber types classification tool: ' obj.modelEditHandle.FileName];
+            set(obj.mainFigure,'Name', mainTitel);
         end
         
         function checkPlanesEvent(obj,~,~)
@@ -1278,7 +1227,7 @@ classdef controllerEdit < handle
             obj.modelEditHandle.addToBuffer();
         end
         
-        function thresholdEvent(obj,src,evnt)
+        function thresholdEvent(obj,src,~)
             % Callback function of the threshold slider and the text edit
             % box in the GUI. Checks whether the value is within the
             % permitted value range. Sets the corresponding values
@@ -1362,7 +1311,7 @@ classdef controllerEdit < handle
             
         end
         
-        function alphaMapEvent(obj,src,evnt)
+        function alphaMapEvent(obj,src,~)
             % Callback function of the alpha map slider and the text edit
             % box in the GUI. Checks whether the value is within the
             % permitted value range. Sets the corresponding values
