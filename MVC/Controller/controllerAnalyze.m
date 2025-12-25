@@ -1003,60 +1003,36 @@ classdef controllerAnalyze < handle
             
             switch obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex
                 
-                case 1
-                    
-                    %Show image for triple labeling
+                case 1 %Show image for triple labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{9},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
                     
-                case 2
-                    
-                    %Show image for quad labeling
+                case 2 %Show image for quad labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
                     
-                case 3
-                    
-                    %Show image for triple labeling
+                case 3 %Show image for triple labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{9},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
                     
-                case 4
-                    
-                    %Show image for quad labeling
+                case 4 %Show image for quad labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
                     
-                case 5
-                    
-                    %Show image for triple labeling
+                case 5 %Show image for triple labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{9},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
                     
-                case 6
-                    
-                    %Show image for quad labeling
+                case 6 %Show image for quad labeling
                     obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
-                case 7
-                    
-                    %Show image for quad labeling
-                    obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
-                    axis(obj.viewAnalyzeHandle.hAP, 'on')
-                    axis(obj.viewAnalyzeHandle.hAP, 'image')
-                otherwise
 
+                case 7 %Show image for quad labeling
+                    obj.modelAnalyzeHandle.handlePicRGB = imshow(PicData{3},'Parent',obj.viewAnalyzeHandle.hAP);
+
+                otherwise
                     obj.modelAnalyzeHandle.InfoMessage = 'ERROR Transfer Data from EDIT to RESULT';
                     obj.modelAnalyzeHandle.InfoMessage = '   - startAnalyzeMode() fcn';
 
             end
-            
+
+            axis(obj.viewAnalyzeHandle.hAP, 'on')
+            axis(obj.viewAnalyzeHandle.hAP, 'image')
+            hold(obj.viewAnalyzeHandle.hAP, 'off');
             lhx=xlabel(obj.viewAnalyzeHandle.hAP, sprintf('x/\x3BCm'),'Fontsize',12);
             ylabel(obj.viewAnalyzeHandle.hAP, sprintf('y/\x3BCm'),'Fontsize',12);
             title(obj.viewAnalyzeHandle.hAP,'Analyzing Fibers')
