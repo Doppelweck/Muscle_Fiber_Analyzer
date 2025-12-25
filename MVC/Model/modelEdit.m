@@ -66,10 +66,10 @@ classdef modelEdit < handle
         PicBCGreen; %Brightness adjustment image for Green color plane image.
         PicBCRed; %Brightness adjustment image for Red color plane image.
         PicBCFarRed; %Brightness adjustment image for FarRed color plane image.
-        FilenameBCBlue; %FileName of the brightness adjustment image for Blue color plane image.
-        FilenameBCGreen; %FileName of the brightness adjustment image for Green color plane image.
-        FilenameBCRed; %FileName of the brightness adjustment image for Red color plane image.
-        FilenameBCFarRed; %FileName of the brightness adjustment image for FarRed color plane image.
+        FilenameBCBlue = '-'; %FileName of the brightness adjustment image for Blue color plane image.
+        FilenameBCGreen = '-'; %FileName of the brightness adjustment image for Green color plane image.
+        FilenameBCRed = '-'; %FileName of the brightness adjustment image for Red color plane image.
+        FilenameBCFarRed = '-'; %FileName of the brightness adjustment image for FarRed color plane image.
         
         MetaData; %Meta Data of microscope image container
         
@@ -843,31 +843,34 @@ classdef modelEdit < handle
                 
                 cd(currentFolder);
                 
-                if isempty(obj.PicBCFarRed) || isempty(obj.PicBCFarRed) || ...
-                        isempty(obj.PicBCFarRed) || isempty(obj.PicBCFarRed)
+                if isempty(obj.PicBCFarRed) || isempty(obj.PicBCRed) || ...
+                        isempty(obj.PicBCGreen) || isempty(obj.PicBCBlue)
                     
-                    infotext = {'Info! ',...
-                        '',...
-                        'Not all brightness adjustment images was found.',...
-                        '',...
-                        'Go to the "Check planes" menu to verify the images:',...
-                        'The following options are available:',...
-                        '   - you can select new brightness images from',...
-                        '     your hard drive.',...
-                        '   - you can calculate new brightness images from the',...
-                        '     background illumination.',...
-                        '   - you can delete incorrect or unnecessary images',...
-                        '',...
-                        'See MANUAL for more details.',...
-                        };
-                    obj.InfoMessage = '<HTML><FONT color="orange">- Not all brightness adjustment images was found.</FONT></HTML>';
+                    obj.InfoMessage = '- Not all brightness adjustment images was found';
                     obj.InfoMessage = '      - Go to the "Check planes" for more options.';
-                    %show info message on gui
-%                     obj.controllerEditHandle.viewEditHandle.infoMessage(infotext);
                     
                 end
         end
         
+        function [img, fname] = loadBCImage(obj, filePattern, ext)
+            % Loads a brightness correction (background illumination) image for the
+            % specified color plane from file, normalizes it, and stores it in the
+            % corresponding model properties
+
+            files = dir(fullfile(obj.PathName, [filePattern ext]));
+        
+            if isempty(files)
+                img   = [];
+                fname = '-';
+                return;
+            end
+        
+            reader = bfGetReader(fullfile(obj.PathName, files(1).name));
+            img = double(bfGetPlane(reader,1));
+            img = img ./ max(img(:));
+            fname = files(1).name;
+        end
+
         function pixelDepth = assumePixelDepth(obj)
 %             dataClass = class(obj.PicPlane1);
             maxValue = max([max(max(obj.PicPlane1)) max(max(obj.PicPlane2)) max(max(obj.PicPlane3)) max(max(obj.PicPlane4))]);
@@ -1376,6 +1379,7 @@ classdef modelEdit < handle
             %
             
             obj.InfoMessage = '   - brightness adjustment';
+            
             if isequal(obj.FileName ,0) && isequal(obj.PathName,0)
                 obj.InfoMessage = '   - pictures brightness adjustment canceled';
             else
@@ -1470,162 +1474,54 @@ classdef modelEdit < handle
         end
         
         function calculateBackgroundIllumination(obj,plane)
-%             obj.controllerEditHandle.busyIndicator(1);
-            switch plane
-                
-                case 'Green'
-                    workbar(0.1,'create image for Green Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - create image for Green Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneGreen,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCGreen = smoothedBackground;
-                    obj.FilenameBCGreen = 'calculated from Green plane background';
-                    workbar(1.5,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Blue'
-                    workbar(0.1,'create image for Blue Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Blue Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneBlue,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCBlue = smoothedBackground;
-                    obj.FilenameBCBlue = 'calculated from Blue plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Red'
-                    workbar(0.1,'create image for Red Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Red Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneRed,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCRed = smoothedBackground;
-                    obj.FilenameBCRed = 'calculated from Red plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Farred'
-                    workbar(0.1,'create image for Farred Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Farred Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneFarRed,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCFarRed = smoothedBackground;
-                    obj.FilenameBCFarRed = 'calculated from Farred plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                otherwise %calculate all missing images
-                    disp('all missing');
-                    
+             planesMap = struct( ...
+                'Green',   struct('src','PicPlaneGreen','dst','PicBCGreen','fname','FilenameBCGreen'), ...
+                'Red',     struct('src','PicPlaneRed','dst','PicBCRed','fname','FilenameBCRed'), ...
+                'Blue',    struct('src','PicPlaneBlue','dst','PicBCBlue','fname','FilenameBCBlue'), ...
+                'Farred',  struct('src','PicPlaneFarRed','dst','PicBCFarRed','fname','FilenameBCFarRed') ...
+            );
+        
+            if ~isfield(planesMap, plane)
+                obj.InfoMessage = ['ERROR during Background calculation. Unknown plane: %s', plane'];
+                error('Unknown plane: %s', plane);
             end
-%             obj.controllerEditHandle.busyIndicator(0);
+        
+            infoPrefix = [' - calculate background for ' plane ' Plane'];
+            workbar(0.1, ['create image for ' plane ' Plane'], 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            obj.InfoMessage = [infoPrefix ': creating plane image and calculating background illumination...'];
+        
+            % Source image
+            srcPlane = obj.(planesMap.(plane).src);
+        
+            % Use Green plane to estimate fiber size
+            PlaneBW = imbinarize(obj.PicPlaneGreen, 'adaptive', 'ForegroundPolarity', 'bright');
+            PlaneBW = ~PlaneBW;
+            PlaneBW = imfill(PlaneBW, 8, 'holes');
+            stats = regionprops('struct', PlaneBW, 'Area');
+            Area = sort([stats(:).Area]);
+            AreaBig = Area(round(length(Area)*(2/3)):end);
+            MeanArea = mean(AreaBig);
+        
+            workbar(0.3, 'determine fiber radius', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            radius = ceil(sqrt(MeanArea/pi)) * 3;
+        
+            workbar(0.5, 'calculate background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            background = imopen(srcPlane, strel('disk', radius));
+        
+            h = fspecial('disk', radius);
+            workbar(0.7, 'smoothing background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            smoothedBackground = imfilter(single(background), h, 'replicate');
+        
+            % Normalize
+            workbar(0.9, 'normalize background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            smoothedBackground = smoothedBackground / max(smoothedBackground(:));
+        
+            % Store results
+            obj.(planesMap.(plane).dst) = smoothedBackground;
+            obj.(planesMap.(plane).fname) = ['calculated from ' plane ' plane background'];
+        
+            workbar(1.0, 'done', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+                    
         end
 
         function createBinary(obj)

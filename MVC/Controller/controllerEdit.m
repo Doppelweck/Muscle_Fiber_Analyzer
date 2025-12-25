@@ -225,6 +225,9 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_InfoText,'Value',1, 'String','*** New Bioformat file selected ***')
                         
                         statusBio = obj.modelEditHandle.openBioformat();
+                        if ~strcmp(statusBio,'false')
+                            obj.modelEditHandle.searchForBrighntessImages();
+                        end
                         obj.imageLoader(uicontrols,statusBio);
                         
                     case 'false' %No file was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
