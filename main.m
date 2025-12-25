@@ -84,7 +84,7 @@ try
     set(mainFig,'Visible','on');
     set(hf,'Visible','on');
     set(hf,'WindowStyle','alwaysontop');
-    set(hf,'WindowStyle','modal');
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());
     figure(hf);drawnow;
     pause(build_up_time_delay);
 
@@ -223,7 +223,7 @@ catch ME
     end
 
     % Display error dialog
-    mode = struct('WindowStyle', 'modal', 'Interpreter', 'tex');
+    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'tex');
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
