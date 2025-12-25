@@ -83,7 +83,7 @@ classdef controllerEdit < handle
             
             obj.addWindowCallbacks();
             
-            %show init text in the info log
+            % show init text in the info log
             obj.modelEditHandle.InfoMessage = '*** Start program ***';
             obj.modelEditHandle.InfoMessage = 'Muscle-Fiber-Type-Classification-Tool';
             obj.modelEditHandle.InfoMessage = ['Version ' getSettingsValue('Version') ' ' getSettingsValue('Year')];
@@ -97,9 +97,11 @@ classdef controllerEdit < handle
             obj.modelEditHandle.InfoMessage = ' ';
             obj.modelEditHandle.InfoMessage = 'Press "New file" to start';
             
-            
-            set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-            set(obj.viewEditHandle.B_CheckPlanes,'Enable','off')
+            % disable all UI controls
+            uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
+            view_helper_set_enabled_ui_controls(uicontrols, 'off');
+            % enable only NewFile button
+            set(obj.viewEditHandle.B_NewPic,'Enable','on');
             
         end % end constructor
         
@@ -216,175 +218,20 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_InfoText,'Value',1, 'String',{'*** New Image selected ***'})
                         
                         statusImag = obj.modelEditHandle.openImage();
-
-                        switch statusImag
-                            
-                            case 'SuccessIndentify'
-                                
-                                obj.initImages();
-                                
-                                %enable all UI controls
-                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                                if disableB_ThresholdMode
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                end
-                                % check which morphOp buttons must be enabled
-                                obj.morphOpEvent();
-                                
-                            case 'ErrorIndentify'
-                                
-                                obj.initImages();
-                                
-                                infotext = {'Info! Image Identification:',...
-                                    '',...
-                                    'Not all images could be identified.',...
-                                    '',...
-                                    'Go to the "Check planes" menu to verify the images:',...
-                                    '',...
-                                    'See MANUAL for more details.',...
-                                    };
-                                %show info message on gui
-                                obj.viewEditHandle.infoMessage(infotext);
-                                
-                                %enable all UI controls
-                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                                if disableB_ThresholdMode
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                end
-                                % check which morphOp buttons must be enabled
-                                obj.morphOpEvent();
-                                
-                            case 'false'
-                                
-                                if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
-                                    %selecting a new image was not successfully. No image is
-                                    %loaded into the program
-                                    view_helper_set_enabled_ui_controls(uicontrols, 'off');
-                                    set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                else
-                                    %One image is already loaded into the program.
-                                    %enable all UI controls
-                                    view_helper_set_enabled_ui_controls(uicontrols, 'on');
-    
-                                    disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-    
-                                    if disableB_ThresholdMode
-                                        set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                        set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                    end
-                                    % check which morphOp buttons must be enabled
-                                    obj.morphOpEvent();
-                                end
-                                
-                        end % switch statusImag
+                        obj.imageLoader(uicontrols,statusImag);
                         
                         
                     case 'bioformat' %BioFormat was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         set(obj.viewEditHandle.B_InfoText,'Value',1, 'String','*** New Bioformat file selected ***')
                         
                         statusBio = obj.modelEditHandle.openBioformat();
-                        
-                        switch statusBio
-                            
-                            case 'SuccessIndentify'
-                                
-                                obj.initImages();
-                                
-                                %enable all UI controls
-                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                                if disableB_ThresholdMode
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                end
-                                % check which morphOp buttons must be enabled
-                                obj.morphOpEvent();
-                                
-                            case 'ErrorIndentify'
-                                
-                                obj.initImages();
-                                
-                                infotext = {'Info! Plane Identification:',...
-                                    '',...
-                                    'Not all planes could be identified.',...
-                                    '',...
-                                    'Go to the "Check planes" menu to verify the images:',...
-                                    '',...
-                                    'See MANUAL for more details.',...
-                                    };
-                                %show info message on gui
-                                obj.viewEditHandle.infoMessage(infotext);
-                                
-                                %enable all UI controls
-                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                                if disableB_ThresholdMode
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                end
-                                % check which morphOp buttons must be enabled
-                                obj.morphOpEvent();
-                                
-                            case 'false'
-                                
-                                if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
-                                    %selecting a new image was not successfully. No image is
-                                    %loaded into the program
-                                    view_helper_set_enabled_ui_controls(uicontrols, 'off');
-                                    set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                else
-                                    %One image is already loaded into the program.
-                                    %enable all UI controls
-                                    view_helper_set_enabled_ui_controls(uicontrols, 'on');
-    
-                                    disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-    
-                                    if disableB_ThresholdMode
-                                        set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                        set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                                    end
-                                    % check which morphOp buttons must be enabled
-                                    obj.morphOpEvent();
-                                end
-                                
-                        end % switch statusBio
+                        obj.imageLoader(uicontrols,statusBio);
                         
                     case 'false' %No file was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                        
-                        if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
-                            %selecting a new image was not successfully. No image is
-                            %loaded into the program
-                            view_helper_set_enabled_ui_controls(uicontrols, 'off');
-                            set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                        else
-                            %One image is already loaded into the program.
-                            %enable all UI controls
-                            view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                            if disableB_ThresholdMode
-                                set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                            end
-                            % check which morphOp buttons must be enabled
-                            obj.morphOpEvent();
-                        end
+                        %restore UI Control Elements 
+                        obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
                         
                     case 'notSupported'
-                        
                         infotext = {'Info! File not supported:',...
                             '',...
                             'Supported file formats are:',...
@@ -398,26 +245,8 @@ classdef controllerEdit < handle
                             };
                         %show info message on gui
                         obj.viewEditHandle.infoMessage(infotext);
-                        
-                        if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
-                            %selecting a new image was not successfully. No image is
-                            %loaded into the program
-                            view_helper_set_enabled_ui_controls(uicontrols, 'off');
-                            set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                        else
-                            %One image is already loaded into the program.
-                            %enable all UI controls
-                            view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-                            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-                            if disableB_ThresholdMode
-                                set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                            end
-                            % check which morphOp buttons must be enabled
-                            obj.morphOpEvent();
-                        end
+                        %restore UI Control Elements 
+                        obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
                         
                 end
                 obj.busyIndicator(0);
@@ -429,6 +258,36 @@ classdef controllerEdit < handle
             end
         end
         
+        function imageLoader(obj,uicontrols,status)
+            switch status
+                case 'SuccessIdentify'
+                    obj.initImages();
+                    %enable all UI controls
+                    obj.enableControlsAfterLoadNewFile(uicontrols);
+                    
+                case 'ErrorIdentify'
+                    obj.initImages();
+                    
+                    infotext = {'Info! Image Identification:',...
+                        '',...
+                        'Not all images/planes could be identified.',...
+                        '',...
+                        'Go to the "Check planes" menu to verify the images:',...
+                        '',...
+                        'See MANUAL for more details.',...
+                        };
+                    %show info message on gui
+                    obj.viewEditHandle.infoMessage(infotext);
+                    %enable all UI controls
+                    obj.enableControlsAfterLoadNewFile(uicontrols);
+                    
+                case 'false'
+                    %restore UI Control Elements 
+                    obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
+                    
+            end % switch statusImag
+        end
+
         function initImages(obj,~,~)
             %Convert all images to uint8
             %brightness adjustment of color plane images
@@ -448,6 +307,34 @@ classdef controllerEdit < handle
             
             %show images in GUI
             obj.setInitPicsGUI();
+        end
+
+        function enableControlsAfterLoadNewFile(obj,uicontrols,~)
+            %enable all UI controls
+            view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+            if disableB_ThresholdMode
+                set(obj.viewEditHandle.B_Threshold,'Enable','off');
+                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
+            end
+            % check which morphOp buttons must be enabled
+            obj.morphOpEvent();
+        end
+
+        function restoreControlsAfterLoadNewFileFailed(obj,uicontrols,~)
+            if isa(obj.modelEditHandle.handlePicRGB,'struct') || ...
+               isempty(obj.modelEditHandle.handlePicBW)
+               %selecting a new image was not successfully. No image is
+               %loaded into the program
+               view_helper_set_enabled_ui_controls(uicontrols,'off');
+               set(obj.viewEditHandle.B_NewPic,'Enable','on');
+            else
+                %One image is already loaded into the program.
+                %enable all UI controls
+                obj.enableControlsAfterLoadNewFile(uicontrols);
+            end
         end
 
         function setInitPicsGUI(obj)

@@ -481,9 +481,9 @@ classdef modelEdit < handle
             %           obj:        Handle to modelEdit object
             %
             %       - Output
-            %           status:    returns 'SuccessIndentify' if the color
+            %           status:    returns 'SuccessIdentify' if the color
             %               plane images were founded and identified.
-            %               Returns 'ErrorIndentify' if the images were
+            %               Returns 'ErrorIdentify' if the images were
             %               foundet but not identified. Returns 'false' if
             %               no images were found.
             %
@@ -631,12 +631,12 @@ classdef modelEdit < handle
                         if isempty(obj.PicPlaneFarRed)
                             obj.PicPlaneFarRed = zeros(size(obj.PicPlane1));
                         end
-                        status = 'SuccessIndentify';
+                        status = 'SuccessIdentify';
                         obj.InfoMessage = '   - indentifing planes successfully';
                     else
                         obj.InfoMessage = 'ERROR while indentifing planes';
                         obj.InfoMessage = '   -cange planes by pressing the "Check planes" button';
-                        status = 'ErrorIndentify';
+                        status = 'ErrorIdentify';
                         obj.PicPlaneGreen = obj.PicPlane1;
                         obj.PicPlaneRed = obj.PicPlane2;
                         obj.PicPlaneBlue = obj.PicPlane3;
@@ -711,7 +711,7 @@ classdef modelEdit < handle
                     %be identified
                     obj.InfoMessage = 'ERROR while indentifing planes';
                     obj.InfoMessage = '   -cange planes by pressing the "Check planes" button';
-                    status = 'ErrorIndentify';
+                    status = 'ErrorIdentify';
                     obj.PicPlaneGreen = obj.PicPlane1;
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
@@ -922,7 +922,7 @@ classdef modelEdit < handle
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                     
                 else
                     %Image is RGB
@@ -937,7 +937,7 @@ classdef modelEdit < handle
                     obj.PicPlaneRed = obj.PicPlane1;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                     
                 end
                 
@@ -1102,13 +1102,13 @@ classdef modelEdit < handle
                     if isempty(obj.PicPlaneFarRed)
                         obj.PicPlaneFarRed = zeros(size(obj.PicPlane1));
                     end
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                 else %identifying images failed. Assign them randomly
                     obj.PicPlaneGreen = obj.PicPlane1;
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'ErrorIndentify';
+                    status = 'ErrorIdentify';
                 end
                 
                 
