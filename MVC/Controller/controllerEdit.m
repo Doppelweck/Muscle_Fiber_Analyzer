@@ -279,27 +279,11 @@ classdef controllerEdit < handle
         
         function newFileEvent(obj,~,~)
             try
-                %disable GUI objects
-                set(obj.viewEditHandle.B_NewPic,'Enable','off');
-                set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                set(obj.viewEditHandle.B_CheckMask,'Enable','off');
-                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
-                set(obj.viewEditHandle.B_ThresholdMode,'Enable','off');
-                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','off');
-                set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                set(obj.viewEditHandle.B_Color,'Enable','off');
-                set(obj.viewEditHandle.B_Invert,'Enable','off');
-                set(obj.viewEditHandle.B_Alpha,'Enable','off');
-                set(obj.viewEditHandle.B_AlphaValue,'Enable','off');
-                set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','off');
-                set(obj.viewEditHandle.B_AlphaActive,'Enable','off');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','off');
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off');
-                set(obj.viewEditHandle.B_NoIteration,'Enable','off');
-                                
+                uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
+
+                %disable all UI controls
+                view_helper_set_enabled_ui_controls(uicontrols, 'off');
+            
                 format = obj.modelEditHandle.openNewFile();
                 obj.busyIndicator(1);
                 
@@ -333,32 +317,16 @@ classdef controllerEdit < handle
                                 %show images in GUI
                                 obj.setInitPicsGUI();
                                 
-                                %enable GUI objects
-                                set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                else
+                                %enable all UI controls
+                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                                if disableB_ThresholdMode
                                     set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                 end
-                                set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                set(obj.viewEditHandle.B_Color,'Enable','on');
-                                set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                
-                                % check wich morphOp buttons must be enabled
+                                % check which morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
                             case 'ErrorIndentify'
@@ -392,33 +360,16 @@ classdef controllerEdit < handle
                                 %show info message on gui
                                 obj.viewEditHandle.infoMessage(infotext);
                                 
-                                %enable GUI objects
-                                set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                else
+                                %enable all UI controls
+                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                                if disableB_ThresholdMode
                                     set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                 end
-                                set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                set(obj.viewEditHandle.B_Color,'Enable','on');
-                                set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                % check wich morphOp buttons must be enabled
-                                                                
+                                % check which morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
                             case 'false'
@@ -426,38 +377,20 @@ classdef controllerEdit < handle
                                 if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
                                     %selecting a new image was not successfully. No image is
                                     %loaded into the program
+                                    view_helper_set_enabled_ui_controls(uicontrols, 'off');
                                     set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                                    set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                                    set(obj.viewEditHandle.B_CheckMask,'Enable','off');
                                 else
                                     %One image is already loaded into the program.
-                                    %enable GUI objects
-                                    set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                    set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                    set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                    set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                    if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                            obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                            obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                        set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                        set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                    else
+                                    %enable all UI controls
+                                    view_helper_set_enabled_ui_controls(uicontrols, 'on');
+    
+                                    disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+    
+                                    if disableB_ThresholdMode
                                         set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                         set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                     end
-                                    set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                    set(obj.viewEditHandle.B_Color,'Enable','on');
-                                    set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                    set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                    set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                    set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                    set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                    % check wich morphOp buttons must be enabled
+                                    % check which morphOp buttons must be enabled
                                     obj.morphOpEvent();
                                 end
                                 
@@ -495,33 +428,16 @@ classdef controllerEdit < handle
                                 %show images in GUI
                                 obj.setInitPicsGUI();
                                 
-                                %enable GUI objects
-                                set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
-                                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 2 ||...
-                                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                else
+                                %enable all UI controls
+                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                                if disableB_ThresholdMode
                                     set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                 end
-                                set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                set(obj.viewEditHandle.B_Color,'Enable','on');
-                                set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                
-                                % check wich morphOp buttons must be enabled
+                                % check which morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
                             case 'ErrorIndentify'
@@ -559,33 +475,16 @@ classdef controllerEdit < handle
                                 %show info message on gui
                                 obj.viewEditHandle.infoMessage(infotext);
                                 
-                                %enable GUI objects
-                                set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                        obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                    set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                else
+                                %enable all UI controls
+                                view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                                if disableB_ThresholdMode
                                     set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                     set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                 end
-                                set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                set(obj.viewEditHandle.B_Color,'Enable','on');
-                                set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                % check wich morphOp buttons must be enabled
-                                
+                                % check which morphOp buttons must be enabled
                                 obj.morphOpEvent();
                                 
                             case 'false'
@@ -593,39 +492,20 @@ classdef controllerEdit < handle
                                 if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
                                     %selecting a new image was not successfully. No image is
                                     %loaded into the program
+                                    view_helper_set_enabled_ui_controls(uicontrols, 'off');
                                     set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                                    set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                                    set(obj.viewEditHandle.B_CheckMask,'Enable','off');
                                 else
                                     %One image is already loaded into the program.
-                                    %enable GUI objects
-                                    set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                                    set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                                    set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                    set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                                    set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                                    if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                            obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                            obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                        set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                        set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                                    else
+                                    %enable all UI controls
+                                    view_helper_set_enabled_ui_controls(uicontrols, 'on');
+    
+                                    disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+    
+                                    if disableB_ThresholdMode
                                         set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                         set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                                     end
-                                    set(obj.viewEditHandle.B_Invert,'Enable','on');
-                                    set(obj.viewEditHandle.B_Color,'Enable','on');
-                                    set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                                    set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                                    set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                                    set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                                    set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                                    
-                                    % check wich morphOp buttons must be enabled
+                                    % check which morphOp buttons must be enabled
                                     obj.morphOpEvent();
                                 end
                                 
@@ -636,38 +516,20 @@ classdef controllerEdit < handle
                         if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
                             %selecting a new image was not successfully. No image is
                             %loaded into the program
+                            view_helper_set_enabled_ui_controls(uicontrols, 'off');
                             set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                            set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                            set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                            set(obj.viewEditHandle.B_CheckMask,'Enable','off');
                         else
                             %One image is already loaded into the program.
-                            %enable GUI objects
-                            set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                            set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                            set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                            set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                            set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                            set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                            set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                            if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                    obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                    obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                            else
+                            %enable all UI controls
+                            view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                            if disableB_ThresholdMode
                                 set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                 set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                             end
-                            set(obj.viewEditHandle.B_Invert,'Enable','on');
-                            set(obj.viewEditHandle.B_Color,'Enable','on');
-                            set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                            set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                            set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                            set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                            set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                            set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                            % check wich morphOp buttons must be enabled
+                            % check which morphOp buttons must be enabled
                             obj.morphOpEvent();
                         end
                         
@@ -690,38 +552,20 @@ classdef controllerEdit < handle
                         if isa(obj.modelEditHandle.handlePicRGB,'struct') || isempty(obj.modelEditHandle.handlePicBW)
                             %selecting a new image was not successfully. No image is
                             %loaded into the program
+                            view_helper_set_enabled_ui_controls(uicontrols, 'off');
                             set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                            set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                            set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                            set(obj.viewEditHandle.B_CheckMask,'Enable','off');
                         else
                             %One image is already loaded into the program.
-                            %enable GUI objects
-                            set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                            set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                            set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                            set(obj.viewEditHandle.B_CheckMask,'Enable','on');
-                            set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                            set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                            set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                            if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                    obj.viewEditHandle.B_ThresholdMode.Value == 2 ||...
-                                    obj.viewEditHandle.B_ThresholdMode.Value == 3 )
-                                set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                                set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                            else
+                            %enable all UI controls
+                            view_helper_set_enabled_ui_controls(uicontrols, 'on');
+
+                            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+
+                            if disableB_ThresholdMode
                                 set(obj.viewEditHandle.B_Threshold,'Enable','off');
                                 set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
                             end
-                            set(obj.viewEditHandle.B_Invert,'Enable','on');
-                            set(obj.viewEditHandle.B_Color,'Enable','on');
-                            set(obj.viewEditHandle.B_Alpha,'Enable','on');
-                            set(obj.viewEditHandle.B_AlphaValue,'Enable','on');
-                            set(obj.viewEditHandle.B_ImageOverlaySelection,'Enable','on');
-                            set(obj.viewEditHandle.B_AlphaActive,'Enable','on');
-                            set(obj.viewEditHandle.B_MorphOP,'Enable','on');
-                            set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                            % check wich morphOp buttons must be enabled
+                            % check which morphOp buttons must be enabled
                             obj.morphOpEvent();
                         end
                         
@@ -868,8 +712,8 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                         set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
                         set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                        if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                                obj.viewEditHandle.B_ThresholdMode.Value == 3 )
+                        if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
+                                obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
                             set(obj.viewEditHandle.B_Threshold,'Enable','on');
                             set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
                         else
@@ -885,7 +729,7 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                         set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                         
-                        % check wich morphOp buttons must be enabled
+                        % check which morphOp buttons must be enabled
                         obj.morphOpEvent();
                     end
                     
@@ -985,8 +829,8 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                     set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
                     set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                    if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                            obj.viewEditHandle.B_ThresholdMode.Value == 3 )
+                    if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
+                            obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
                         set(obj.viewEditHandle.B_Threshold,'Enable','on');
                         set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
                     else
@@ -1002,7 +846,7 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                     
-                    % check wich morphOp buttons must be enabled
+                    % check which morphOp buttons must be enabled
                     obj.morphOpEvent();
                 end
                 
@@ -1045,8 +889,8 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                     set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
                     set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                    if (obj.viewEditHandle.B_ThresholdMode.Value == 1 || ...
-                            obj.viewEditHandle.B_ThresholdMode.Value == 3 )
+                    if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
+                            obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
                         set(obj.viewEditHandle.B_Threshold,'Enable','on');
                         set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
                     else
@@ -1062,7 +906,7 @@ classdef controllerEdit < handle
                     set(obj.viewEditHandle.B_MorphOP,'Enable','on');
                     set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                     
-                    % check wich morphOp buttons must be enabled
+                    % check which morphOp buttons must be enabled
                     obj.morphOpEvent();
                 end
             end
@@ -1198,7 +1042,7 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
                 
                 
-                % check wich morphOp buttons must be enabled
+                % check which morphOp buttons must be enabled
                 obj.morphOpEvent();
                 
             end
@@ -2286,7 +2130,7 @@ classdef controllerEdit < handle
             %           evnt:   callback event data
             %
             
-            %check wich structering element is selected
+            %check which structering element is selected
             String = src.Value;
             
             switch String
