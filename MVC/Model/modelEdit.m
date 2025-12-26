@@ -742,47 +742,7 @@ classdef modelEdit < handle
                 %search for brightness adjustment images
                 [~,~,ext] = fileparts([obj.PathName obj.FileName]);
                 
-                %find filenemes that started with the letter A for filter A
-                %images
-                filesA= dir(['A*' ext]);
-                filesAname = {filesA.name};
-                
-                %find filenemes that started with the letter L for filter L
-                %images
-                filesL= dir(['L*' ext]);
-                filesLname = {filesA.name};
-                
-                %find filenemes that started with the letter T for filter T
-                %images
-                filesT= dir(['T*' ext]);
-                filesTname = {filesA.name};
-                
-                %find filenemes that started with the letter Y for filter Y
-                %images
-                filesY= dir(['Y*' ext]);
-                filesYname = {filesA.name};
-                
-                if any(~cellfun(@isempty,regexp(ch_wave_name,'A[0-9]')))
-                    FN = regexp(filesAname,'A[0-9]');
-                    if any(~cellfun(@isempty,FN))
-                        name = filesAname{find(~cellfun(@isempty,FN))};
-                        FileNamePicBCBlue = dir(name);
-                    else
-                        FileNamePicBCBlue = [];
-                    end
-                elseif any(~cellfun(@isempty,regexp(ch_wave_name,'A[^0-9]')))
-                    FN = regexp(filesAname,'A[^0-9]');
-                    if any(~cellfun(@isempty,FN))
-                        name = filesAname{find(~cellfun(@isempty,FN))};
-                        FileNamePicBCBlue = dir(name);
-                    else
-                        FileNamePicBCBlue = [];
-                    end
-                    
-                else
-                    FileNamePicBCBlue = [];
-                end
-                
+                FileNamePicBCBlue = dir(['A*' ext]);
                 FileNamePicBCGreen = dir(['L*' ext]);
                 FileNamePicBCRed = dir(['TX*' ext]);
                 FileNamePicBCFarRed = dir(['Y*' ext]);
