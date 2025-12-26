@@ -344,6 +344,7 @@ classdef viewEdit < handle
             %           Pics:   Cell-Array containing all color-plane
             %                   images and the original RGB image
             %
+            params = view_helper_default_params();
             
             if ismac
                 fontSizeS = 10; % Font size small
@@ -364,22 +365,26 @@ classdef viewEdit < handle
             obj.hFCP = figure('NumberTitle','off','ToolBar','none',...
                 'MenuBar','none','Name','Check Color Planes',...
                 'Units','normalized','Visible','off','Tag','CheckPlanesFigure',...
-                'InvertHardcopy','off');
+                'InvertHardcopy','on');
             theme(obj.hFCP ,mainFig.Theme)
             %get position of mainFigure
             posMainFig = get(mainFig,'Position');
             
             set(obj.hFCP, 'position', [posMainFig(1) posMainFig(2) 0.8 0.8]);
             movegui(obj.hFCP,'center')
-            %set(obj.hFCP,'WindowStyle','modal');
+            set(obj.hFCP,'WindowStyle',getWindowsStyleFromSettings());
+
+            mainBox = uix.HBox('Parent', obj.hFCP, params.default_box_spacing_padding{:},'Padding', 5);
             
-            tabPanel = uix.TabPanel( 'Parent', obj.hFCP, 'FontSize',fontSizeB,'Padding',5,'TabWidth',300, 'Tag', 'checkPlanesTabPanel');
+            tabPanel = uiextras.TabPanel( 'Parent', mainBox, params.default_tab_panel{:},'FontSize',params.fontSizeB, 'Tag', 'checkPlanesTabPanel');
             
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Color Plane Tab
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            MainVBoxColorPlane = uix.VBox('Parent',tabPanel,'Spacing', 5,'Padding',5);
+            panelolorPlane =    uix.Panel('Parent',  tabPanel, params.default_panel{:},'FontSize',params.fontSizeM,'BorderWidth',1,...
+                'Title','Color Plane Images. Check and Change Pseudocolor for each Image');
+            MainVBoxColorPlane = uix.VBox('Parent',panelolorPlane,'Spacing', 5,'Padding',5);
             MainGridColor = uix.Grid('Parent',MainVBoxColorPlane,'Padding',5);
             
             VBox1ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
@@ -454,9 +459,13 @@ classdef viewEdit < handle
             % Brigntness Correction images Tab
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            MainVBoxBrightness = uix.VBox('Parent',tabPanel,'Spacing', 5,'Padding',5);
+            panelolorPlane =    uix.Panel('Parent',  tabPanel, params.default_panel{:},'FontSize',params.fontSizeM,'BorderWidth',1,...
+                'Title','Brightness Correction Images. Check, Select or Calculate Brightness Correction Images');
+            MainVBoxBrightness = uix.VBox('Parent',panelolorPlane,'Spacing', 5,'Padding',5);
             MainGridBrightness = uix.Grid('Parent',MainVBoxBrightness,'Padding',5,'Spacing', 5);
-            
+            drawnow
+            tabPanel.Selection = 2;
+            drawnow
             % Image befor brightness correction
             VBox1Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGB_noBC= axes('Parent',VBox1Brightness,'ActivePositionProperty','position');
@@ -559,8 +568,10 @@ classdef viewEdit < handle
             % Sizes
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            tabPanel.TabTitles = {'Color Plane images', 'Brightness Correction images'};
-            tabPanel.TabWidth = -1;
+            tabPanel.TabTitles = {'Color Plane Images', 'Brightness Correction Images'};
+            tabPanel.TabWidth = 450;
+            drawnow
+            tabPanel.Selection =1;
             set(obj.hFCP,'Visible','on');
             drawnow;
         end
