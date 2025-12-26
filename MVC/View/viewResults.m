@@ -345,7 +345,6 @@ classdef viewResults < handle
             obj.setToolTipStrings();
             
             set(mainCard,'Visible','on');
-            
             obj.tabPanel.Selection = 1;drawnow;
 
         end

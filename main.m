@@ -50,8 +50,6 @@ try
     theme(mainFig,getSettingsValue('Style'))
 
 
-
-
     %Create Start Screen
     hf = startSrcreen();
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
