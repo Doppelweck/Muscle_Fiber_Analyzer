@@ -170,7 +170,7 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_InfoText,'Value',1, 'String',{'*** New Image selected ***'})
                         
                         statusImag = obj.modelEditHandle.openImage();
-                        obj.imageLoader(obj.viewEditHandle,statusImag);
+                        obj.imageLoader(statusImag);
                         
                         
                     case 'bioformat' %BioFormat was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,11 +180,11 @@ classdef controllerEdit < handle
                         if ~strcmp(statusBio,'false')
                             obj.modelEditHandle.searchForBrighntessImages();
                         end
-                        obj.imageLoader(obj.viewEditHandle,statusBio);
+                        obj.imageLoader(statusBio);
                         
                     case 'false' %No file was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         %restore UI Control Elements 
-                        obj.restoreUIControls(obj.viewEditHandle);
+                        obj.updateUIControlState();
                         
                     case 'notSupported'
                         infotext = {'Info! File not supported:',...
@@ -201,7 +201,7 @@ classdef controllerEdit < handle
                         %show info message on gui
                         obj.viewEditHandle.infoMessage(infotext);
                         %restore UI Control Elements 
-                        obj.restoreUIControls(obj.viewEditHandle);
+                        obj.updateUIControlState(obj.viewEditHandle);
                         
                 end
                 obj.busyIndicator(0);
@@ -213,12 +213,12 @@ classdef controllerEdit < handle
             end
         end
         
-        function imageLoader(obj,viewHandel,status)
+        function imageLoader(obj,status)
             switch status
                 case 'SuccessIdentify'
                     obj.initImages();
                     %enable all UI controls
-                    obj.restoreUIControls(viewHandel);
+                    obj.updateUIControlState();
                     
                 case 'ErrorIdentify'
                     obj.initImages();
@@ -234,11 +234,11 @@ classdef controllerEdit < handle
                     %show info message on gui
                     obj.viewEditHandle.infoMessage(infotext);
                     %enable all UI controls
-                    obj.restoreUIControls(viewHandel);
+                    obj.updateUIControlState();
                     
                 case 'false'
                     %restore UI Control Elements 
-                    obj.restoreUIControls(obj.viewEditHandle);
+                    obj.updateUIControlState();
                     
             end % switch statusImag
         end
@@ -417,7 +417,7 @@ classdef controllerEdit < handle
                 obj.modelEditHandle.checkMask(obj.CheckMaskActive);
                 
                 % check which buttons must be enabled
-                obj.restoreUIControls(obj.viewEditHandle);
+                obj.updateUIControlState();
                 
             end
             set(obj.viewEditHandle.B_CheckMask,'Callback',@obj.checkMaskEvent);
@@ -1288,7 +1288,7 @@ classdef controllerEdit < handle
             
             %set(obj.viewEditHandle.B_MorphOP,'Enable','on');
             
-            obj.restoreUIControls(obj.viewEditHandle);
+            obj.updateUIControlState(obj.viewEditHandle);
             
             end
             
@@ -1527,8 +1527,8 @@ classdef controllerEdit < handle
             obj.modelEditHandle.redo();
         end
         
-        function restoreUIControls(obj,viewHandel,~)
-            uicontrols = view_helper_get_all_ui_controls(viewHandel);
+        function updateUIControlState(obj,~,~)
+            uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
             if isa(obj.modelEditHandle.handlePicRGB,'struct') || ...
                isempty(obj.modelEditHandle.handlePicBW)
                %No image is loaded into the program
@@ -1609,7 +1609,7 @@ classdef controllerEdit < handle
               
         function errorMessage(obj)
             controller_helper_error_message(obj);
-            obj.restoreUIControls(obj.viewEditHandle);   
+            obj.updateUIControlState();   
         end
         
         function closeProgramEvent(obj,~,~)
