@@ -48,20 +48,6 @@ classdef controllerAnalyze < handle
             % callback and listener functions to observes the corresponding
             % View objects. Saves the needed handles of the corresponding
             % View and Model in the properties.
-            %
-            %   obj = controllerAnalyze(mainFigure,mainCardPanel,viewAnalyzH,modelAnalyzeH)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           mainFigure:     Handle to main figure.
-            %           mainCardPanel:  Handle to main card panel.
-            %           viewAnalyzeH:   Hande to viewAnalyze instance.
-            %           modelAnalyzeH:  Hande to modelAnalyze instance.
-            %
-            %       - Output:
-            %           obj:            Handle to controllerAnalyze object.
-            %
             
             obj.mainFigure = mainFigure;
             obj.mainCardPanel =mainCardPanel;
@@ -83,15 +69,7 @@ classdef controllerAnalyze < handle
         function setInitValueInModel(obj)
             % Get the values from the buttons and GUI objects in the View
             % and set the values in the Model.
-            %
-            %   setInitValueInModel(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
-            
+
             obj.modelAnalyzeHandle.AnalyzeMode = obj.viewAnalyzeHandle.B_AnalyzeMode.ValueIndex;
             
             obj.modelAnalyzeHandle.AreaActive = obj.viewAnalyzeHandle.B_AreaActive.Value;
@@ -125,14 +103,6 @@ classdef controllerAnalyze < handle
         function addMyCallbacks(obj)
             % Set callback functions to several button objects in the
             % viewAnalyze instance.
-            %
-            %   addMyCallbacks(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
             
             set(obj.viewAnalyzeHandle.B_BackEdit,'Callback',@obj.backEditModeEvent);
             set(obj.viewAnalyzeHandle.B_StartResults,'Callback',@obj.startResultsModeEvent);
@@ -152,37 +122,18 @@ classdef controllerAnalyze < handle
         
         function addWindowCallbacks(obj)
             % Set callback functions of the main figure
-            %
-            %   addWindowCallbacks(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
             
             set(obj.mainFigure,'WindowButtonMotionFcn',@obj.showFiberInfo);
             set(obj.mainFigure,'WindowButtonDownFcn',@obj.manipulateFiberShowInfoEvent);
             set(obj.mainFigure,'ButtonDownFcn','');
             set(obj.mainFigure,'CloseRequestFcn',@obj.closeProgramEvent);
-            set(obj.mainFigure,'ResizeFcn','');
-            
-            %             set(obj.modelAnalyzeHandle.handlePicRGB,'ButtonDownFcn',@obj.manipulateFiberShowInfoEvent);
-            
+            set(obj.mainFigure,'ResizeFcn','');           
         end
         
         function addMyListener(obj)
             % add listeners to the several button objects in the
             % viewAnalyze instance and value objects or handles in the
             % modelAnalyze.
-            %
-            %   addMyListener(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
             
             % listeners VIEW
             addlistener(obj.viewAnalyzeHandle.B_MinArea,'String','PostSet',@obj.valueUpdateEvent);
@@ -217,16 +168,6 @@ classdef controllerAnalyze < handle
             % range. Only changes the values in the view (GUI) not in the
             % model. Data will be send to the model after pressing start
             % analyze button.
-            %
-            %   valueUpdateEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
             
             % If a window already exists, delete it
             OldFig = findobj('Tag','FigureManipulate');
@@ -528,19 +469,7 @@ classdef controllerAnalyze < handle
                     Yvalue = str2double(obj.viewAnalyzeHandle.B_YScale.String);
                     obj.viewAnalyzeHandle.hAP.YTick = 0:100:maxPixelY;
                     obj.viewAnalyzeHandle.hAP.YTickLabel = obj.viewAnalyzeHandle.hAP.XTick*Yvalue;
-                    %                 Yvalue = str2double(obj.viewAnalyzeHandle.B_YScale.String);
-                    %                 maxPixelY = size(obj.modelAnalyzeHandle.PicPRGBFRPlanes,1);
-                    %                 NoTicksY = 100*floor(maxPixelY/100)/100;
-                    %                 YStep = (NoTicksY*ceil(maxPixelY/NoTicksY)*round(Yvalue))/(NoTicksY*Yvalue);
-                    %                 obj.viewAnalyzeHandle.hAP.YTick = [0:YStep:maxPixelY];
-                    % %                 obj.viewAnalyzeHandle.hAP.YTick = linspace(0,maxPixelY);
-                    %                 obj.viewAnalyzeHandle.hAP.YTickLabel = obj.viewAnalyzeHandle.hAP.YTick*Yvalue;
-                    
-                    %                 maxUmY = maxPixelY*Yvalue;
-                    % %                 set(a,'xlim',[0 xmaxa]);
-                    % %                 yticks(obj.viewAnalyzeHandle.hAP,'auto');
-                    % %                 obj.viewAnalyzeHandle.hAP.Xlim = [0 maxUmY];
-                    %                 obj.viewAnalyzeHandle.hAP.YTick = [0:maxPixelY/10*Yvalue:maxPixelY];
+
                 otherwise
                     % Error Code
                     obj.modelAnalyzeHandle.InfoMessage = '! ERROR in valueUpdateEvent() FUNCTION !';
@@ -552,16 +481,7 @@ classdef controllerAnalyze < handle
             % Checks wich analyze mode is selected. Only changes the values
             % in the view (GUI) not in the model. Data will be send to the
             % model after pressing start analyze button.
-            %
-            %   analyzeModeEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
+
             obj.modelAnalyzeHandle.InfoMessage = '-changing analyze mode';
             
             switch src.ValueIndex
@@ -848,16 +768,6 @@ classdef controllerAnalyze < handle
             % the GUI if nessesary. Only changes the values in the view
             % (GUI) not in the model. Data will be send to the model after
             % pressing start analyze button.
-            %
-            %   activeParaEvent(obj,src,evnt)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
             
                     
             % Which element has triggered the callback
@@ -954,33 +864,6 @@ classdef controllerAnalyze < handle
             % Called by the controllerEdit instance when the user change
             % the program state to analyze-mode. Saves all nessessary Data
             % from the edit model into the analyze model.
-            %
-            %   startAnalyzingMode(obj,PicData,InfoText)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to controllerAnalyze object.
-            %           PicData:    Cell Array that contains the file- and
-            %               pathnames of the RGB image. Also contains the
-            %               RGB and the color plane images:
-            %
-            %               PicData{1}: name of selected file.
-            %               PicData{2}: path of selected file.
-            %               PicData{3}: RGB image created from all 4
-            %               Planes.
-            %               PicData{4}: binary mask image.
-            %               PicData{5}: green plane image.
-            %               PicData{6}: blue plane image.
-            %               PicData{7}: red plane image.
-            %               PicData{8}: farred plane image.
-            %               PicData{9}: RGB image create from red green and
-            %               PicData{10 - 18}: All images neede for Check
-            %                                 Planes Window in Edit Mode
-            %               PicData{18}: MetaData from Bio-Format file
-            %
-            %           InfoText:   Info text log.
-            %
             
             obj.busyIndicator(1);
             
@@ -1126,15 +1009,7 @@ classdef controllerAnalyze < handle
             % Transfers all parameter data into the analyze model and start
             % the fiber type classification functions in the model. Disable
             % all GUI elements during the classification.
-            %
-            %   startAnalyzeEvent(obj,~,~);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
-            
+
             % If a window for Fibertype manipulation already exists,
             % delete it
             
@@ -1233,14 +1108,6 @@ classdef controllerAnalyze < handle
         
         function plotBoundaries(obj)
             % Show boundaries in the RGB image after classification.
-            %
-            %   plotBoundaries(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
             
             %Make axes with rgb image the current axes
             axesh = obj.modelAnalyzeHandle.handlePicRGB.Parent;
@@ -1340,15 +1207,7 @@ classdef controllerAnalyze < handle
             % Clears the data in the analyze model and change the state of
             % the program to the edit mode. Refresh the figure callbacks
             % for the edit mode.
-            %
-            %   backEditModeEvent(obj,~,~);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
-%             obj.busyIndicator(1);
+
             obj.modelAnalyzeHandle.InfoMessage = ' ';
             
             %clear Data
@@ -1384,8 +1243,7 @@ classdef controllerAnalyze < handle
             
             % set log text from Analyze GUI to Pic GUI
             obj.controllerEditHandle.setInfoTextView(get(obj.viewAnalyzeHandle.B_InfoText, 'String'));
-%             obj.busyIndicator(0);
-            %change the card panel to selection 1: edit mode
+
         end
         
         function backEditModeEvent(obj,~,~)
@@ -1410,30 +1268,21 @@ classdef controllerAnalyze < handle
         end
         
         function startResultsModeEvent(obj,~,~)
+            % Callback function of the show rsults button in the GUI.
+            % Starts the rusults mode. transfers all data from the analyze
+            % model to the results model.
             set(obj.viewAnalyzeHandle.B_BackEdit,'Enable','off')
             set(obj.viewAnalyzeHandle.B_StartAnalyze,'Enable','off')
             set(obj.viewAnalyzeHandle.B_StartResults,'Enable','off')
             set(obj.viewAnalyzeHandle.B_PreResults,'Enable','off')
             drawnow;
+
             try
-                % Callback function of the show rsults button in the GUI.
-                % Starts the rusults mode. transfers all data from the analyze
-                % model to the results model.
-                %
-                %   startResultsModeEvent(obj,~,~)
-                %
-                %   ARGUMENTS:
-                %
-                %       - Input
-                %           obj:    Handle to controllerAnalyze object.
-                %
-                
-                %                 obj.busyIndicator(1);
+
                 if isempty(obj.modelAnalyzeHandle.Stats)
                     obj.modelAnalyzeHandle.InfoMessage = '   - No data are analyzed';
                     obj.modelAnalyzeHandle.InfoMessage = '   - Press "Start analyzing"';
                 else
-%                     obj.mainCardPanel.Selection = 3;
                     % If a window for Fibertype manipulation already exists,
                     % delete it
                     OldFig = findobj('Tag','FigureManipulate');
@@ -1466,7 +1315,6 @@ classdef controllerAnalyze < handle
                     % send all data to the result controller and start the
                     % result mode
                     obj.controllerResultsHandle.startResultsMode(Data,InfoText);
-                    %                     obj.busyIndicator(0);
                 end
             catch
                 obj.errorMessage();
@@ -1483,14 +1331,6 @@ classdef controllerAnalyze < handle
             % complete than the function shows the fiber information and a
             % zoomed picture of the fiber object in the fiber information
             % panel depending on the cursor position.
-            %
-            %   showFiberInfo(obj,~,~)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
             
             %get current cursor position in the rgb image.
             Pos = get(obj.viewAnalyzeHandle.hAP, 'CurrentPoint');
@@ -1596,19 +1436,9 @@ classdef controllerAnalyze < handle
             % a new figure at the positon where the user clicked. Allows
             % the user to change the fiber type manually after the
             % classification in that figure.
-            %
-            %   manipulateFiberShowInfoEvent(obj,~,~)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %
             
             % Show the fiber information from the selected object on the
             % right side of the GUI
-            
-            
             obj.showFiberInfo();
             
             % If a window already exists, delete it
@@ -1626,7 +1456,7 @@ classdef controllerAnalyze < handle
             PosAxes = get(obj.viewAnalyzeHandle.hAP, 'CurrentPoint');
             PosOut = obj.modelAnalyzeHandle.checkPosition(PosAxes);
             
-            if isnan(PosOut(1)) || isnan(PosOut(1))
+            if isnan(PosOut(1)) || isnan(PosOut(2))
                 set(obj.mainFigure,'WindowButtonMotionFcn',@obj.showFiberInfo);
                 if strcmp(obj.winState,'maximized')
                     set(obj.mainFigure,'WindowState','maximized');
@@ -1683,16 +1513,6 @@ classdef controllerAnalyze < handle
             % Callback function of the ok button in the maipulate fiber
             % type figure. Calls the manipulateFiberOK() fuction in the
             % model to change the fiber type into the new one.
-            %
-            %   manipulateFiberShowInfoEvent(obj,~,~)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
             
             NewFiberType = get(obj.viewAnalyzeHandle.B_FiberTypeManipulate, 'Value');
             LabelNumber = str2double( get(obj.viewAnalyzeHandle.B_TextObjNo, 'Text') );
@@ -1724,16 +1544,6 @@ classdef controllerAnalyze < handle
             % Callback function of the cancel button in the maipulate fiber
             % type figure. Deletes the maipulate fiber figure object and
             % refresh the callback functions of the main figure.
-            %
-            %   manipulateFiberShowInfoEvent(obj,~,~)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
             
             % If a window for Fibertype manipulation already exists,
             % delete it
@@ -2158,15 +1968,6 @@ classdef controllerAnalyze < handle
             % Sets the log text on the GUI.
             % Only called by changing the MVC if the stage of the
             % program changes.
-            %
-            %   setInfoTextView(obj,InfoText);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to controllerEdit object
-            %           InfoText:   Info text log
-            %
             
             set(obj.viewAnalyzeHandle.B_InfoText, 'String', InfoText);
             set(obj.viewAnalyzeHandle.B_InfoText, 'Value' , length(obj.viewAnalyzeHandle.B_InfoText.String));
@@ -2184,16 +1985,6 @@ classdef controllerAnalyze < handle
             % Calls by the controller results-mode. Get back to the edit
             % mode and call the newPictureEvent function to select a new
             % image for further processing.
-            %
-            %   updateInfoLogEvent(obj,src,evnt)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             obj.backEditModeEvent();
             obj.controllerEditHandle.newFileEvent();
@@ -2209,14 +2000,7 @@ classdef controllerAnalyze < handle
         
         function closeProgramEvent(obj,~,~)
             % Colose Request function of the main figure.
-            %
-            %   closeProgramEvent(obj,~,~)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object
-            %
+
             winState=get(obj.mainFigure,'WindowState');
             choice = questdlg({'Are you sure you want to quit? ','All unsaved data will be lost.'},...
                 'Close Program', ...
@@ -2251,9 +2035,6 @@ classdef controllerAnalyze < handle
             delete(obj)
         end
         
-        
     end
-    
-    
 end
 
