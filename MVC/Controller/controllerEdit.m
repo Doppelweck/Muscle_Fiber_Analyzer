@@ -265,7 +265,7 @@ classdef controllerEdit < handle
                 case 'SuccessIdentify'
                     obj.initImages();
                     %enable all UI controls
-                    obj.enableControlsAfterLoadNewFile(viewHandel);
+                    obj.restoreUIControls(viewHandel);
                     
                 case 'ErrorIdentify'
                     obj.initImages();
@@ -281,7 +281,7 @@ classdef controllerEdit < handle
                     %show info message on gui
                     obj.viewEditHandle.infoMessage(infotext);
                     %enable all UI controls
-                    obj.enableControlsAfterLoadNewFile(viewHandel);
+                    obj.restoreUIControls(viewHandel);
                     
                 case 'false'
                     %restore UI Control Elements 
@@ -316,36 +316,7 @@ classdef controllerEdit < handle
             end
         end
 
-        function enableControlsAfterLoadNewFile(obj,viewHandel,~)
-            uicontrols = view_helper_get_all_ui_controls(viewHandel);
-            %enable all UI controls
-            view_helper_set_enabled_ui_controls(uicontrols, 'on');
-
-            disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
-
-            if disableB_ThresholdMode
-                set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-            end
-            % check which morphOp buttons must be enabled
-            obj.morphOpEvent();
-        end
-
-        function restoreUIControls(obj,viewHandel,~)
-            uicontrols = view_helper_get_all_ui_controls(viewHandel);
-            if isa(obj.modelEditHandle.handlePicRGB,'struct') || ...
-               isempty(obj.modelEditHandle.handlePicBW)
-               %No image is loaded into the program
-               view_helper_set_enabled_ui_controls(uicontrols,'off');
-               set(obj.viewEditHandle.B_NewPic,'Enable','on');
-            else
-                %One image is already loaded into the program.
-                obj.enableControlsAfterLoadNewFile(viewHandel);
-            end
-            % check which morphOp buttons must be enabled
-            obj.morphOpEvent();
-        end
-
+       
         function setInitPicsGUI(obj)
             % set the initalize images in the axes handels viewEdit to show
             % the images in the GUI.
@@ -501,26 +472,11 @@ classdef controllerEdit < handle
                 obj.modelEditHandle.InfoMessage = '   - check mask';
                 set(obj.mainFigure,'ButtonDownFcn','');
                 set(obj.modelEditHandle.handlePicBW,'ButtonDownFcn','');
-                
-                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','off');
-                set(obj.viewEditHandle.B_NewPic,'Enable','off');
-                set(obj.viewEditHandle.B_Undo,'Enable','off');
-                set(obj.viewEditHandle.B_Redo,'Enable','off');
-                set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
-                set(obj.viewEditHandle.B_ThresholdMode,'Enable','off');
-                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','off');
-                set(obj.viewEditHandle.B_Threshold,'Enable','off');
-                set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
-                set(obj.viewEditHandle.B_LineWidth,'Enable','off');
-                set(obj.viewEditHandle.B_LineWidthValue,'Enable','off');
-                set(obj.viewEditHandle.B_Invert,'Enable','off');
-                set(obj.viewEditHandle.B_Color,'Enable','off');
-                set(obj.viewEditHandle.B_MorphOP,'Enable','off');
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','off');
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off');
-                set(obj.viewEditHandle.B_NoIteration,'Enable','off');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off');
+
+                uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
+                view_helper_set_enabled_ui_controls(uicontrols, 'off');
+                set(obj.viewEditHandle.B_CheckMask,'Enable','on');
+
                 
                 obj.modelEditHandle.checkMask(obj.CheckMaskActive);
                 
@@ -532,30 +488,8 @@ classdef controllerEdit < handle
                 
                 obj.modelEditHandle.checkMask(obj.CheckMaskActive);
                 
-                set(obj.viewEditHandle.B_StartAnalyzeMode,'Enable','on');
-                set(obj.viewEditHandle.B_NewPic,'Enable','on');
-                set(obj.viewEditHandle.B_Undo,'Enable','on');
-                set(obj.viewEditHandle.B_Redo,'Enable','on');
-                set(obj.viewEditHandle.B_CheckPlanes,'Enable','on');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                set(obj.viewEditHandle.B_ThresholdMode,'Enable','on');
-                set(obj.viewEditHandle.B_FiberForeBackGround,'Enable','on');
-                set(obj.viewEditHandle.B_LineWidth,'Enable','on');
-                set(obj.viewEditHandle.B_LineWidthValue,'Enable','on');
-                if (obj.viewEditHandle.B_ThresholdMode.ValueIndex == 1 || ...
-                        obj.viewEditHandle.B_ThresholdMode.ValueIndex == 3 )
-                    %activate only if threshold is nessesary
-                    set(obj.viewEditHandle.B_Threshold,'Enable','on');
-                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','on');
-                end
-                set(obj.viewEditHandle.B_Invert,'Enable','on');
-                set(obj.viewEditHandle.B_Color,'Enable','on');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on');
-                
-                
-                % check which morphOp buttons must be enabled
-                obj.morphOpEvent();
+                % check which buttons must be enabled
+                obj.restoreUIControls(obj.viewEditHandle);
                 
             end
             set(obj.viewEditHandle.B_CheckMask,'Callback',@obj.checkMaskEvent);
@@ -1501,126 +1435,40 @@ classdef controllerEdit < handle
                 
             else
             
-            switch String
-                
-                case 'erode'
-                    
-                    obj.modelEditHandle.morphOP = 'erode';
-                    
-                case 'dilate'
-                    
-                    obj.modelEditHandle.morphOP = 'dilate';
-                    
-                case 'skel'
-                    
-                    obj.modelEditHandle.morphOP = 'skel';
-                    
-                case 'thin'
-                    
-                    obj.modelEditHandle.morphOP = 'thin';
-                    
-                case 'open'
-                    
-                    obj.modelEditHandle.morphOP = 'open';
-                    
-                case 'close'
-                    
-                    obj.modelEditHandle.morphOP = 'close';
-                    
-                case 'remove'
-                    
-                    obj.modelEditHandle.morphOP = 'remove';
-                    
-                case 'shrink'
-                    
-                    obj.modelEditHandle.morphOP = 'shrink';
-                    
-                case 'majority'
-                    
-                    obj.modelEditHandle.morphOP = 'majority';
-                    
-                case 'smoothing'
-                    
-                    obj.modelEditHandle.morphOP = 'smoothing';
-                    
-                case 'close small gaps'
-                    
-                    obj.modelEditHandle.morphOP = 'close small gaps';
-                    
-                case 'remove incomplete objects'
-                    
-                    obj.modelEditHandle.morphOP = 'remove incomplete objects';
-                    
-                otherwise
-                    
-                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
-                    set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
-                    set(obj.viewEditHandle.B_SizeSE,'Enable','off')
-                    set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                    obj.viewEditHandle.B_MorphOP.Value = 1;
-                    obj.modelEditHandle.morphOP = 'choose operation';
-                    set(obj.viewEditHandle.B_MorphOP,'Enable','on')
-                    
+            validOps = {
+                'erode'
+                'dilate'
+                'skel'
+                'thin'
+                'open'
+                'close'
+                'remove'
+                'shrink'
+                'majority'
+                'smoothing'
+                'close small gaps'
+                'remove incomplete objects'
+            };
+            
+            if ismember(String, validOps)
+                obj.modelEditHandle.morphOP = String;
+            else
+                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
+                set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
+                set(obj.viewEditHandle.B_SizeSE,'Enable','off')
+                set(obj.viewEditHandle.B_NoIteration,'Enable','off')
+            
+                obj.viewEditHandle.B_MorphOP.ValueIndex = 1;
+                obj.modelEditHandle.morphOP = 'choose operation';
+                set(obj.viewEditHandle.B_MorphOP,'Enable','on')
             end
             
             % Check wich morph option is selectet to turn off/on the
             % corresponding operating elements
             
-            set(obj.viewEditHandle.B_MorphOP,'Enable','on');
+            %set(obj.viewEditHandle.B_MorphOP,'Enable','on');
             
-            % get morphological operation string
-            tempMorpStr = obj.modelEditHandle.morphOP;
-            % get structering element string
-            tempSEStr = obj.modelEditHandle.SE;
-            
-            % Check wich operation is selected
-            if strcmp(tempMorpStr,'choose operation') || strcmp(tempMorpStr,'')
-                % No operation is selected
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off')
-                set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                
-            elseif strcmp(tempMorpStr,'erode') || strcmp(tempMorpStr,'dilate') ||...
-                    strcmp(tempMorpStr,'open') || strcmp(tempMorpStr,'close')
-                % Morph options that need a structuring element. No
-                % structering element is selected
-                
-                %disable run morph button until a structering element was
-                %selected
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','on')
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off')
-                set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
-                
-                if ~strcmp(tempSEStr,'') && ~strcmp(tempSEStr,'choose SE')
-                    % Morph options with choosen structuring element
-                    
-                    %enable run morph button
-                    set(obj.viewEditHandle.B_ShapeSE,'Enable','on')
-                    set(obj.viewEditHandle.B_SizeSE,'Enable','on')
-                    set(obj.viewEditHandle.B_NoIteration,'Enable','on')
-                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-                    
-                end
-            elseif   strcmp(tempMorpStr,'smoothing') || strcmp(tempMorpStr,'skel') ...
-                    || strcmp(tempMorpStr,'Remove incomplete objects')
-                
-                %enable run morph button
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off')
-                set(obj.viewEditHandle.B_NoIteration,'Enable','off')
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-            else
-                % Morph options that dont need a structuring element
-                
-                %enable run morph button, diable structering element
-                %buttons
-                set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
-                set(obj.viewEditHandle.B_SizeSE,'Enable','off')
-                set(obj.viewEditHandle.B_NoIteration,'Enable','on')
-                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
-            end
+            obj.restoreUIControls(obj.viewEditHandle);
             
             end
             
@@ -1942,6 +1790,65 @@ classdef controllerEdit < handle
             obj.modelEditHandle.redo();
         end
         
+        function restoreUIControls(obj,viewHandel,~)
+            uicontrols = view_helper_get_all_ui_controls(viewHandel);
+            if isa(obj.modelEditHandle.handlePicRGB,'struct') || ...
+               isempty(obj.modelEditHandle.handlePicBW)
+               %No image is loaded into the program
+               view_helper_set_enabled_ui_controls(uicontrols,'off');
+               set(obj.viewEditHandle.B_NewPic,'Enable','on');
+            else
+                %One image is already loaded into the program.
+                view_helper_set_enabled_ui_controls(uicontrols, 'on');
+    
+                disableB_ThresholdMode = ~ismember(obj.viewEditHandle.B_ThresholdMode.ValueIndex,[1 2 3]);
+    
+                if disableB_ThresholdMode
+                    set(obj.viewEditHandle.B_Threshold,'Enable','off');
+                    set(obj.viewEditHandle.B_ThresholdValue,'Enable','off');
+                end
+            end
+            % check which morphOp buttons must be enabled
+            op = lower(strtrim(obj.modelEditHandle.morphOP));
+            se = lower(strtrim(obj.modelEditHandle.SE));
+        
+            opsNeedSE = {'erode','dilate','open','close'};
+            opsNoSE   = {'smoothing','skel','remove incomplete objects'};
+        
+            % Default: alles aus
+            set(obj.viewEditHandle.B_StartMorphOP,'Enable','off')
+            set(obj.viewEditHandle.B_ShapeSE,'Enable','off')
+            set(obj.viewEditHandle.B_SizeSE,'Enable','off')
+            set(obj.viewEditHandle.B_NoIteration,'Enable','off')
+        
+            % Keine Operation gewählt
+            if isempty(op) || strcmp(op,'choose operation')
+                return
+            end
+        
+            % Operationen MIT Structuring Element
+            if ismember(op, opsNeedSE)
+                set(obj.viewEditHandle.B_ShapeSE,'Enable','on')
+        
+                if ~isempty(se) && ~strcmp(se,'choose se')
+                    set(obj.viewEditHandle.B_SizeSE,'Enable','on')
+                    set(obj.viewEditHandle.B_NoIteration,'Enable','on')
+                    set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
+                end
+                return
+            end
+        
+            % Operationen OHNE Structuring Element, OHNE Iteration
+            if ismember(op, opsNoSE)
+                set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
+                return
+            end
+        
+            % Operationen OHNE SE, MIT Iteration
+            set(obj.viewEditHandle.B_NoIteration,'Enable','on')
+            set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
+        end
+
         function setInfoTextView(obj,InfoText)
             % Sets the log text on the GUI.
             % Only called by changing the MVC if the stage of the
