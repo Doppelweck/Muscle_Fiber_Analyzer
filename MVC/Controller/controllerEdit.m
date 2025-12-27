@@ -204,9 +204,8 @@ classdef controllerEdit < handle
         
         function newFileEvent(obj,~,~)
             try
-                uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
-
                 %disable all UI controls
+                uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
                 view_helper_set_enabled_ui_controls(uicontrols, 'off');
             
                 format = obj.modelEditHandle.openNewFile();
@@ -218,7 +217,7 @@ classdef controllerEdit < handle
                         set(obj.viewEditHandle.B_InfoText,'Value',1, 'String',{'*** New Image selected ***'})
                         
                         statusImag = obj.modelEditHandle.openImage();
-                        obj.imageLoader(uicontrols,statusImag);
+                        obj.imageLoader(obj.viewEditHandle,statusImag);
                         
                         
                     case 'bioformat' %BioFormat was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -228,11 +227,11 @@ classdef controllerEdit < handle
                         if ~strcmp(statusBio,'false')
                             obj.modelEditHandle.searchForBrighntessImages();
                         end
-                        obj.imageLoader(uicontrols,statusBio);
+                        obj.imageLoader(obj.viewEditHandle,statusBio);
                         
                     case 'false' %No file was selected %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         %restore UI Control Elements 
-                        obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
+                        obj.restoreUIControls(obj.viewEditHandle);
                         
                     case 'notSupported'
                         infotext = {'Info! File not supported:',...
@@ -249,7 +248,7 @@ classdef controllerEdit < handle
                         %show info message on gui
                         obj.viewEditHandle.infoMessage(infotext);
                         %restore UI Control Elements 
-                        obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
+                        obj.restoreUIControls(obj.viewEditHandle);
                         
                 end
                 obj.busyIndicator(0);
@@ -261,12 +260,12 @@ classdef controllerEdit < handle
             end
         end
         
-        function imageLoader(obj,uicontrols,status)
+        function imageLoader(obj,viewHandel,status)
             switch status
                 case 'SuccessIdentify'
                     obj.initImages();
                     %enable all UI controls
-                    obj.enableControlsAfterLoadNewFile(uicontrols);
+                    obj.enableControlsAfterLoadNewFile(viewHandel);
                     
                 case 'ErrorIdentify'
                     obj.initImages();
@@ -282,37 +281,43 @@ classdef controllerEdit < handle
                     %show info message on gui
                     obj.viewEditHandle.infoMessage(infotext);
                     %enable all UI controls
-                    obj.enableControlsAfterLoadNewFile(uicontrols);
+                    obj.enableControlsAfterLoadNewFile(viewHandel);
                     
                 case 'false'
                     %restore UI Control Elements 
-                    obj.restoreControlsAfterLoadNewFileFailed(uicontrols);
+                    obj.restoreUIControls(obj.viewEditHandle);
                     
             end % switch statusImag
         end
 
         function initImages(obj,~,~)
-            %Convert all images to uint8
-            %brightness adjustment of color plane images
-            obj.modelEditHandle.brightnessAdjustment();
-            %create RGB images
-            obj.modelEditHandle.createRGBImages();
-            %reset invert status of binary pic
-            obj.modelEditHandle.PicBWisInvert = 'false';
-            %create binary pic
-            obj.modelEditHandle.createBinary();
-            %reset pic buffer for undo redo functionality
-            obj.modelEditHandle.PicBuffer = {};
-            %load binary pic in the buffer
-            obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
-            %reset buffer pointer
-            obj.modelEditHandle.PicBufferPointer = 1;
-            
-            %show images in GUI
-            obj.setInitPicsGUI();
+            try
+                %Convert all images to uint8
+                %brightness adjustment of color plane images
+                obj.modelEditHandle.brightnessAdjustment();
+                %create RGB images
+                obj.modelEditHandle.createRGBImages();
+                %reset invert status of binary pic
+                obj.modelEditHandle.PicBWisInvert = 'false';
+                %create binary pic
+                obj.modelEditHandle.createBinary();
+                %reset pic buffer for undo redo functionality
+                obj.modelEditHandle.PicBuffer = {};
+                %load binary pic in the buffer
+                obj.modelEditHandle.PicBuffer{1,1} = obj.modelEditHandle.PicBW;
+                %reset buffer pointer
+                obj.modelEditHandle.PicBufferPointer = 1;
+                
+                %show images in GUI
+                obj.setInitPicsGUI();
+            catch
+                obj.busyIndicator(0);
+                obj.errorMessage();
+            end
         end
 
-        function enableControlsAfterLoadNewFile(obj,uicontrols,~)
+        function enableControlsAfterLoadNewFile(obj,viewHandel,~)
+            uicontrols = view_helper_get_all_ui_controls(viewHandel);
             %enable all UI controls
             view_helper_set_enabled_ui_controls(uicontrols, 'on');
 
@@ -326,18 +331,19 @@ classdef controllerEdit < handle
             obj.morphOpEvent();
         end
 
-        function restoreControlsAfterLoadNewFileFailed(obj,uicontrols,~)
+        function restoreUIControls(obj,viewHandel,~)
+            uicontrols = view_helper_get_all_ui_controls(viewHandel);
             if isa(obj.modelEditHandle.handlePicRGB,'struct') || ...
                isempty(obj.modelEditHandle.handlePicBW)
-               %selecting a new image was not successfully. No image is
-               %loaded into the program
+               %No image is loaded into the program
                view_helper_set_enabled_ui_controls(uicontrols,'off');
                set(obj.viewEditHandle.B_NewPic,'Enable','on');
             else
                 %One image is already loaded into the program.
-                %enable all UI controls
                 obj.enableControlsAfterLoadNewFile(uicontrols);
             end
+            % check which morphOp buttons must be enabled
+            obj.morphOpEvent();
         end
 
         function setInitPicsGUI(obj)
@@ -444,9 +450,12 @@ classdef controllerEdit < handle
             obj.winState=get(obj.mainFigure,'WindowState');
             obj.modelEditHandle.InfoMessage = '   - Checking planes opened';
             PicData = obj.modelEditHandle.sendPicsToController();
-            
-            obj.viewEditHandle.checkPlanes(PicData,obj.mainFigure);
-            
+            try
+                obj.viewEditHandle.checkPlanes(PicData,obj.mainFigure);
+            catch
+                obj.busyIndicator(0);
+                obj.errorMessage();
+            end
             % set Callbacks of the cancel and Ok button color planes.
             set(obj.viewEditHandle.B_CheckPOK,'Callback',@obj.checkPlanesOKEvent);
             set(obj.viewEditHandle.B_CheckPBack,'Callback',@obj.checkPlanesBackEvent);

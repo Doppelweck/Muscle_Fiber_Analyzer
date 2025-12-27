@@ -1345,18 +1345,7 @@ classdef modelEdit < handle
             else
                 %brightness adjustment PicPlaneGreen
                 if ~isempty(obj.PicBCGreen)
-                    workbar(0.1,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust green plane';
-                    PicMF = medfilt2(obj.PicBCGreen,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)./double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneGreen)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneGreen)));
-                    workbar(0.9,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneGreen_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneGreen_adj   = obj.brightnessAdjustmentPlane(obj.PicPlaneGreen,   obj.PicBCGreen,   'Green');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicBCGreen not found';
@@ -1365,18 +1354,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneRed
                 if ~isempty(obj.PicBCRed)
-                    workbar(0.1,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust red plane';
-                    PicMF = medfilt2(obj.PicBCRed,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneRed)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneRed)));
-                    workbar(0.9,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneRed_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneRed_adj     = obj.brightnessAdjustmentPlane(obj.PicPlaneRed,     obj.PicBCRed,     'Red');
                 else
                     obj.InfoMessage = '      - PicBCRed not found';
                     obj.PicPlaneRed_adj = obj.PicPlaneRed;
@@ -1384,21 +1362,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneBlue
                 if ~isempty(obj.PicBCBlue)
-                    workbar(0.1,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - adjust blue plane';
-                    PicMF = medfilt2(obj.PicBCBlue,[5 5],'symmetric');
-                    workbar(0.2,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.3,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    maxP = double( max(obj.PicPlaneBlue(:)) ); %max Plane Original
-                    workbar(0.5,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneBlue)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    minPBC = double(min(PicBC(:))); %min Plane afer BC
-                    PicBC = ((PicBC-minPBC)/max(max((PicBC-minPBC)))*(maxP-minPBC))+minPBC;
-                    workbar(0.9,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneBlue_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneBlue_adj    = obj.brightnessAdjustmentPlane(obj.PicPlaneBlue,    obj.PicBCBlue,    'Blue');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicBCBlue not found';
@@ -1407,21 +1371,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneFarRed
                 if ~isempty(obj.PicBCFarRed)
-                    workbar(0.1,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust farred plane';
-                    PicMF = medfilt2(obj.PicBCFarRed,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicBC = double(obj.PicPlaneFarRed)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    maxP = double( max(obj.PicPlaneFarRed(:)) ); %max Plane Original
-                    minPBC = double(min(PicBC(:))); %min Plane afer BC
-                    workbar(0.9,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicBC = ((PicBC-minPBC)/max(max((PicBC-minPBC)))*(maxP-minPBC))+minPBC;
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneFarRed)));
-                    obj.PicPlaneFarRed_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
+                    obj.PicPlaneFarRed_adj  = obj.brightnessAdjustmentPlane(obj.PicPlaneFarRed,  obj.PicBCFarRed,  'Farred');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicY4 not found';
@@ -1431,6 +1381,46 @@ classdef modelEdit < handle
             end
             workbar(1,'Brightness adjustment Green Plabe','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
             obj.InfoMessage = '   - brightness adjustment finished';
+        end
+
+        function PicAdj = brightnessAdjustmentPlane(obj, PicPlane, PicBC, name)
+            % adjustPlane
+            % Applies brightness correction to a single color plane using a
+            % background correction image. If no correction image is available,
+            % the original plane is returned unchanged.
+            
+                if isempty(PicBC)
+                    obj.InfoMessage = ['      - PicBC' name ' not found'];
+                    PicAdj = PicPlane;
+                    return
+                end
+
+                mainFigH = obj.controllerEditHandle.mainFigure;
+                workbarString = ['Brightness adjustment ' name ' Plane'];
+                workbarTitel = 'Brightness Adjustment';
+            
+                workbar(0.1,workbarString,workbarTitel, mainFigH);
+                obj.InfoMessage = ['      - adjust ' lower(name) ' plane'];
+            
+                PicMF = medfilt2(PicBC,[5 5],'symmetric');
+                workbar(0.3,workbarString,workbarTitel, mainFigH);
+
+                PicMFnorm = double(PicMF) ./ max(PicMF(:));
+                workbar(0.5,workbarString,workbarTitel, mainFigH);
+            
+                PicBCorr = double(PicPlane) ./ PicMFnorm;
+                workbar(0.7,workbarString,workbarTitel, mainFigH);
+            
+                % Normalize to original dynamic range
+                minP = double(min(PicBCorr(:)));
+                maxP = double(max(PicPlane(:)));
+                rangeBC = max(PicBCorr(:)) - minP;
+                workbar(0.9,workbarString,workbarTitel, mainFigH);
+
+                PicBCorr = (PicBCorr - minP) ./ rangeBC;
+                PicBCorr = PicBCorr * (maxP - minP) + minP;
+                PicAdj = uint8(PicBCorr);
+                workbar(1,workbarString,workbarTitel, mainFigH);
         end
         
         function calculateBackgroundIllumination(obj,plane)
