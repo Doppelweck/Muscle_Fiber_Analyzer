@@ -125,32 +125,14 @@ classdef modelEdit < handle
         
         function obj = modelEdit()
             % Constuctor of the modelEdit class. Does absolutely nothing.
-            %
-            %   obj = modelEdit();
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %
-            %       - Output
-            %           obj:    Handle to modelEdit object
-            %
-            
+           
         end
         
         function clearPicData(obj)
             % Clears all image data. Set all images to an empty array.
             %Deletes filename and pathnames of the images. Reset the image
             %buffer.
-            %
-            %   addMyListener(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
-            
+           
             obj.InfoMessage = '- clear all picture data';
             
             obj.FileName = '';
@@ -183,62 +165,34 @@ classdef modelEdit < handle
         function PicData = sendPicsToController(obj)
             % Send all image data from the model to the Controller that are
             % needed.
-            %
-            %   PicData = sendPicsToController(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
-            %
-            %       - Output
-            %           PicData:    Cell Array that contains the file- and
-            %               PathName of the RGB image. Also contains the
-            %               RGB and the color plane images:
-            %
-            %               PicData{1}: filename RGB image
-            %               PicData{2}: path RGB image
-            %               PicData{3}: RGB image create from color plane
-            %               Red Green Far Red and Blue
-            %               PicData{4}: binary image
-            %               PicData{5}: green plane image after brightness adjustment
-            %               PicData{6}: blue plane image after brightness adjustment
-            %               PicData{7}: red plane image after brightness adjustment
-            %               PicData{8}: farred plane image after brightness adjustment
-            %               PicData{9}: RGB image create from color plane
-            %               Red Green and Blue
-            %               PicData{10 - 18}: All images neede for Check
-            %                                   Planes Window in Edit Mode
-            %               PicData{19}: MetaData from Bio-Format file
-            %
-            
-            PicData{1} = obj.FileName;
-            PicData{2} = obj.PathName;
-            PicData{3} = obj.PicRGBFRPlanes;   %RGB
+
+            PicData{1} = obj.FileName; %filename RGB image
+            PicData{2} = obj.PathName; %path RGB image
+            PicData{3} = obj.PicRGBFRPlanes;  %RGB image create from color plane
             
             % send binary pic to controller only in the normal non-inverted
             % form
             if strcmp(obj.PicBWisInvert,'true')
-                PicData{4} = ~obj.handlePicBW.CData;    %BW
+                PicData{4} = ~obj.handlePicBW.CData; %binary image
             else
-                PicData{4} = obj.handlePicBW.CData;
+                PicData{4} = obj.handlePicBW.CData; %binary image
             end
             
-            PicData{5} = obj.PicPlaneGreen_adj;
-            PicData{6} = obj.PicPlaneBlue_adj;
-            PicData{7} = obj.PicPlaneRed_adj;
-            PicData{8} = obj.PicPlaneFarRed_adj;
-            PicData{9} = obj.PicRGBPlanes;
-            PicData{10} = obj.PicRGBFRPlanesNoBC;
-            PicData{11} = obj.PicBCGreen;
-            PicData{12} = obj.FilenameBCGreen;
-            PicData{13} = obj.PicBCBlue;
-            PicData{14} = obj.FilenameBCBlue;
-            PicData{15} = obj.PicBCRed;
-            PicData{16} = obj.FilenameBCRed;
-            PicData{17} = obj.PicBCFarRed;
-            PicData{18} = obj.FilenameBCFarRed;
-            PicData{19} = obj.MetaData;
+            PicData{5} = obj.PicPlaneGreen_adj;  %green plane image after brightness adjustment
+            PicData{6} = obj.PicPlaneBlue_adj;   %blue plane image after brightness adjustment
+            PicData{7} = obj.PicPlaneRed_adj;    %red plane image after brightness adjustment
+            PicData{8} = obj.PicPlaneFarRed_adj; %farred plane image after brightness adjustment
+            PicData{9} = obj.PicRGBPlanes; %RGB image create from color plane
+            PicData{10} = obj.PicRGBFRPlanesNoBC; %Image needed for Check Planes Window in Edit Mode
+            PicData{11} = obj.PicBCGreen; %Image needed for Check Planes Window in Edit Mode
+            PicData{12} = obj.FilenameBCGreen; %Image needed for Check Planes Window in Edit Mode
+            PicData{13} = obj.PicBCBlue; %Image needed for Check Planes Window in Edit Mode
+            PicData{14} = obj.FilenameBCBlue; %Image needed for Check Planes Window in Edit Mode
+            PicData{15} = obj.PicBCRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{16} = obj.FilenameBCRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{17} = obj.PicBCFarRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{18} = obj.FilenameBCFarRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{19} = obj.MetaData; MetaData from Bio-Format file
         end
         
         function success = searchBioformat_NOTinUSE(obj)
@@ -247,15 +201,8 @@ classdef modelEdit < handle
             % and the brightness adjustment images in the same directory as
             % the selected RGB image.
             %
-            %   PicData = sucsess = searchLoadBioformat(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
-            %
-            %       - Output
-            %           succses:    returns true if the color plane images
+            % - Output
+            %   succses:    returns true if the color plane images
             %               was founded, otherwise false.
             %
             
@@ -323,12 +270,6 @@ classdef modelEdit < handle
             % one image .tif file. If a new picture was selected all old
             % image data will be deleted.
             %
-            %   PicData = sendPicsToController(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
             %
             %       - Output
             %           format:    returns format string if a new file was
@@ -431,9 +372,6 @@ classdef modelEdit < handle
                             if isequal(ImagMat(:,:,1),ImagMat(:,:,2),ImagMat(:,:,3))
                                 %Image is grayscale. No of Channels = 1
                                 AllSizes{i} = 1;
-%                             else
-%                                 %Image is RGB. No of Channels = 3
-%                                 AllSizes{i} = 1;
                             end
                         end
                         tf = ismember(cell2mat(AllSizes),AllSizes{1});
@@ -473,12 +411,6 @@ classdef modelEdit < handle
             % The funcion also searches for the brightness adjustment
             % images in the same directory as the selected file.
             %
-            %   PicData = sucsess = searchLoadBioformat(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
             %
             %       - Output
             %           status:    returns 'SuccessIdentify' if the color
@@ -540,7 +472,7 @@ classdef modelEdit < handle
                     obj.InfoMessage = '     - Meta Data could not be read';
                 end
             end
-%            
+
             %get Number of Color Planes
             NumberOfPlanes = size(data{1,1},1);
             
@@ -832,7 +764,6 @@ classdef modelEdit < handle
         end
 
         function pixelDepth = assumePixelDepth(obj)
-%             dataClass = class(obj.PicPlane1);
             maxValue = max([max(max(obj.PicPlane1)) max(max(obj.PicPlane2)) max(max(obj.PicPlane3)) max(max(obj.PicPlane4))]);
             if maxValue <=255
                 pixelDepth = 8;
@@ -1182,13 +1113,6 @@ classdef modelEdit < handle
             % same name as the selected file. If the program find a image
             % file than the identification will be executed.
             %
-            %   planeIdentifier(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             %       - Output:
             %           success: returns 'true' if the identification was
             %                    successful otherwise 'false'.
@@ -1274,7 +1198,6 @@ classdef modelEdit < handle
                                     tempR = Pic(:,:,plane);
                                     %clear foundet plane in the r array
                                     r(plane,:) = -Inf;
-%                                     Pic(:,:,plane) = [];
                                     obj.InfoMessage = '         - red-plane was identified';
                                 else
                                     %farred plane was identified
@@ -1282,7 +1205,6 @@ classdef modelEdit < handle
                                     tempFR = Pic(:,:,plane);
                                     %clear foundet plane and color in the r array
                                     r(plane,:) = -Inf;
-%                                     Pic(:,:,plane) = [];
                                     r(:,color) = -Inf;
                                     obj.InfoMessage = '         - farred-plane was identified';
                                 end
@@ -1293,7 +1215,6 @@ classdef modelEdit < handle
                                 tempG = Pic(:,:,plane);
                                 r(plane,:) = -Inf;
                                 r(:,color) = -Inf;
-%                                 Pic(:,:,plane) = [];
                                 obj.InfoMessage = '         - green-plane was identified';
                                 
                             case 3  %Blue
@@ -1303,7 +1224,6 @@ classdef modelEdit < handle
                                 %clear foundet plane and color in the r array
                                 r(plane,:) = -Inf;
                                 r(:,color) = -Inf;
-%                                 Pic(:,:,plane) = [];
                                 obj.InfoMessage = '         - blue-plane was identified';
                         end
                     end
@@ -1328,15 +1248,6 @@ classdef modelEdit < handle
             % imadjust() function from the image processing toolbox. Trys
             % to seperate the foreground from the background. Adjustment
             % images will not be used for classification.
-            %
-            %
-            %   brightnessAdjustment(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - brightness adjustment';
             
@@ -1477,14 +1388,6 @@ classdef modelEdit < handle
         function createBinary(obj)
             % Creates a binary image from the green color image depending
             % on the selected threshold mode and threshold value.
-            %
-            %   createBinary(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             thresh = obj.ThresholdValue;
             
@@ -1533,14 +1436,6 @@ classdef modelEdit < handle
         function alphaMapEvent(obj)
             % Set the alpha map value of the binary image dependingon the
             % selected alpha value.
-            %
-            %   alphaMapEvent(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             if ~isempty(obj.handlePicBW)
                 if obj.AlphaMapActive
@@ -1555,14 +1450,6 @@ classdef modelEdit < handle
         function invertPicBWEvent(obj)
             % Invert die binary image. Saves the invert state of the image
             % in the properties.
-            %
-            %   invertPicBWEvent(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - Binarization operation';
             
@@ -1588,15 +1475,7 @@ classdef modelEdit < handle
             % image. Get the position of the click and fill the region,
             % defined by the connected zeros or ones, depending on the
             % selected color, in the binary image
-            %
-            %   fillRegion(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
+
             xMax = double(size(obj.PicBW,2));
             yMax = double(size(obj.PicBW,1));
             x = round(CurPos(1,1));
@@ -1635,15 +1514,7 @@ classdef modelEdit < handle
             % the color and the radius depending on the linewidth value
             % that the user has selected at that position in the binary
             % image.
-            %
-            %   startDragFcn(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
+
             obj.x1 = double(CurPos(1,1));
             
             obj.y1 = double(CurPos(1,2));
@@ -1669,15 +1540,6 @@ classdef modelEdit < handle
             % Interpolate a line between the cursor points that are saved
             % when this function is called the next time during the cursor
             % movement.
-            %
-            %   DragFcn(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
             
             %get current cursor positon
             obj.x2 = double(CurPos(1,1));
@@ -1790,14 +1652,6 @@ classdef modelEdit < handle
             % Called by the controller when the user stops hand drawing.
             % Save binary image with changes in the buffer for undo and
             % redo functionality.
-            %
-            %   stopDragFcn(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.addToBuffer();
         end
@@ -1849,14 +1703,6 @@ classdef modelEdit < handle
         function runMorphOperation(obj)
             % Performs the selected mophological operation when a user
             % press the run morph button in the GUI.
-            %
-            %   runMorphOperation(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - Run morpholigical operation';
             
@@ -2230,15 +2076,6 @@ classdef modelEdit < handle
         function undo(obj)
             % Gets the previous image out of the buffer and set it to the
             % current iamge.
-            %
-            %   undo(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
-            
             
             if obj.PicBufferPointer > 1 && obj.PicBufferPointer <= obj.BufferSize
                 obj.PicBufferPointer = obj.PicBufferPointer-1;
@@ -2252,14 +2089,6 @@ classdef modelEdit < handle
         function redo(obj)
             % Gets the next image out of the buffer and set it to the
             % current iamge.
-            %
-            %   redo(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
             
             if obj.PicBufferPointer >= 1 && obj.PicBufferPointer < obj.BufferSize && obj.PicBufferPointer < size(obj.PicBuffer,2)
                 obj.PicBufferPointer = obj.PicBufferPointer+1;
@@ -2274,14 +2103,6 @@ classdef modelEdit < handle
             % Save current binary image in the buffer for redo and undo
             % functionality. Saves the current binary mask in the PicBW
             % properties.
-            %
-            %   addToBuffer(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
             try
                 if obj.PicBufferPointer >= obj.BufferSize
                     temp = obj.PicBuffer;
