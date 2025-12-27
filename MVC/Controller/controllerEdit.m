@@ -340,7 +340,7 @@ classdef controllerEdit < handle
                set(obj.viewEditHandle.B_NewPic,'Enable','on');
             else
                 %One image is already loaded into the program.
-                obj.enableControlsAfterLoadNewFile(uicontrols);
+                obj.enableControlsAfterLoadNewFile(viewHandel);
             end
             % check which morphOp buttons must be enabled
             obj.morphOpEvent();
@@ -1992,6 +1992,7 @@ classdef controllerEdit < handle
             uiwait(errordlg(Text,'ERROR: Edit-Mode',mode));
             
             workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
+            obj.restoreUIControls(obj.viewEditHandle);
             obj.busyIndicator(0);
         end
         
