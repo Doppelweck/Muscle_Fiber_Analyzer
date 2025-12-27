@@ -49,20 +49,6 @@ classdef controllerEdit < handle
             % callback and listener functions to observes the corresponding
             % View objects. Saves the needed handles of the corresponding
             % View and Model in the properties.
-            %
-            %   obj = controllerEdit(mainFigure,mainCardPanel,viewEditH,modelEditH);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           mainFigure:     Handle to main figure
-            %           mainCardPanel:  Handle to main card panel
-            %           viewEditH:      Hande to viewEdit instance
-            %           modelEditH:     Hande to modelEdit instance
-            %
-            %       - Output:
-            %           obj:            Handle to controllerEdit object
-            %
             
             obj.mainFigure = mainFigure;
             obj.mainCardPanel = mainCardPanel;
@@ -108,14 +94,7 @@ classdef controllerEdit < handle
         function addMyListener(obj)
             % add listeners to the several button objects in the viewEdit
             % instance and value objects or handles in the modelEdit.
-            %
-            %   addMyListener(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
+
             % listeners MODEL
             obj.allListeners{end+1} = addlistener(obj.modelEditHandle,'InfoMessage', 'PostSet',@obj.updateInfoLogEvent);
             
@@ -128,15 +107,7 @@ classdef controllerEdit < handle
         function addMyCallbacks(obj)
             % Set callback functions to several button objects in the viewEdit
             % instance and handles im the editModel.
-            %
-            %   addMyCallbacks(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
-            
+           
             %ButtonDownFcn of the binary pic. Starts the hand draw
             %functions
             set(obj.modelEditHandle.handlePicBW,'ButtonDownFcn',@obj.startDragEvent);
@@ -166,14 +137,6 @@ classdef controllerEdit < handle
         
         function addWindowCallbacks(obj)
             % Set callback functions of the main figure
-            %
-            %   addWindowCallbacks(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             set(obj.mainFigure,'WindowButtonMotionFcn','');
             set(obj.mainFigure,'WindowButtonDownFcn','');
@@ -184,15 +147,6 @@ classdef controllerEdit < handle
         
         function setInitValueInModel(obj)
             % Get the values from the button ang GUI objects in the View
-            % and set the values in the Model.
-            %
-            %   setInitValueInModel(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             obj.modelEditHandle.ThresholdMode = obj.viewEditHandle.B_ThresholdMode.ValueIndex;
             obj.modelEditHandle.ThresholdValue = obj.viewEditHandle.B_Threshold.Value;
@@ -200,7 +154,6 @@ classdef controllerEdit < handle
             obj.modelEditHandle.AlphaMapActive = obj.viewEditHandle.B_AlphaActive.Value;
             obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.ValueIndex;
         end
-        
         
         function newFileEvent(obj,~,~)
             try
@@ -316,18 +269,9 @@ classdef controllerEdit < handle
             end
         end
 
-       
         function setInitPicsGUI(obj)
             % set the initalize images in the axes handels viewEdit to show
             % the images in the GUI.
-            %
-            %   setInitPicsGUI(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             % get Pics from the model
             switch obj.viewEditHandle.B_ImageOverlaySelection.Value
@@ -403,14 +347,7 @@ classdef controllerEdit < handle
             % color plane images.
             % Set the callback functions for the buttons and the close
             % request function of the created check planes figure.
-            %
-            %   checkPlanesEvent(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
+
             set(obj.viewEditHandle.B_NewPic,'Enable','off');
             set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
             set(obj.viewEditHandle.B_CheckMask,'Enable','off');
@@ -453,16 +390,7 @@ classdef controllerEdit < handle
         
         function checkMaskEvent(obj,~,~)
             % Callback function of the Check mask button in the GUI.
-            %
-            %   checkPlanesEvent(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
+
             set(obj.viewEditHandle.B_CheckMask,'Callback','');
 
             obj.CheckMaskActive = ~obj.CheckMaskActive;
@@ -500,14 +428,6 @@ classdef controllerEdit < handle
             % figure. Checks if the user has changed the order of the color
             % planes. if the order has changed than the function checks if
             % each color plane is only choosen once.
-            %
-            %   checkPlanesOKEvent(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             obj.busyIndicator(1);
             
@@ -596,14 +516,6 @@ classdef controllerEdit < handle
             % Callback function of the Back button in the check planes
             % figure. Is also the close request function of the check
             % planes figure. Delete the figure object.
-            %
-            %   checkPlanesBackEvent(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             obj.modelEditHandle.InfoMessage = '   - Checking planes closed';
             % find the handle h of the checkplanes figure
@@ -624,7 +536,6 @@ classdef controllerEdit < handle
         end
         
         function selectNewBrightnessImage(obj,~,evnt)
-            
             %Get file extension of the current bioformat file. Brightness
             %adjusment images must have the same extension, that means that
             %they must made with the same microscope.
@@ -935,17 +846,7 @@ classdef controllerEdit < handle
             % permitted value range. Sets the corresponding values in the
             % model depending on the selection. Calls the
             % createBinary() function in the model.
-            %
-            %   fibersInForeOrBackground(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
+
             %Check if Fibers are shown as Black or White Pixel within the
             %green Plane and change Value in the Model
             
@@ -964,16 +865,6 @@ classdef controllerEdit < handle
             % permitted value range. Sets the corresponding values in the
             % model depending on the selection. Calls the
             % createBinary() function in the model.
-            %
-            %   thresholdModeEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             Mode = src.ValueIndex;
             
@@ -1066,17 +957,7 @@ classdef controllerEdit < handle
             % permitted value range. Sets the corresponding values
             % in the model depending on the selection. Calls the
             % createBinary() function in the model.
-            %
-            %   thresholdEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
+
             if strcmp(src.Tag,'editBinaryThresh')
                 % Text Value has changed
                 
@@ -1149,16 +1030,6 @@ classdef controllerEdit < handle
             % box in the GUI. Checks whether the value is within the
             % permitted value range. Sets the corresponding values
             % in the model depending on the selection.
-            %
-            %   alphaMapEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             switch src.Tag
                 case 'editAlpha' % Text Value has changed
@@ -1253,19 +1124,7 @@ classdef controllerEdit < handle
         
         function alphaImageEvent(obj,~,~)
             % Callback function of the alpha Image dropdown menu.
-            %
-            %   alphaImageEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
-            
-                
+        
             switch obj.viewEditHandle.B_ImageOverlaySelection.ValueIndex
                 case 1 %RGB
                     Pic = obj.modelEditHandle.PicRGBFRPlanes;
@@ -1301,16 +1160,6 @@ classdef controllerEdit < handle
             % box in the GUI. Checks whether the value is within the
             % permitted value range. Sets the corresponding values
             % in the model depending on the selection.
-            %
-            %   lineWidthEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             if strcmp(src.Tag,'editLineWidtht')
                 % Text Value has changed
@@ -1359,16 +1208,6 @@ classdef controllerEdit < handle
             % Callback function of the color popupmenu in the
             % GUI. Sets the corresponding value in the
             % model depending on the selection.
-            %
-            %   colorEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             if src.ValueIndex == 1
                 % White Color
@@ -1393,16 +1232,7 @@ classdef controllerEdit < handle
             % Callback function of the invert button in the
             % GUI. Sets the corresponding value in the
             % model depending on the selection.
-            %
-            %   invertEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
+
             obj.modelEditHandle.invertPicBWEvent();
         end
         
@@ -1411,16 +1241,6 @@ classdef controllerEdit < handle
             % GUI. Sets the corresponding value in the
             % model depending on the selection. Controlls the visibility of
             % the corresponding buttons.
-            %
-            %   morphOpEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             %check which morph operation is selected
             String = obj.viewEditHandle.B_MorphOP.Value;
@@ -1479,17 +1299,7 @@ classdef controllerEdit < handle
             % GUI. Sets the corresponding value in the
             % model depending on the selection. Controlls the visibility of
             % the corresponding buttons.
-            %
-            %   structurElementEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
+
             %check which structering element is selected
             String = src.Value;
             
@@ -1581,16 +1391,6 @@ classdef controllerEdit < handle
             % NoInterations in the GUI. Checks whether the value is within
             % the permitted value range. Sets the corresponding value in
             % the model depending on the selection.
-            %
-            %   structurElementEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
             
             %get strings from GUI text box and transform into numeric value
             ValueSE = round(str2double(obj.viewEditHandle.B_SizeSE.String));
@@ -1624,16 +1424,7 @@ classdef controllerEdit < handle
             % Callback function of the run morph operation button in the
             % GUI. Runs the runMorphOperation function in the editModel
             % object.
-            %
-            %   startMorphOPEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
+
             obj.busyIndicator(1);
             obj.modelEditHandle.runMorphOperation();
             obj.busyIndicator(0);
@@ -1644,15 +1435,7 @@ classdef controllerEdit < handle
             % WindowButtonMotionFcn callback function of the GUI figure.
             % Get the current cursor position in the figure and calls the
             % startDragFcn in the editModel.
-            %
-            %
-            %   startDragFcn(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
+
             if ~isempty(obj.modelEditHandle.handlePicBW)
                 set(obj.mainFigure,'WindowButtonUpFcn',@obj.stopDragEvent);
                 set(obj.mainFigure,'WindowButtonMotionFcn',@obj.dragEvent);
@@ -1680,15 +1463,7 @@ classdef controllerEdit < handle
             % WindowButtonMotionFcn callback function of the GUI figure.
             % Get the current cursor position in the figure and calls the
             % dragEvent in the editModel.
-            %
-            %   dragEvent(obj;
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
-            
+
             %get cursor positon in binary pic
             Pos = get(obj.viewEditHandle.hAP, 'CurrentPoint');
             %call drag fcn in model with given cursor position
@@ -1704,15 +1479,6 @@ classdef controllerEdit < handle
             % ButtonUpFcn callback function of the GUI figure. Delete the
             % WindowButtonMotionFcn callback function of the GUI figure.
             % Calls the stopDragEvent in the editModel.
-            %
-            %
-            %   stopDragEvent(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %
             
             %clear ButtonUp and motion function
             set(obj.mainFigure,'WindowButtonUpFcn','');
@@ -1726,16 +1492,7 @@ classdef controllerEdit < handle
             % Calls the function sendPicsToController() in the editModel to
             % send all image Data to the analyze model. Calls the
             % startAnalyzeMode function in the controllerAnalyze instanze.
-            %
-            %   startAnalyzeModeEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
+
             set(obj.viewEditHandle.B_NewPic,'Enable','off');
             set(obj.viewEditHandle.B_CheckPlanes,'Enable','off');
             set(obj.viewEditHandle.B_CheckMask,'Enable','off');
@@ -1759,34 +1516,14 @@ classdef controllerEdit < handle
         function undoEvent(obj,~,~)
             % Callback function of the Undo Button in the GUI. Calls the
             % undo() function in the editModel.
-            %
-            %   undoEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
+
             obj.modelEditHandle.undo();
         end
         
         function redoEvent(obj,~,~)
             % Callback function of the Redo Button in the GUI. Calls the
             % redo() function in the editModel.
-            %
-            %   redoEvent(obj,src,evnt);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerEdit object
-            %           src:    source of the callback
-            %           evnt:   callback event data
-            %
-            
+           
             obj.modelEditHandle.redo();
         end
         
@@ -1853,15 +1590,7 @@ classdef controllerEdit < handle
             % Sets the log text on the GUI.
             % Only called by changing the MVC if the stage of the
             % program changes.
-            %
-            %   setInfoTextView(obj,InfoText);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to controllerEdit object
-            %           InfoText:   Info text log
-            %
+
             set(obj.viewEditHandle.B_InfoText, 'String', InfoText);
             set(obj.viewEditHandle.B_InfoText, 'Value' , length(obj.viewEditHandle.B_InfoText.String));
         end
