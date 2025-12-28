@@ -40,12 +40,12 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
     end
     
     properties( Access = private )
-        FontAngle_ = get( gcf, 'DefaultUicontrolFontAngle' ) % backing for FontAngle
-        FontName_ = get( gcf, 'DefaultUicontrolFontName' ) % backing for FontName
-        FontSize_ = get( gcf, 'DefaultUicontrolFontSize' ) % backing for FontSize
-        FontWeight_ = get( gcf, 'DefaultUicontrolFontWeight' ) % backing for FontWeight
-        FontUnits_ = get( gcf, 'DefaultUicontrolFontUnits' ) % backing for FontUnits
-        ForegroundColor_ = get( gcf, 'DefaultUicontrolForegroundColor' ) % backing for ForegroundColor
+        FontAngle_ = get( 0, 'DefaultUicontrolFontAngle' ) % backing for FontAngle
+        FontName_ = get( 0, 'DefaultUicontrolFontName' ) % backing for FontName
+        FontSize_ = get( 0, 'DefaultUicontrolFontSize' ) % backing for FontSize
+        FontWeight_ = get( 0, 'DefaultUicontrolFontWeight' ) % backing for FontWeight
+        FontUnits_ = get( 0, 'DefaultUicontrolFontUnits' ) % backing for FontUnits
+        ForegroundColor_ = get( 0, 'DefaultUicontrolForegroundColor' ) % backing for ForegroundColor
         HighlightColor_ = [1 1 1] % backing for HighlightColor
         ShadowColor_ = [0.7 0.7 0.7] % backing for ShadowColor
         ParentBackgroundColor = get( 0, 'DefaultUicontrolForegroundColor' ) % default parent background color
@@ -762,13 +762,21 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
                 return
             end
             
+            defaultRootColor = mean(get(groot,'DefaultFigureColor'));
+
             tint = 0.85;
-            switch get(gcf,'Theme').BaseColorStyle
-                case 'light'
-                    tint = 0.85;
-                case 'dark'
-                    tint = 1.5;
+
+            if defaultRootColor <0.5
+                tint = 1.5;
+            else
+                tint = 0.85;
             end
+            % switch get(gcf,'Theme').BaseColorStyle
+            %     case 'light'
+            %         tint = 0.85;
+            %     case 'dark'
+            %         tint = 1.5;
+            % end
 
             
             % Repaint tabs
@@ -881,9 +889,9 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
         
         function onThemeChanged(obj,~,evt)
             try
-               obj.ForegroundColor_ = get( gcf, 'DefaultUicontrolForegroundColor' );
-               obj.BackgroundColor = get( gcf, 'DefaultUicontrolBackgroundColor' );
-               obj.ParentBackgroundColor = get( gcf, 'DefaultUicontrolBackgroundColor' );
+               obj.ForegroundColor = get( 0, 'DefaultUicontrolForegroundColor' );
+               obj.BackgroundColor = get( 0, 'DefaultUicontrolBackgroundColor' );
+               obj.ParentBackgroundColor = get( 0, 'DefaultUicontrolBackgroundColor' );
             catch
             
             end
