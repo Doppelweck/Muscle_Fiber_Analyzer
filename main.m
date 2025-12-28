@@ -51,27 +51,8 @@ try
 
 
     %Create Start Screen
-    hf = startSrcreen();
-    versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
-    TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
-        'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);
-    %     TitleText2=text(hf.Children,0.45,0.83,'Classification Tool',...
-    %         'units','normalized','FontUnits','normalized','FontSize',0.08,'Color',[1 0.5 0]);
-    VersionText=text(hf.Children,0.54,0.915,versionString,'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
-    InfoText=text(hf.Children,0.02,0.035,'Loading please wait... Initialize application...','units','normalized','FontWeight','bold','FontUnits','normalized','FontSize',0.03,'Color','k');
-    text(hf.Children,0.02,0.16,'Developed by:','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
-    text(hf.Children,0.02,0.12,['Sebastian Friedrich  2017 - ' getSettingsValue('Year')],'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.03,'Color','k');
-    text(hf.Children,0.02,0.095,'sebastian.friedrich.software@gmail.com','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.025,'Color','k');
-    %     text(hf.Children,0.03,0.19,'In cooperation with:','units','normalized','FontUnits','normalized','FontSize',0.03,'Color','k');
-    %     text(hf.Children,0.05,0.07,'2017','units','normalized','FontUnits','normalized','FontSize',0.045,'Color','[1 0.5 0]');
-    % setAlwaysOnTop(hf,true);
-    drawnow;
-
+    [hf, LoadingText] = startSrcreen();
     set(mainFig, 'OuterPosition', hf.Position);
-    
-    set(hf,'Visible','on');
-    figure(hf);drawnow;
-    set(hf,'WindowStyle','alwaysontop');
 
     update_menu_bar_main_figure(mainFig,versionString,...
         @changeAppDesign,...
