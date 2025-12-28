@@ -71,8 +71,8 @@ classdef controllerEdit < handle
             
             % show init text in the info log
             obj.modelEditHandle.InfoMessage = '*** Start program ***';
-            obj.modelEditHandle.InfoMessage = 'Muscle-Fiber-Type-Classification-Tool';
-            obj.modelEditHandle.InfoMessage = ['Version ' getSettingsValue('Version') ' ' getSettingsValue('Year')];
+            obj.modelEditHandle.InfoMessage = getSettingsValue('AppName');
+            obj.modelEditHandle.InfoMessage = ['Version ' getSettingsValue('Version') ' - ' getSettingsValue('Day') '.' getSettingsValue('Month') '.' getSettingsValue('Year')];
             obj.modelEditHandle.InfoMessage = ' ';
             obj.modelEditHandle.InfoMessage = 'Developed by:';
             obj.modelEditHandle.InfoMessage = 'Sebastian Friedrich';
@@ -335,7 +335,7 @@ classdef controllerEdit < handle
             obj.viewEditHandle.panelAxes.Title = Titel;
             
             
-            mainTitel = ['Fiber types classification tool: ' obj.modelEditHandle.FileName];
+            mainTitel = [getSettingsValue('AppName') ' ' getSettingsValue('Version') ': ' obj.modelEditHandle.FileName];
             set(obj.mainFigure,'Name', mainTitel);
         end
         

@@ -18,6 +18,7 @@ try
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
+    setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
     setSettingsValue('Day','11');
     setSettingsValue('Month','March');
@@ -42,12 +43,12 @@ try
 
     % create main figure
     mainFig = figure(...
-        'Visible','off',...
-        'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],...
+        'Visible','on',...
+        'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
         'Tag','mainFigure');
-    theme(mainFig,getSettingsValue('Style'))
+    theme(mainFig,getSettingsValue('Style'));
 
 
     %Create Start Screen
@@ -60,32 +61,31 @@ try
         @saveUserSettings,...
         @openInformationFigure);
 
-    set(mainFig,'Visible','on');
-    set(hf,'Visible','on');
-    set(hf,'WindowStyle','alwaysontop');
-    set(hf,'WindowStyle',getWindowsStyleFromSettings());
-    figure(hf);drawnow;
+    figure(hf); drawnow;
+    set(hf,'WindowStyle','alwaysontop'); drawnow;
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow;
+    figure(hf); drawnow; 
     pause(build_up_time_delay);
 
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
-    InfoText.String='Loading please wait...   Initialize VIEW-Components...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Components...';
     %Init VIEW's
     viewEditHandle = viewEdit(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Edit...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1; drawnow;
     drawnow;pause(build_up_time_delay);
     viewAnalyzeHandle = viewAnalyze(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Analyze...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2; drawnow;
     drawnow;pause(build_up_time_delay);
     viewResultsHandle = viewResults(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Results...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3; drawnow;
     drawnow;pause(build_up_time_delay);
     mainCard.Selection = 1; drawnow;
 
-    InfoText.String='Loading please wait...   Load User Settings...';
+    LoadingText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
     uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
         '-and','-not','Style','pushbutton');
@@ -110,32 +110,32 @@ try
 
     drawnow;pause(build_up_time_delay);
 
-    InfoText.String='Loading please wait...   Initialize MODEL-Components...';
+    LoadingText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
     modelEditHandle = modelEdit();
     modelAnalyzeHandle = modelAnalyze();
     modelResultsHandle = modelResults();
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Initialize CONTROLLER-Components...';
+    LoadingText.String='Loading please wait...   Initialize CONTROLLER-Components...';
     %Init CONTROLLER's
     controllerEditHandle = controllerEdit(mainFig, mainCard, viewEditHandle, modelEditHandle);
     controllerAnalyzeHandle = controllerAnalyze(mainFig, mainCard, viewAnalyzeHandle, modelAnalyzeHandle);
     controllerResultsHandle = controllerResults(mainFig, mainCard, viewResultsHandle, modelResultsHandle);
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Connecting components...';
+    LoadingText.String='Loading please wait...   Connecting components...';
     %Connecting Model's and their Controller's
     modelEditHandle.controllerEditHandle = controllerEditHandle;
     modelAnalyzeHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     modelResultsHandle.controllerResultsHandle = controllerResultsHandle;
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Update app design...';
+    LoadingText.String='Loading please wait...   Update app design...';
     drawnow;
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Start application...';
+    LoadingText.String='Loading please wait...   Start application...';
     %Connecting Controller's to each other
     controllerEditHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     controllerAnalyzeHandle.controllerEditHandle = controllerEditHandle;
@@ -143,20 +143,16 @@ try
     controllerResultsHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     pause(build_up_time_delay)
 
-    InfoText.String='Run application';
+    LoadingText.String='Run application';
     drawnow;
     pause(build_up_time_delay);
 
-    theme(mainFig,getSettingsValue('Style'))
     set(mainFig,'WindowState','maximized');
     drawnow;
     pause(2);
     delete(hf);
-    set(mainFig,'WindowState','maximized');
-    %set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
     drawnow;
-    delete(InfoText);
-    delete(VersionText);
+    delete(LoadingText);
 
 catch ME
     % FIRST: Stop all timers immediately
@@ -170,8 +166,8 @@ catch ME
     if exist('hf', 'var') && isvalid(hf)
         delete(hf);
     end
-    if exist('InfoText', 'var') && isvalid(InfoText)
-        delete(InfoText);
+    if exist('LoadingText', 'var') && isvalid(LoadingText)
+        delete(LoadingText);
     end
     if exist('VersionText', 'var') && isvalid(VersionText)
         delete(VersionText);
