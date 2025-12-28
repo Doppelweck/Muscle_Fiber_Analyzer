@@ -324,52 +324,40 @@ classdef modelAnalyze < handle
             [obj.Stats(:).maxDiameter] = deal(0);
             [obj.Stats(:).minDiameter] = deal(0);
             
-            
-            noObjects = size(obj.Stats,1);
-            %             tempPicBW = size(obj.LabelMat);
-            minDia =[];
-            maxDia = [];
-            
             L = obj.LabelMat;
-            angleStep = 1;
+            noObjects = size(obj.Stats,1);
             angle=90;
-            for j=0:1:angle/angleStep
-                
-                maskRot = imrotate(L,j*angleStep,'nearest','loose');
-                
+            angleStep = 1;
+            angles = 0:angleStep:angle; % array statt Loop
+            nAngles = size(angles,2);
+
+            % Preallocate arrays
+            minDia = inf(noObjects, nAngles);
+            maxDia = -inf(noObjects, nAngles);
+
+            for j=1:nAngles
+                maskRot = imrotate(L,angles(j),'nearest','loose');
                 stats = regionprops(maskRot,'BoundingBox');
-                %                 figure()
-                %                 imshow(maskRot)
-                if noObjects == size(stats,1)
-                    for i=1:1:noObjects
-                        
-                        b = stats(i).BoundingBox;
-                        minDia(i,j+1)= min([b(3)*obj.XScale b(4)*obj.YScale ]);
-                        maxDia(i,j+1)= max([b(3)*obj.XScale b(4)*obj.YScale ]);
-                        %                     hold on
-                        %                     rectLine = rectangle('Position',stats(i).BoundingBox,'EdgeColor','r','LineWidth',2);
-                    end
-                else
-                    for i=1:1:noObjects
-                        % To fill up the min max vectors
-                        
-                        minDia(i,j+1)= Inf;
-                        maxDia(i,j+1)= -Inf;
-                        %                     hold on
-                        %                     rectLine = rectangle('Position',stats(i).BoundingBox,'EdgeColor','r','LineWidth',2);
-                    end
+
+                if size(stats,1) == noObjects
+                    % BoundingBoxes in ein Array 
+                    bboxArray = reshape([stats.BoundingBox],4,[])';
+                    scaledBBox = double(bboxArray(:,3:4)) .* [obj.XScale obj.YScale];
+                    minDia(:,j) = min(scaledBBox, [], 2);
+                    maxDia(:,j) = max(scaledBBox, [], 2);
                 end
-                
-                
-                
-                percent = (abs(j+1))/((angle/angleStep)+1);
+
+                percent = j / nAngles;
                 workbar(percent,'Please Wait...calculating diameters','Diameters',obj.controllerAnalyzeHandle.mainFigure);
             end
             
             obj.InfoMessage = '      - find min and max diameters...';
-            for k=1:1:noObjects
-                obj.Stats(k).minDiameter = min(minDia(k,:));
-                obj.Stats(k).maxDiameter = max(maxDia(k,:));
+            minVals = min(minDia, [], 2);
+            maxVals = max(maxDia, [], 2);
+
+            for k=1:noObjects
+                obj.Stats(k).minDiameter = minVals(k);
+                obj.Stats(k).maxDiameter = maxVals(k);
                 percent = (k)/noObjects;
                 workbar(percent,'Please Wait...saving diameters','Find min and max Diameters',obj.controllerAnalyzeHandle.mainFigure);
             end
