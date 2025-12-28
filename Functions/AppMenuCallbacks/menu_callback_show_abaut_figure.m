@@ -1,4 +1,4 @@
-function h=showInfoFigure(mainFigObj)
+function h=menu_callback_show_abaut_figure(mainFigObj)
 
 winState=get(mainFigObj,'WindowState');
 
@@ -26,7 +26,6 @@ imgHW = 200;
 ax1=axes(modalFig,'Units', 'pixels', 'Position', [modalFigWidht-imgHW-15, modalFigHeight-imgHW-15, imgHW, imgHW],'Color','none');
 image(img,'alphadata',im2double(alphachannel),'Parent',ax1);
 axis(ax1, 'off');
-%     axtoolbar(ax1,{});
 
 imgHW = 40;
 axPP=axes(modalFig,'Units', 'pixels', 'Position', [20, 170, imgHW, imgHW],'Color','none');

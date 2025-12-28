@@ -356,7 +356,7 @@ end
 function openInformationFigure(src,~)
 
 mainFigObj=findobj('Tag','mainFigure');
-showInfoFigure(mainFigObj);
+menu_callback_show_abaut_figure(mainFigObj);
 
 end
 
