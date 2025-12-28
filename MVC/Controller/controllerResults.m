@@ -1004,6 +1004,7 @@ classdef controllerResults < handle
                     'VerticalAlignment', 'middle',...
                     'Clipping','on','Tag','fiberLabelsProcessed');
             end
+
             axis(axesResultsPicProc, 'image');
             axis(axesResultsPicProc, 'on');
             hold(axesResultsPicProc, 'off');
@@ -1021,6 +1022,11 @@ classdef controllerResults < handle
             title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
             set(axesResultsPicProc,'Box','off');
             %set(axesResultsPicProc, 'LooseInset', [0,0,0,0]);
+
+            textObj = findobj(axesResultsPicProc,'Tag','fiberLabelsProcessed');
+            if ~isempty(textObj)
+                uistack(textObj,'top');
+            end
             
         end
         
@@ -1044,6 +1050,8 @@ classdef controllerResults < handle
             
             %get axes in the results GUI
             axesResultsGroups = obj.viewResultsHandle.hAPGroups;
+
+            helper_fcn_remove_objects_by_tag('fiberLabelsGroups');
             
             AMode = obj.modelResultsHandle.AnalyzeMode;
             
@@ -1075,7 +1083,7 @@ classdef controllerResults < handle
                         'BackgroundColor','b','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
                         'VerticalAlignment', 'middle',...
-                        'Clipping','on','Tag','fiberLabelsProcessed');
+                        'Clipping','on','Tag','fiberLabelsGroups');
                 end
             end
             
@@ -1094,7 +1102,7 @@ classdef controllerResults < handle
                         'BackgroundColor','m','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
                         'VerticalAlignment', 'middle',...
-                        'Clipping','on','Tag','fiberLabelsProcessed');
+                        'Clipping','on','Tag','fiberLabelsGroups');
                 end
             end
             
@@ -1115,7 +1123,7 @@ classdef controllerResults < handle
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1136,7 +1144,7 @@ classdef controllerResults < handle
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1155,7 +1163,7 @@ classdef controllerResults < handle
                             'BackgroundColor','y','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1174,12 +1182,11 @@ classdef controllerResults < handle
                             'BackgroundColor',[255/255 100/255 0],'Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
             end
-            textObj = findobj(axesResultsGroups,'Type','text');
-            uistack(textObj,'top');
+            
             
             axis(axesResultsGroups, 'image');
             axis(axesResultsGroups, 'on');
@@ -1195,10 +1202,13 @@ classdef controllerResults < handle
             Yvalue = obj.modelResultsHandle.YScale;
             axesResultsGroups.YTick = 0:100:maxPixelY;
             axesResultsGroups.YTickLabel = axesResultsGroups.XTick*Yvalue;
-            title(axesResultsGroups,'Image with Fiber-Type-Groups highlighted and number of objects within each Group.');
+            title(axesResultsGroups,['Image with Fiber-Type-Groups and Number of Groupobjects']);
             set(axesResultsGroups,'Box','off');
 
-            
+            textObj = findobj(axesResultsGroups,'Tag','fiberLabelsGroups');
+            if ~isempty(textObj)
+                uistack(textObj,'top');
+            end
         end
         
         function showHistogramGUI(obj)
