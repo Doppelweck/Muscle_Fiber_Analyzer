@@ -110,16 +110,6 @@ classdef modelAnalyze < handle
         
         function obj = modelAnalyze()
             % Constuctor of the modelAnalyze class.
-            %
-            %   obj = modelAnalyze();
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %
-            %       - Output
-            %           obj:    Handle to modelAnalyze object
-            %
             
             % Don't execute showFiberInformation befor analyze was running.
             obj.CalculationRunning = true;
@@ -146,14 +136,6 @@ classdef modelAnalyze < handle
         function startAnalysze(obj)
             % Check if the binary mask has changed and calls all necessary
             % functions for the clasification.
-            %
-            %   startAnalysze(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
             
             % Don't execute showFiberInformation during calculation.
             obj.CalculationRunning = true;
@@ -217,14 +199,7 @@ classdef modelAnalyze < handle
         function labelingObjects(obj)
             % Labels all objects and calculates all region properties for
             % each object. All data will be saved in the Stats table.
-            %
-            %   labelingObjects(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
+
             obj.oldValueMinArea = obj.MinArea;
             obj.oldValueXScale = obj.XScale;
             obj.oldValueYScale = obj.YScale;
@@ -287,15 +262,7 @@ classdef modelAnalyze < handle
         
         function calcultePerimeter(obj)
             % Calculates the Perimeter for each fiber object.
-            %
-            %   calculatePerimeter(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
-            
+
             % Add Field Perimeter to Stats Struct and set all Values to
             % zero
             
@@ -320,14 +287,6 @@ classdef modelAnalyze < handle
         
         function calculateRoundness(obj)
             % Calculates the roundness for each fiber object.
-            %
-            %   calculateRoundness(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
             
             obj.InfoMessage = '   - calculating roundness...';
             
@@ -421,14 +380,6 @@ classdef modelAnalyze < handle
             % Calculates the aspect ratio for each fiber object. Aspect
             % ratio is the ration between the maxDiameter and the
             % minDiameter.
-            %
-            %   calculateAspectRatio(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
             
             obj.InfoMessage = '   - calculating aspect ratio...';
             
@@ -456,14 +407,7 @@ classdef modelAnalyze < handle
             %   - ratio meanBlue / meanRed
             %   - distance meanBlue / meanRed normalized
             %   - mean Color-Value (HSV Colormodel) from RGB image
-            %
-            %   calculatingFiberColor(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
+
             
             obj.InfoMessage = '   - calculating fiber color...';
             
@@ -502,12 +446,6 @@ classdef modelAnalyze < handle
             % mode and the selected parameters.
             %
             %   specifyFiberType(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object
-            %
             
             obj.InfoMessage = '   - specifying fiber type';
             
@@ -1868,16 +1806,7 @@ classdef modelAnalyze < handle
             % Called fom the manipulateFiberOK() callback function in the
             % controller. Changed the fiber type if the user has changed
             % them.
-            %
-            %   manipulateFiberShowInfoEvent(obj,~,~);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerAnalyze object.
-            %           src:    source of the callback.
-            %           evnt:   callback event data.
-            %
+
             if obj.AnalyzeMode == 1 || obj.AnalyzeMode == 3 || obj.AnalyzeMode == 5 || obj.AnalyzeMode == 7
                 %tripple labeling was active. Only type 1,2 and 12h fibers
                 %allowed
@@ -2056,16 +1985,8 @@ classdef modelAnalyze < handle
         end
         
         function Info = getFiberInfo(obj,Pos)
-            % Send the fiber information at the seleccted position to the
+            % Send the fiber information at the selected position to the
             % controller to show the data in the fiber manipulation figure.
-            %
-            %   Info = getFiberInfo(obj,Pos);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelAnalyze object.
-            %           Pos:    Cursor position in RGB image.
             %
             %       - Output
             %           Info:   Cell array that contains the data that are
