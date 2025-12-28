@@ -1212,119 +1212,101 @@ classdef controllerResults < handle
         end
         
         function showHistogramGUI(obj)
-            % Shows the Histogram plots in the
-            % corresponding axes in the GUI.
-            %
-            %   showPicProcessedGUI(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerResults object.
-            %
-            
+        % Shows histogram plots in GUI axes (optimized, no helper functions)
+        
             obj.modelResultsHandle.InfoMessage = '   - show Histograms...';
-            
-            %find all objects that are not classified as undefined Type 0
-            tempStats = obj.modelResultsHandle.Stats([obj.modelResultsHandle.Stats.FiberTypeMainGroup]>0);
-            
-            if ~isempty(tempStats)
-                %%%%%%%%% Area Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Area Histogram';
-                cla(obj.viewResultsHandle.hAAreaHist);
-            
-                h = histfit(obj.viewResultsHandle.hAAreaHist,[tempStats.Area],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-           
-                ylim(obj.viewResultsHandle.hAAreaHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.Area]);
-                sigma=std([tempStats.Area]);
-                xline(obj.viewResultsHandle.hAAreaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hAAreaHist,'Area Histogram');
-                xlabel(obj.viewResultsHandle.hAAreaHist,['Area in \mum^2 ( Bin width: ' binWidth ' \mum^2 )']);
-                ylabel(obj.viewResultsHandle.hAAreaHist,'Frequency');
-                grid(obj.viewResultsHandle.hAAreaHist, 'on');
-                l1=legend(obj.viewResultsHandle.hAAreaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAreaHist');
-            
-                axtoolbar(obj.viewResultsHandle.hAAreaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                %%%%%%%%% Aspect Ratio Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Aspect Ratio Histogram';
-                
-                cla(obj.viewResultsHandle.hAAspectHist);
-                
-                h = histfit(obj.viewResultsHandle.hAAspectHist,[tempStats.AspectRatio],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hAAspectHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.AspectRatio]);
-                sigma=std([tempStats.AspectRatio]);
-                xline(obj.viewResultsHandle.hAAspectHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hAAspectHist,'Aspect Ratio Histogram');
-                xlabel(obj.viewResultsHandle.hAAspectHist,['Aspect Ratio ( Bin width: ' binWidth ' )']);
-                ylabel(obj.viewResultsHandle.hAAspectHist,'Frequency');
-                grid(obj.viewResultsHandle.hAAspectHist, 'on');
-                l2=legend(obj.viewResultsHandle.hAAspectHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAspectHist');
-                axtoolbar(obj.viewResultsHandle.hAAspectHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                
-                %%%%%%%%% Diameters Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Diameter Histogram';
-                
-                cla(obj.viewResultsHandle.hADiaHist);
-                
-                h = histfit(obj.viewResultsHandle.hADiaHist,[tempStats.minDiameter],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hADiaHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.minDiameter]);
-                sigma=std([tempStats.minDiameter]);
-                xline(obj.viewResultsHandle.hADiaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Feret-Diameter (Breadth) ');
-                xlabel(obj.viewResultsHandle.hADiaHist,['Diameters in \mum ( Bin width: ' binWidth ' \mum )'] );
-                ylabel(obj.viewResultsHandle.hADiaHist,'Frequency');
-                grid(obj.viewResultsHandle.hADiaHist, 'on');
-                l3=legend(obj.viewResultsHandle.hADiaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendDiaHist');
-                axtoolbar(obj.viewResultsHandle.hADiaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                
-                %%%%%%%%% Roundness Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Roundness Histogram';
-                
-                cla(obj.viewResultsHandle.hARoundHist);
-                
-                h = histfit(obj.viewResultsHandle.hARoundHist,[tempStats.Roundness],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hARoundHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.Roundness]);
-                sigma=std([tempStats.Roundness]);
-                xline(obj.viewResultsHandle.hARoundHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hARoundHist,'Roundness Histogram');
-                xlabel(obj.viewResultsHandle.hARoundHist,['Roundness ( Bin width: ' binWidth ' )']);
-                ylabel(obj.viewResultsHandle.hARoundHist,'Frequency');
-                grid(obj.viewResultsHandle.hARoundHist, 'on');
-                l4=legend(obj.viewResultsHandle.hARoundHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendRoundHist');
-                axtoolbar(obj.viewResultsHandle.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            else
+        
+            % --- Filter valid stats once
+            stats = obj.modelResultsHandle.Stats;
+            stats = stats([stats.FiberTypeMainGroup] > 0);
+        
+            if isempty(stats)
                 obj.modelResultsHandle.InfoMessage = '      - ERROR: No Data for Histogram';
+                return;
             end
-            
-        end
+        
+            % --- Cache handles (important for GUI speed)
+            vh = obj.viewResultsHandle;
+        
+            % --- Histogram definitions
+            axesList  = [vh.hAAreaHist, vh.hAAspectHist, vh.hADiaHist, vh.hARoundHist];
+            dataList  = { ...
+                [stats.Area], ...
+                [stats.AspectRatio], ...
+                [stats.minDiameter], ...
+                [stats.Roundness] ...
+            };
+            titles = { ...
+                'Area Histogram', ...
+                'Aspect Ratio Histogram', ...
+                'Diameter Histogram, minimum Feret-Diameter (Breadth)', ...
+                'Roundness Histogram' ...
+            };
+            xlabels = { ...
+                'Area in \mum^2', ...
+                'Aspect Ratio', ...
+                'Diameter in \mum', ...
+                'Roundness' ...
+            };
+            units = {'\mum^2','', '\mum',''};
+            legendTags = { ...
+                'LegendAreaHist', ...
+                'LegendAspectHist', ...
+                'LegendDiaHist', ...
+                'LegendRoundHist' ...
+            };
+        
+            % --- Plot loop
+            for k = 1:numel(axesList)
+        
+                ax   = axesList(k);
+                data = dataList{k}(:);
+        
+                obj.modelResultsHandle.InfoMessage = ['      - plot ' titles{k}];
+        
+                cla(ax);
+        
+                % Histogram (faster than histfit)
+                h = histogram(ax, data, 50, 'Normalization','count');
+                hold(ax,'on');
+        
+                % Statistics
+                mu    = mean(data);
+                sigma = std(data);
+        
+                % Gaussian curve
+                x = linspace(min(data), max(data), 200);
+                y = numel(data) * h.BinWidth * normpdf(x, mu, sigma);
+                plot(ax, x, y, 'r', 'LineWidth', 1);
+        
+                % Sigma lines
+                xline(ax, [mu-sigma mu mu+sigma], '--r', ...
+                    {num2str(mu-sigma), num2str(mu), num2str(mu+sigma)}, ...
+                    'LineWidth', 1);
+        
+                % Axis formatting
+                ylim(ax, [0 ceil(max(h.Values)*1.1/5)*5]);
+                grid(ax, 'on');
+        
+                if numel(data) > 1
+                    binWidthTxt = num2str(h.BinWidth);
+                else
+                    binWidthTxt = 'only 1 bin';
+                end
+        
+                title(ax, titles{k});
+                xlabel(ax, sprintf('%s ( Bin width: %s %s )', ...
+                    xlabels{k}, binWidthTxt, units{k}));
+                ylabel(ax, 'Frequency');
+        
+                legend(ax, 'Histogram', ...
+                    sprintf('Gaussian:\n-μ: %.3g\n-σ: %.3g', mu, sigma), ...
+                    'Tag', legendTags{k});
+        
+                axtoolbar(ax, {'export','datacursor','pan','zoomin','zoomout','restoreview'});
+                hold(ax,'off');
+            end
+end
         
         function updateInfoLogEvent(obj,~,~)
             % Listener callback function of the InfoMessage propertie in
