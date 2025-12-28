@@ -192,7 +192,7 @@ classdef modelEdit < handle
             PicData{16} = obj.FilenameBCRed; %Image needed for Check Planes Window in Edit Mode
             PicData{17} = obj.PicBCFarRed; %Image needed for Check Planes Window in Edit Mode
             PicData{18} = obj.FilenameBCFarRed; %Image needed for Check Planes Window in Edit Mode
-            PicData{19} = obj.MetaData; MetaData from Bio-Format file
+            PicData{19} = obj.MetaData; %MetaData from Bio-Format file
         end
         
         function success = searchBioformat_NOTinUSE(obj)
