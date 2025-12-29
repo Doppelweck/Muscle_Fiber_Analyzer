@@ -262,7 +262,7 @@ else
     set(progfig,'pointer','arrow');
 end
 % Force redraw to show changes
-drawnow
+drawnow limitrate
 
 % Record time of this update
 lastupdate = clock;
