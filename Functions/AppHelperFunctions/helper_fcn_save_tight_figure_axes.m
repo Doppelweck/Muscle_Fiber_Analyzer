@@ -1,4 +1,4 @@
-function saveTightFigure(h,outfilename)
+function helper_fcn_save_tight_figure_axes(h,outfilename)
 % SAVETIGHTFIGURE(OUTFILENAME) Saves the current figure without the white
 %   space/margin around it to the file OUTFILENAME. Output file type is
 %   determined by the extension of OUTFILENAME. All formats that are
@@ -16,7 +16,7 @@ if nargin==1
 else
     
     if strcmp( h.Type , 'axes')
-    hF = figure('NumberTitle','off','Units','normalized','Name','Picture Results','Visible','off');
+    hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
     copyobj(h ,hF);
     
     hfig = hF;
@@ -31,21 +31,24 @@ end
 hax = findall(hfig, 'type', 'axes');
 
 %% compute the tighest box that includes all axes
-tighest_box = [Inf Inf -Inf -Inf]; % left bottom right top
-for i=1:length(hax)
-    set(hax(i), 'units', 'centimeters');
-    
-    p = get(hax(i), 'position');
-    ti = get(hax(i), 'tightinset');
-    
-    % get position as left, bottom, right, top
-    p = [p(1) p(2) p(1)+p(3) p(2)+p(4)] + ti.*[-1 -1 1 1];
-    
-    tighest_box(1) = min(tighest_box(1), p(1));
-    tighest_box(2) = min(tighest_box(2), p(2));
-    tighest_box(3) = max(tighest_box(3), p(3));
-    tighest_box(4) = max(tighest_box(4), p(4));
-end
+% Set units for all axes at once
+set(hax, 'Units', 'centimeters');
+
+% Get positions and tightinsets as cell arrays
+posMat = get(hax, 'Position');      % cell array: { [x y w h], ... }
+tiMat  = get(hax, 'TightInset');    % cell array: { [l b r t], ... }
+
+
+% Compute left, bottom, right, top for all axes
+% Each row: [left bottom right top] including tight inset
+axesBBox = [posMat(:,1)-tiMat(:,1), ...
+            posMat(:,2)-tiMat(:,2), ...
+            posMat(:,1)+posMat(:,3)+tiMat(:,3), ...
+            posMat(:,2)+posMat(:,4)+tiMat(:,4)];
+
+% Compute the tightest bounding box
+tighest_box = [min(axesBBox(:,1)), min(axesBBox(:,2)), ...
+               max(axesBBox(:,3)), max(axesBBox(:,4))];
 
 %% move all axes to left-bottom
 for i=1:length(hax)
@@ -68,11 +71,10 @@ set(hfig, 'position', [p(1) p(2) width height]);
 set(hfig,'PaperUnits','centimeters');
 set(hfig,'PaperSize', [width height]);
 set(hfig,'PaperPositionMode', 'manual');
-set(hfig,'PaperPosition',[0 0.1 width height]);
-
+set(hfig,'PaperPosition',[0 0.1 width height]);                
 
 %% save
-saveas(hfig,outfilename);
+exportgraphics(hfig, outfilename, 'ContentType', 'vector');
 
 %% Close temp Figure if h is an axes Type 
 if handleIsAxes
