@@ -1342,15 +1342,9 @@ classdef modelResults < handle
             [~, fileName, ~] = fileparts(obj.FileName);
             picName = sprintf('%s_ImageProcessed%s.pdf', fileName, time);
             fullFileName = fullfile(SaveDir, picName);
-
-            % Create temporary figure
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
             
             try
-                % Copy and export as PDF
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed, fTemp);
-
-                saveTightFigureOrAxes(fTemp,fullFileName);
+                helper_fcn_save_tight_figure_axes(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed,fullFileName);
                 
                 obj.InfoMessage = '         - image has been saved as .pdf vector graphic';
 
@@ -1370,10 +1364,9 @@ classdef modelResults < handle
                 imwrite(frame.cdata, fullFileName);
                 
                 obj.InfoMessage = '         - image has been saved as .tif';
+                % Cleanup
+                close(fTemp);
             end
-
-            % Cleanup
-            close(fTemp);
         end
         
         function saveFiberGroupImage(obj,SaveDir,time)
@@ -1383,21 +1376,14 @@ classdef modelResults < handle
             end
             
             obj.InfoMessage = '      - saving image fiber groups...';
-            
-            % Get filename without extension
             [~, fileName, ~] = fileparts(obj.FileName);
             picName = sprintf('%s_ImageFiberGroups%s.pdf', fileName, time);
             fullFileName = fullfile(SaveDir, picName);
-            
-            % Create temporary figure
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+
             
             try
-                % Copy and export as PDF
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups, fTemp);
-                
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                
+                helper_fcn_save_tight_figure_axes(obj.controllerResultsHandle.viewResultsHandle.hAPGroups,fullFileName);
+
                 obj.InfoMessage = '         - image has been saved as .pdf vector graphic';
                 
             catch ME
@@ -1405,7 +1391,6 @@ classdef modelResults < handle
                 obj.InfoMessage = 'ERROR: Image could not be saved as .pdf vector graphic';
                 
                 % Fallback: save as TIF
-                close(fTemp);
                 fTemp = figure('Visible', 'off', 'Color', 'white');
                 copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups, fTemp);
                 
@@ -1414,12 +1399,10 @@ classdef modelResults < handle
                 picName = sprintf('%s_ImageFiberGroups%s.tif', fileName, time);
                 fullFileName = fullfile(SaveDir, picName);
                 imwrite(frame.cdata, fullFileName);
-                
+                % Cleanup
+                close(fTemp);
                 obj.InfoMessage = '         - image has been saved as .tif';
             end
-            
-            % Cleanup
-            close(fTemp);
         end
         
         function saveScatterPlot(obj,SaveDir,time)
@@ -1437,9 +1420,9 @@ classdef modelResults < handle
             
             fTemp = figure('Visible','off', 'Theme', 'light');
             lTemp = findobj('Tag','LegendScatterPlotAll');
-            copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
+            copyobj([lTemp, obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
             set(lTemp,'Location','best')
-            saveTightFigureOrAxes(fTemp,fullFileName);
+            helper_fcn_save_tight_figure_axes(fTemp,fullFileName);
             delete(fTemp)
             
             obj.InfoMessage = '   - saving Scatter complete';
