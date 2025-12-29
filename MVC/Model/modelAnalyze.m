@@ -254,9 +254,9 @@ classdef modelAnalyze < handle
             
             obj.InfoMessage = ['      - ' num2str(length(obj.Stats)) ' objects was found'];
             if length(obj.Stats)>0
-                obj.controllerAnalyzeHandle.viewAnalyzeHandle.PanelFiberInformation.Title = ['Fiber informations ( ' num2str(length(obj.Stats)) ' Objects )'];
+                obj.controllerAnalyzeHandle.viewAnalyzeHandle.PanelFiberInformation.Title = ['Fiber Informations ( ' num2str(length(obj.Stats)) ' Objects )'];
             else
-                obj.controllerAnalyzeHandle.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber informations';
+                obj.controllerAnalyzeHandle.viewAnalyzeHandle.PanelFiberInformation.Title = 'Fiber Informations';
             end
         end
         
