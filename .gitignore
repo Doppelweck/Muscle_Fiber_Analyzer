@@ -23,6 +23,7 @@
 Example\ Images/*.pdf
 Example\ Images/*.tif
 Example\ Images/*.xlsx
+Example\ Images/*.xlsm
 Example\ Images/*.xls
 Example\ Images/*.txt
 Example\ Images/*.jpg
@@ -33,6 +34,7 @@ Example\ Images/*.svg
 Example\ Images/**/*.pdf
 Example\ Images/**/*.tif
 Example\ Images/**/*.xlsx
+Example\ Images/**/*.xlsm
 Example\ Images/**/*.xls
 Example\ Images/**/*.txt
 Example\ Images/**/*.jpg
