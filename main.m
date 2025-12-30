@@ -8,7 +8,6 @@ try
         addpath(genpath('MVC'));
         addpath(genpath('Functions'));
         addpath(genpath('Icons'));
-        rmpath(genpath('Functions/OLD_FUNCTIONS_2_BE_REMOVED'));
         pause(0.5);
         cl;
     catch
@@ -16,7 +15,7 @@ try
     
     build_up_time_delay = 0.300;
     
-    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+    setSettingsValue('AppState','production'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
