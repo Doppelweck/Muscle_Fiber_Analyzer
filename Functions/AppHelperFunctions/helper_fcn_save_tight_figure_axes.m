@@ -1,4 +1,4 @@
-function helper_fcn_save_tight_figure_axes(h,outfilename)
+function helper_fcn_save_tight_figure_axes(inputData,outfilename)
 % SAVETIGHTFIGURE(OUTFILENAME) Saves the current figure without the white
 %   space/margin around it to the file OUTFILENAME. Output file type is
 %   determined by the extension of OUTFILENAME. All formats that are
@@ -9,37 +9,38 @@ function helper_fcn_save_tight_figure_axes(h,outfilename)
 % E Akbas (c) Aug 2010
 % * Updated to handle subplots and multiple axes. March 2014. 
 %
+[~,~,ext] = fileparts(outfilename);
+saveAsVectorGraphic = ismember(lower(ext), {'.pdf', '.svg'});
 
-if nargin==1
-    hfig = gcf;
-    outfilename = h;
-else
+if isa(inputData, 'matlab.ui.Figure')
+    tempFigureIsCreated = false;
+    hfig = inputData;
+
+elseif isa(inputData, 'matlab.graphics.axis.Axes')
+    tempFigureIsCreated = true;
+    hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+    
     try
-        if strcmp( h.Type , 'axes')
+        copyobj([inputData,inputData.Legend] ,hF);
+        set(inputData.Legend, 'Location', 'best');
+    catch
+        copyobj(inputData ,hF);
+    end
+    hfig = hF;
+
+elseif ismatrix(inputData)
+    if saveAsVectorGraphic
+        tempFigureIsCreated = true;
         hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
-
-        try
-            copyobj([h,h.Legend] ,hF);
-            set(h.Legend, 'Location', 'best');
-        catch
-            copyobj(h ,hF);
-        end
-        
+        imshow(inputData);
         hfig = hF;
-        handleIsAxes = true;
-
-        elseif strcmp( h.Type , 'figure')
-            hfig = h;
-            handleIsAxes = false;
-        end
-
-    catch %is data Array. Create axes
-        hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
-        imshow(h);
-        hfig = hF;
-        handleIsAxes = true;
+    else
+    
+        tempFigureIsCreated = false;
+        imwrite(inputData,outfilename);
     end
 end
+
 
 %% find all the axes in the figure
 hax = findall(hfig, 'type', 'axes');
@@ -88,14 +89,15 @@ set(hfig,'PaperPositionMode', 'manual');
 set(hfig,'PaperPosition',[0 0.1 width height]);                
 
 %% save
-[~,~,ext] = fileparts(outfilename);
-if ismember(lower(ext), {'.pdf', '.svg'})
+if saveAsVectorGraphic
     exportgraphics(hfig, outfilename, 'ContentType', 'vector');
 else
     exportgraphics(hfig, outfilename, 'ContentType', 'auto');
 end
 
 %% Close temp Figure if h is an axes Type 
-if handleIsAxes
+if tempFigureIsCreated
     delete(hfig)
 end
+
+
