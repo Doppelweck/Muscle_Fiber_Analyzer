@@ -161,7 +161,7 @@ if isempty(progfig)
     
     movegui(progfig,'center');
     set(progfig,'Visible','on')
-%     setAlwaysOnTop(progfig,true);    
+    drawnow;
     
     set(progfig,'CloseRequestFcn','');
     work.progtitle = progtitle;                             % Store initial values for title
@@ -214,7 +214,7 @@ if isempty(progfig)
         'string','');                                       % Initialize the progress text as blank
     
 
-    
+    drawnow;
     % Set time of last update to ensure a redraw
     lastupdate = clock - 1;
     
@@ -222,7 +222,7 @@ if isempty(progfig)
     if isempty(starttime) | (fractiondone == 0)
         starttime = clock;
     end
-    
+    drawnow;   
 end
 
 % Enforce a minimum time interval between updates
