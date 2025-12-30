@@ -121,8 +121,8 @@ classdef viewResults < handle
             
 
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
-            dropdownStringAxes={'.pdf';'.svg';'jpg';'png';'tif'};
-            dropdownStringTabel={'.xlsx';'.xls';'.xlsm';'.txt';'.csv';'.dat';};
+            dropdownStringAxes={'.pdf';'.svg';'.jpg';'.png';'.tif'};
+            dropdownStringTabel={'.xlsx';'.xls';'.xlsm'};
             widthsSaveRow = [-1 -7.5 -2.5];
 
             mainVBBoxSave = uix.VBox('Parent', PanelSave,params.default_box_spacing_padding{:});
