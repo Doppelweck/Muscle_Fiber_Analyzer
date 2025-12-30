@@ -97,6 +97,14 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_NewPic,'Callback',@obj.newPictureEvent);
             set(obj.viewResultsHandle.B_CloseProgramm,'Callback',@obj.closeProgramEvent);
             set(obj.viewResultsHandle.B_SaveOpenDir,'Callback',@obj.openSaveDirectory);
+
+            set(obj.viewResultsHandle.B_SaveFiberTable,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveScatterAll,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePlots,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveHisto,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicProc,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicGroups,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveBinaryMask,'Callback',@obj.saveCheckboxEvent);
         end
         
         function addWindowCallbacks(obj)
@@ -135,6 +143,40 @@ classdef controllerResults < handle
             
         end
         
+        function saveCheckboxEvent(obj,src,evnt)
+            uiControl = src;
+            value = uiControl.Value;
+
+            enableStrin = 'off';
+            if value
+                enableStrin = 'on';
+            end
+            obj.restoreUiControls()
+            switch uiControl.Tag
+                case 'checkboxSaveFiberTable'
+                    set(obj.viewResultsHandle.B_SaveFiberTableFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSaveOverview'
+                    set(obj.viewResultsHandle.B_SavePlotsFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSaveHistogram'
+                    set(obj.viewResultsHandle.B_SaveHistoFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSavePicProcessed'
+                    set(obj.viewResultsHandle.B_SavePicProcFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSavePicGroups'
+                    set(obj.viewResultsHandle.B_SavePicGroupsFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSaveScatterAll'
+                    set(obj.viewResultsHandle.B_SaveScatterAllFileFormat,'Enable',enableStrin);
+
+                case 'checkboxSaveBinaryMask'
+                    set(obj.viewResultsHandle.B_SaveBinaryMaskFileFormat,'Enable',enableStrin);
+                otherwise
+            end
+        end
+
         function startResultsMode(obj,Data,InfoText)
             % Called by the controllerAnalyze instance when the user change
             % the program state to Results-mode. Saves all nessessary Data
@@ -300,7 +342,7 @@ classdef controllerResults < handle
                 obj.errorMessage();
             end
             end
-            
+            obj.restoreUiControls();
             obj.panelAxes.Visible = 1;
             obj.busyIndicator(0);
         end
@@ -347,13 +389,21 @@ classdef controllerResults < handle
             %
             try
                 % Store save options from GUI checkboxes
-                obj.modelResultsHandle.SaveFiberTable = obj.viewResultsHandle.B_SaveFiberTable.Value;
-                obj.modelResultsHandle.SaveScatterAll = obj.viewResultsHandle.B_SaveScatterAll.Value;
-                obj.modelResultsHandle.SavePlots = obj.viewResultsHandle.B_SavePlots.Value;
-                obj.modelResultsHandle.SaveHisto = obj.viewResultsHandle.B_SaveHisto.Value;
+                obj.modelResultsHandle.SaveFiberTable =   obj.viewResultsHandle.B_SaveFiberTable.Value;
+                obj.modelResultsHandle.SaveScatterAll =   obj.viewResultsHandle.B_SaveScatterAll.Value;
+                obj.modelResultsHandle.SavePlots =        obj.viewResultsHandle.B_SavePlots.Value;
+                obj.modelResultsHandle.SaveHisto =        obj.viewResultsHandle.B_SaveHisto.Value;
                 obj.modelResultsHandle.SavePicProcessed = obj.viewResultsHandle.B_SavePicProc.Value;
-                obj.modelResultsHandle.SavePicGroups = obj.viewResultsHandle.B_SavePicGroups.Value;
-                obj.modelResultsHandle.SaveBinaryMask = obj.viewResultsHandle.B_SaveBinaryMask.Value;
+                obj.modelResultsHandle.SavePicGroups =    obj.viewResultsHandle.B_SavePicGroups.Value;
+                obj.modelResultsHandle.SaveBinaryMask =   obj.viewResultsHandle.B_SaveBinaryMask.Value;
+
+                obj.modelResultsHandle.SaveFiberTableFileFormat = obj.viewResultsHandle.B_SaveFiberTableFileFormat.Value;
+                obj.modelResultsHandle.SaveScatterAllFileFormat = obj.viewResultsHandle.B_SaveScatterAllFileFormat.Value;
+                obj.modelResultsHandle.SavePlotsFileFormat =      obj.viewResultsHandle.B_SavePlotsFileFormat.Value;
+                obj.modelResultsHandle.SaveHistoFileFormat =      obj.viewResultsHandle.B_SaveHistoFileFormat.Value;
+                obj.modelResultsHandle.SavePicProcFileFormat =    obj.viewResultsHandle.B_SavePicProcFileFormat.Value;
+                obj.modelResultsHandle.SavePicGroupsFileFormat =  obj.viewResultsHandle.B_SavePicGroupsFileFormat.Value;
+                obj.modelResultsHandle.SaveBinaryMaskFileFormat = obj.viewResultsHandle.B_SaveBinaryMaskFileFormat.Value;
                 
                 obj.busyIndicator(1);
 
@@ -1364,6 +1414,32 @@ end
             set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','on');
         end
         
+        function restoreUiControls(obj)
+            vh = obj.viewResultsHandle;
+
+            enableString = view_helper_value_to_enable_string(vh.B_SaveFiberTable.Value);
+            set(vh.B_SaveFiberTableFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SavePlots.Value);
+            set(vh.B_SavePlotsFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SaveHisto.Value);
+            set(vh.B_SaveHistoFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SavePicProc.Value);
+            set(vh.B_SavePicProcFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SavePicGroups.Value);
+            set(vh.B_SavePicGroupsFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SaveScatterAll.Value);
+            set(vh.B_SaveScatterAllFileFormat,'Enable',enableString);
+
+            enableString = view_helper_value_to_enable_string(vh.B_SaveBinaryMask.Value);
+            set(vh.B_SaveBinaryMaskFileFormat,'Enable',enableString);
+            
+        end
+
         function clearData(obj)
             % Clears all data in the model. Set the ResultsUpdateStatus to
             % false.
