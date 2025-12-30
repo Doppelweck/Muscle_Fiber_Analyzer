@@ -88,7 +88,12 @@ set(hfig,'PaperPositionMode', 'manual');
 set(hfig,'PaperPosition',[0 0.1 width height]);                
 
 %% save
-exportgraphics(hfig, outfilename, 'ContentType', 'auto');
+[~,~,ext] = fileparts(outfilename);
+if ismember(lower(ext), {'.pdf', '.svg'})
+    exportgraphics(hfig, outfilename, 'ContentType', 'vector');
+else
+    exportgraphics(hfig, outfilename, 'ContentType', 'auto');
+end
 
 %% Close temp Figure if h is an axes Type 
 if handleIsAxes
