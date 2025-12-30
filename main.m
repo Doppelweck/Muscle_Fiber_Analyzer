@@ -2,22 +2,22 @@ try
      
     % % find starting path
     warning('off', 'all');
-    % try %%Not need for .exe
-    %     path = cd;
-    %     % add files to the current matalb path
-    %     addpath(genpath('MVC'));
-    %     addpath(genpath('Functions'));
-    %     addpath(genpath('Icons'));
-    %     pause(0.5);
-    %     cl;
-    % catch
-    % end
+    try %%Not need for .exe
+        path = cd;
+        % add files to the current matalb path
+        addpath(genpath('MVC'));
+        addpath(genpath('Functions'));
+        addpath(genpath('Icons'));
+        pause(0.5);
+        cl;
+    catch
+    end
 
     
     
-    build_up_time_delay = 0.300;
+    build_up_time_delay = 0.000;
     
-    setSettingsValue('AppState','production'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
@@ -44,7 +44,7 @@ try
     end
 
     % create main figure
-    mainFig = figure(...
+    mainFig = uifigure(...
         'Visible','on',...
         'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
