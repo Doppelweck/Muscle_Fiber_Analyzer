@@ -307,14 +307,15 @@ classdef controllerResults < handle
                 %show results data in the GUI
                 obj.modelResultsHandle.startResultMode();
 
-                % Set location to 'best' for all
-                allLegends = findall(obj.mainFigure, 'Type', 'Legend');
-                set(allLegends, 'Location', 'best');
-                
                 set(obj.viewResultsHandle.B_BackAnalyze,'Enable','on');
                 set(obj.viewResultsHandle.B_Save,'Enable','on');
                 set(obj.viewResultsHandle.B_NewPic,'Enable','on');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','on');
+
+                % Set location to 'best' for all
+                allLegends = findall(obj.mainFigure, 'Type', 'Legend');
+                set(allLegends, 'Location', 'best');
+                drawnow;
                 
                 %Check if a resultsfolder for the file already exist
                 % Dlete file extension in the results folder before save
