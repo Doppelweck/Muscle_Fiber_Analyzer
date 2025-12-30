@@ -23,9 +23,22 @@
 Example\ Images/*.pdf
 Example\ Images/*.tif
 Example\ Images/*.xlsx
+Example\ Images/*.xls
+Example\ Images/*.txt
+Example\ Images/*.jpg
+Example\ Images/*.jpeg
+Example\ Images/*.csv
+Example\ Images/*.svg
+
 Example\ Images/**/*.pdf
 Example\ Images/**/*.tif
 Example\ Images/**/*.xlsx
+Example\ Images/**/*.xls
+Example\ Images/**/*.txt
+Example\ Images/**/*.jpg
+Example\ Images/**/*.jpeg
+Example\ Images/**/*.csv
+Example\ Images/**/*.svg
 
 # Simulink Code Generation
 slprj/
