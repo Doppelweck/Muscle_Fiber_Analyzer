@@ -14,16 +14,30 @@ if nargin==1
     hfig = gcf;
     outfilename = h;
 else
-    
-    if strcmp( h.Type , 'axes')
-    hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
-    copyobj(h ,hF);
-    
-    hfig = hF;
-    handleIsAxes = true;
-    else
-    hfig = h;
-    handleIsAxes = false;
+    try
+        if strcmp( h.Type , 'axes')
+        hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+
+        try
+            copyobj([h,h.Legend] ,hF);
+            set(h.Legend, 'Location', 'best');
+        catch
+            copyobj(h ,hF);
+        end
+        
+        hfig = hF;
+        handleIsAxes = true;
+
+        elseif strcmp( h.Type , 'figure')
+            hfig = h;
+            handleIsAxes = false;
+        end
+
+    catch %is data Array. Create axes
+        hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+        imshow(h);
+        hfig = hF;
+        handleIsAxes = true;
     end
 end
 
@@ -63,8 +77,8 @@ end
 set(hfig, 'units', 'centimeters');
 p = get(hfig, 'position');
 
-width = (tighest_box(3)-tighest_box(1))*1.05;
-height =  (tighest_box(4)-tighest_box(2))*1.05; 
+width = (tighest_box(3)-tighest_box(1))*1.0;
+height =  (tighest_box(4)-tighest_box(2))*1.0; 
 set(hfig, 'position', [p(1) p(2) width height]);
 
 %% set papersize
@@ -74,7 +88,7 @@ set(hfig,'PaperPositionMode', 'manual');
 set(hfig,'PaperPosition',[0 0.1 width height]);                
 
 %% save
-exportgraphics(hfig, outfilename, 'ContentType', 'vector');
+exportgraphics(hfig, outfilename, 'ContentType', 'auto');
 
 %% Close temp Figure if h is an axes Type 
 if handleIsAxes
