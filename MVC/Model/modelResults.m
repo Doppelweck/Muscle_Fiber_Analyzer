@@ -1454,11 +1454,11 @@ classdef modelResults < handle
                 return;
             end
 
-            obj.InfoMessage = ['      - creating table as ' fileExt];
-            
+            obj.InfoMessage = ['      - creating file as ' fileExt];
+
             try
                 obj.InfoMessage = '            - write all fiber types ';
-                writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2')
+                writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2');
     
                 obj.InfoMessage = '            - write statistic table ';
                 writecell(obj.StatisticMat, fullFileName, 'Sheet','Statistics','Range','B2');
