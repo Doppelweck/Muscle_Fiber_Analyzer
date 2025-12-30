@@ -103,6 +103,7 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_SavePlots,'Callback',@obj.saveCheckboxEvent);
             set(obj.viewResultsHandle.B_SaveHisto,'Callback',@obj.saveCheckboxEvent);
             set(obj.viewResultsHandle.B_SavePicProc,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicOriginal,'Callback',@obj.saveCheckboxEvent);
             set(obj.viewResultsHandle.B_SavePicGroups,'Callback',@obj.saveCheckboxEvent);
             set(obj.viewResultsHandle.B_SaveBinaryMask,'Callback',@obj.saveCheckboxEvent);
         end
@@ -143,38 +144,8 @@ classdef controllerResults < handle
             
         end
         
-        function saveCheckboxEvent(obj,src,evnt)
-            uiControl = src;
-            value = uiControl.Value;
-
-            enableStrin = 'off';
-            if value
-                enableStrin = 'on';
-            end
+        function saveCheckboxEvent(obj,~,~)
             obj.restoreUiControls()
-            switch uiControl.Tag
-                case 'checkboxSaveFiberTable'
-                    set(obj.viewResultsHandle.B_SaveFiberTableFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSaveOverview'
-                    set(obj.viewResultsHandle.B_SavePlotsFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSaveHistogram'
-                    set(obj.viewResultsHandle.B_SaveHistoFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSavePicProcessed'
-                    set(obj.viewResultsHandle.B_SavePicProcFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSavePicGroups'
-                    set(obj.viewResultsHandle.B_SavePicGroupsFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSaveScatterAll'
-                    set(obj.viewResultsHandle.B_SaveScatterAllFileFormat,'Enable',enableStrin);
-
-                case 'checkboxSaveBinaryMask'
-                    set(obj.viewResultsHandle.B_SaveBinaryMaskFileFormat,'Enable',enableStrin);
-                otherwise
-            end
         end
 
         function startResultsMode(obj,Data,InfoText)
@@ -295,7 +266,8 @@ classdef controllerResults < handle
                 obj.viewResultsHandle.panelAxes.Title = Titel;
                 
                 %change the figure callbacks for the results mode
-                obj.addWindowCallbacks()
+                obj.addWindowCallbacks();
+                obj.restoreUiControls();
                 
                 obj.modelResultsHandle.InfoMessage = '*** Start Result mode ***';
                 
@@ -395,6 +367,7 @@ classdef controllerResults < handle
                 obj.modelResultsHandle.SavePlots =        obj.viewResultsHandle.B_SavePlots.Value;
                 obj.modelResultsHandle.SaveHisto =        obj.viewResultsHandle.B_SaveHisto.Value;
                 obj.modelResultsHandle.SavePicProcessed = obj.viewResultsHandle.B_SavePicProc.Value;
+                obj.modelResultsHandle.SavePicOriginal = obj.viewResultsHandle.B_SavePicOriginal.Value;
                 obj.modelResultsHandle.SavePicGroups =    obj.viewResultsHandle.B_SavePicGroups.Value;
                 obj.modelResultsHandle.SaveBinaryMask =   obj.viewResultsHandle.B_SaveBinaryMask.Value;
 
@@ -403,6 +376,7 @@ classdef controllerResults < handle
                 obj.modelResultsHandle.SavePlotsFileFormat =      obj.viewResultsHandle.B_SavePlotsFileFormat.Value;
                 obj.modelResultsHandle.SaveHistoFileFormat =      obj.viewResultsHandle.B_SaveHistoFileFormat.Value;
                 obj.modelResultsHandle.SavePicProcFileFormat =    obj.viewResultsHandle.B_SavePicProcFileFormat.Value;
+                obj.modelResultsHandle.SavePicOriginalFileFormat =    obj.viewResultsHandle.B_SavePicOriginalFileFormat.Value;
                 obj.modelResultsHandle.SavePicGroupsFileFormat =  obj.viewResultsHandle.B_SavePicGroupsFileFormat.Value;
                 obj.modelResultsHandle.SaveBinaryMaskFileFormat = obj.viewResultsHandle.B_SaveBinaryMaskFileFormat.Value;
                 
@@ -427,6 +401,7 @@ classdef controllerResults < handle
 
                     set([buttons{:}], 'Enable', 'off');
                     
+                    obj.resetSaveIndicator();
                     %Save results
                     obj.modelResultsHandle.saveResults();
                     
@@ -1416,29 +1391,59 @@ end
         end
         
         function restoreUiControls(obj)
+            try
+                vh = obj.viewResultsHandle;
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveFiberTable.Value);
+                set(vh.B_SaveFiberTableFileFormat,'Enable',enableString);
+                set(vh.B_SaveFiberTableIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePlots.Value);
+                set(vh.B_SavePlotsFileFormat,'Enable',enableString);
+                set(vh.B_SavePlotsIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveHisto.Value);
+                set(vh.B_SaveHistoFileFormat,'Enable',enableString);
+                set(vh.B_SaveHistoIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicProc.Value);
+                set(vh.B_SavePicProcFileFormat,'Enable',enableString);
+                set(vh.B_SavePicProcIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicOriginal.Value);
+                set(vh.B_SavePicOriginalFileFormat,'Enable',enableString);
+                set(vh.B_SavePicOriginalIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicGroups.Value);
+                set(vh.B_SavePicGroupsFileFormat,'Enable',enableString);
+                set(vh.B_SavePicGroupsIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveScatterAll.Value);
+                set(vh.B_SaveScatterAllFileFormat,'Enable',enableString);
+                set(vh.B_SaveScatterAllIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveBinaryMask.Value);
+                set(vh.B_SaveBinaryMaskFileFormat,'Enable',enableString);
+                set(vh.B_SaveBinaryMaskIndicator,'Enable',enableString);
+            catch
+                obj.errorMessage();
+                obj.panelAxes.Visible = 1;
+                obj.busyIndicator(0);
+            end
+        end
+
+        function resetSaveIndicator(obj)
             vh = obj.viewResultsHandle;
+            Color = 'yellow';
+            set(vh.B_SaveFiberTableIndicator,'Color',Color);
+            set(vh.B_SavePlotsIndicator,'Color',Color);
+            set(vh.B_SaveHistoIndicator,'Color',Color);
+            set(vh.B_SavePicProcIndicator,'Color',Color);
+            set(vh.B_SavePicOriginalIndicator,'Color',Color);
+            set(vh.B_SavePicGroupsIndicator,'Color',Color);
+            set(vh.B_SaveScatterAllIndicator,'Color',Color);
+            set(vh.B_SaveBinaryMaskIndicator,'Color',Color);
 
-            enableString = view_helper_value_to_enable_string(vh.B_SaveFiberTable.Value);
-            set(vh.B_SaveFiberTableFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SavePlots.Value);
-            set(vh.B_SavePlotsFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SaveHisto.Value);
-            set(vh.B_SaveHistoFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SavePicProc.Value);
-            set(vh.B_SavePicProcFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SavePicGroups.Value);
-            set(vh.B_SavePicGroupsFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SaveScatterAll.Value);
-            set(vh.B_SaveScatterAllFileFormat,'Enable',enableString);
-
-            enableString = view_helper_value_to_enable_string(vh.B_SaveBinaryMask.Value);
-            set(vh.B_SaveBinaryMaskFileFormat,'Enable',enableString);
-            
         end
 
         function clearData(obj)
@@ -1615,6 +1620,9 @@ end
             lTemp = findobj('Tag','LegendScatterPlotAll');
             delete(lTemp);
             
+            %Reset Save Indicator State
+            obj.resetSaveIndicator();
+
             obj.modelResultsHandle.ResultUpdateStaus = false;
         end
         
@@ -1670,7 +1678,8 @@ end
         end
         
         function busyIndicator(obj,status)  
-            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle)  
+            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle);
+            obj.restoreUiControls();
         end
         
         function errorMessage(obj)

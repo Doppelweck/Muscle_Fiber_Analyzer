@@ -52,15 +52,26 @@ classdef modelResults < handle
         SavePlots; %Indicates whether the statistics plots should be saved.
         SaveHisto; %Indicates whether the Histogram plots should be saved.
         SavePicProcessed; %Indicates whether the processed image with Farred should be saved.
+        SavePicOriginal; %Indicates whether the processed image with Farred should be saved.
         SavePicGroups; %Indicates whether the processed image without Farred should be saved.
         
-        SaveFiberTableFileFormat; %FileFormat in which teh data should be saved.
-        SaveScatterAllFileFormat; %FileFormat in which teh data should be saved.
-        SavePlotsFileFormat; %FileFormat in which teh data should be saved.
-        SaveHistoFileFormat; %FileFormat in which teh data should be saved.
-        SavePicProcFileFormat; %Formatckbox in which teh data should be saved.
-        SavePicGroupsFileFormat; %FileFormat in which teh data should be saved.
-        SaveBinaryMaskFileFormat; %FileFormat in which teh data should be saved.
+        SaveFiberTableFileFormat; %FileFormat in which the data should be saved.
+        SaveScatterAllFileFormat; %FileFormat in which the data should be saved.
+        SavePlotsFileFormat; %FileFormat in which the data should be saved.
+        SaveHistoFileFormat; %FileFormat in which the data should be saved.
+        SavePicProcFileFormat; %FileFormat in which the data should be saved.
+        SavePicOriginalFileFormat; %FileFormat in which the data should be saved.
+        SavePicGroupsFileFormat; %FileFormat in which the data should be saved.
+        SaveBinaryMaskFileFormat; %FileFormat in which the data should be saved.
+
+        SaveFiberTableIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveScatterAllIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePlotsIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveHistoIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicProcIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicOriginalIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicGroupsIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveBinaryMaskIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
         
         
         LabelMat; %Label array of all fiber objects.
@@ -1180,7 +1191,7 @@ classdef modelResults < handle
             obj.InfoMessage = ' ';
             obj.InfoMessage = '*** Saving Data ***';
             obj.InfoMessage = '   - saving data in the same directory than the file was selected:';
-            
+
             %Current date and time
             date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm');
             obj.SaveTime = string(date_time);
@@ -1224,6 +1235,9 @@ classdef modelResults < handle
             workbar(3/noOfSaveElements,'saving processed image','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveProcessedImage();
 
+            workbar(3/noOfSaveElements,'saving processed image','Saving Results',obj.controllerResultsHandle.mainFigure);
+            obj.saveOriginalImage();
+
             workbar(4/noOfSaveElements,'saving fiber group image','Saving Results',obj.controllerResultsHandle.mainFigure);
             obj.saveFiberGroupImage();
 
@@ -1241,6 +1255,7 @@ classdef modelResults < handle
         end
         
         function saveOverviewPlot(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePlotsIndicator;
             if ~obj.SavePlots
                 pause(0.1);
                 return;
@@ -1267,15 +1282,19 @@ classdef modelResults < handle
                 try
                     helper_fcn_save_tight_figure_axes(axes,fullFileName);
                     obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                    set(lamp,'Color','green');
                 catch ME
                     warning('Problem saving Image: %s.');
                     obj.InfoMessage = '      - ERROR: Image could not be saved';
+                    set(lamp,'Color','red');
+                    break
                 end
             end
             obj.InfoMessage = '   - saving Overview Plots complete';
         end
         
         function saveHistograms(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveHistoIndicator;
             if ~obj.SaveHisto
                 pause(0.1);
                 return;
@@ -1302,9 +1321,12 @@ classdef modelResults < handle
                 try
                     helper_fcn_save_tight_figure_axes(axes,fullFileName);
                     obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                    set(lamp,'Color','green');
                 catch ME
                     warning('Problem saving Image: %s.');
                     obj.InfoMessage = '      - ERROR: Image could not be saved';
+                    set(lamp,'Color','red');
+                    break
                 end
 
             end
@@ -1312,6 +1334,7 @@ classdef modelResults < handle
         end
         
         function saveProcessedImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicProcIndicator;
             if ~obj.SavePicProcessed
                 pause(0.1);
                 return;
@@ -1325,13 +1348,39 @@ classdef modelResults < handle
             try
                 helper_fcn_save_tight_figure_axes(axes,fullFileName);
                 obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
                 warning('Problem saving Image: %s.');
                 obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
+            end
+        end
+
+        function saveOriginalImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicOriginalIndicator;
+            if ~obj.SavePicOriginal
+                pause(0.1);
+                return;
+            end
+            obj.InfoMessage = '   - saving Image Processed...';
+            axes = obj.controllerResultsHandle.viewResultsHandle.hAPProcessed;
+            fileExt = obj.SavePicOriginalFileFormat;
+            fileName = 'ImageProcessed';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
+            try
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
+            catch ME
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end
         end
         
         function saveFiberGroupImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicGroupsIndicator;
             if ~obj.SavePicGroups
                 pause(0.1);
                 return;
@@ -1345,13 +1394,16 @@ classdef modelResults < handle
             try
                 helper_fcn_save_tight_figure_axes(axes,fullFileName);
                 obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
                 warning('Problem saving Image: %s.');
                 obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end
         end
         
         function saveScatterPlot(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveScatterAllIndicator;
             if ~obj.SaveScatterAll
                 pause(0.1);
                 return
@@ -1365,13 +1417,16 @@ classdef modelResults < handle
             try
                 helper_fcn_save_tight_figure_axes(axes,fullFileName);
                 obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
                 warning('Problem saving Image: %s.');
                 obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end        
         end
         
         function saveFiberTable(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveFiberTableIndicator;
              if ~obj.SaveFiberTable
                  pause(0.1);
                  return;
@@ -1482,8 +1537,10 @@ classdef modelResults < handle
                 writecell(CellFiberTableT2ax, fullFileName, 'Sheet','Type 2ax','Range','B2');
 
                 obj.InfoMessage = ['         - ' fileExt ' file has been created'];
+                set(lamp,'Color','green');
             catch
                 obj.InfoMessage = '         - ERROR file could not be created';
+                set(lamp,'Color','red');
             end
         end
         
@@ -1492,19 +1549,22 @@ classdef modelResults < handle
                 pause(0.1);
                 return;
             end
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveBinaryMaskIndicator;
             
             obj.InfoMessage = '   - saving Image Binary Mask...';
             axes = obj.PicBW; %Note an axes but will convert into in helper_fcn_save_tight_figure_axes
             fileExt = obj.SaveBinaryMaskFileFormat;
             fileName = 'ImageBinaryMask';
-            fullFileName = createSaveFileName(obj,fileName,obj.SavePicProcFileFormat);
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
      
             try
                 helper_fcn_save_tight_figure_axes(axes,fullFileName);
                 obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
                 warning('Problem saving Image: %s.');
                 obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end   
         end
 
