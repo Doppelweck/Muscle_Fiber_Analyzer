@@ -99,6 +99,12 @@ classdef viewAnalyze < handle
         B_ManualClassEnd; %Button, quit manual classification.
         B_ManualClassForward; %Button, manual classification, go forward to specify type 2 fiber types.
         PanelFiberInformation;
+        
+        PanelPreResults;
+        hAPRBR_Scatter;
+        hAPRBR_Reach;
+        hAPRFRR_Scatter;
+        hAPRFRR_Reach;
     end
     
     methods
@@ -120,7 +126,7 @@ classdef viewAnalyze < handle
             
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
             axtoolbar(obj.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            axis(obj.hAP ,'image');
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             set(obj.hAP,'Box','off');
             
@@ -459,7 +465,7 @@ classdef viewAnalyze < handle
             
             HBoxInfo7 = uix.HBox('Parent', VBoxMainInfoFiber);
             obj.B_AxesInfo = axes('Parent',uicontainer('Parent', HBoxInfo7),'FontUnits','normalized','Fontsize',0.015);
-            axis image
+            axis(obj.B_AxesInfo ,'image');
             set(obj.B_AxesInfo, 'LooseInset', [0,0,0,0]);
             
             set( VBoxMainInfoFiber, 'Heights', [-6 -6 -6 -6 -6 -6 -64], 'Spacing', 1 );
@@ -520,9 +526,9 @@ classdef viewAnalyze < handle
             
             SizeInfoFigure = [400 250]; %[width height]
             
-            obj.hFM = figure('NumberTitle','off','Units','pixels','Name','Change fiber informations','Visible','off','MenuBar','none','ToolBar','none');
+            obj.hFM = uifigure('NumberTitle','off','Units','pixels','Name','Change fiber informations','Visible','off','MenuBar','none','ToolBar','none');
             set(obj.hFM,'Tag','FigureManipulate')
-            set(obj.hFM,'WindowStyle','normal');
+            set(obj.hFM,'WindowStyle',getWindowsStyleFromSettings());
             
             if PosInAxes(1,2)-SizeInfoFigure(2) < 0
                 set(obj.hFM, 'position', [PosCurrent(1)+5 PosCurrent(2)-SizeInfoFigure(2)-10 SizeInfoFigure(1) SizeInfoFigure(2)]);
@@ -659,7 +665,7 @@ classdef viewAnalyze < handle
                 fontSizeB = 16; % Font size big 
             end
             
-            obj.hFMC = figure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
+            obj.hFMC = uifigure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
             set(obj.hFMC,'Tag','FigureManualClassify');
             
             %get position of mainFigure
@@ -668,7 +674,7 @@ classdef viewAnalyze < handle
             set(obj.hFMC, 'position', [posMainFig(1) posMainFig(2) 0.6 0.8]);
             movegui(obj.hFMC,'center');
             
-            set(obj.hFMC,'WindowStyle','normal');
+            set(obj.hFMC,'WindowStyle',getWindowsStyleFromSettings());
             
             VBox = uix.VBox('Parent', obj.hFMC );
      
@@ -687,27 +693,89 @@ classdef viewAnalyze < handle
             set(obj.hFMC, 'Visible', 'on');
         end
         
-        function showFigurePreResults(obj,mainFig)
-            obj.hFPR = figure('NumberTitle','off','Units','normalized','Name','Preview Results','Visible','off','MenuBar','none','ToolBar','none',...
-                'WindowStyle', 'modal', 'Theme',mainFig.Theme);
-            set(obj.hFPR,'Tag','FigurePreResults')
+        function showFigurePreResults(obj, mainFig, showReach)
+            % showReach : logical (true = Reach anzeigen, false = nur Scatter)
+            params = view_helper_default_params();
+
+            if nargin < 3
+                showReach = true; % Default
+            end
+            % --- UIFigure ---------------------------------------------------------
+            obj.hFPR = uifigure( ...
+                'NumberTitle','off', ...
+                'Units','normalized', ...
+                'Name','Preview Results', ...
+                'Visible','off', ...
+                'MenuBar','none', ...
+                'ToolBar','none', ...
+                'WindowStyle', getWindowsStyleFromSettings(), ...
+                'Theme', mainFig.Theme);
+        
+            set(obj.hFPR,'Tag','FigurePreResults');
+        
+            % Position
+            posMainFig = mainFig.Position;
+            obj.hFPR.Position = [posMainFig(1) posMainFig(2) 0.7 0.8];
+            movegui(obj.hFPR,'center');
+        
+            % --- Layout -----------------------------------------------------------
+            mainBox = uix.HBox( ...
+                'Parent', obj.hFPR, ...
+                'Padding', 10, ...
+                'Spacing', 10);
+
+            obj.PanelPreResults = uix.Panel( 'Parent', mainBox, params.default_panel{:}, 'Title', 'PICTURE');
             
-            %get position of mainFigure
-            posMainFig = get(mainFig,'Position');
-            
-            set(obj.hFPR, 'position', [posMainFig(1) posMainFig(2) 0.8 0.8]);
-            movegui(obj.hFPR,'center')
-            
-            set(obj.hFPR,'WindowStyle','modal');
-            
-            AxesBox = uix.HBox('Parent', obj.hFPR,'Padding', 25,'Spacing', 10);
-            obj.hAPRBR = axes('Parent',uicontainer('Parent', AxesBox), 'FontUnits','normalized','Fontsize',0.015,'Tag','AxesManualClassify');
-            set(obj.hAPRBR, 'LooseInset', [0,0,0,0]);
-            obj.hAPRFRR = axes('Parent',uicontainer('Parent', AxesBox), 'FontUnits','normalized','Fontsize',0.015,'Tag','AxesManualClassify');
-            set(obj.hAPRFRR, 'LooseInset', [0,0,0,0]);
-            
-            set(obj.hFPR, 'Visible', 'on');
-        end
+            AxesBox = uix.HBox( ...
+                'Parent', obj.PanelPreResults, ...
+                'Padding', 10, ...
+                'Spacing', 10);
+        
+            % ================= APRBR =================
+            c1 = uicontainer('Parent', AxesBox);
+        
+            if showReach
+                tlAPRBR = tiledlayout(c1, 2, 1, ...
+                    'TileSpacing','compact', ...
+                    'Padding','compact');
+        
+                obj.hAPRBR_Scatter = nexttile(tlAPRBR,1);
+                obj.hAPRBR_Reach   = nexttile(tlAPRBR,2);
+            else
+                tlAPRBR = tiledlayout(c1, 1, 1, ...
+                    'TileSpacing','compact', ...
+                    'Padding','compact');
+        
+                obj.hAPRBR_Scatter = nexttile(tlAPRBR,1);
+                obj.hAPRBR_Reach   = [];
+            end
+        
+            axis(obj.hAPRBR_Scatter,'equal');
+        
+            % ================= APRFRR =================
+            c2 = uicontainer('Parent', AxesBox);
+        
+            if showReach
+                tlAPRFRR = tiledlayout(c2, 2, 1, ...
+                    'TileSpacing','compact', ...
+                    'Padding','compact');
+        
+                obj.hAPRFRR_Scatter = nexttile(tlAPRFRR,1);
+                obj.hAPRFRR_Reach   = nexttile(tlAPRFRR,2);
+            else
+                tlAPRFRR = tiledlayout(c2, 1, 1, ...
+                    'TileSpacing','compact', ...
+                    'Padding','compact');
+        
+                obj.hAPRFRR_Scatter = nexttile(tlAPRFRR,1);
+                obj.hAPRFRR_Reach   = [];
+            end
+        
+            axis(obj.hAPRFRR_Scatter,'equal');
+
+            % --- Show -------------------------------------------------------------
+            obj.hFPR.Visible = 'on';
+end
         
         function setToolTipStrings(obj)
             % Set all tooltip strings in the properties of the operationg

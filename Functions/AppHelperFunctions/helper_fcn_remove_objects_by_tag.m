@@ -9,7 +9,7 @@ function helper_fcn_remove_objects_by_tag(tag)
         return
     end
 
-    objs = findobj('Tag', tag);
+    objs = findall(0,'Tag', tag);
 
     if ~isempty(objs)
         objs = objs(isgraphics(objs));  % safety check

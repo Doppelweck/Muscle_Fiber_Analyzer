@@ -128,7 +128,7 @@ classdef viewEdit < handle
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
             set(  obj.panelEdit, 'Widths', [-80 -20] );
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
-            axis image
+            axis(obj.hAP ,'image');
 
             set(obj.hAP, 'LooseInset', [0,0,0,0]);
             set(obj.hAP,'Box','off');
@@ -362,22 +362,20 @@ classdef viewEdit < handle
             end
             
             
-            obj.hFCP = figure('NumberTitle','off','ToolBar','none',...
+            obj.hFCP = uifigure('NumberTitle','off','ToolBar','none',...
                 'MenuBar','none','Name','Check Color Planes',...
                 'Units','normalized','Visible','off','Tag','CheckPlanesFigure',...
                 'InvertHardcopy','on');
+            
             theme(obj.hFCP ,mainFig.Theme)
             %get position of mainFigure
             posMainFig = get(mainFig,'Position');
-            
             set(obj.hFCP, 'position', [posMainFig(1) posMainFig(2) 0.8 0.8]);
             movegui(obj.hFCP,'center')
             set(obj.hFCP,'WindowStyle',getWindowsStyleFromSettings());
 
             mainBox = uix.HBox('Parent', obj.hFCP, params.default_box_spacing_padding{:},'Padding', 5);
-            
-            tabPanel = uiextras.TabPanel( 'Parent', mainBox, params.default_tab_panel{:},'FontSize',params.fontSizeB, 'Tag', 'checkPlanesTabPanel');
-            
+            tabPanel = uix.TabPanel( 'Parent',  mainBox, params.default_tab_panel{:},'FontSize',params.fontSizeB, 'Tag', 'checkPlanesTabPanel');
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Color Plane Tab
@@ -389,32 +387,32 @@ classdef viewEdit < handle
             
             VBox1ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGBFRPlane = axes('Parent',VBox1ColorPlane,'ActivePositionProperty','position');
-            axis image
-            imshow(Pics{3})
+            axis(obj.B_AxesCheckRGBFRPlane,'image');
+            imshow(Pics{3},'Parent',obj.B_AxesCheckRGBFRPlane)
             uilabel( 'Parent', VBox1ColorPlane, 'HorizontalAlignment','center', 'Text', 'RGB Image generated from Red Green Blue and FarRed plane');
             set(VBox1ColorPlane,'Heights',[-10 40])
             
             VBox2ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGBPlane = axes('Parent',VBox2ColorPlane,'ActivePositionProperty','position');
-            axis image
-            imshow(Pics{9})
+            axis(obj.B_AxesCheckRGBPlane ,'image');
+            imshow(Pics{9},'Parent',obj.B_AxesCheckRGBPlane)
             uilabel( 'Parent', VBox2ColorPlane, 'HorizontalAlignment','center','Text', 'RGB Image generated from Red Green and Blue Plane (no FarRed)');
             set(VBox2ColorPlane,'Heights',[-10 40])
             
             VBox3ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneGreen = axes('Parent',uicontainer('Parent', VBox3ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckPlaneGreen ,'image');
             set(obj.B_AxesCheckPlaneGreen, 'position', [0 0 1 1]);
-            imshow(Pics{5})
+            imshow(Pics{5},'Parent',obj.B_AxesCheckPlaneGreen)
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
             obj.B_ColorPlaneGreen = uidropdown( 'Parent', VBox3ColorPlane,'Tag','popupmenu', 'Items', String, 'ValueIndex' ,1);
             set(VBox3ColorPlane,'Heights',[-10 40])
             
             VBox4ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneBlue = axes('Parent',uicontainer('Parent', VBox4ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckPlaneBlue ,'image');
             set(obj.B_AxesCheckPlaneBlue, 'position', [0 0 1 1]);
-            imshow(Pics{6})
+            imshow(Pics{6} ,'Parent',obj.B_AxesCheckPlaneBlue )
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
             obj.B_ColorPlaneBlue = uidropdown( 'Parent', VBox4ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,2);
@@ -422,9 +420,9 @@ classdef viewEdit < handle
             
             VBox5ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneRed = axes('Parent',uicontainer('Parent', VBox5ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckPlaneRed ,'image');
             set(obj.B_AxesCheckPlaneRed, 'position', [0 0 1 1]);
-            imshow(Pics{7})
+            imshow(Pics{7},'Parent',obj.B_AxesCheckPlaneRed)
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
             obj.B_ColorPlaneRed = uidropdown( 'Parent', VBox5ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,3);
@@ -432,9 +430,9 @@ classdef viewEdit < handle
             
             VBox6ColorPlane = uix.VBox('Parent',MainGridColor,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckPlaneFarRed = axes('Parent',uicontainer('Parent', VBox6ColorPlane),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckPlaneFarRed ,'image');
             set(obj.B_AxesCheckPlaneFarRed, 'position', [0 0 1 1]);
-            imshow(Pics{8})
+            imshow(Pics{8},'Parent',obj.B_AxesCheckPlaneFarRed)
 
             String = {'Green Plane - Collagen (pseudo color: green)' , 'Blue Plane - Type 1 fibers (pseudo color: blue)', 'Red Plane - Type 2 fibers (all) (pseudo color: red)', 'FarRed Plane - Type 2 fibers specification (2x,2a,2ax) (pseudo color: yellow)'};
             obj.B_ColorPlaneFarRed = uidropdown( 'Parent', VBox6ColorPlane,'Tag','popupmenu', 'Items', String , 'ValueIndex' ,4);
@@ -469,8 +467,8 @@ classdef viewEdit < handle
             % Image befor brightness correction
             VBox1Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGB_noBC= axes('Parent',VBox1Brightness,'ActivePositionProperty','position');
-            imshow(Pics{10})
-            axis image
+            imshow(Pics{10},'Parent',obj.B_AxesCheckRGB_noBC)
+            axis(obj.B_AxesCheckRGB_noBC ,'image');
             VButtonBox1 = uix.VButtonBox('Parent', VBox1Brightness,'ButtonSize',[2000 20]);
             uilabel( 'Parent', VButtonBox1, 'HorizontalAlignment','center', 'Text', 'RGB Image befor brightness correction');
             uix.Empty( 'Parent', VBox1Brightness );
@@ -479,8 +477,8 @@ classdef viewEdit < handle
             % Image after brightness correction
             VBox2Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckRGB_BC = axes('Parent',VBox2Brightness,'ActivePositionProperty','position');
-            imshow(Pics{3})
-            axis image
+            imshow(Pics{3},'Parent',obj.B_AxesCheckRGB_BC)
+            axis(obj.B_AxesCheckRGB_BC ,'image');
             VButtonBox2 = uix.VButtonBox('Parent', VBox2Brightness,'ButtonSize',[2000 20]);
             uilabel( 'Parent', VButtonBox2,'HorizontalAlignment','center', 'Text', 'RGB Image after brightness correction');
             uix.Empty( 'Parent', VBox2Brightness );
@@ -489,10 +487,10 @@ classdef viewEdit < handle
             % Brightness correction image for Green Plane
             VBox3Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessGreen = axes('Parent',uicontainer('Parent', VBox3Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckBrightnessGreen ,'image');
             set(obj.B_AxesCheckBrightnessGreen, 'position', [0 0 1 1]);
-            imshow(Pics{11},[])
-            caxis([0, 1])
+            imshow(Pics{11},[],'Parent',obj.B_AxesCheckBrightnessGreen)
+            %caxis([0, 1])
             HBox31Brightness = uix.HButtonBox('Parent',VBox3Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
 
             uilabel( 'Parent', HBox31Brightness,'HorizontalAlignment','center', 'Text', 'Current image Green plane:');
@@ -508,10 +506,10 @@ classdef viewEdit < handle
             % Brightness correction image for Blue Plane
             VBox4Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessBlue = axes('Parent',uicontainer('Parent', VBox4Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckBrightnessBlue ,'image');
             set(obj.B_AxesCheckBrightnessBlue, 'position', [0 0 1 1]);
-            imshow(Pics{13},[])
-            caxis([0, 1])
+            imshow(Pics{13},[],'Parent',obj.B_AxesCheckBrightnessBlue)
+            %caxis([0, 1])
             HBox41Brightness = uix.HButtonBox('Parent',VBox4Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
 
             uilabel( 'Parent', HBox41Brightness,'HorizontalAlignment','center', 'Text', 'Current image Blue plane:');
@@ -527,10 +525,10 @@ classdef viewEdit < handle
             % Brightness correction image for Red Plane
             VBox5Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessRed = axes('Parent',uicontainer('Parent', VBox5Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckBrightnessRed ,'image');
             set(obj.B_AxesCheckBrightnessRed, 'position', [0 0 1 1]);
-            imshow(Pics{15},[])
-            caxis([0, 1])
+            imshow(Pics{15},[],'Parent',obj.B_AxesCheckBrightnessRed)
+            %caxis([0, 1])
             HBox51Brightness = uix.HButtonBox('Parent',VBox5Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
 
             uilabel( 'Parent', HBox51Brightness,'HorizontalAlignment','center', 'Text', 'Current image Red plane:');
@@ -546,10 +544,10 @@ classdef viewEdit < handle
             % Brightness correction image for FarRed Plane
             VBox6Brightness = uix.VBox('Parent',MainGridBrightness,'Spacing', 5,'Padding',5);
             obj.B_AxesCheckBrightnessFarRed = axes('Parent',uicontainer('Parent', VBox6Brightness),'ActivePositionProperty','position','Units','normalized');
-            axis image
+            axis(obj.B_AxesCheckBrightnessFarRed ,'image');
             set(obj.B_AxesCheckBrightnessFarRed, 'position', [0 0 1 1]);
-            imshow(Pics{17},[])
-            caxis([0, 1])
+            imshow(Pics{17},[],'Parent',obj.B_AxesCheckBrightnessFarRed)
+            %caxis([0, 1])
             HBox61Brightness = uix.HButtonBox('Parent',VBox6Brightness,'Spacing', 5,'Padding',5,'ButtonSize',[600 20]);
 
             uilabel( 'Parent', HBox61Brightness,'HorizontalAlignment','center', 'Text', 'Current image Farred plane:');

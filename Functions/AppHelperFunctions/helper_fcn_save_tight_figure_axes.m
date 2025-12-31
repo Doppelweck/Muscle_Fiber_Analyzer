@@ -11,6 +11,7 @@ function helper_fcn_save_tight_figure_axes(inputData,outfilename)
 %
 [~,~,ext] = fileparts(outfilename);
 saveAsVectorGraphic = ismember(lower(ext), {'.pdf', '.svg'});
+tempFigureIsCreated = false;
 
 if isa(inputData, 'matlab.ui.Figure')
     tempFigureIsCreated = false;
@@ -18,7 +19,7 @@ if isa(inputData, 'matlab.ui.Figure')
 
 elseif isa(inputData, 'matlab.graphics.axis.Axes')
     tempFigureIsCreated = true;
-    hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+    hF = uifigure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
     
     try
         copyobj([inputData,inputData.Legend] ,hF);
@@ -31,13 +32,13 @@ elseif isa(inputData, 'matlab.graphics.axis.Axes')
 elseif ismatrix(inputData)
     if saveAsVectorGraphic
         tempFigureIsCreated = true;
-        hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
-        imshow(inputData);
+        hF = uifigure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+        axs = axes(hF);
+        imshow(inputData,'Parent',axs);
         hfig = hF;
     else
-    
-        tempFigureIsCreated = false;
         imwrite(inputData,outfilename);
+        return;
     end
 end
 
