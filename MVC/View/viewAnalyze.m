@@ -99,7 +99,8 @@ classdef viewAnalyze < handle
         B_ManualClassEnd; %Button, quit manual classification.
         B_ManualClassForward; %Button, manual classification, go forward to specify type 2 fiber types.
         PanelFiberInformation;
-
+        
+        PanelPreResults;
         hAPRBR_Scatter;
         hAPRBR_Reach;
         hAPRFRR_Scatter;
@@ -694,6 +695,7 @@ classdef viewAnalyze < handle
         
         function showFigurePreResults(obj, mainFig, showReach)
             % showReach : logical (true = Reach anzeigen, false = nur Scatter)
+            params = view_helper_default_params();
 
             if nargin < 3
                 showReach = true; % Default
@@ -717,9 +719,16 @@ classdef viewAnalyze < handle
             movegui(obj.hFPR,'center');
         
             % --- Layout -----------------------------------------------------------
-            AxesBox = uix.HBox( ...
+            mainBox = uix.HBox( ...
                 'Parent', obj.hFPR, ...
-                'Padding', 25, ...
+                'Padding', 10, ...
+                'Spacing', 10);
+
+            obj.PanelPreResults = uix.Panel( 'Parent', mainBox, params.default_panel{:}, 'Title', 'PICTURE');
+            
+            AxesBox = uix.HBox( ...
+                'Parent', obj.PanelPreResults, ...
+                'Padding', 10, ...
                 'Spacing', 10);
         
             % ================= APRBR =================

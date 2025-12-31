@@ -1385,13 +1385,17 @@ classdef controllerAnalyze < handle
                     StatsMat = obj.modelAnalyzeHandle.Stats;
                     
                     isQuadLabeling = ismember(obj.modelAnalyzeHandle.AnalyzeMode, [2,4,6]);
+                    isManualLabeling = ismember(obj.modelAnalyzeHandle.AnalyzeMode, [5,6]);
+
+                    vh = obj.viewAnalyzeHandle;
+
                     switch obj.modelAnalyzeHandle.AnalyzeMode
                         
                         case {3,4} %Cluster Based. Need two plots instead of the other ones
                             %Handle to axes Pre-Results Blue over Red
          
                             % ===== APRBR ==========================================================
-                            vh = obj.viewAnalyzeHandle;
+                            
                             axs1 = vh.hAPRBR_Scatter;
                             axs2 = vh.hAPRBR_Reach;
                         
@@ -1399,8 +1403,10 @@ classdef controllerAnalyze < handle
                             
                             if isQuadLabeling
                                 LegendString = controller_helper_plot_scatter_fibers(StatsMat,axs1,'all');
+                                vh.PanelPreResults.Title = 'OPTICS Culster Based Quad Labeling Results Preview';
                             else
                                 LegendString = controller_helper_plot_scatter_fibers(StatsMat,axs1,'main');
+                                vh.PanelPreResults.Title = 'OPTICS Culster Based Triple Labeling Result Preview';
                             end
 
                             hold(axs1,'on');
@@ -1470,9 +1476,21 @@ classdef controllerAnalyze < handle
                            
                             if isQuadLabeling
                                 LegendString = controller_helper_plot_scatter_fibers(StatsMat,ax,'all');
+                                if isManualLabeling
+                                    vh.PanelPreResults.Title = 'Manual Quad Labeling Results Preview';
+                                else
+                                    vh.PanelPreResults.Title = 'Color Based Quad Labeling Results Preview';
+                                end
                             else
                                 LegendString = controller_helper_plot_scatter_fibers(StatsMat,ax,'main');
+                                if isManualLabeling
+                                    vh.PanelPreResults.Title = 'Manual Triple Labeling Results Preview';
+                                else
+                                    vh.PanelPreResults.Title = 'Color Based Triple Labeling Results Preview';
+                                end
                             end
+
+
                             
                             Rmax = max([obj.modelAnalyzeHandle.Stats.ColorRed]);
                             Bmax = max([obj.modelAnalyzeHandle.Stats.ColorBlue]);
