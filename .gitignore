@@ -20,40 +20,40 @@
 
 *.html
 
-Example\ Images/*.pdf
-Example\ Images/*.tif
-Example\ Images/*.xlsx
-<<<<<<< HEAD
-=======
-Example\ Images/*.xlsm
->>>>>>> feature/v1-6-refactor-saving-handeling
-Example\ Images/*.xls
-Example\ Images/*.txt
-Example\ Images/*.jpg
-Example\ Images/*.jpeg
-Example\ Images/*.csv
-Example\ Images/*.svg
+Example\ Images/*/*.pdf
+Example\ Images/*/*.svg
+Example\ Images/*/*.png
+Example\ Images/*/*.tif
+Example\ Images/*/*.jpg
+Example\ Images/*/*.xlsx
+Example\ Images/*/*.xlsm
+Example\ Images/*/*.xls
 
 Example\ Images/**/*.pdf
-Example\ Images/**/*.tif
-Example\ Images/**/*.xlsx
-<<<<<<< HEAD
-=======
-Example\ Images/**/*.xlsm
->>>>>>> feature/v1-6-refactor-saving-handeling
-Example\ Images/**/*.xls
-Example\ Images/**/*.txt
-Example\ Images/**/*.jpg
-Example\ Images/**/*.jpeg
-Example\ Images/**/*.csv
 Example\ Images/**/*.svg
+Example\ Images/**/*.png
+Example\ Images/**/*.tif
+Example\ Images/**/*.jpg
+Example\ Images/**/*.xlsx
+Example\ Images/**/*.xlsm
+Example\ Images/**/*.xls
 
 # Simulink Code Generation
 slprj/
 
 # Session info
 octave-workspace
+resources/
 
+Example\ Images/**/*.pdf
+Example\ Images/**/*.svg
+Example\ Images/**/*.png
+Example\ Images/**/*.tif
+Example\ Images/**/*.jpg
+Example\ Images/**/*.xlsx
+Example\ Images/**/*.xlsm
+Example\ Images/**/*.xls
 # Folders
 MuscleFiberClassificationTool/
 MuscleFiberClassificationTool_resources/
+resources/
