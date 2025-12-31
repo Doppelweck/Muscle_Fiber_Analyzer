@@ -53,3 +53,5 @@ resources/**/cache*.xml
 resources/**/temp*.xml
 
 /StandaloneDesktopApp1/
+
+/Muscle_Fiber_Analyzer_Desktop_App/
