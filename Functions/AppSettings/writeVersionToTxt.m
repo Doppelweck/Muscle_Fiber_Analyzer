@@ -1,13 +1,17 @@
-function writeVersionToTxt(versionString)
-inputFilePath = 'LATEST.txt';
-outputFilePath = 'LATEST.txt';
+function writeVersionToTxt(versionString,filepath)
+
+basePath = ctfroot;
+inputFilePath = filepath;
+outputFilePath = filepath;
+
+
 
 % Open a text file for writing
 fid = fopen(inputFilePath, 'r');
 
 % Check if the file was opened successfully
 if fid == -1
-    error('ERROR writeVersionToTxt(): Could not open the file for writing.');
+    return;
 else
    
     

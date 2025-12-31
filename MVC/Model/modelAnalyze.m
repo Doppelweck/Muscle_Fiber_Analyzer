@@ -1530,54 +1530,50 @@ classdef modelAnalyze < handle
             axes(hAM)
             
             obj.ManualClassifyMode = 1; %Start with main Groups
+
+            [ColorMapMain, ColorMapAll] = view_helper_fiber_color_map(); % ColorMaps holen
             
             while isvalid(fig)
-                %while figure exist
-                Color=[];
-                for i = 1:1:size(tempStats,1)
-                    switch tempStats(i).FiberType
-                        case 'Type 1'
-                            Color(i,:)=[51 51 255]/255;
-                        case 'Type 12h'
-                            Color(i,:)=[255 51 255]/255;
-                        case 'Type 2'
-                            Color(i,:)=[255 51 51]/255;
-                        case 'Type 2x'
-                            Color(i,:)=[255 51 51]/255;
-                        case 'Type 2a'
-                            Color(i,:)=[255 255 51]/255; % Yellow Fiber Type 2a
-                        case 'Type 2ax'
-                            Color(i,:) = [255 153 51]/255; % orange Fiber Type 2ax
-                        otherwise
-                            Color(i,:)=[224 224 224]/255;
-                    end
-                end
                 
                 if obj.ManualClassifyMode == 1 % For main fiber groups 1,2 and 12h
+                                    
+                    types = string({tempStats.FiberType}); % FiberTypes als string
+                    n = numel(types);
                     
-                    f=figure(fig)
-                    %                     InfoText = obj.controllerAnalyzeHandle.viewAnalyzeHandle.B_ManualInfoText;
-                    %                     String = 'Type 1 , Type 12h (1 2 hybrid), Type 2 (all Type 2 fibers)';
-                    %                     set(InfoText,'String',String);
+                    % Default: Grey (undefined)
+                    Color = repmat(ColorMapAll(6,:), n, 1);
                     
+                    % --- Main types -----------------------------------------------------------
+                    Color(types == "Type 1",  :) = repmat(ColorMapMain(1,:), sum(types=="Type 1"),  1);
+                    Color(types == "Type 12h",:) = repmat(ColorMapMain(2,:), sum(types=="Type 12h"),1);
+                    Color(types == "Type 2x",  :) = repmat(ColorMapMain(3,:), sum(types=="Type 2x"),  1);
+                    Color(types == "Type 2a", :) = repmat(ColorMapAll(3,:),  sum(types=="Type 2a"), 1);
+                    Color(types == "Type 2ax",:) = repmat(ColorMapAll(3,:),  sum(types=="Type 2ax"),1);
+                    
+                    figure(fig)
                     axes(hAM);
                     if isempty(hAM.Children)
-                        h = scatter([tempStats.ColorRed],[tempStats.ColorBlue],20,Color,'filled');
+                        h = scatter(hAM,[tempStats.ColorRed],[tempStats.ColorBlue],20,Color,'filled');
                         set(h,'MarkerEdgeColor','k')
                         if obj.AnalyzeMode == 1 || obj.AnalyzeMode == 3 || obj.AnalyzeMode == 5
-                            title({'\fontsize{16}Triple labeling: Select a Area by clicking the mouse and choose fiber type:';...
-                                ['\fontsize{16}Classify {\color{blue}Type 1 ','\color{magenta}Type 12h \color{red}Type 2}']},'interpreter','tex');
+                            title(hAM,{' ' ;...
+                                ['\fontsize{14}Triple Labeling Main Fiber Types: {\color{blue}Type 1 ','\color{magenta}Type 12h \color{red}Type 2}'];...
+                                '\fontsize{14}Select an Area by clicking the mouse to classify:';...
+                                ''},'interpreter','tex');
                         else
-                            title({'\fontsize{16}Quad labeling: Select a Area by clicking the mouse and choose fiber type:';...
-                                ['\fontsize{16}Classify {\color{blue}Type 1 ','\color{magenta}Type 12h \color{red}Type 2 (Type 2x is default during quad labeling)}']},'interpreter','tex');
+                            title(hAM,{' ' ;...
+                                ['\fontsize{14}Quad Labeling Main Fiber Types: {\color{blue}Type 1 ','\color{magenta}Type 12h \color{red}Type 2}'];...
+                                '\fontsize{14}Select an Area by clicking the mouse to classify:';...
+                                ['\fontsize{12}{\color{red}Type 2x}',' is the default Type for {\color{red}Type 2} FIbers during Quad Labeling'];...
+                                ''},'interpreter','tex');
                         end
-                        ylabel('y: mean Blue (B)','FontSize',16);
-                        xlabel('x: mean Red (R)','FontSize',16);
+                        ylabel(hAM,'y: mean Blue (B)','FontSize',16);
+                        xlabel(hAM,'x: mean Red (R)','FontSize',16);
                         maxLim = max(max([[tempStats.ColorRed] [tempStats.ColorBlue]]));
-                        ylim([ 0 maxLim+10 ] );
-                        xlim([ 0 maxLim+10 ] );
-                        daspect([1 1 1])
-                        grid on
+                        ylim(hAM,[ 0 maxLim+10 ] );
+                        xlim(hAM,[ 0 maxLim+10 ] );
+                        daspect(hAM,[1 1 1]);
+                        grid(hAM,'on');
                     else
                         h.XData=[tempStats.ColorRed];
                         h.YData=[tempStats.ColorBlue];
@@ -1587,10 +1583,10 @@ classdef modelAnalyze < handle
                     
                     if isvalid(fig) && obj.ManualClassifyMode == 1
                         if ~isempty(hAM.Children) && ~isempty(hPoly)
-                            pos = getPosition(hPoly)
+                            pos = getPosition(hPoly);
                             
-                            [in,on] = inpolygon([tempStats.ColorRed],[tempStats.ColorBlue],pos(:,1),pos(:,2));
-                            [s,v] = listdlg('PromptString','Select Fiber Type:',...
+                            [in,~] = inpolygon([tempStats.ColorRed],[tempStats.ColorBlue],pos(:,1),pos(:,2));
+                            [s,~] = listdlg('PromptString','Select Fiber Type:',...
                                 'SelectionMode','single',...
                                 'ListString',{'Type 1 (blue)','Type 12h (magenta)','Type 2 (red)','undefined'},...
                                 'ListSize',[160 160]);
@@ -1604,7 +1600,8 @@ classdef modelAnalyze < handle
                                         [tempStats(in).FiberType] = deal('Type 12h');
                                         [tempStats(in).FiberTypeMainGroup] = deal(3);
                                     case 3 %Type 2
-                                        [tempStats(in).FiberType] = deal('Type 2');
+                                        % During quad labeling, every Type2 fiber will be first classified as Type-2x
+                                        [tempStats(in).FiberType] = deal('Type 2x');
                                         [tempStats(in).FiberTypeMainGroup] = deal(2);
                                     case 4 %Type 0
                                         [tempStats(in).FiberType] = deal('undefined');
@@ -1616,18 +1613,13 @@ classdef modelAnalyze < handle
                             type2Stats = tempStats([tempStats.FiberTypeMainGroup]==2);
                             
                             if isempty(type2Stats)
-                                %get handle to Forward Button manual fibers to specify type 2
-                                %fibers only
+                                %get handle to Forward Button manual fibers to specify type 2 fibers only
                                 hForBut = obj.controllerAnalyzeHandle.viewAnalyzeHandle.B_ManualClassForward;
                                 set(hForBut,'Enable','off');
                             elseif ~isempty(type2Stats) && (obj.AnalyzeMode == 2 || obj.AnalyzeMode == 4 || obj.AnalyzeMode == 6)
-                                %get handle to Forward Button manual fibers to specify type 2
-                                %fibers only
+                                %get handle to Forward Button manual fibers to specify type 2 fibers only
                                 hForBut = obj.controllerAnalyzeHandle.viewAnalyzeHandle.B_ManualClassForward;
                                 set(hForBut,'Enable','on');
-                                % During quad labeling, every Type2 fiber
-                                % will be first classified as Type-2x
-                                [tempStats(strcmp({tempStats.FiberType},'Type 2')).FiberType] = deal('Type 2x');
                             end
                             
                         end
@@ -1635,45 +1627,38 @@ classdef modelAnalyze < handle
                     
                 elseif obj.ManualClassifyMode == 2
                     
-                    figure(fig)
-                    %                     InfoText = obj.controllerAnalyzeHandle.viewAnalyzeHandle.B_ManualInfoText;
-                    %                     String = 'Type 2x , Type 2a, Type 2ax (2a 2x hybrid)';
-                    %                     set(InfoText,'String',String);
-                    
                     %Only show type 2 fibers
-                    type2Stats = [];
-                    type2Stats = tempStats([tempStats.FiberTypeMainGroup]==2);
-                    Color = [];
+                     % FiberTypes als string
+                    types = string({type2Stats.FiberType});
+                    n = numel(types);
                     
-                    for i = 1:1:size(type2Stats,1)
-                        switch type2Stats(i).FiberType
-                            case 'Type 2x'
-                                Color(i,:)=[255 51 51]/255; % Red Fiber Type 2x
-                            case 'Type 2a'
-                                Color(i,:)=[255 255 51]/255; % Yellow Fiber Type 2a
-                            case 'Type 2ax'
-                                Color(i,:) = [255 153 51]/255; % orange Fiber Type 2ax
-                            otherwise
-                                Color(i,:)=[224 224 224]/255;
-                        end
-                    end
+                    % Default: Grey (undefined)
+                    Color = repmat(ColorMapAll(6,:), n, 1);
+                    
+                    % --- Type 2 & Subtypes ----------------------------------------------------
+                    Color(types == "Type 2x", :) = repmat(ColorMapAll(3,:),  sum(types=="Type 2x"), 1);
+                    Color(types == "Type 2a", :) = repmat(ColorMapAll(4,:),  sum(types=="Type 2a"), 1);
+                    Color(types == "Type 2ax",:) = repmat(ColorMapAll(5,:),  sum(types=="Type 2ax"),1);
                     
                     axes(hAM);
                     
                     if isempty(hAM.Children)
-                        h = scatter([type2Stats.ColorRed],[type2Stats.ColorFarRed],20,Color,'filled');
+                        h = scatter(hAM,[type2Stats.ColorRed],[type2Stats.ColorFarRed],20,Color,'filled');
                         set(h,'MarkerEdgeColor','k');
+
+                        title(hAM,{' ' ;...
+                                ['\fontsize{14}Quad Labeling Type-2 Fiber Subtypes: {\color{red}Type 2x ','\color{yellow}Type 2a \color{orange}Type 2ax}'];...
+                                '\fontsize{14}Select an Area by clicking the mouse to classify:';...
+                                ''},'interpreter','tex');
                         
-                        title({'\fontsize{16}Select a Area by clicking the mouse and choose fiber type:';...
-                            ['\fontsize{16}Classify {\color{red}Type 2x ','\color{yellow}Type 2a \color{orange}Type 2ax}']},'interpreter','tex');
-                        ylabel('y: mean Farred (FR)','FontSize',16);
-                        xlabel('x: mean Red (R)','FontSize',16);
+                        ylabel(hAM,'y: mean Farred (FR)','FontSize',16);
+                        xlabel(hAM,'x: mean Red (R)','FontSize',16);
                         
                         maxLim = max(max([[type2Stats.ColorRed] [type2Stats.ColorFarRed]]));
-                        ylim([ 0 maxLim+10 ] );
-                        xlim([ 0 maxLim+10 ] );
-                        daspect([1 1 1])
-                        grid on
+                        ylim(hAM,[ 0 maxLim+10 ] );
+                        xlim(hAM,[ 0 maxLim+10 ] );
+                        daspect(hAM,[1 1 1])
+                        grid(hAM,'on');
                     else
                         h.XData=[type2Stats.ColorRed];
                         h.YData=[type2Stats.ColorFarRed];
@@ -1711,10 +1696,16 @@ classdef modelAnalyze < handle
                             
                             delete(hPoly)
                             
-                            for i=1:1:size(type2Stats,1)
-                                tempStats([tempStats.Label]==type2Stats(i).Label).FiberType = type2Stats(i).FiberType;
-                                tempStats([tempStats.Label]==type2Stats(i).Label).FiberTypeMainGroup = int32(type2Stats(i).FiberTypeMainGroup);
-                            end
+                            % Extrahiere Labels
+                            tempLabels = [tempStats.Label];
+                            type2Labels = [type2Stats.Label];
+                            
+                            % Finde für jedes Label von type2Stats die Position in tempStats
+                            [~, loc] = ismember(type2Labels, tempLabels);
+                            
+                            % Aktualisiere FiberType und FiberTypeMainGroup
+                            [tempStats(loc).FiberType] = deal(type2Stats.FiberType);
+                            [tempStats(loc).FiberTypeMainGroup] = deal(type2Stats.FiberTypeMainGroup);
                         end
                     end
                     

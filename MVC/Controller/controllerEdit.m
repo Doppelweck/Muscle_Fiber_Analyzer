@@ -383,7 +383,7 @@ classdef controllerEdit < handle
             set(obj.viewEditHandle.B_DeleteBrightImRed,'Callback',@obj.deleteBrightnessImage);
             set(obj.viewEditHandle.B_DeleteBrightImFarRed,'Callback',@obj.deleteBrightnessImage);
             % find the handle h of the checkplanes figure
-            h = findobj('Tag','CheckPlanesFigure');
+            h = findall(0,'Tag','CheckPlanesFigure');
             % set the close request functio of the figure h
             set(h,'CloseRequestFcn',@obj.checkPlanesBackEvent);
         end
@@ -519,7 +519,8 @@ classdef controllerEdit < handle
             
             obj.modelEditHandle.InfoMessage = '   - Checking planes closed';
             % find the handle h of the checkplanes figure
-            h = findobj('Tag','CheckPlanesFigure');
+            %h = findobj('Tag','CheckPlanesFigure');
+            h = findall(0,'Tag','CheckPlanesFigure');
             set(h,'Visible','off');
             obj.busyIndicator(1);
             delete(h);

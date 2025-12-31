@@ -150,7 +150,7 @@ if isempty(progfig)
     %%%%%%%% END SET WINDOW SIZE AND POSITION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      
      % Initialize progress bar
-    progfig = figure('menubar','none',...                   % Turn figure menu display off
+    progfig = uifigure('menubar','none',...                   % Turn figure menu display off
          'numbertitle','off',...                            % Turn figure numbering off
          'position',winpos,...                              % Set the position of the figure as above
          'resize','off',...                                 % Turn of figure resizing
@@ -161,7 +161,7 @@ if isempty(progfig)
     
     movegui(progfig,'center');
     set(progfig,'Visible','on')
-%     setAlwaysOnTop(progfig,true);    
+    drawnow;
     
     set(progfig,'CloseRequestFcn','');
     work.progtitle = progtitle;                             % Store initial values for title
@@ -172,14 +172,14 @@ if isempty(progfig)
 %     winchangeicon(progfig,'MavLogo.ico');                   % Change icon (Not Released)
     % ------- Delete Me (End) ------------
      
-    axes('parent',progfig,...                               % Set the progress bar parent to the figure
+    imgaxe = axes('parent',progfig,...                               % Set the progress bar parent to the figure
         'units','pixels',...                                % Provide axes units in pixels
         'pos',[10 winheight-45 winwidth-75 15],...          % Set the progress bar position and size
         'xlim',[0 1],...                                    % Set the range from 0 to 1
         'visible','off');                                 % Turn off axes
  
     
-    imshow(progimage(m));                                   % Set Progress Bar Image
+    imshow(progimage(m),'Parent',imgaxe);                                   % Set Progress Bar Image
     
     progaxes = axes('parent',progfig,...                    % Set the progress bar parent to the figure
         'units','pixels',...                                % Provide axes units in pixels
@@ -187,7 +187,7 @@ if isempty(progfig)
         'xlim',[0 1],...                                    % Set the range from 0 to 1
         'visible','off');                                   % Turn off axes
 
-    progpatch = patch(...
+    progpatch = patch(progaxes,...
         'XData',            [1 0 0 1],...                   % Initialize X-coordinates for patch
         'YData',            [0 0 1 1],...                   % Initialize Y-coordinates for patch
         'Facecolor',        'w',...                         % Set Color of patch
@@ -214,7 +214,7 @@ if isempty(progfig)
         'string','');                                       % Initialize the progress text as blank
     
 
-    
+    drawnow;
     % Set time of last update to ensure a redraw
     lastupdate = clock - 1;
     
@@ -222,7 +222,7 @@ if isempty(progfig)
     if isempty(starttime) | (fractiondone == 0)
         starttime = clock;
     end
-    
+    drawnow;   
 end
 
 % Enforce a minimum time interval between updates

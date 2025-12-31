@@ -1275,7 +1275,7 @@ classdef modelResults < handle
             for i = 1:size(plots, 1)
                 obj.InfoMessage = sprintf('         - saving %s', plots{i,1});
                 axes = plots{i,3};
-                fileExt = obj.SaveHistoFileFormat;
+                fileExt = obj.SavePlotsFileFormat;
                 fileName = plots{i,1};
                 fullFileName = createSaveFileName(obj,fileName,fileExt);
          

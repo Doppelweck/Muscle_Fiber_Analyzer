@@ -176,13 +176,13 @@ classdef controllerAnalyze < handle
             % analyze button.
             
             % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end
@@ -629,13 +629,13 @@ classdef controllerAnalyze < handle
                     % Error Code
             end
            % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end  
@@ -727,21 +727,21 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end
             
             % If a Preview Results figure already exists,
             % delete it
-            preFig = findobj('Tag','FigurePreResults');
+            preFig = findall(0,'Tag','FigurePreResults');
             if ~isempty(preFig) && isvalid(preFig)
                 delete(preFig);
             end
@@ -796,7 +796,7 @@ classdef controllerAnalyze < handle
             
             try
                 obj.busyIndicator(1);
-                OldFig = findobj('Tag','FigureManipulate');
+                OldFig = findall(0,'Tag','FigureManipulate');
                 if ~isempty(OldFig)
                     delete(OldFig);
                     %refresh WindowButtonMotionFcn. If a Figure Manipulate
@@ -807,7 +807,7 @@ classdef controllerAnalyze < handle
                 % If a Higlight Boundarie Box already exists,
                 % delete it
                 if ~isempty(OldFig)
-                    OldBox = findobj('Tag','highlightBox');
+                    OldBox = findall(0,'Tag','highlightBox');
                     delete(OldBox);
                     %refresh WindowButtonMotionFcn. If a Higlight Boundarie Box
                     %exist, than the WindowButtonMotionFcn is deleted
@@ -816,7 +816,7 @@ classdef controllerAnalyze < handle
                 
                 % If a window for preview results already exists,
                 % delete it
-                preFig = findobj('Tag','FigurePreResults');
+                preFig = findall(0,'Tag','FigurePreResults');
                 if ~isempty(preFig) && isvalid(preFig)
                     delete(preFig);
                     obj.addWindowCallbacks();
@@ -1003,7 +1003,7 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig)
                 delete(OldFig);
             end
@@ -1011,13 +1011,13 @@ classdef controllerAnalyze < handle
             % If a Higlight Boundarie Box already exists,
             % delete it
             if ~isempty(OldFig)
-                OldBox = findobj('Tag','highlightBox');
+                OldBox = findall(0,'Tag','highlightBox');
                 delete(OldBox);
             end
             
             % If a window for preview results already exists,
             % delete it
-            preFig = findobj('Tag','FigurePreResults');
+            preFig = findall(0,'Tag','FigurePreResults');
             if ~isempty(preFig) && isvalid(preFig)
                 delete(preFig);
             end
@@ -1066,7 +1066,7 @@ classdef controllerAnalyze < handle
                 else
                     % If a window for Fibertype manipulation already exists,
                     % delete it
-                    OldFig = findobj('Tag','FigureManipulate');
+                    OldFig = findall(0,'Tag','FigureManipulate');
                     if ~isempty(OldFig)
                         delete(OldFig);
                     end
@@ -1074,13 +1074,13 @@ classdef controllerAnalyze < handle
                     % If a Higlight Boundarie Box already exists,
                     % delete it
                     if ~isempty(OldFig)
-                        OldBox = findobj('Tag','highlightBox');
+                        OldBox = findall(0,'Tag','highlightBox');
                         delete(OldBox);
                     end
                     
                     % If a window for preview results already exists,
                     % delete it
-                    preFig = findobj('Tag','FigurePreResults');
+                    preFig = findall(0,'Tag','FigurePreResults');
                     if ~isempty(preFig) && isvalid(preFig)
                         delete(preFig);
                     end
@@ -1223,14 +1223,14 @@ classdef controllerAnalyze < handle
             obj.showFiberInfo();
             
             % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if(isempty(OldFig))
                 obj.winState=get(obj.mainFigure,'WindowState');
             end
             delete(OldFig);
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             % get Position of mouse cursor in the axes
@@ -1264,7 +1264,7 @@ classdef controllerAnalyze < handle
                     % get bounding box of the fiber at the selected
                     % position and plot the box.
                     PosBoundingBox = obj.modelAnalyzeHandle.Stats(Label).BoundingBox;
-                    rectLine = rectangle('Position',PosBoundingBox,'EdgeColor','g','LineWidth',2);
+                    rectLine = rectangle('Parent',axesh,'Position',PosBoundingBox,'EdgeColor','g','LineWidth',2);
                     set(rectLine,'Tag','highlightBox')
                     
                     % get object information at the selected position
@@ -1309,11 +1309,11 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             delete(OldFig);
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             if strcmp(obj.winState,'maximized')
@@ -1328,11 +1328,11 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             delete(OldFig);
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             if strcmp(obj.winState,'maximized')
@@ -1357,246 +1357,140 @@ classdef controllerAnalyze < handle
                 %refresh main figure callbacks
                 addWindowCallbacks(obj);
                 % If a window already exists, delete it
-                OldFig = findobj('Tag','FigureManipulate');
+                OldFig = findall(0,'Tag','FigureManipulate');
                 if ~isempty(OldFig) && isvalid(OldFig)
                     delete(OldFig);
                 end
                 
                 % If a highlight BoundarieBox already exists, delete it
-                OldBox = findobj('Tag','highlightBox');
+                OldBox = findall(0,'Tag','highlightBox');
                 if ~isempty(OldBox) && isvalid(OldBox)
                     delete(OldBox);
+                end
+                preFig = findall(0,'Tag','FigurePreResults');
+                if ~isempty(preFig) && isvalid(preFig)
+                    delete(preFig);
                 end
                 
                 if ~isempty(obj.modelAnalyzeHandle.Stats)
                     
-                    %Find Pre Figure for results
-                    preFig = findobj('Tag','FigurePreResults');
-                    if ~isempty(preFig) && isvalid(preFig)
-                        % If figure already exist make it the current figure
-                        figure(preFig)
-                    else
-                        % If figure dont exist create a new figure
-                        obj.viewAnalyzeHandle.showFigurePreResults(obj.mainFigure);
-                    end
-                    preFig = findobj('Tag','FigurePreResults');
+                    % create pre Results figur
+                    showReach = ismember(obj.modelAnalyzeHandle.AnalyzeMode, [3,4]);
+                    obj.viewAnalyzeHandle.showFigurePreResults(obj.mainFigure,showReach);
+                    preFig = findall(0,'Tag','FigurePreResults');
                     set(preFig,'CloseRequestFcn', @obj.closePreResultsEvent)
                      
                     %Color Map for FIber Types
                     [~,ColorMap] = view_helper_fiber_color_map();
+                    StatsMat = obj.modelAnalyzeHandle.Stats;
                     
-                    %find all Type 1 Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 1');
-                    T1 = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 12h Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 12h');
-                    T12h = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 2 Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 2');
-                    T2 = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 2x Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 2x');
-                    T2x = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 2a Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 2a');
-                    T2a = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 2ax Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'Type 2ax');
-                    T2ax = obj.modelAnalyzeHandle.Stats(Index);
-                    
-                    %find all Type 0 Fibers
-                    Index = strcmp({obj.modelAnalyzeHandle.Stats.FiberType}, 'undefined');
-                    T0 = obj.modelAnalyzeHandle.Stats(Index);
-                    
+                    isQuadLabeling = ismember(obj.modelAnalyzeHandle.AnalyzeMode, [2,4,6]);
+                    isManualLabeling = ismember(obj.modelAnalyzeHandle.AnalyzeMode, [5,6]);
+
+                    vh = obj.viewAnalyzeHandle;
+
                     switch obj.modelAnalyzeHandle.AnalyzeMode
                         
                         case {3,4} %Cluster Based. Need two plots instead of the other ones
                             %Handle to axes Pre-Results Blue over Red
-                            ax = obj.viewAnalyzeHandle.hAPRBR;
-                            axes(ax);
-                            axs1=subplot(2,1,1); %Plot for main Fibers
-                            LegendString = {};
+         
+                            % ===== APRBR ==========================================================
                             
-                            hold(axs1, 'on')
-                            if ~isempty(T1)
-                                h=scatter(axs1,[T1.ColorRed],[T1.ColorBlue],20,ColorMap(1,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 1';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T12h)
-                                h=scatter(axs1,[T12h.ColorRed],[T12h.ColorBlue],20,ColorMap(2,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 12h';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T2)
-                                h=scatter(axs1,[T2.ColorRed],[T2.ColorBlue],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T2x)
-                                h=scatter(axs1,[T2x.ColorRed],[T2x.ColorBlue],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2x';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T2a)
-                                h=scatter(axs1,[T2a.ColorRed],[T2a.ColorBlue],20,ColorMap(4,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2a';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T2ax)
-                                h=scatter(axs1,[T2ax.ColorRed],[T2ax.ColorBlue],20,ColorMap(5,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2ax';
-                            end
-                            hold(axs1, 'on')
-                            if ~isempty(T0)
-                                h=scatter(axs1,[T0.ColorRed],[T0.ColorBlue],20,ColorMap(6,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type-0 (undefined)';
-                            end
+                            axs1 = vh.hAPRBR_Scatter;
+                            axs2 = vh.hAPRBR_Reach;
+                        
+                            cla(axs1); cla(axs2);
                             
-                            Rmax = max([obj.modelAnalyzeHandle.Stats.ColorRed]);
-                            Bmax = max([obj.modelAnalyzeHandle.Stats.ColorBlue]);
-                            grid(axs1, 'on')
-                            legend(axs1,LegendString,'Location','best')
-                            title(axs1,{'Fiber Type main group classification'; '(Type-1, all Type-2, Type-12h, Type-0)'},'FontSize',14)
-                            maxLim = max([Rmax Bmax]);
-                            xlabel(axs1,'x: mean Red','FontSize',12);
-                            ylabel(axs1,'y: mean Blue','FontSize',12);
-                            ylim(axs1,[ 0 maxLim+10 ] );
-                            xlim(axs1,[ 0 maxLim+10 ] );
-                            
-                            axs2=subplot(2,1,2); %Plot Reachability Plot for main Fibers
+                            if isQuadLabeling
+                                LegendString = controller_helper_plot_scatter_fibers(StatsMat,axs1,'all');
+                                vh.PanelPreResults.Title = 'OPTICS Culster Based Quad Labeling Results Preview';
+                            else
+                                LegendString = controller_helper_plot_scatter_fibers(StatsMat,axs1,'main');
+                                vh.PanelPreResults.Title = 'OPTICS Culster Based Triple Labeling Result Preview';
+                            end
+
+                            hold(axs1,'on');
+                            grid(axs1,'on');
+                            legend(axs1,LegendString,'Location','best');
+                            title(axs1,{'Fiber Type Main Group Classification (Type 1, 2 (all), 12h)'});
+                            xlabel(axs1,'mean Red');
+                            ylabel(axs1,'mean Blue');
+                        
+                            maxLim = max([obj.modelAnalyzeHandle.Stats.ColorRed ...
+                                          obj.modelAnalyzeHandle.Stats.ColorBlue]);
+                            xlim(axs1,[0 maxLim+10]);
+                            ylim(axs1,[0 maxLim+10]);
+                        
+                            % --- Reachability APRBR ----------------------------------------------
                             if ~isempty(obj.modelAnalyzeHandle.ClusterData.ReachPlotMain)
                                 bar(axs2,obj.modelAnalyzeHandle.ClusterData.ReachPlotMain);
-                                set(axs2,'xlim',[0 length(obj.modelAnalyzeHandle.ClusterData.ReachPlotMain)])
-                                hold(axs2, 'on')
+                                hold(axs2,'on');
                                 epsilon = obj.modelAnalyzeHandle.ClusterData.EpsilonMain;
-                                plot(axs2,get(gca,'xlim'), [epsilon epsilon],'Color','g','LineWidth',2);
-                                grid(axs2, 'on')
+                                plot(axs2, xlim(axs2), [epsilon epsilon], 'g','LineWidth',2);
+                                grid(axs2,'on');
                             end
-                            title(axs2,'OPTICS-Clustering: Reachability Plot for Fiber Type Maingroups','FontSize',14)
-                            xlabel(axs2,'x: Order','FontSize',12);
-                            ylabel(axs2,'y: Reachability distance R_D','FontSize',12);
-                            
-                            %%% Plot Farred over Red %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            ax = obj.viewAnalyzeHandle.hAPRFRR;
-                            LegendString = {};
-                            axes(ax);
-                            axs3=subplot(2,1,1); %Plot for Type-2 sub Fibers
-                            
-                            hold(axs3, 'on')
-                            if ~isempty(T2)
-                                h=scatter(axs3,[T2.ColorRed],[T2.ColorFarRed],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2';
-                            end
-                            if ~isempty(T2x)
-                                h=scatter(axs3,[T2x.ColorRed],[T2x.ColorFarRed],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2x';
-                            end
-                            hold(axs3, 'on')
-                            if ~isempty(T2a)
-                                h=scatter(axs3,[T2a.ColorRed],[T2a.ColorFarRed],20,ColorMap(4,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2a';
-                            end
-                            hold(axs3, 'on')
-                            if ~isempty(T2ax)
-                                h=scatter(axs3,[T2ax.ColorRed],[T2ax.ColorFarRed],20,ColorMap(5,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2ax';
-                            end
-                            
-                            Rmax = max([obj.modelAnalyzeHandle.Stats.ColorRed]);
-                            FRmax = max([obj.modelAnalyzeHandle.Stats.ColorFarRed]);
-                            hold(axs3, 'on')
-                            legend(axs3,LegendString,'Location','best')
-                            if obj.modelAnalyzeHandle.AnalyzeMode == 1 || obj.modelAnalyzeHandle.AnalyzeMode == 3 || ...
-                                    obj.modelAnalyzeHandle.AnalyzeMode == 5 || obj.modelAnalyzeHandle.AnalyzeMode == 7
-                                title(axs3,{'Trible labeling: Type-2 specification classification' ;'(Type-2)'},'FontSize',14)
-                            else
-                                title(axs3,{'Quad labeling: Fiber Type-2 specification' ;'(Type-2x, Type-2a, Type-2ax)'},'FontSize',14)
-                            end
-                            maxLim = max([Rmax FRmax]);
-                            xlabel(axs3,'x: mean Red','FontSize',12);
-                            ylabel(axs3,'y: mean Farred','FontSize',12);
-                            ylim(axs3,[ 0 maxLim+10 ] );
-                            xlim(axs3,[ 0 maxLim+10 ] );
-                            grid(axs3, 'on')
-                            
-                            axs4 = subplot(2,1,2); %Plot Reachability Plot for sub Type-2 Fibers
+                        
+                            title(axs2,'OPTICS Reachability Main Fibers (Type 1, 2 (all), 12h)');
+                            xlabel(axs2,'Order');
+                            ylabel(axs2,'R_D');
+                        
+                            % ===== APRFRR =========================================================
+                            axs3 = vh.hAPRFRR_Scatter;
+                            axs4 = vh.hAPRFRR_Reach;
+                            cla(axs3); cla(axs4);
+
+                            LegendString = controller_helper_plot_scatter_fibers(StatsMat,axs3,'Type 2');
+
+                            hold(axs3,'on');
+                            grid(axs3,'on');
+                            legend(axs3,LegendString,'Location','best');
+                            title(axs3,'Fiber Type-2 Subtype Classification (Type 2x, 2a, 2ax)');
+                            xlabel(axs3,'mean Red');
+                            ylabel(axs3,'mean Farred');
+                        
+                            maxLim = max([obj.modelAnalyzeHandle.Stats.ColorRed ...
+                                          obj.modelAnalyzeHandle.Stats.ColorFarRed]);
+                            xlim(axs3,[0 maxLim+10]);
+                            ylim(axs3,[0 maxLim+10]);
+                        
+                            % --- Reachability APRFRR ---------------------------------------------
                             if ~isempty(obj.modelAnalyzeHandle.ClusterData.ReachPlotSub)
                                 bar(axs4,obj.modelAnalyzeHandle.ClusterData.ReachPlotSub);
-                                set(axs4,'xlim',[0 length(obj.modelAnalyzeHandle.ClusterData.ReachPlotSub)])
-                                hold(axs4, 'on')
+                                hold(axs4,'on');
                                 epsilon = obj.modelAnalyzeHandle.ClusterData.EpsilonSub;
-                                plot(axs4,get(gca,'xlim'), [epsilon epsilon],'Color','g','LineWidth',2);
-                                grid(axs4, 'on')
+                                plot(axs4, xlim(axs4), [epsilon epsilon], 'g','LineWidth',2);
+                                grid(axs4,'on');
                             end
-                            title(axs4,'OPTICS-Clustering: Reachability Plot for Fiber Type-2 Subgroups','FontSize',14)
-                            xlabel(axs4,'x: Order','FontSize',12);
-                            ylabel(axs4,'y: Reachability distance R_D','FontSize',12);
+                        
+                            title(axs4,'OPTICS Reachability Type-2 Subtypes (Type 2x, 2a, 2ax)');
+                            xlabel(axs4,'Order');
+                            ylabel(axs4,'R_D');
                             
                         otherwise
                             
                             %Handle to axes Pre-Results Blue over Red
-                            ax = obj.viewAnalyzeHandle.hAPRBR;
-                            
-                            LegendString = {};
-                            
-                            hold(ax, 'on')
-                            if ~isempty(T1)
-                                h=scatter(ax,[T1.ColorRed],[T1.ColorBlue],20,ColorMap(1,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 1';
+                            ax = obj.viewAnalyzeHandle.hAPRBR_Scatter;
+
+                            obj.viewAnalyzeHandle.hAPRBR_Reach= [];
+                            obj.viewAnalyzeHandle.hAPRFRR_Reach= [];
+                           
+                            if isQuadLabeling
+                                LegendString = controller_helper_plot_scatter_fibers(StatsMat,ax,'all');
+                                if isManualLabeling
+                                    vh.PanelPreResults.Title = 'Manual Quad Labeling Results Preview';
+                                else
+                                    vh.PanelPreResults.Title = 'Color Based Quad Labeling Results Preview';
+                                end
+                            else
+                                LegendString = controller_helper_plot_scatter_fibers(StatsMat,ax,'main');
+                                if isManualLabeling
+                                    vh.PanelPreResults.Title = 'Manual Triple Labeling Results Preview';
+                                else
+                                    vh.PanelPreResults.Title = 'Color Based Triple Labeling Results Preview';
+                                end
                             end
-                            hold(ax, 'on')
-                            if ~isempty(T12h)
-                                h=scatter(ax,[T12h.ColorRed],[T12h.ColorBlue],20,ColorMap(2,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 12h';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2)
-                                h=scatter(ax,[T2.ColorRed],[T2.ColorBlue],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2x)
-                                h=scatter(ax,[T2x.ColorRed],[T2x.ColorBlue],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2x';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2a)
-                                h=scatter(ax,[T2a.ColorRed],[T2a.ColorBlue],20,ColorMap(4,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2a';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2ax)
-                                h=scatter(ax,[T2ax.ColorRed],[T2ax.ColorBlue],20,ColorMap(5,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2ax';
-                            end
-                            if ~isempty(T0)
-                                h=scatter(ax,[T0.ColorRed],[T0.ColorBlue],20,ColorMap(6,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type-0 (undefined)';
-                            end
+
+
                             
                             Rmax = max([obj.modelAnalyzeHandle.Stats.ColorRed]);
                             Bmax = max([obj.modelAnalyzeHandle.Stats.ColorBlue]);
@@ -1642,37 +1536,13 @@ classdef controllerAnalyze < handle
                             ylim(ax,[ 0 maxLim+10 ] );
                             xlim(ax,[ 0 maxLim+10 ] );
                             grid(ax, 'on')
-                            title(ax,{'Fiber Type main group classification'; '(Type-1, all Type-2, Type-12h, Type-0)'},'FontSize',14)
+                            title(ax,{'Fiber Type Main Group Classification (Type 1, 2 (all), 12h)'},'FontSize',14)
                             legend(ax,LegendString,'Location','best')
                             
                             %%% Plot Farred over Red %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            ax = obj.viewAnalyzeHandle.hAPRFRR;
+                            ax = obj.viewAnalyzeHandle.hAPRFRR_Scatter;
                             %                             axes(ax)
-                            LegendString = {};
-                            
-                            hold(ax, 'on')
-                            if ~isempty(T2)
-                                h=scatter(ax,[T2.ColorRed],[T2.ColorBlue],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2';
-                            end
-                            if ~isempty(T2x)
-                                h=scatter(ax,[T2x.ColorRed],[T2x.ColorFarRed],20,ColorMap(3,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2x';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2a)
-                                h=scatter(ax,[T2a.ColorRed],[T2a.ColorFarRed],20,ColorMap(4,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2a';
-                            end
-                            hold(ax, 'on')
-                            if ~isempty(T2ax)
-                                h=scatter(ax,[T2ax.ColorRed],[T2ax.ColorFarRed],20,ColorMap(5,:),'filled');
-                                set(h,'MarkerEdgeColor','k');
-                                LegendString{end+1} = 'Type 2ax';
-                            end
+                            LegendString = controller_helper_plot_scatter_fibers(StatsMat,ax,'Type 2');
                             
                             Rmax = max([obj.modelAnalyzeHandle.Stats.ColorRed]);
                             FRmax = max([obj.modelAnalyzeHandle.Stats.ColorFarRed]);
@@ -1694,7 +1564,7 @@ classdef controllerAnalyze < handle
                                 f_FRRthresh =  FarredRedTh * R; %Blue/Red thresh fcn
                                 f_FRdist = FarredRedTh * R / (1-FarredRedDistFR); %farred dist fcn
                                 f_Rdist = FarredRedTh * R * (1-FarredRedDistR); %red dist fcn
-                                
+                                hold(ax, 'on')
                                 plot(ax,R,f_FRdist,'y','LineWidth',1.5);
                                 LegendString{end+1} = ['f_{FRdist}(R) = ' num2str(FarredRedTh) ' * R / (1-' num2str(FarredRedDistFR) ')'];
                                 
@@ -1717,13 +1587,10 @@ classdef controllerAnalyze < handle
                             ylim(ax,[ 0 maxLim+10 ] );
                             xlim(ax,[ 0 maxLim+10 ] );
                             grid(ax, 'on')
-                            if obj.modelAnalyzeHandle.AnalyzeMode == 1 || obj.modelAnalyzeHandle.AnalyzeMode == 3 || ...
-                                    obj.modelAnalyzeHandle.AnalyzeMode == 5 || obj.modelAnalyzeHandle.AnalyzeMode == 7
-                                title(ax,{'Trible labeling: Type-2 specification classification' ;'(Type-2)'},'FontSize',14)
-                            else
-                                title(ax,{'Quad labeling: Fiber Type-2 specification' ;'(Type-2x, Type-2a, Type-2ax)'},'FontSize',14)
-                            end
-                            legend(ax,LegendString,'Location','Best')
+
+                            title(ax,{'Fiber Type-2 Subtype Classification (Type 2x, 2a, 2ax)'},'FontSize',14)
+                            legend(ax,LegendString,'Location','Best');
+                            
                     end
                 else % if ~isempty(obj.modelAnalyzeHandle.Stats)
                     obj.modelAnalyzeHandle.InfoMessage = '   - No data are analyzed';
@@ -1936,7 +1803,7 @@ classdef controllerAnalyze < handle
                     %delete objects
                     delete(object_handles);
                     %find all figures and delete them
-                    figHandles = findobj('Type','figure');
+                    figHandles = findall(0,'Type','figure');
                     delete(figHandles);
                 case 'No'
                     obj.modelAnalyzeHandle.InfoMessage = '   - closing program canceled';

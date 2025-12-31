@@ -1,7 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Info>
-    <Category UUID="Deployment_Category_7b37af7c-71bf-49cf-8ba4-a2c45a6b3720">
-        <Label UUID="Deployment_ExeSplashImageFile_7b37af7c-71bf-49cf-8ba4-a2c45a6b3720"/>
-        <Label UUID="Deployment_InstallerSplashFile_7b37af7c-71bf-49cf-8ba4-a2c45a6b3720"/>
-    </Category>
-</Info>
+<Info/>

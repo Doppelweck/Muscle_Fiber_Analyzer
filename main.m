@@ -1,6 +1,6 @@
 try
      
-    % find starting path
+    % % find starting path
     warning('off', 'all');
     try %%Not need for .exe
         path = cd;
@@ -8,13 +8,14 @@ try
         addpath(genpath('MVC'));
         addpath(genpath('Functions'));
         addpath(genpath('Icons'));
-        rmpath(genpath('Functions/OLD_FUNCTIONS_2_BE_REMOVED'));
         pause(0.5);
         cl;
     catch
     end
+
     
-    build_up_time_delay = 0.300;
+    
+    build_up_time_delay = 0.000;
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -25,7 +26,8 @@ try
     setSettingsValue('Year','2025');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
-    writeVersionToTxt(versionString);
+    test = fullfile(pwd, 'LATEST.txt');
+    writeVersionToTxt(versionString,test);
     [newVersionAvailable, checkSuccessfull, newVersion] = checkAppForNewVersion(versionString);
 
 
@@ -42,7 +44,7 @@ try
     end
 
     % create main figure
-    mainFig = figure(...
+    mainFig = uifigure(...
         'Visible','on',...
         'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
@@ -54,7 +56,7 @@ try
     %Create Start Screen
     [hf, LoadingText] = startSrcreen();
     set(mainFig, 'OuterPosition', hf.Position);
-
+    drawnow;
     update_menu_bar_main_figure(mainFig,versionString,...
         @changeAppDesign,...
         @loadUserSettings,...
@@ -219,7 +221,7 @@ end
 
 function loadUserSettings(src,~)
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,getDefaultSettingsValue('Style'))
+theme(mainFigObj,getSettingsValue('Style'));
 
 uiControls = find_all_ui_elements(mainFigObj);
 
