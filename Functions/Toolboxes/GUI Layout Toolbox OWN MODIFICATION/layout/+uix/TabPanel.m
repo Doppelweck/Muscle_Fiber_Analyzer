@@ -94,24 +94,34 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
             parentListener = event.proplistener( obj, ...
                 findprop( obj, 'Parent' ), 'PostSet', ...
                 @obj.onParentChanged );
-            themeListener = event.proplistener( ...
-                gcf, ...
-                findprop(gcf,'Theme'), ...
-                'PostSet', ...
-                @obj.onThemeChanged );
-            themeModeListener = event.proplistener( ...
-                gcf, ...
-                findprop(gcf, 'ThemeMode'), ...
-                'PostSet', ...
-                @obj.onThemeChanged);
+
+            parentFig = findall(0, 'Type','figure');
+            parentFig_first = parentFig(1);
+            themeProp = findprop(parentFig_first,'Theme');
+            themeModeProp = findprop(parentFig_first,'ThemeMode');
+
+            if ~isempty(parentFig_first)
+                themeListener = event.proplistener( ...
+                    parentFig, ...
+                    themeProp, ...
+                    'PostSet', ...
+                    @obj.onThemeChanged );
+                themeModeListener = event.proplistener( ...
+                    parentFig, ...
+                    themeModeProp, ...
+                    'PostSet', ...
+                    @obj.onThemeChanged);
+                
+                obj.ThemeListener = themeListener;
+                obj.ThemeModeListener = themeModeListener;
+            end
             
             % Store properties
             obj.Dividers = dividers;
             obj.BackgroundColorListener = backgroundColorListener;
             obj.SelectionChangedListener = selectionChangedListener;
             obj.ParentListener = parentListener;
-            obj.ThemeListener = themeListener;
-            obj.ThemeModeListener = themeModeListener;
+            
             
             % Set properties
             try
@@ -121,7 +131,7 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
                 e.throwAsCaller()
             end
 
-            obj.onThemeChanged();
+            %obj.onThemeChanged();
             
         end % constructor
         
@@ -765,11 +775,15 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
             defaultRootColor = mean(get(groot,'DefaultFigureColor'));
 
             tint = 0.85;
+            backgroundColor = obj.BackgroundColor;
+            foregroundColor = obj.ForegroundColor;
 
-            if defaultRootColor <0.5
+            if backgroundColor <0.5
                 tint = 1.5;
+                foregroundColor = [0.9608    0.9608    0.9608];
             else
                 tint = 0.85;
+                foregroundColor = [0.1294    0.1294    0.1294];
             end
             % switch get(gcf,'Theme').BaseColorStyle
             %     case 'light'
@@ -780,8 +794,7 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
 
             
             % Repaint tabs
-            backgroundColor = obj.BackgroundColor;
-            foregroundColor = obj.ForegroundColor;
+         
             for ii = 1:t
                 tab = tabs(ii);
                 if ii == selection
@@ -887,7 +900,7 @@ classdef TabPanel < uix.Container & uix.mixin.Panel
             
         end % onSelectionChanged
         
-        function onThemeChanged(obj,~,evt)
+        function onThemeChanged(obj,src,evt)
             try
                obj.ForegroundColor = get( 0, 'DefaultUicontrolForegroundColor' );
                obj.BackgroundColor = get( 0, 'DefaultUicontrolBackgroundColor' );

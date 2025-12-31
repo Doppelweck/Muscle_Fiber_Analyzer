@@ -520,9 +520,9 @@ classdef viewAnalyze < handle
             
             SizeInfoFigure = [400 250]; %[width height]
             
-            obj.hFM = figure('NumberTitle','off','Units','pixels','Name','Change fiber informations','Visible','off','MenuBar','none','ToolBar','none');
+            obj.hFM = uifigure('NumberTitle','off','Units','pixels','Name','Change fiber informations','Visible','off','MenuBar','none','ToolBar','none');
             set(obj.hFM,'Tag','FigureManipulate')
-            set(obj.hFM,'WindowStyle','normal');
+            set(obj.hFM,'WindowStyle',getWindowsStyleFromSettings());
             
             if PosInAxes(1,2)-SizeInfoFigure(2) < 0
                 set(obj.hFM, 'position', [PosCurrent(1)+5 PosCurrent(2)-SizeInfoFigure(2)-10 SizeInfoFigure(1) SizeInfoFigure(2)]);
@@ -659,7 +659,7 @@ classdef viewAnalyze < handle
                 fontSizeB = 16; % Font size big 
             end
             
-            obj.hFMC = figure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
+            obj.hFMC = uifigure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
             set(obj.hFMC,'Tag','FigureManualClassify');
             
             %get position of mainFigure
@@ -668,7 +668,7 @@ classdef viewAnalyze < handle
             set(obj.hFMC, 'position', [posMainFig(1) posMainFig(2) 0.6 0.8]);
             movegui(obj.hFMC,'center');
             
-            set(obj.hFMC,'WindowStyle','normal');
+            set(obj.hFMC,'WindowStyle',getWindowsStyleFromSettings());
             
             VBox = uix.VBox('Parent', obj.hFMC );
      
@@ -688,8 +688,8 @@ classdef viewAnalyze < handle
         end
         
         function showFigurePreResults(obj,mainFig)
-            obj.hFPR = figure('NumberTitle','off','Units','normalized','Name','Preview Results','Visible','off','MenuBar','none','ToolBar','none',...
-                'WindowStyle', 'modal', 'Theme',mainFig.Theme);
+            obj.hFPR = uifigure('NumberTitle','off','Units','normalized','Name','Preview Results','Visible','off','MenuBar','none','ToolBar','none',...
+                'WindowStyle', getWindowsStyleFromSettings(), 'Theme',mainFig.Theme);
             set(obj.hFPR,'Tag','FigurePreResults')
             
             %get position of mainFigure
@@ -698,7 +698,7 @@ classdef viewAnalyze < handle
             set(obj.hFPR, 'position', [posMainFig(1) posMainFig(2) 0.8 0.8]);
             movegui(obj.hFPR,'center')
             
-            set(obj.hFPR,'WindowStyle','modal');
+            set(obj.hFPR,'WindowStyle',getWindowsStyleFromSettings());
             
             AxesBox = uix.HBox('Parent', obj.hFPR,'Padding', 25,'Spacing', 10);
             obj.hAPRBR = axes('Parent',uicontainer('Parent', AxesBox), 'FontUnits','normalized','Fontsize',0.015,'Tag','AxesManualClassify');

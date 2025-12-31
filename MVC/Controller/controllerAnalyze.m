@@ -176,13 +176,13 @@ classdef controllerAnalyze < handle
             % analyze button.
             
             % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end
@@ -629,13 +629,13 @@ classdef controllerAnalyze < handle
                     % Error Code
             end
            % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end  
@@ -727,21 +727,21 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig) && isvalid(OldFig)
                 delete(OldFig);
             end
             
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             if ~isempty(OldBox) && isvalid(OldBox)
                 delete(OldBox);
             end
             
             % If a Preview Results figure already exists,
             % delete it
-            preFig = findobj('Tag','FigurePreResults');
+            preFig = findall(0,'Tag','FigurePreResults');
             if ~isempty(preFig) && isvalid(preFig)
                 delete(preFig);
             end
@@ -796,7 +796,7 @@ classdef controllerAnalyze < handle
             
             try
                 obj.busyIndicator(1);
-                OldFig = findobj('Tag','FigureManipulate');
+                OldFig = findall(0,'Tag','FigureManipulate');
                 if ~isempty(OldFig)
                     delete(OldFig);
                     %refresh WindowButtonMotionFcn. If a Figure Manipulate
@@ -807,7 +807,7 @@ classdef controllerAnalyze < handle
                 % If a Higlight Boundarie Box already exists,
                 % delete it
                 if ~isempty(OldFig)
-                    OldBox = findobj('Tag','highlightBox');
+                    OldBox = findall(0,'Tag','highlightBox');
                     delete(OldBox);
                     %refresh WindowButtonMotionFcn. If a Higlight Boundarie Box
                     %exist, than the WindowButtonMotionFcn is deleted
@@ -816,7 +816,7 @@ classdef controllerAnalyze < handle
                 
                 % If a window for preview results already exists,
                 % delete it
-                preFig = findobj('Tag','FigurePreResults');
+                preFig = findall(0,'Tag','FigurePreResults');
                 if ~isempty(preFig) && isvalid(preFig)
                     delete(preFig);
                     obj.addWindowCallbacks();
@@ -1003,7 +1003,7 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if ~isempty(OldFig)
                 delete(OldFig);
             end
@@ -1011,13 +1011,13 @@ classdef controllerAnalyze < handle
             % If a Higlight Boundarie Box already exists,
             % delete it
             if ~isempty(OldFig)
-                OldBox = findobj('Tag','highlightBox');
+                OldBox = findall(0,'Tag','highlightBox');
                 delete(OldBox);
             end
             
             % If a window for preview results already exists,
             % delete it
-            preFig = findobj('Tag','FigurePreResults');
+            preFig = findall(0,'Tag','FigurePreResults');
             if ~isempty(preFig) && isvalid(preFig)
                 delete(preFig);
             end
@@ -1066,7 +1066,7 @@ classdef controllerAnalyze < handle
                 else
                     % If a window for Fibertype manipulation already exists,
                     % delete it
-                    OldFig = findobj('Tag','FigureManipulate');
+                    OldFig = findall(0,'Tag','FigureManipulate');
                     if ~isempty(OldFig)
                         delete(OldFig);
                     end
@@ -1074,13 +1074,13 @@ classdef controllerAnalyze < handle
                     % If a Higlight Boundarie Box already exists,
                     % delete it
                     if ~isempty(OldFig)
-                        OldBox = findobj('Tag','highlightBox');
+                        OldBox = findall(0,'Tag','highlightBox');
                         delete(OldBox);
                     end
                     
                     % If a window for preview results already exists,
                     % delete it
-                    preFig = findobj('Tag','FigurePreResults');
+                    preFig = findall(0,'Tag','FigurePreResults');
                     if ~isempty(preFig) && isvalid(preFig)
                         delete(preFig);
                     end
@@ -1223,14 +1223,14 @@ classdef controllerAnalyze < handle
             obj.showFiberInfo();
             
             % If a window already exists, delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             if(isempty(OldFig))
                 obj.winState=get(obj.mainFigure,'WindowState');
             end
             delete(OldFig);
             
             % If a highlight BoundarieBox already exists, delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             % get Position of mouse cursor in the axes
@@ -1264,7 +1264,7 @@ classdef controllerAnalyze < handle
                     % get bounding box of the fiber at the selected
                     % position and plot the box.
                     PosBoundingBox = obj.modelAnalyzeHandle.Stats(Label).BoundingBox;
-                    rectLine = rectangle('Position',PosBoundingBox,'EdgeColor','g','LineWidth',2);
+                    rectLine = rectangle('Parent',axesh,'Position',PosBoundingBox,'EdgeColor','g','LineWidth',2);
                     set(rectLine,'Tag','highlightBox')
                     
                     % get object information at the selected position
@@ -1309,11 +1309,11 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             delete(OldFig);
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             if strcmp(obj.winState,'maximized')
@@ -1328,11 +1328,11 @@ classdef controllerAnalyze < handle
             
             % If a window for Fibertype manipulation already exists,
             % delete it
-            OldFig = findobj('Tag','FigureManipulate');
+            OldFig = findall(0,'Tag','FigureManipulate');
             delete(OldFig);
             % If a Higlight Boundarie Box already exists,
             % delete it
-            OldBox = findobj('Tag','highlightBox');
+            OldBox = findall(0,'Tag','highlightBox');
             delete(OldBox);
             
             if strcmp(obj.winState,'maximized')
@@ -1357,13 +1357,13 @@ classdef controllerAnalyze < handle
                 %refresh main figure callbacks
                 addWindowCallbacks(obj);
                 % If a window already exists, delete it
-                OldFig = findobj('Tag','FigureManipulate');
+                OldFig = findall(0,'Tag','FigureManipulate');
                 if ~isempty(OldFig) && isvalid(OldFig)
                     delete(OldFig);
                 end
                 
                 % If a highlight BoundarieBox already exists, delete it
-                OldBox = findobj('Tag','highlightBox');
+                OldBox = findall(0,'Tag','highlightBox');
                 if ~isempty(OldBox) && isvalid(OldBox)
                     delete(OldBox);
                 end
@@ -1371,7 +1371,7 @@ classdef controllerAnalyze < handle
                 if ~isempty(obj.modelAnalyzeHandle.Stats)
                     
                     %Find Pre Figure for results
-                    preFig = findobj('Tag','FigurePreResults');
+                    preFig = findall(0,'Tag','FigurePreResults');
                     if ~isempty(preFig) && isvalid(preFig)
                         % If figure already exist make it the current figure
                         figure(preFig)
@@ -1379,7 +1379,7 @@ classdef controllerAnalyze < handle
                         % If figure dont exist create a new figure
                         obj.viewAnalyzeHandle.showFigurePreResults(obj.mainFigure);
                     end
-                    preFig = findobj('Tag','FigurePreResults');
+                    preFig = findall(0,'Tag','FigurePreResults');
                     set(preFig,'CloseRequestFcn', @obj.closePreResultsEvent)
                      
                     %Color Map for FIber Types
@@ -1419,7 +1419,7 @@ classdef controllerAnalyze < handle
                             %Handle to axes Pre-Results Blue over Red
                             ax = obj.viewAnalyzeHandle.hAPRBR;
                             axes(ax);
-                            axs1=subplot(2,1,1); %Plot for main Fibers
+                            axs1=subplot(ax,2,1,1); %Plot for main Fibers
                             LegendString = {};
                             
                             hold(axs1, 'on')
@@ -1936,7 +1936,7 @@ classdef controllerAnalyze < handle
                     %delete objects
                     delete(object_handles);
                     %find all figures and delete them
-                    figHandles = findobj('Type','figure');
+                    figHandles = findall(0,'Type','figure');
                     delete(figHandles);
                 case 'No'
                     obj.modelAnalyzeHandle.InfoMessage = '   - closing program canceled';

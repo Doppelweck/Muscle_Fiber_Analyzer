@@ -18,7 +18,7 @@ if isa(inputData, 'matlab.ui.Figure')
 
 elseif isa(inputData, 'matlab.graphics.axis.Axes')
     tempFigureIsCreated = true;
-    hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+    hF = uifigure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
     
     try
         copyobj([inputData,inputData.Legend] ,hF);
@@ -31,7 +31,7 @@ elseif isa(inputData, 'matlab.graphics.axis.Axes')
 elseif ismatrix(inputData)
     if saveAsVectorGraphic
         tempFigureIsCreated = true;
-        hF = figure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
+        hF = uifigure('NumberTitle','on','Units','normalized','Name','Picture Results','Visible','off','Theme', 'light');
         imshow(inputData);
         hfig = hF;
     else
