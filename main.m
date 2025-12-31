@@ -1,7 +1,6 @@
 try
-    
-    
-    % find starting path
+     
+    % % find starting path
     warning('off', 'all');
     try %%Not need for .exe
         path = cd;
@@ -13,17 +12,22 @@ try
         cl;
     catch
     end
-    
-    build_up_time_delay = 0.001;
-    
 
+    
+    
+    build_up_time_delay = 0.000;
+    
+    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+
+    setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
     setSettingsValue('Day','11');
     setSettingsValue('Month','March');
     setSettingsValue('Year','2025');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
-    writeVersionToTxt(versionString);
+    test = fullfile(pwd, 'LATEST.txt');
+    writeVersionToTxt(versionString,test);
     [newVersionAvailable, checkSuccessfull, newVersion] = checkAppForNewVersion(versionString);
 
 
@@ -40,85 +44,50 @@ try
     end
 
     % create main figure
-    mainFig = figure(...
-        'Visible','off',...
-        'Name',['Muscle-Fiber-Classification-Tool ' getSettingsValue('Version')],...
+    mainFig = uifigure(...
+        'Visible','on',...
+        'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
         'Tag','mainFigure');
-    theme(mainFig,getSettingsValue('Style'))
-
-
+    theme(mainFig,getSettingsValue('Style'));
 
 
     %Create Start Screen
-    hf = startSrcreen('modal');
-    versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
-    TitleText1=text(hf.Children,0.3,0.965,'Muscle Fiber Classification Tool',...
-        'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.075,'Color',[0 0 0]);
-    %     TitleText2=text(hf.Children,0.45,0.83,'Classification Tool',...
-    %         'units','normalized','FontUnits','normalized','FontSize',0.08,'Color',[1 0.5 0]);
-    VersionText=text(hf.Children,0.54,0.915,versionString,'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
-    InfoText=text(hf.Children,0.02,0.035,'Loading please wait... Initialize application...','units','normalized','FontWeight','bold','FontUnits','normalized','FontSize',0.03,'Color','k');
-    text(hf.Children,0.02,0.16,'Developed by:','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.04,'Color','k');
-    text(hf.Children,0.02,0.12,['Sebastian Friedrich  2017 - ' getSettingsValue('Year')],'units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.03,'Color','k');
-    text(hf.Children,0.02,0.095,'sebastian.friedrich.software@gmail.com','units','normalized','FontUnits','normalized','FontWeight','bold','FontSize',0.025,'Color','k');
-    %     text(hf.Children,0.03,0.19,'In cooperation with:','units','normalized','FontUnits','normalized','FontSize',0.03,'Color','k');
-    %     text(hf.Children,0.05,0.07,'2017','units','normalized','FontUnits','normalized','FontSize',0.045,'Color','[1 0.5 0]');
-    % setAlwaysOnTop(hf,true);
-    drawnow;
-    %
-    %     % R2010a and newer
-    %     iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
-    %     iconsSizeEnums = javaMethod('values',iconsClassName);
-    %     SIZE_32x32 = iconsSizeEnums(1);  % (1) = 16x16,  (2) = 32x32
-    %     busyIndicator = com.mathworks.widgets.BusyAffordance(SIZE_32x32);  % icon, label
-    %     busyIndicator.setPaintsWhenStopped(false);  % default = false
-    %     busyIndicator.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
-    %     javacomponent(busyIndicator.getComponent, [hf.Position(3)*0.2,hf.Position(4)*0.035,40,40], hf);
-    %     busyIndicator.getComponent.setBackground(java.awt.Color(0,0,0,0.1));
-    %     busyIndicator.start;
-
-
+    [hf, LoadingText] = startSrcreen();
     set(mainFig, 'OuterPosition', hf.Position);
-    
-    set(hf,'Visible','on');
-    figure(hf);drawnow;
-    set(hf,'WindowStyle','alwaysontop');
-
-
+    drawnow;
     update_menu_bar_main_figure(mainFig,versionString,...
         @changeAppDesign,...
         @loadUserSettings,...
         @saveUserSettings,...
         @openInformationFigure);
 
-    set(mainFig,'Visible','on');
-    set(hf,'Visible','on');
-    set(hf,'WindowStyle','alwaysontop');
-    set(hf,'WindowStyle','modal');
-    figure(hf);drawnow;
+    figure(hf); drawnow;
+    set(hf,'WindowStyle','alwaysontop'); drawnow;
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow;
+    figure(hf); drawnow; 
     pause(build_up_time_delay);
 
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
-    InfoText.String='Loading please wait...   Initialize VIEW-Components...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Components...';
     %Init VIEW's
     viewEditHandle = viewEdit(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Edit...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1; drawnow;
     drawnow;pause(build_up_time_delay);
     viewAnalyzeHandle = viewAnalyze(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Analyze...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2; drawnow;
     drawnow;pause(build_up_time_delay);
     viewResultsHandle = viewResults(mainCard);
-    InfoText.String='Loading please wait...   Initialize VIEW-Results...';
+    LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3; drawnow;
     drawnow;pause(build_up_time_delay);
     mainCard.Selection = 1; drawnow;
 
-    InfoText.String='Loading please wait...   Load User Settings...';
+    LoadingText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
     uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
         '-and','-not','Style','pushbutton');
@@ -143,32 +112,32 @@ try
 
     drawnow;pause(build_up_time_delay);
 
-    InfoText.String='Loading please wait...   Initialize MODEL-Components...';
+    LoadingText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
     modelEditHandle = modelEdit();
     modelAnalyzeHandle = modelAnalyze();
     modelResultsHandle = modelResults();
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Initialize CONTROLLER-Components...';
+    LoadingText.String='Loading please wait...   Initialize CONTROLLER-Components...';
     %Init CONTROLLER's
     controllerEditHandle = controllerEdit(mainFig, mainCard, viewEditHandle, modelEditHandle);
     controllerAnalyzeHandle = controllerAnalyze(mainFig, mainCard, viewAnalyzeHandle, modelAnalyzeHandle);
     controllerResultsHandle = controllerResults(mainFig, mainCard, viewResultsHandle, modelResultsHandle);
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Connecting components...';
+    LoadingText.String='Loading please wait...   Connecting components...';
     %Connecting Model's and their Controller's
     modelEditHandle.controllerEditHandle = controllerEditHandle;
     modelAnalyzeHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     modelResultsHandle.controllerResultsHandle = controllerResultsHandle;
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Update app design...';
+    LoadingText.String='Loading please wait...   Update app design...';
     drawnow;
     pause(build_up_time_delay)
 
-    InfoText.String='Loading please wait...   Start application...';
+    LoadingText.String='Loading please wait...   Start application...';
     %Connecting Controller's to each other
     controllerEditHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     controllerAnalyzeHandle.controllerEditHandle = controllerEditHandle;
@@ -176,20 +145,16 @@ try
     controllerResultsHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     pause(build_up_time_delay)
 
-    InfoText.String='Run application';
+    LoadingText.String='Run application';
     drawnow;
     pause(build_up_time_delay);
 
-    theme(mainFig,getSettingsValue('Style'))
     set(mainFig,'WindowState','maximized');
     drawnow;
     pause(2);
     delete(hf);
-    set(mainFig,'WindowState','maximized');
-    %set(mainFig,'Position',[0.01 0.05 0.98 0.85]);
     drawnow;
-    delete(InfoText);
-    delete(VersionText);
+    delete(LoadingText);
 
 catch ME
     % FIRST: Stop all timers immediately
@@ -203,8 +168,8 @@ catch ME
     if exist('hf', 'var') && isvalid(hf)
         delete(hf);
     end
-    if exist('InfoText', 'var') && isvalid(InfoText)
-        delete(InfoText);
+    if exist('LoadingText', 'var') && isvalid(LoadingText)
+        delete(LoadingText);
     end
     if exist('VersionText', 'var') && isvalid(VersionText)
         delete(VersionText);
@@ -235,7 +200,7 @@ catch ME
     end
 
     % Display error dialog
-    mode = struct('WindowStyle', 'modal', 'Interpreter', 'tex');
+    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'tex');
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
@@ -256,7 +221,7 @@ end
 
 function loadUserSettings(src,~)
 mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,getDefaultSettingsValue('Style'))
+theme(mainFigObj,getSettingsValue('Style'));
 
 uiControls = find_all_ui_elements(mainFigObj);
 
@@ -370,7 +335,7 @@ end
 function openInformationFigure(src,~)
 
 mainFigObj=findobj('Tag','mainFigure');
-showInfoFigure(mainFigObj);
+menu_callback_show_abaut_figure(mainFigObj);
 
 end
 

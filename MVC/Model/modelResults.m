@@ -41,15 +41,38 @@ classdef modelResults < handle
         PicPRGBFRPlanes; %RGB image create from color plane images red green blue and farred.
         PicPRGBPlanes; %RGB image create from color plane images red green and blue.
         
+        SavePath; % Save Path, same as the selected RGB image path.
+        SaveDir;
+        SaveTime; % Save Time
+        ResultUpdateStaus; %Indicates whether the GUI should be updated.
+
         SaveBinaryMask; %Indicates whether the Binary Mask should be saved.
         SaveFiberTable; %Indicates whether the fiber type table should be saved.
         SaveScatterAll; %Indicates whether the scatter plot with for all fibers should be saved.
         SavePlots; %Indicates whether the statistics plots should be saved.
         SaveHisto; %Indicates whether the Histogram plots should be saved.
         SavePicProcessed; %Indicates whether the processed image with Farred should be saved.
+        SavePicOriginal; %Indicates whether the processed image with Farred should be saved.
         SavePicGroups; %Indicates whether the processed image without Farred should be saved.
-        SavePath; % Save Path, same as the selected RGB image path.
-        ResultUpdateStaus; %Indicates whether the GUI should be updated.
+        
+        SaveFiberTableFileFormat; %FileFormat in which the data should be saved.
+        SaveScatterAllFileFormat; %FileFormat in which the data should be saved.
+        SavePlotsFileFormat; %FileFormat in which the data should be saved.
+        SaveHistoFileFormat; %FileFormat in which the data should be saved.
+        SavePicProcFileFormat; %FileFormat in which the data should be saved.
+        SavePicOriginalFileFormat; %FileFormat in which the data should be saved.
+        SavePicGroupsFileFormat; %FileFormat in which the data should be saved.
+        SaveBinaryMaskFileFormat; %FileFormat in which the data should be saved.
+
+        SaveFiberTableIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveScatterAllIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePlotsIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveHistoIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicProcIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicOriginalIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SavePicGroupsIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        SaveBinaryMaskIndicator; %Lamp, show save state Yellow = unknown, red = faild, green = ok
+        
         
         LabelMat; %Label array of all fiber objects.
         PicBW; %Binary Mask
@@ -214,9 +237,10 @@ classdef modelResults < handle
             workbar(0.25,'find Fiber Groups','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.findFiberGroups();
             
+            set(obj.controllerResultsHandle.tabPanel,'Selection',1);
             workbar(0.5,'plot Fiber Count','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesFiberCountGUI();
-            
+            drawnow;
             workbar(0.55,'plot Fiber Area','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesFiberAreaGUI();
             
@@ -225,22 +249,27 @@ classdef modelResults < handle
             
             workbar(0.65,'plot Fiber Farre Blue','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showAxesScatterFarredRedGUI();
-            
-            workbar(0.7,'plot all Fiber Scatter','Updating Results',obj.controllerResultsHandle.mainFigure);
-            obj.controllerResultsHandle.showAxesScatterAllGUI();
-            
-            workbar(0.75,'plot Info Table in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
-            obj.controllerResultsHandle.showInfoInTableGUI();
-            
-            workbar(0.8,'plot Histogram in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',2);
+            workbar(0.7,'plot Histogram in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showHistogramGUI();
-            
-            workbar(0.85,'plot Imaged Processed in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',3);
+            workbar(0.75,'plot Imaged Processed in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showPicProcessedGUI();
-            
-            workbar(0.9,'plot Fiber Groups in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',4);
+            workbar(0.8,'plot Fiber Groups in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.controllerResultsHandle.showPicGroupsGUI();
-            
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',5);
+            workbar(0.85,'plot Info Table in GUI','Updating Results',obj.controllerResultsHandle.mainFigure);
+            obj.controllerResultsHandle.showInfoInTableGUI();
+            drawnow;
+            set(obj.controllerResultsHandle.tabPanel,'Selection',6);
+            workbar(0.9,'plot all Fiber Scatter','Updating Results',obj.controllerResultsHandle.mainFigure);
+            obj.controllerResultsHandle.showAxesScatterAllGUI();
+            drawnow;
             workbar(1,'complete','Updating Results',obj.controllerResultsHandle.mainFigure);
             obj.ResultUpdateStaus = true;
             end
@@ -1161,293 +1190,254 @@ classdef modelResults < handle
             
             obj.InfoMessage = ' ';
             obj.InfoMessage = '*** Saving Data ***';
-            obj.InfoMessage = '   - saving data in the same directory than the file was selected';
-            
+            obj.InfoMessage = '   - saving data in the same directory than the file was selected:';
+
             %Current date and time
             date_time = datetime('now','TimeZone','local','Format','_yyyy_MM_dd_HHmm');
-            time = string(date_time);
-            
+            obj.SaveTime = string(date_time);
+
             % Delete file extension
             [~,fileName,~] = fileparts(obj.FileName);
             
             % Save dir is the same as the dir from the selected Pic
-            SaveDir = strcat(obj.PathName ,fileName ,'_RESULTS');
+            saveDir = strcat(obj.PathName ,fileName ,'_RESULTS');
             obj.InfoMessage = ['   -' obj.PathName fileName '_RESULTS'];
              
             % Check if reslut folder already exist.
-            if exist( SaveDir ,'dir') == 7
+            if exist( saveDir ,'dir') == 7
                 % Reslut folder already exist.
-                obj.InfoMessage = '      - resluts folder allready excist';
+                obj.InfoMessage = '      - Resluts folder allready excist';
                 obj.InfoMessage = '      - add new results files to folder:';
-                obj.InfoMessage = ['      - ' SaveDir];
-                obj.SavePath = SaveDir;
+                obj.InfoMessage = ['      - ' saveDir];
+                obj.SavePath = saveDir;
             else
                 % create new main folder to save results
-                mkdir(SaveDir);
+                mkdir(saveDir);
                 obj.InfoMessage = '      - create resluts folder';
-                obj.SavePath = SaveDir;
+                obj.SavePath = saveDir;
             end
             
             %Add folder with time and date in the main result folder.
-            SaveDir = fullfile(SaveDir,strcat(fileName ,'_RESULTS' ,time));
-            mkdir(SaveDir);
+            obj.SaveDir = fullfile(saveDir,strcat(fileName ,'_RESULTS' ,obj.SaveTime));
+            mkdir(obj.SaveDir);
 
             noOfSaveElements = 7;
 
             workbar(0/noOfSaveElements,'saving table as Excel-File','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveFiberTable(SaveDir,time);
+            obj.saveFiberTable();
 
             workbar(1/noOfSaveElements,'saving plots','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveOverviewPlot(SaveDir,time);
+            obj.saveOverviewPlot();
 
             workbar(2/noOfSaveElements,'saving Histograms','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveHistograms(SaveDir,time);
+            obj.saveHistograms();
 
             workbar(3/noOfSaveElements,'saving processed image','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveProcessedImage(SaveDir,time);
+            obj.saveProcessedImage();
+
+            workbar(3/noOfSaveElements,'saving processed image','Saving Results',obj.controllerResultsHandle.mainFigure);
+            obj.saveOriginalImage();
 
             workbar(4/noOfSaveElements,'saving fiber group image','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveFiberGroupImage(SaveDir,time);
+            obj.saveFiberGroupImage();
 
             workbar(5/noOfSaveElements,'saving scatter plot','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveScatterPlot(SaveDir,time);
+            obj.saveScatterPlot();
 
             workbar(6/noOfSaveElements,'saving biary mask','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.saveBinaryMask(SaveDir,time);
+            obj.saveBinaryMask();
 
             workbar(1.2,'completed','Saving Results',obj.controllerResultsHandle.mainFigure);
-            obj.InfoMessage = '   - Saving data complete';
+            obj.InfoMessage = '- Saving data complete';
             pause(0.3);
             drawnow;
 
         end
         
-        function saveOverviewPlot(obj,SaveDir,time)
+        function saveOverviewPlot(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePlotsIndicator;
             if ~obj.SavePlots
                 pause(0.1);
                 return;
             end
             
-            obj.InfoMessage = '      - saving axes with statistics plots...';
-            
-            % Get filename without extension
-            [~, fileName, ~] = fileparts(obj.FileName);
-            
-            % Create temporary figure once
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+            obj.InfoMessage = '   - saving Images Statistic Plots...';
             
             % Define plots to save
             plots = {
-                'area plot', 'AreaPlot', 'LegendAreaPlot', obj.controllerResultsHandle.viewResultsHandle.hAArea;
-                'number of Fiber-Types', 'NumberPlot', 'LegendNumberPlot', obj.controllerResultsHandle.viewResultsHandle.hACount;
-                'Scatter plot Blue over Red', 'ScatterPlotBlueRed', 'LegendScatterPlotBlueRed', obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed;
-                'Scatter plot Farred over Red', 'ScatterPlotFarredRed', 'LegendScatterPlotFarredRed', obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed
+                'AreaPlot',             'LegendAreaPlot',             obj.controllerResultsHandle.viewResultsHandle.hAArea;
+                'NumberPlot',           'LegendNumberPlot',           obj.controllerResultsHandle.viewResultsHandle.hACount;
+                'ScatterPlotBlueRed',   'LegendScatterPlotBlueRed',   obj.controllerResultsHandle.viewResultsHandle.hAScatterBlueRed;
+                'ScatterPlotFarredRed', 'LegendScatterPlotFarredRed', obj.controllerResultsHandle.viewResultsHandle.hAScatterFarredRed
             };
             
             % Loop through each plot
             for i = 1:size(plots, 1)
-                obj.InfoMessage = sprintf('         - saving %s as .pdf', plots{i,1});
-                
-                % Find and copy objects
-                lTemp = findobj('Tag', plots{i,3});
-                copyobj([lTemp, plots{i,4}], fTemp);
-                set(lTemp, 'Location', 'best');
-                
-                % Save PDF
-                picName = sprintf('%s_%s%s.pdf', fileName, plots{i,2}, time);
-                fullFileName = fullfile(SaveDir, picName);
-
-                % Get the axes and export with tight bounds
-                ax = findobj(fTemp, 'Type', 'axes');
-                if ~isempty(ax)
-                    exportgraphics(ax(1), fullFileName, 'ContentType', 'vector');
-                else
-                    exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+                obj.InfoMessage = sprintf('         - saving %s', plots{i,1});
+                axes = plots{i,3};
+                fileExt = obj.SavePlotsFileFormat;
+                fileName = plots{i,1};
+                fullFileName = createSaveFileName(obj,fileName,fileExt);
+         
+                try
+                    helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                    obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                    set(lamp,'Color','green');
+                catch ME
+                    warning('Problem saving Image: %s.');
+                    obj.InfoMessage = '      - ERROR: Image could not be saved';
+                    set(lamp,'Color','red');
+                    break
                 end
-                
-                % Clear for next plot
-                clf(fTemp);
             end
-            
-            % Cleanup
-            close(fTemp);
-            obj.InfoMessage = '   - saving plots complete';
+            obj.InfoMessage = '   - saving Overview Plots complete';
         end
         
-        function saveHistograms(obj,SaveDir,time)
+        function saveHistograms(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveHistoIndicator;
             if ~obj.SaveHisto
                 pause(0.1);
                 return;
             end
         
-            obj.InfoMessage = '      - saving Histograms plots...';
-            
-            % Get filename without extension
-            [~, fileName, ~] = fileparts(obj.FileName);
-            
-            % Create temporary figure once
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
+            obj.InfoMessage = '   - saving Images Histogram...';
             
             % Define histograms to save
             histograms = {
-                'Area', 'LegendAreaHist', obj.controllerResultsHandle.viewResultsHandle.hAAreaHist;
-                'AspectRatio', 'LegendAspectHist', obj.controllerResultsHandle.viewResultsHandle.hAAspectHist;
-                'Diameter', 'LegendDiaHist', obj.controllerResultsHandle.viewResultsHandle.hADiaHist;
-                'Roundness', 'LegendRoundHist', obj.controllerResultsHandle.viewResultsHandle.hARoundHist
+                'AreaHistogram', 'LegendAreaHist', obj.controllerResultsHandle.viewResultsHandle.hAAreaHist;
+                'AspectRatioHistogram', 'LegendAspectHist', obj.controllerResultsHandle.viewResultsHandle.hAAspectHist;
+                'DiameterHistogram', 'LegendDiaHist', obj.controllerResultsHandle.viewResultsHandle.hADiaHist;
+                'RoundnessHistogram', 'LegendRoundHist', obj.controllerResultsHandle.viewResultsHandle.hARoundHist
             };
             
             % Loop through each histogram
             for i = 1:size(histograms, 1)
-                obj.InfoMessage = sprintf('         - saving %s histogram as .pdf', histograms{i,1});
-                
-                % Find and copy objects
-                lTemp = findobj('Tag', histograms{i,2});
-                copyobj([lTemp, histograms{i,3}], fTemp);
-                set(lTemp, 'Location', 'best');
-                
-                % Save PDF
-                picName = sprintf('%s_Histogram%s%s.pdf', fileName, histograms{i,1}, time);
-                fullFileName = fullfile(SaveDir, picName);
-
-                % Get the axes and export with tight bounds
-                ax = findobj(fTemp, 'Type', 'axes');
-                if ~isempty(ax)
-                    exportgraphics(ax(1), fullFileName, 'ContentType', 'vector');
-                else
-                    exportgraphics(fTemp, fullFileName, 'ContentType', 'vector');
+                obj.InfoMessage = sprintf('         - saving %s', histograms{i,1});
+                axes = histograms{i,3};
+                fileExt = obj.SaveHistoFileFormat;
+                fileName = histograms{i,1};
+                fullFileName = createSaveFileName(obj,fileName,fileExt);
+         
+                try
+                    helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                    obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                    set(lamp,'Color','green');
+                catch ME
+                    warning('Problem saving Image: %s.');
+                    obj.InfoMessage = '      - ERROR: Image could not be saved';
+                    set(lamp,'Color','red');
+                    break
                 end
-                
-                % Clear for next histogram
-                clf(fTemp);
+
             end
-        
-            % Cleanup
-            close(fTemp);
-            obj.InfoMessage = '   - saving Histograms complete';
+            obj.InfoMessage = '   - saving Histograms completed';
         end
         
-        function saveProcessedImage(obj,SaveDir,time)
+        function saveProcessedImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicProcIndicator;
             if ~obj.SavePicProcessed
                 pause(0.1);
                 return;
             end
-
-            obj.InfoMessage = '      - saving image processed...';
-            [~, fileName, ~] = fileparts(obj.FileName);
-            picName = sprintf('%s_ImageProcessed%s.pdf', fileName, time);
-            fullFileName = fullfile(SaveDir, picName);
-
-            % Create temporary figure
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
-            
+            obj.InfoMessage = '   - saving Image Processed...';
+            axes = obj.controllerResultsHandle.viewResultsHandle.hAPProcessed;
+            fileExt = obj.SavePicProcFileFormat;
+            fileName = 'ImageProcessed';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
             try
-                % Copy and export as PDF
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed, fTemp);
-
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                
-                obj.InfoMessage = '         - image has been saved as .pdf vector graphic';
-
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
-                warning('Problem saving image as PDF: %s. Attempting TIF fallback.');
-                obj.InfoMessage = 'ERROR: Image could not be saved as .pdf vector graphic';
-                
-                % Fallback: save as TIF
-                close(fTemp);
-                fTemp = figure('Visible', 'off', 'Color', 'white');
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPProcessed, fTemp);
-                
-                % Get and save frame
-                frame = getframe(fTemp);
-                picName = sprintf('%s_ImageProcessed%s.tif', fileName, time);
-                fullFileName = fullfile(SaveDir, picName);
-                imwrite(frame.cdata, fullFileName);
-                
-                obj.InfoMessage = '         - image has been saved as .tif';
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end
+        end
 
-            % Cleanup
-            close(fTemp);
+        function saveOriginalImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicOriginalIndicator;
+            if ~obj.SavePicOriginal
+                pause(0.1);
+                return;
+            end
+            obj.InfoMessage = '   - saving Image Processed...';
+            axes = obj.controllerResultsHandle.viewResultsHandle.hAPProcessed;
+            fileExt = obj.SavePicOriginalFileFormat;
+            fileName = 'ImageProcessed';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
+            try
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
+            catch ME
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
+            end
         end
         
-        function saveFiberGroupImage(obj,SaveDir,time)
+        function saveFiberGroupImage(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SavePicGroupsIndicator;
             if ~obj.SavePicGroups
                 pause(0.1);
                 return;
             end
-            
-            obj.InfoMessage = '      - saving image fiber groups...';
-            
-            % Get filename without extension
-            [~, fileName, ~] = fileparts(obj.FileName);
-            picName = sprintf('%s_ImageFiberGroups%s.pdf', fileName, time);
-            fullFileName = fullfile(SaveDir, picName);
-            
-            % Create temporary figure
-            fTemp = uifigure('Visible', 'off', 'Theme', 'light');
-            
+            obj.InfoMessage = '   - saving Image Fiber Groups...';
+            axes = obj.controllerResultsHandle.viewResultsHandle.hAPGroups;
+            fileExt = obj.SavePicGroupsFileFormat;
+            fileName = 'ImageFiberGroups';
+            fullFileName = createSaveFileName(obj,fileName,obj.SavePicProcFileFormat);
+     
             try
-                % Copy and export as PDF
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups, fTemp);
-                
-                saveTightFigureOrAxes(fTemp,fullFileName);
-                
-                obj.InfoMessage = '         - image has been saved as .pdf vector graphic';
-                
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
-                warning('Problem saving image as PDF: %s. Attempting TIF fallback.');
-                obj.InfoMessage = 'ERROR: Image could not be saved as .pdf vector graphic';
-                
-                % Fallback: save as TIF
-                close(fTemp);
-                fTemp = figure('Visible', 'off', 'Color', 'white');
-                copyobj(obj.controllerResultsHandle.viewResultsHandle.hAPGroups, fTemp);
-                
-                % Get and save frame
-                frame = getframe(fTemp);
-                picName = sprintf('%s_ImageFiberGroups%s.tif', fileName, time);
-                fullFileName = fullfile(SaveDir, picName);
-                imwrite(frame.cdata, fullFileName);
-                
-                obj.InfoMessage = '         - image has been saved as .tif';
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
             end
-            
-            % Cleanup
-            close(fTemp);
         end
         
-        function saveScatterPlot(obj,SaveDir,time)
+        function saveScatterPlot(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveScatterAllIndicator;
             if ~obj.SaveScatterAll
                 pause(0.1);
                 return
             end
-
-            [~,fileName,~] = fileparts(obj.FileName);
-
-            obj.InfoMessage = '      - saving Scatter all Fibers...';
-            obj.InfoMessage = '         - saving Scatter plot Farred over Redas .pdf';
-            picName = strcat(fileName ,'_ScatterPlotAll', time ,'.pdf');
-            fullFileName = fullfile(SaveDir,picName);
-            
-            fTemp = figure('Visible','off', 'Theme', 'light');
-            lTemp = findobj('Tag','LegendScatterPlotAll');
-            copyobj([lTemp,obj.controllerResultsHandle.viewResultsHandle.hAScatterAll],fTemp);
-            set(lTemp,'Location','best')
-            saveTightFigureOrAxes(fTemp,fullFileName);
-            delete(fTemp)
-            
-            obj.InfoMessage = '   - saving Scatter complete';
-                  
+            obj.InfoMessage = '   - saving Image Scatterplot all Fibers...';
+            axes = obj.controllerResultsHandle.viewResultsHandle.hAScatterAll;
+            fileExt = obj.SaveScatterAllFileFormat;
+            fileName = 'ScatterPlotAll';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
+            try
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
+            catch ME
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
+            end        
         end
         
-        function saveFiberTable(obj,SaveDir,time)
-            [~,fileName,~] = fileparts(obj.FileName);
+        function saveFiberTable(obj)
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveFiberTableIndicator;
              if ~obj.SaveFiberTable
                  pause(0.1);
                  return;
              end
-
+            obj.InfoMessage = '   - saving Fiber Infos as Excel';
             obj.InfoMessage = '      - creating Fiber-Type struct';
+
+            fileExt = obj.SaveFiberTableFileFormat;
+            fileName = 'TabelProcessed';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
                             
             %Get infos from the file name
             [~,name,~] = fileparts(obj.FileName);
@@ -1512,21 +1502,18 @@ classdef modelResults < handle
             
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            % Save DataFile as xls file
+            % Save DataFile
             
             if isempty(CellFiberTable)
+                obj.InfoMessage = '         - ERROR No Data found';
                 return;
             end
 
-            obj.InfoMessage = '      - creating .xlsx file';
-            
-            xlsfileName = strcat(fileName, '_TablesProcessed', time, '.xlsx');
-            
-            fullFileName = fullfile(SaveDir,xlsfileName);
-            
+            obj.InfoMessage = ['      - creating file as ' fileExt];
+
             try
                 obj.InfoMessage = '            - write all fiber types ';
-                writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2')
+                writecell(CellFiberTable, fullFileName, 'Sheet', 'Fyber Types', 'Range', 'B2');
     
                 obj.InfoMessage = '            - write statistic table ';
                 writecell(obj.StatisticMat, fullFileName, 'Sheet','Statistics','Range','B2');
@@ -1549,32 +1536,46 @@ classdef modelResults < handle
                 obj.InfoMessage = '            - write Type 2ax fibers ';
                 writecell(CellFiberTableT2ax, fullFileName, 'Sheet','Type 2ax','Range','B2');
 
-                obj.InfoMessage = '         - .xlxs file has been created';
+                obj.InfoMessage = ['         - ' fileExt ' file has been created'];
+                set(lamp,'Color','green');
             catch
-                obj.InfoMessage = '         - ERROR .xlxs file could not be created';
+                obj.InfoMessage = '         - ERROR file could not be created';
+                set(lamp,'Color','red');
             end
         end
         
-        function saveBinaryMask(obj,SaveDir,time)
+        function saveBinaryMask(obj)
             if ~obj.SaveBinaryMask
                 pause(0.1);
                 return;
             end
+            lamp = obj.controllerResultsHandle.viewResultsHandle.B_SaveBinaryMaskIndicator;
             
-            obj.InfoMessage = '      - saving Binary Mask...';
-            
-            % Get filename without extension
-            [~, fileName, ~] = fileparts(obj.FileName);
-            picName = sprintf('%s_image_Binary%s.tif', fileName, time);
-            fullFileName = fullfile(SaveDir, picName);
-            
+            obj.InfoMessage = '   - saving Image Binary Mask...';
+            axes = obj.PicBW; %Note an axes but will convert into in helper_fcn_save_tight_figure_axes
+            fileExt = obj.SaveBinaryMaskFileFormat;
+            fileName = 'ImageBinaryMask';
+            fullFileName = createSaveFileName(obj,fileName,fileExt);
+     
             try
-                imwrite(obj.PicBW, fullFileName);
-                obj.InfoMessage = '         - image has been saved as .tif';
+                helper_fcn_save_tight_figure_axes(axes,fullFileName);
+                obj.InfoMessage = ['      - Image has been saved as ' fileExt];
+                set(lamp,'Color','green');
             catch ME
-                warning('Problem while saving Binary Mask: %s');
-                obj.InfoMessage = 'ERROR: Problem while saving Binary Mask';
-            end
+                warning('Problem saving Image: %s.');
+                obj.InfoMessage = '      - ERROR: Image could not be saved';
+                set(lamp,'Color','red');
+            end   
+        end
+
+        function fullFileName = createSaveFileName(obj,name,fileExt)
+            saveDir= obj.SaveDir;
+            time = obj.SaveTime;
+
+            [~, fileNamePart, ~] = fileparts(obj.FileName);
+            fileName = sprintf('%s_%s%s%s', ...
+                fileNamePart, name, time, fileExt);
+            fullFileName = fullfile(saveDir, fileName);
         end
 
         function delete(obj)

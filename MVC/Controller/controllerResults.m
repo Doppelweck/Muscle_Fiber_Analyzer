@@ -34,6 +34,7 @@ classdef controllerResults < handle
         viewResultsHandle; %hande to viewResults instance.
         modelResultsHandle; %hande to modelResults instance.
         controllerAnalyzeHandle; %handle to controllerAnalyze instance.
+        tabPanel;
         
 
     end
@@ -71,6 +72,7 @@ classdef controllerResults < handle
             obj.panelResults = obj.viewResultsHandle.panelResults;
             obj.panelControl = obj.viewResultsHandle.panelControl;
             obj.panelAxes = obj.viewResultsHandle.panelAxes;
+            obj.tabPanel = obj.viewResultsHandle.tabPanel;
             
             obj.addMyCallback();
             
@@ -95,6 +97,15 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_NewPic,'Callback',@obj.newPictureEvent);
             set(obj.viewResultsHandle.B_CloseProgramm,'Callback',@obj.closeProgramEvent);
             set(obj.viewResultsHandle.B_SaveOpenDir,'Callback',@obj.openSaveDirectory);
+
+            set(obj.viewResultsHandle.B_SaveFiberTable,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveScatterAll,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePlots,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveHisto,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicProc,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicOriginal,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SavePicGroups,'Callback',@obj.saveCheckboxEvent);
+            set(obj.viewResultsHandle.B_SaveBinaryMask,'Callback',@obj.saveCheckboxEvent);
         end
         
         function addWindowCallbacks(obj)
@@ -133,6 +144,10 @@ classdef controllerResults < handle
             
         end
         
+        function saveCheckboxEvent(obj,~,~)
+            obj.restoreUiControls()
+        end
+
         function startResultsMode(obj,Data,InfoText)
             % Called by the controllerAnalyze instance when the user change
             % the program state to Results-mode. Saves all nessessary Data
@@ -187,6 +202,8 @@ classdef controllerResults < handle
             %obj.panelAxes.Visible = 0;
             obj.busyIndicator(1);
             obj.mainCardPanel.Selection = 3;
+
+            tabPanelSelection = obj.tabPanel.Selection;
             
             if obj.modelResultsHandle.ResultUpdateStaus
                 %nothing has changed. 
@@ -249,7 +266,8 @@ classdef controllerResults < handle
                 obj.viewResultsHandle.panelAxes.Title = Titel;
                 
                 %change the figure callbacks for the results mode
-                obj.addWindowCallbacks()
+                obj.addWindowCallbacks();
+                obj.restoreUiControls();
                 
                 obj.modelResultsHandle.InfoMessage = '*** Start Result mode ***';
                 
@@ -261,14 +279,15 @@ classdef controllerResults < handle
                 %show results data in the GUI
                 obj.modelResultsHandle.startResultMode();
 
-                % Set location to 'best' for all
-                allLegends = findall(obj.mainFigure, 'Type', 'Legend');
-                set(allLegends, 'Location', 'best');
-                
                 set(obj.viewResultsHandle.B_BackAnalyze,'Enable','on');
                 set(obj.viewResultsHandle.B_Save,'Enable','on');
                 set(obj.viewResultsHandle.B_NewPic,'Enable','on');
                 set(obj.viewResultsHandle.B_CloseProgramm,'Enable','on');
+
+                % Set location to 'best' for all
+                allLegends = findall(obj.mainFigure, 'Type', 'Legend');
+                set(allLegends, 'Location', 'best');
+                drawnow;
                 
                 %Check if a resultsfolder for the file already exist
                 % Dlete file extension in the results folder before save
@@ -289,12 +308,14 @@ classdef controllerResults < handle
                     
                 end
                 
+                set(obj.tabPanel,'Selection',tabPanelSelection);
                 drawnow;
+                
             catch
                 obj.errorMessage();
             end
             end
-            
+            obj.restoreUiControls();
             obj.panelAxes.Visible = 1;
             obj.busyIndicator(0);
         end
@@ -341,13 +362,23 @@ classdef controllerResults < handle
             %
             try
                 % Store save options from GUI checkboxes
-                obj.modelResultsHandle.SaveFiberTable = obj.viewResultsHandle.B_SaveFiberTable.Value;
-                obj.modelResultsHandle.SaveScatterAll = obj.viewResultsHandle.B_SaveScatterAll.Value;
-                obj.modelResultsHandle.SavePlots = obj.viewResultsHandle.B_SavePlots.Value;
-                obj.modelResultsHandle.SaveHisto = obj.viewResultsHandle.B_SaveHisto.Value;
+                obj.modelResultsHandle.SaveFiberTable =   obj.viewResultsHandle.B_SaveFiberTable.Value;
+                obj.modelResultsHandle.SaveScatterAll =   obj.viewResultsHandle.B_SaveScatterAll.Value;
+                obj.modelResultsHandle.SavePlots =        obj.viewResultsHandle.B_SavePlots.Value;
+                obj.modelResultsHandle.SaveHisto =        obj.viewResultsHandle.B_SaveHisto.Value;
                 obj.modelResultsHandle.SavePicProcessed = obj.viewResultsHandle.B_SavePicProc.Value;
-                obj.modelResultsHandle.SavePicGroups = obj.viewResultsHandle.B_SavePicGroups.Value;
-                obj.modelResultsHandle.SaveBinaryMask = obj.viewResultsHandle.B_SaveBinaryMask.Value;
+                obj.modelResultsHandle.SavePicOriginal = obj.viewResultsHandle.B_SavePicOriginal.Value;
+                obj.modelResultsHandle.SavePicGroups =    obj.viewResultsHandle.B_SavePicGroups.Value;
+                obj.modelResultsHandle.SaveBinaryMask =   obj.viewResultsHandle.B_SaveBinaryMask.Value;
+
+                obj.modelResultsHandle.SaveFiberTableFileFormat = obj.viewResultsHandle.B_SaveFiberTableFileFormat.Value;
+                obj.modelResultsHandle.SaveScatterAllFileFormat = obj.viewResultsHandle.B_SaveScatterAllFileFormat.Value;
+                obj.modelResultsHandle.SavePlotsFileFormat =      obj.viewResultsHandle.B_SavePlotsFileFormat.Value;
+                obj.modelResultsHandle.SaveHistoFileFormat =      obj.viewResultsHandle.B_SaveHistoFileFormat.Value;
+                obj.modelResultsHandle.SavePicProcFileFormat =    obj.viewResultsHandle.B_SavePicProcFileFormat.Value;
+                obj.modelResultsHandle.SavePicOriginalFileFormat =    obj.viewResultsHandle.B_SavePicOriginalFileFormat.Value;
+                obj.modelResultsHandle.SavePicGroupsFileFormat =  obj.viewResultsHandle.B_SavePicGroupsFileFormat.Value;
+                obj.modelResultsHandle.SaveBinaryMaskFileFormat = obj.viewResultsHandle.B_SaveBinaryMaskFileFormat.Value;
                 
                 obj.busyIndicator(1);
 
@@ -370,6 +401,7 @@ classdef controllerResults < handle
 
                     set([buttons{:}], 'Enable', 'off');
                     
+                    obj.resetSaveIndicator();
                     %Save results
                     obj.modelResultsHandle.saveResults();
                     
@@ -998,6 +1030,7 @@ classdef controllerResults < handle
                     'VerticalAlignment', 'middle',...
                     'Clipping','on','Tag','fiberLabelsProcessed');
             end
+
             axis(axesResultsPicProc, 'image');
             axis(axesResultsPicProc, 'on');
             hold(axesResultsPicProc, 'off');
@@ -1015,6 +1048,11 @@ classdef controllerResults < handle
             title(axesResultsPicProc,['Total Area = ' num2str(obj.modelResultsHandle.AreaPic) ' ' sprintf('\x3BCm^2') ' = ' num2str(obj.modelResultsHandle.AreaPic*(10^(-6))) ' mm^2']);
             set(axesResultsPicProc,'Box','off');
             %set(axesResultsPicProc, 'LooseInset', [0,0,0,0]);
+
+            textObj = findobj(axesResultsPicProc,'Tag','fiberLabelsProcessed');
+            if ~isempty(textObj)
+                uistack(textObj,'top');
+            end
             
         end
         
@@ -1038,6 +1076,8 @@ classdef controllerResults < handle
             
             %get axes in the results GUI
             axesResultsGroups = obj.viewResultsHandle.hAPGroups;
+
+            helper_fcn_remove_objects_by_tag('fiberLabelsGroups');
             
             AMode = obj.modelResultsHandle.AnalyzeMode;
             
@@ -1069,7 +1109,7 @@ classdef controllerResults < handle
                         'BackgroundColor','b','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
                         'VerticalAlignment', 'middle',...
-                        'Clipping','on','Tag','fiberLabelsProcessed');
+                        'Clipping','on','Tag','fiberLabelsGroups');
                 end
             end
             
@@ -1088,7 +1128,7 @@ classdef controllerResults < handle
                         'BackgroundColor','m','Margin',1,...
                         'LineWidth', 2,'FontWeight','bold',...
                         'VerticalAlignment', 'middle',...
-                        'Clipping','on','Tag','fiberLabelsProcessed');
+                        'Clipping','on','Tag','fiberLabelsGroups');
                 end
             end
             
@@ -1109,7 +1149,7 @@ classdef controllerResults < handle
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1130,7 +1170,7 @@ classdef controllerResults < handle
                             'BackgroundColor','r','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1149,7 +1189,7 @@ classdef controllerResults < handle
                             'BackgroundColor','y','Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
                 
@@ -1168,12 +1208,11 @@ classdef controllerResults < handle
                             'BackgroundColor',[255/255 100/255 0],'Margin',1,...
                             'LineWidth', 2,'FontWeight','bold',...
                             'VerticalAlignment', 'middle',...
-                            'Clipping','on','Tag','fiberLabelsProcessed');
+                            'Clipping','on','Tag','fiberLabelsGroups');
                     end
                 end
             end
-            textObj = findobj(axesResultsGroups,'Type','text');
-            uistack(textObj,'top');
+            
             
             axis(axesResultsGroups, 'image');
             axis(axesResultsGroups, 'on');
@@ -1189,126 +1228,111 @@ classdef controllerResults < handle
             Yvalue = obj.modelResultsHandle.YScale;
             axesResultsGroups.YTick = 0:100:maxPixelY;
             axesResultsGroups.YTickLabel = axesResultsGroups.XTick*Yvalue;
-            title(axesResultsGroups,'Image with Fiber-Type-Groups highlighted and number of objects within each Group.');
+            title(axesResultsGroups,['Image with Fiber-Type-Groups and Number of Groupobjects']);
             set(axesResultsGroups,'Box','off');
 
-            
+            textObj = findobj(axesResultsGroups,'Tag','fiberLabelsGroups');
+            if ~isempty(textObj)
+                uistack(textObj,'top');
+            end
         end
         
         function showHistogramGUI(obj)
-            % Shows the Histogram plots in the
-            % corresponding axes in the GUI.
-            %
-            %   showPicProcessedGUI(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to controllerResults object.
-            %
-            
+        % Shows histogram plots in GUI axes (optimized, no helper functions)
+        
             obj.modelResultsHandle.InfoMessage = '   - show Histograms...';
-            
-            %find all objects that are not classified as undefined Type 0
-            tempStats = obj.modelResultsHandle.Stats([obj.modelResultsHandle.Stats.FiberTypeMainGroup]>0);
-            
-            if ~isempty(tempStats)
-                %%%%%%%%% Area Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Area Histogram';
-                cla(obj.viewResultsHandle.hAAreaHist);
-            
-                h = histfit(obj.viewResultsHandle.hAAreaHist,[tempStats.Area],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-           
-                ylim(obj.viewResultsHandle.hAAreaHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.Area]);
-                sigma=std([tempStats.Area]);
-                xline(obj.viewResultsHandle.hAAreaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hAAreaHist,'Area Histogram');
-                xlabel(obj.viewResultsHandle.hAAreaHist,['Area in \mum^2 ( Bin width: ' binWidth ' \mum^2 )']);
-                ylabel(obj.viewResultsHandle.hAAreaHist,'Frequency');
-                grid(obj.viewResultsHandle.hAAreaHist, 'on');
-                l1=legend(obj.viewResultsHandle.hAAreaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAreaHist');
-            
-                axtoolbar(obj.viewResultsHandle.hAAreaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                %%%%%%%%% Aspect Ratio Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Aspect Ratio Histogram';
-                
-                cla(obj.viewResultsHandle.hAAspectHist);
-                
-                h = histfit(obj.viewResultsHandle.hAAspectHist,[tempStats.AspectRatio],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hAAspectHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.AspectRatio]);
-                sigma=std([tempStats.AspectRatio]);
-                xline(obj.viewResultsHandle.hAAspectHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hAAspectHist,'Aspect Ratio Histogram');
-                xlabel(obj.viewResultsHandle.hAAspectHist,['Aspect Ratio ( Bin width: ' binWidth ' )']);
-                ylabel(obj.viewResultsHandle.hAAspectHist,'Frequency');
-                grid(obj.viewResultsHandle.hAAspectHist, 'on');
-                l2=legend(obj.viewResultsHandle.hAAspectHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendAspectHist');
-                axtoolbar(obj.viewResultsHandle.hAAspectHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                
-                %%%%%%%%% Diameters Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Diameter Histogram';
-                
-                cla(obj.viewResultsHandle.hADiaHist);
-                
-                h = histfit(obj.viewResultsHandle.hADiaHist,[tempStats.minDiameter],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hADiaHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.minDiameter]);
-                sigma=std([tempStats.minDiameter]);
-                xline(obj.viewResultsHandle.hADiaHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hADiaHist,'Diameter Histogram, minimum Feret-Diameter (Breadth) ');
-                xlabel(obj.viewResultsHandle.hADiaHist,['Diameters in \mum ( Bin width: ' binWidth ' \mum )'] );
-                ylabel(obj.viewResultsHandle.hADiaHist,'Frequency');
-                grid(obj.viewResultsHandle.hADiaHist, 'on');
-                l3=legend(obj.viewResultsHandle.hADiaHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendDiaHist');
-                axtoolbar(obj.viewResultsHandle.hADiaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-                
-                %%%%%%%%% Roundness Histogram %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                obj.modelResultsHandle.InfoMessage = '      - plot Roundness Histogram';
-                
-                cla(obj.viewResultsHandle.hARoundHist);
-                
-                h = histfit(obj.viewResultsHandle.hARoundHist,[tempStats.Roundness],50);
-                if(size(tempStats,1)>1)
-                    binWidth = num2str(abs(h(1).XEndPoints(2)-h(1).XEndPoints(1)));
-                else
-                    binWidth = 'only 1 bin';
-                end
-                ylim(obj.viewResultsHandle.hARoundHist,[0 ceil( max(h(1).YData)*1.1 / 5 ) * 5]);
-                mu=mean([tempStats.Roundness]);
-                sigma=std([tempStats.Roundness]);
-                xline(obj.viewResultsHandle.hARoundHist,[mu - sigma mu mu + sigma],'--r',{num2str(mu - sigma),num2str(mu),num2str(mu + sigma)},'LineWidth', 1);
-                
-                title(obj.viewResultsHandle.hARoundHist,'Roundness Histogram');
-                xlabel(obj.viewResultsHandle.hARoundHist,['Roundness ( Bin width: ' binWidth ' )']);
-                ylabel(obj.viewResultsHandle.hARoundHist,'Frequency');
-                grid(obj.viewResultsHandle.hARoundHist, 'on');
-                l4=legend(obj.viewResultsHandle.hARoundHist,"Histogram",sprintf( ['Gaussian:\n-m: ' num2str(mu) '\n-std: ' num2str(sigma) ] ),'Tag','LegendRoundHist');
-                axtoolbar(obj.viewResultsHandle.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            else
+        
+            % --- Filter valid stats once
+            stats = obj.modelResultsHandle.Stats;
+            stats = stats([stats.FiberTypeMainGroup] > 0);
+        
+            if isempty(stats)
                 obj.modelResultsHandle.InfoMessage = '      - ERROR: No Data for Histogram';
+                return;
             end
-            
-        end
+        
+            % --- Cache handles (important for GUI speed)
+            vh = obj.viewResultsHandle;
+        
+            % --- Histogram definitions
+            axesList  = [vh.hAAreaHist, vh.hAAspectHist, vh.hADiaHist, vh.hARoundHist];
+            dataList  = { ...
+                [stats.Area], ...
+                [stats.AspectRatio], ...
+                [stats.minDiameter], ...
+                [stats.Roundness] ...
+            };
+            titles = { ...
+                'Area Histogram', ...
+                'Aspect Ratio Histogram', ...
+                'Diameter Histogram, minimum Feret-Diameter (Breadth)', ...
+                'Roundness Histogram' ...
+            };
+            xlabels = { ...
+                'Area in \mum^2', ...
+                'Aspect Ratio', ...
+                'Diameter in \mum', ...
+                'Roundness' ...
+            };
+            units = {'\mum^2','', '\mum',''};
+            legendTags = { ...
+                'LegendAreaHist', ...
+                'LegendAspectHist', ...
+                'LegendDiaHist', ...
+                'LegendRoundHist' ...
+            };
+        
+            % --- Plot loop
+            for k = 1:numel(axesList)
+        
+                ax   = axesList(k);
+                data = dataList{k}(:);
+        
+                obj.modelResultsHandle.InfoMessage = ['      - plot ' titles{k}];
+        
+                cla(ax);
+        
+                % Histogram (faster than histfit)
+                h = histogram(ax, data, 50, 'Normalization','count');
+                hold(ax,'on');
+        
+                % Statistics
+                mu    = mean(data);
+                sigma = std(data);
+        
+                % Gaussian curve
+                x = linspace(min(data), max(data), 200);
+                y = numel(data) * h.BinWidth * normpdf(x, mu, sigma);
+                plot(ax, x, y, 'r', 'LineWidth', 1);
+        
+                % Sigma lines
+                xline(ax, [mu-sigma mu mu+sigma], '--r', ...
+                    {num2str(mu-sigma), num2str(mu), num2str(mu+sigma)}, ...
+                    'LineWidth', 1);
+        
+                % Axis formatting
+                ylim(ax, [0 ceil(max(h.Values)*1.1/5)*5]);
+                grid(ax, 'on');
+        
+                if numel(data) > 1
+                    binWidthTxt = num2str(h.BinWidth);
+                else
+                    binWidthTxt = 'only 1 bin';
+                end
+        
+                title(ax, titles{k});
+                xlabel(ax, sprintf('%s ( Bin width: %s %s )', ...
+                    xlabels{k}, binWidthTxt, units{k}));
+                ylabel(ax, 'Frequency');
+        
+                legend(ax, 'Histogram', ...
+                    sprintf('Gaussian:\n-μ: %.3g\n-σ: %.3g', mu, sigma), ...
+                    'Tag', legendTags{k});
+        
+                axtoolbar(ax, {'export','datacursor','pan','zoomin','zoomout','restoreview'});
+                hold(ax,'off');
+            end
+end
         
         function updateInfoLogEvent(obj,~,~)
             % Listener callback function of the InfoMessage propertie in
@@ -1366,6 +1390,62 @@ classdef controllerResults < handle
             set(obj.viewResultsHandle.B_SaveOpenDir,'Enable','on');
         end
         
+        function restoreUiControls(obj)
+            try
+                vh = obj.viewResultsHandle;
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveFiberTable.Value);
+                set(vh.B_SaveFiberTableFileFormat,'Enable',enableString);
+                set(vh.B_SaveFiberTableIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePlots.Value);
+                set(vh.B_SavePlotsFileFormat,'Enable',enableString);
+                set(vh.B_SavePlotsIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveHisto.Value);
+                set(vh.B_SaveHistoFileFormat,'Enable',enableString);
+                set(vh.B_SaveHistoIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicProc.Value);
+                set(vh.B_SavePicProcFileFormat,'Enable',enableString);
+                set(vh.B_SavePicProcIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicOriginal.Value);
+                set(vh.B_SavePicOriginalFileFormat,'Enable',enableString);
+                set(vh.B_SavePicOriginalIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SavePicGroups.Value);
+                set(vh.B_SavePicGroupsFileFormat,'Enable',enableString);
+                set(vh.B_SavePicGroupsIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveScatterAll.Value);
+                set(vh.B_SaveScatterAllFileFormat,'Enable',enableString);
+                set(vh.B_SaveScatterAllIndicator,'Enable',enableString);
+    
+                enableString = view_helper_value_to_enable_string(vh.B_SaveBinaryMask.Value);
+                set(vh.B_SaveBinaryMaskFileFormat,'Enable',enableString);
+                set(vh.B_SaveBinaryMaskIndicator,'Enable',enableString);
+            catch
+                obj.errorMessage();
+                obj.panelAxes.Visible = 1;
+                obj.busyIndicator(0);
+            end
+        end
+
+        function resetSaveIndicator(obj)
+            vh = obj.viewResultsHandle;
+            Color = 'yellow';
+            set(vh.B_SaveFiberTableIndicator,'Color',Color);
+            set(vh.B_SavePlotsIndicator,'Color',Color);
+            set(vh.B_SaveHistoIndicator,'Color',Color);
+            set(vh.B_SavePicProcIndicator,'Color',Color);
+            set(vh.B_SavePicOriginalIndicator,'Color',Color);
+            set(vh.B_SavePicGroupsIndicator,'Color',Color);
+            set(vh.B_SaveScatterAllIndicator,'Color',Color);
+            set(vh.B_SaveBinaryMaskIndicator,'Color',Color);
+
+        end
+
         function clearData(obj)
             % Clears all data in the model. Set the ResultsUpdateStatus to
             % false.
@@ -1540,6 +1620,9 @@ classdef controllerResults < handle
             lTemp = findobj('Tag','LegendScatterPlotAll');
             delete(lTemp);
             
+            %Reset Save Indicator State
+            obj.resetSaveIndicator();
+
             obj.modelResultsHandle.ResultUpdateStaus = false;
         end
         
@@ -1595,32 +1678,13 @@ classdef controllerResults < handle
         end
         
         function busyIndicator(obj,status)  
-            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle)  
+            controller_helper_busy_indicator(obj,status,obj.viewResultsHandle,obj.modelResultsHandle);
+            obj.restoreUiControls();
         end
         
         function errorMessage(obj)
-            ErrorInfo = lasterror;
-            Text = cell(5*size(ErrorInfo.stack,1)+2,1);
-            Text{1,1} = ErrorInfo.message;
-            Text{2,1} = '';
-            
-            if any(strcmp('stack',fieldnames(ErrorInfo)))
-                for i=1:size(ErrorInfo.stack,1)
-                    idx = (i - 1) * 5 + 2;
-                    Text{idx+1,1} = [ErrorInfo.stack(i).file];
-                    Text{idx+2,1} = [ErrorInfo.stack(i).name];
-                    Text{idx+3,1} = ['Line: ' num2str(ErrorInfo.stack(i).line)];
-                    Text{idx+4,1} = '------------------------------------------';  
-                end
-            end
-            
-            mode = struct('WindowStyle','modal','Interpreter','tex');
-            beep
-            uiwait(errordlg(Text,'ERROR: Results-Mode',mode));
-            
-            workbar(1.5,'delete workbar','delete workbar',obj.mainFigure);
+            controller_helper_error_message(obj);
             obj.mainCardPanel.Visible = 1;
-            obj.busyIndicator(0);
         end
         
         function closeProgramEvent(obj,~,~)

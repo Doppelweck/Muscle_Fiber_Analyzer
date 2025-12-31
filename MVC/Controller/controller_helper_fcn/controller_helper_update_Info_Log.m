@@ -10,6 +10,4 @@ set(viewHandle.B_InfoText, 'Value' , length(viewHandle.B_InfoText.String));
 drawnow;
 set(viewHandle.B_InfoText, 'ListboxTop' , length(viewHandle.B_InfoText.String));
 viewHandle.B_InfoText.ListboxTop =length(viewHandle.B_InfoText.String);
-drawnow;
-
 end

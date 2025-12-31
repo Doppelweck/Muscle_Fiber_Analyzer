@@ -23,6 +23,10 @@
 Example\ Images/*.pdf
 Example\ Images/*.tif
 Example\ Images/*.xlsx
+<<<<<<< HEAD
+=======
+Example\ Images/*.xlsm
+>>>>>>> feature/v1-6-refactor-saving-handeling
 Example\ Images/*.xls
 Example\ Images/*.txt
 Example\ Images/*.jpg
@@ -33,6 +37,10 @@ Example\ Images/*.svg
 Example\ Images/**/*.pdf
 Example\ Images/**/*.tif
 Example\ Images/**/*.xlsx
+<<<<<<< HEAD
+=======
+Example\ Images/**/*.xlsm
+>>>>>>> feature/v1-6-refactor-saving-handeling
 Example\ Images/**/*.xls
 Example\ Images/**/*.txt
 Example\ Images/**/*.jpg
