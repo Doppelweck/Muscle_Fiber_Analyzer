@@ -45,15 +45,9 @@ slprj/
 octave-workspace
 resources/
 
-Example\ Images/**/*.pdf
-Example\ Images/**/*.svg
-Example\ Images/**/*.png
-Example\ Images/**/*.tif
-Example\ Images/**/*.jpg
-Example\ Images/**/*.xlsx
-Example\ Images/**/*.xlsm
-Example\ Images/**/*.xls
 # Folders
 MuscleFiberClassificationTool/
 MuscleFiberClassificationTool_resources/
-resources/
+resources/generated/
+resources/**/cache*.xml
+resources/**/temp*.xml
