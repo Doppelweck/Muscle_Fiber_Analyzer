@@ -209,7 +209,7 @@ catch ME
     end
 
     % Display error dialog
-    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'tex');
+    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'none');
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
