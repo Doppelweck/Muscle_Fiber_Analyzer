@@ -333,13 +333,6 @@ end
     workbar(2,'Save settings','Save USER settings',mainFigObj);
 end
 
-function openInformationFigure(src,~)
-
-mainFigObj=findall(0,'Tag','mainFigure');
-menu_callback_show_abaut_figure(mainFigObj);
-
-end
-
 
 
 
