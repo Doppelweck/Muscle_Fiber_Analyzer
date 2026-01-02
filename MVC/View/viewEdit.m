@@ -112,7 +112,7 @@ classdef viewEdit < handle
             % constructor
             if nargin < 1 || isempty(mainCard)
                 
-                mainFig = figure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
+                mainFig = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
                 theme(mainFig,"auto");
             end
