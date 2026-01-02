@@ -15,7 +15,7 @@ try
 
     
     
-    build_up_time_delay = 0.000;
+    build_up_time_delay = 0.500;
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -49,8 +49,10 @@ try
         'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
+        'WindowState','maximized',...
         'Tag','mainFigure');
     theme(mainFig,getSettingsValue('Style'));
+    set(mainFig,'WindowState','maximized');
 
 
     %Create Start Screen
@@ -76,20 +78,26 @@ try
     %Init VIEW's
     viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
-    mainCard.Selection = 1; drawnow;
-    drawnow;pause(build_up_time_delay);
+    mainCard.Selection = 1; 
+    drawnow;pause(build_up_time_delay);drawnow;
     viewAnalyzeHandle = viewAnalyze(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
-    mainCard.Selection = 2; drawnow;
-    drawnow;pause(build_up_time_delay);
+    mainCard.Selection = 2; 
+    drawnow;pause(build_up_time_delay);drawnow;
     viewResultsHandle = viewResults(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
-    mainCard.Selection = 3; drawnow;
-    drawnow;pause(build_up_time_delay);
+    mainCard.Selection = 3;
+    drawnow;pause(build_up_time_delay);drawnow;
     mainCard.Selection = 1; drawnow;
 
     LoadingText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
+    %Color
+    panelObj=findall(mainCard,'Type','uipanel');
+    colorVaule = getHighlightColorValue();
+    set(panelObj,'HighlightColor',colorVaule);
+    drawnow
+    %Ui Controls
     uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
         '-and','-not','Style','pushbutton');
 
