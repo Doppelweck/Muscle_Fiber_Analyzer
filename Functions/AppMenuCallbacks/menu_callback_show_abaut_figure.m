@@ -1,7 +1,9 @@
-function h = menu_callback_show_abaut_figure(mainFigObj)
+function h = menu_callback_show_abaut_figure(~,~)
+
+mainFigObj=findall(0,'Type','figure','Tag','mainFigure');
 
 % ------------------ Main Figure Fallback ------------------
-if nargin < 1 || isempty(mainFigObj) || ~isvalid(mainFigObj)
+if isempty(mainFigObj) || ~isvalid(mainFigObj)
     mainFigObj = uifigure('Tag','mainFigure');
 end
 winState = mainFigObj.WindowState;
