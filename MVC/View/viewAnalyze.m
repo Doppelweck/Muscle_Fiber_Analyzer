@@ -119,7 +119,7 @@ classdef viewAnalyze < handle
             set(mainCard,'Visible','on');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard , params.default_box_spacing_padding{:});
             
-            obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'PICTURE');
+            obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'IMAGE');
             obj.panelControl = uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'CLASSIFICATION','TitlePosition','centertop');
             set( obj.panelAnalyze, 'MinimumWidths', [1 320] );
             set( obj.panelAnalyze, 'Widths', [-80 -20] );

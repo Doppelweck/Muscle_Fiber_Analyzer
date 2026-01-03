@@ -123,7 +123,7 @@ classdef viewEdit < handle
             set(mainCard,'Visible','on');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
-            obj.panelAxes =    uix.Panel('Parent',  obj.panelEdit, params.default_panel{:},'Title','PICTURE');
+            obj.panelAxes =    uix.Panel('Parent',  obj.panelEdit, params.default_panel{:},'Title','IMAGE');
             obj.panelControl = uix.Panel('Parent',  obj.panelEdit,params.default_panel{:},'Title', 'SEGMENTATION','TitlePosition','centertop');
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
             set(  obj.panelEdit, 'Widths', [-80 -20] );
