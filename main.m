@@ -98,26 +98,7 @@ try
     set(panelObj,'HighlightColor',colorVaule);
     drawnow
     %Ui Controls
-    uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
-        '-and','-not','Style','pushbutton');
-
-    for i = 1:numel(uiControls)
-        reverseEnable = false;
-        if(strcmp(uiControls(i).Enable ,'off'))
-            set( uiControls(i), 'Enable', 'on');
-            reverseEnable = true;
-        end
-
-        if(strcmp(uiControls(i).Style,'edit'))
-            uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-        else
-            uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
-        end
-
-        if(reverseEnable)
-            set( uiControls(i), 'Enable', 'off');
-        end
-    end
+    menu_callback_load_user_settings();
 
     drawnow;pause(build_up_time_delay);
 

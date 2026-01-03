@@ -1,6 +1,11 @@
 function menu_callback_load_user_settings(src,~)
 %MENU_CALLBACK_LOAD_USER_SETTINGS Summary of this function goes here
 %   Detailed explanation goes here
+
+if nargin < 1
+    src.Text = 'Load User Settings';
+end
+
 mainFigObj=findall(0,'Type','figure','Tag','mainFigure');
 theme(mainFigObj,getSettingsValue('Style'));
 
@@ -82,6 +87,7 @@ workbar(2,'load settings','Load USER settings',mainFigObj);
 ui_popupmenuThresholdMode = findall(0,'Type','uidropdown','Tag','popupmenuThresholdMode');
 ui_popupmenuForeBackGround = findall(0,'Type','uidropdown','Tag','popupmenuForeBackGround');
 
+
 switch src.Text
     case 'Load User Settings'
         ui_popupmenuThresholdMode.Value = getSettingsValue(ui_popupmenuThresholdMode.Tag);
@@ -93,8 +99,9 @@ switch src.Text
         ui_popupmenuThresholdMode.Value = getDefaultSettingsValue(ui_popupmenuThresholdMode.Tag);
         ui_popupmenuForeBackGround.Value = getDefaultSettingsValue(ui_popupmenuForeBackGround.Tag);
 end
-
-feval(get(ui_popupmenuThresholdMode,'ValueChangedFcn'),ui_popupmenuThresholdMode);
+if isprop(ui_popupmenuThresholdMode,'ValueChangedFcn') && ~isempty(ui_popupmenuThresholdMode.ValueChangedFcn)
+    feval(get(ui_popupmenuThresholdMode,'ValueChangedFcn'),ui_popupmenuThresholdMode);
+end
 
 workbar(2,'load settings','Load USER settings',mainFigObj);
 
