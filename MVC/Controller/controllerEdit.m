@@ -1434,9 +1434,9 @@ classdef controllerEdit < handle
             % GUI. Runs the runMorphOperation function in the editModel
             % object.
 
-            %obj.busyIndicator(1);
+            obj.busyIndicator(1);
             obj.modelEditHandle.runMorphOperation();
-            %obj.busyIndicator(0);
+            obj.busyIndicator(0);
         end
         
         function startDragEvent(obj,~,~)
