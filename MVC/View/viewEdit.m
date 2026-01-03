@@ -117,7 +117,6 @@ classdef viewEdit < handle
                 theme(mainFig,"auto");
             end
             
-
             params = view_helper_default_params();
             
             set(mainCard,'Visible','on');
@@ -425,7 +424,7 @@ classdef viewEdit < handle
             HBox = uix.HBox('Parent',MainVBoxColorPlane,'Spacing', 5,'Padding',5);
             
             HButtonBox1ColorPlane = uix.HButtonBox('Parent',HBox,'Spacing', 5,'Padding',5,'ButtonSize',[600 600]);
-            obj.B_CheckPText = uilabel( 'Parent', HButtonBox1ColorPlane,'HorizontalAlignment','center','Text', 'Confirm changes with OK.','FontSize',params.fontSizeB*1.5);
+            obj.B_CheckPText = uilabel( 'Parent', HButtonBox1ColorPlane,'HorizontalAlignment','center','Text', 'Confirm changes with OK:','FontSize',params.fontSizeB*1.5);
             
             HButtonBox2ColorPlane = uix.HButtonBox('Parent',HBox,'Spacing', 5,'Padding',5,'ButtonSize',[600 600]);
             obj.B_CheckPBack = uicontrol( 'Parent', HButtonBox2ColorPlane,'String', 'Back to Edit-Mode','FontSize',params.fontSizeB);
