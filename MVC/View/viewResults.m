@@ -94,11 +94,6 @@ classdef viewResults < handle
             
             params = view_helper_default_params();
 
-            fontSizeS = 10; % Font size small
-            fontSizeM = 12; % Font size medium
-            fontSizeB = 16; % Font size big
-
-
             set(mainCard,'Visible','on');
             obj.panelResults = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
@@ -387,28 +382,28 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
             obj.tabPanel.Selection = 3; drawnow;
-            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
+            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeM);
             
             obj.hAPProcessed = axes('Parent',uicontainer('Parent',mainPicProcPanel));
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            axis(obj.hAPProcessed ,'image');
             set(obj.hAPProcessed, 'LooseInset', [0,0,0,0]);
             set(obj.hAPProcessed,'Box','off');
             drawnow;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             obj.tabPanel.Selection = 4;drawnow;
-            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
+            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeM);
             
             obj.hAPGroups = axes('Parent',uicontainer('Parent',mainPicGroupPanel));
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            axis(obj.hAPGroups ,'image');
             set(obj.hAPGroups, 'LooseInset', [0,0,0,0]);
             set(obj.hAPGroups,'Box','off');
             drawnow;
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 5;drawnow;
-            mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',fontSizeM);
+            mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',params.fontSizeM);
             obj.B_TableMain = uitable('Parent',mainTablePanel);
             
             % obj.B_TableMain.FontSize = fontSizeS;
@@ -423,7 +418,7 @@ classdef viewResults < handle
             drawnow;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 6;drawnow;
-            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',fontSizeM);
+            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeM);
             
             obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
             set(obj.hAScatterAll, 'LooseInset', [0,0,0,0]);
@@ -466,8 +461,8 @@ classdef viewResults < handle
             set(obj.B_Save,'tooltipstring',SaveToolTip);
         end
         
-         function delete(obj)
-            
+         function delete(~)
+            %Deconstructor
          end
 
     end

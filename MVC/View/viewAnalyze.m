@@ -174,13 +174,13 @@ classdef viewAnalyze < handle
             obj.B_AreaActive = uicontrol( 'Parent', HButtonBoxPara21,'Style','checkbox','Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
 
             HButtonBoxPara22 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            tempH = uilabel( 'Parent', HButtonBoxPara22, 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
+            uilabel( 'Parent', HButtonBoxPara22, 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
             
             HButtonBoxPara23 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
             obj.B_MinArea = uicontrol( 'Parent', HButtonBoxPara23, params.default_normalized_font{:} ,'Style','edit','Tag','MinAreaValue', 'String', '100' ,'Tag','editMinArea');
             
             HButtonBoxPara24 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            tempH = uilabel( 'Parent', HButtonBoxPara24,'HorizontalAlignment','center', 'Text', 'to' );
+            uilabel( 'Parent', HButtonBoxPara24,'HorizontalAlignment','center', 'Text', 'to' );
 
             HButtonBoxPara25 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
             obj.B_MaxArea = uicontrol( 'Parent', HButtonBoxPara25, params.default_normalized_font{:}, 'Style','edit', 'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
@@ -195,13 +195,13 @@ classdef viewAnalyze < handle
             obj.B_AspectRatioActive = uicontrol( 'Parent', HButtonBoxPara31,'Style','checkbox','Value',1,'Tag','AspectRatioActive','Tag','checkboxAspectRatioActive');
             
             HButtonBoxPara32 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara32, 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
+            uilabel( 'Parent', HButtonBoxPara32, 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
             
             HButtonBoxPara33 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
             obj.B_MinAspectRatio = uicontrol( 'Parent', HButtonBoxPara33,params.default_normalized_font{:}, 'Style','edit','Tag','MinAspectRatioValue', 'String', '1' ,'Tag','editMinAspectRatio');
             
             HButtonBoxPara34 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara34, 'HorizontalAlignment','center', 'Text', 'to' );
+            uilabel( 'Parent', HButtonBoxPara34, 'HorizontalAlignment','center', 'Text', 'to' );
             
             HButtonBoxPara35 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
             obj.B_MaxAspectRatio= uicontrol( 'Parent', HButtonBoxPara35, params.default_normalized_font{:}, 'Style','edit','Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
@@ -216,7 +216,7 @@ classdef viewAnalyze < handle
             obj.B_ColorValueActive = uicontrol( 'Parent', HButtonBoxPara41,'Style','checkbox','Value',1,'Tag','ColorValueActive','Tag','checkboxColorValueActive');
             
             HButtonBoxPara42 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara42, 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
+            uilabel( 'Parent', HButtonBoxPara42, 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
             
             HButtonBoxPara43 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
             obj.B_ColorValue = uicontrol( 'Parent', HButtonBoxPara43, params.default_normalized_font{:}, 'Style','edit', 'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
@@ -231,7 +231,7 @@ classdef viewAnalyze < handle
             obj.B_RoundnessActive = uicontrol( 'Parent', HButtonBoxPara51,'Style','checkbox','Value',1,'Tag','RoundnessActive','Tag','checkboxRoundnessActive');
             
             HButtonBoxPara52 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara52, 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
+            uilabel( 'Parent', HButtonBoxPara52, 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
             
             HButtonBoxPara53 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
             obj.B_MinRoundness = uicontrol( 'Parent', HButtonBoxPara53, params.default_normalized_font{:}, 'Style','edit', 'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
@@ -250,19 +250,19 @@ classdef viewAnalyze < handle
             obj.B_BlueRedThreshActive = uicontrol( 'Parent', HButtonBoxPara61,'style','checkbox','Value',1,'Tag','checkboxBlueRedThreshActive');
             
             HButtonBoxPara62 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara62,  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
+            uilabel( 'Parent', HButtonBoxPara62,  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
             
             HButtonBoxPara63 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedThresh = uicontrol( 'Parent', HButtonBoxPara63, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedThresh', 'String', '1');
             
             HButtonBoxPara64 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara64, 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
+            uilabel( 'Parent', HButtonBoxPara64, 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
             
             HButtonBoxPara65 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedDistBlue = uicontrol( 'Parent', HButtonBoxPara65, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistBlue', 'String', '0.1');
             
             HButtonBoxPara66 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara66, 'HorizontalAlignment','center',  'Text', 'Red dist:' );
+            uilabel( 'Parent', HButtonBoxPara66, 'HorizontalAlignment','center',  'Text', 'Red dist:' );
             
             HButtonBoxPara67 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedDistRed = uicontrol( 'Parent', HButtonBoxPara67, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistRed', 'String', '0.1' );
@@ -277,19 +277,19 @@ classdef viewAnalyze < handle
             obj.B_FarredRedThreshActive = uicontrol( 'Parent', HButtonBoxPara71,'style','checkbox','Value',1,'Tag','checkboxFarredRedThreshActive');
             
             HButtonBoxPara72 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara72, 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
+            uilabel( 'Parent', HButtonBoxPara72, 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
             
             HButtonBoxPara73 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedThresh = uicontrol( 'Parent', HButtonBoxPara73, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedThresh', 'String', '1' );
             
             HButtonBoxPara74 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara74, 'HorizontalAlignment','center', 'Text', 'Farred dist:');
+            uilabel( 'Parent', HButtonBoxPara74, 'HorizontalAlignment','center', 'Text', 'Farred dist:');
             
             HButtonBoxPara75 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedDistFarred = uicontrol( 'Parent', HButtonBoxPara75, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistFarred', 'String', '0.1' );
             
             HButtonBoxPara76 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara76, 'HorizontalAlignment','center', 'Text', 'Red dist:');
+            uilabel( 'Parent', HButtonBoxPara76, 'HorizontalAlignment','center', 'Text', 'Red dist:');
             
             HButtonBoxPara77 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedDistRed = uicontrol( 'Parent', HButtonBoxPara77, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistRed', 'String', '0.1' );
@@ -304,7 +304,7 @@ classdef viewAnalyze < handle
             obj.B_12HybridFiberActive = uicontrol( 'Parent', HButtonBoxPara711,'style','checkbox','Value',1,'Tag','checkboxHybrid12FiberActive');
             
             HButtonBoxPara712 = uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara712, 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
+            uilabel( 'Parent', HButtonBoxPara712, 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
             
             set( HBoxPara71, 'Widths', [-8 -92] );
             
@@ -314,7 +314,7 @@ classdef viewAnalyze < handle
             obj.B_2axHybridFiberActive = uicontrol( 'Parent', HButtonBoxPara721,'style','checkbox','Value',1,'Tag','checkboxHybrid2axFiberActive');
             
             HButtonBoxPara722 = uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara722, 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
+            uilabel( 'Parent', HButtonBoxPara722, 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
             
             set( HBoxPara72, 'Widths', [-8 -92] );
             
@@ -326,16 +326,16 @@ classdef viewAnalyze < handle
             HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
 
             HButtonBoxPara80 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
+            uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
             
             HButtonBoxPara81 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara81, 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
+            uilabel( 'Parent', HButtonBoxPara81, 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
             
             HButtonBoxPara82 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
             obj.B_XScale = uicontrol( 'Parent', HButtonBoxPara82, params.default_normalized_font{:}, 'Style','edit', 'Tag','editXScale', 'String', '1' );
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara83, 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
+            uilabel( 'Parent', HButtonBoxPara83, 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
             obj.B_YScale = uicontrol( 'Parent', HButtonBoxPara83,params.default_normalized_font{:}, 'Style','edit', 'Tag','editYScale', 'String', '1' );
@@ -491,36 +491,7 @@ classdef viewAnalyze < handle
             %
             %   showInfoToManipulate(obj,PosInAxes,PosMainFig,PosCurrent,Info);
             %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to viewEdit object
-            %           PosInAxes:  Relative position of the point where
-            %                       the users clicked in the axes
-            %           PosMainFig: Positon of the main figure
-            %           PosCurrent: Position of the point where the users
-            %                       clicked in the figure
-            %           Info:       Cell array that contains all needed
-            %                       informations and images
-            %
-            
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-                
-            end
-            
-            
-            
+
             PosCurrent(1) = PosCurrent(1)+PosMainFig(1);
             PosCurrent(2) = PosCurrent(2)+PosMainFig(2);
             
@@ -651,19 +622,7 @@ classdef viewAnalyze < handle
             %           obj:        Handle to viewEdit object
             %
             
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big 
-            end
+            params = view_helper_default_params();
             
             obj.hFMC = uifigure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
             set(obj.hFMC,'Tag','FigureManualClassify');
@@ -680,7 +639,7 @@ classdef viewAnalyze < handle
      
             %VBox 2 with axes
             AxesBox = uix.HBox('Parent', VBox,'Padding', 1 );
-            obj.hAMC = axes('Parent',uicontainer('Parent', AxesBox), 'FontSize',fontSizeB,'Tag','AxesManualClassify');
+            obj.hAMC = axes('Parent',uicontainer('Parent', AxesBox), 'FontSize',params.fontSizeB,'Tag','AxesManualClassify');
             set(obj.hAMC, 'LooseInset', [0,0,0,0]);
             daspect(obj.hAMC,[1 1 1]);
             %VBox 3 with Buttons
@@ -775,7 +734,7 @@ classdef viewAnalyze < handle
 
             % --- Show -------------------------------------------------------------
             obj.hFPR.Visible = 'on';
-end
+        end
         
         function setToolTipStrings(obj)
             % Set all tooltip strings in the properties of the operationg
@@ -783,11 +742,7 @@ end
             %
             %   setToolTipStrings(obj);
             %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to viewAnalyze object
-            %
+
             
             BackEditToolTip = sprintf('Go back to edit mode.');
             
@@ -853,8 +808,8 @@ end
             set(obj.B_FarredRedDistRed,'tooltipstring',FRRDistRhToolTip);
         end
         
-        function delete(obj)
-            
+        function delete(~)
+            %Deconstructor
         end
         
     end
