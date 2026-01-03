@@ -867,6 +867,8 @@ classdef controllerEdit < handle
             % model depending on the selection. Calls the
             % createBinary() function in the model.
             
+            obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.ValueIndex;
+
             Mode = src.ValueIndex;
             
             obj.modelEditHandle.InfoMessage = '   - Binarization operation';

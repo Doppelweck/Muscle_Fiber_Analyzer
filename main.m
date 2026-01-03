@@ -62,8 +62,8 @@ try
     update_menu_bar_main_figure(mainFig,versionString,...
         @menu_callback_change_app_theme,...
         @menu_callback_change_app_color,...
-        @loadUserSettings,...
-        @saveUserSettings,...
+        @menu_callback_load_user_settings,...
+        @menu_callback_save_user_settings,...
         @menu_callback_show_abaut_figure);
 
     figure(hf); drawnow;
@@ -213,133 +213,6 @@ catch ME
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
-function changeAppDesign(src,~)
-
-style = lower(src.Text);
-
-mainCordObj=findobj(src.Parent.Parent,'Tag','mainCard');
-mainCordObj.Visible = 'off';
-drawnow;
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,style)
-
-drawnow;
-mainCordObj.Visible = 'on';
-drawnow;
-end
-
-function loadUserSettings(src,~)
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,getSettingsValue('Style'));
-
-uiControls = find_all_ui_elements(mainFigObj);
-
-
-for i = 1:numel(uiControls)
-    workbar(i/numel(uiControls),'load settings','Load USER settings',mainFigObj);
-    reverseEnable = false;
-    if(strcmp(uiControls(i).Enable ,'off'))
-        set( uiControls(i), 'Enable', 'on');
-        reverseEnable = true;
-    end
-
-    try
-        ui_type = uiControls(i).Style;
-    catch 
-        ui_type = uiControls(i).Type;
-    end
-
-    switch src.Text
-        case 'Load User Settings'
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
-            end
-
-        case 'Load Default Settings'
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
-           end
-
-        otherwise
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
-           end
-
-    end
-          
-    if(reverseEnable)
-        set( uiControls(i), 'Enable', 'off');
-    end
-
-    if isprop(uiControls(i),'ValueChangedFcn')
-        if ~isempty(uiControls(i).ValueChangedFcn)
-            feval(get(uiControls(i),'ValueChangedFcn'),uiControls(i));
-        end
-    end
-
-    if isprop(uiControls(i),'Callback')
-        if ~isempty(uiControls(i).Callback)
-            feval(get(uiControls(i),'Callback'),uiControls(i));
-        end
-    end
-end
-workbar(2,'load settings','Load USER settings',mainFigObj);
-end
-
-function saveUserSettings(src,~)
-
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-
-setSettingsValue('Style',mainFigObj.Theme.BaseColorStyle)
-
-uiControls = find_all_ui_elements(mainFigObj);
-
-for i = 1:numel(uiControls)
-
-    workbar(i/numel(uiControls),'Save settings','Save USER settings',mainFigObj);
-    reverseEnable = false;
-    if(strcmp(uiControls(i).Enable ,'off'))
-        set( uiControls(i), 'Enable', 'on');
-        reverseEnable = true;
-    end
-    ui_tag = uiControls(i).Tag;
-    try
-        ui_type = uiControls(i).Style;
-    catch 
-        ui_type = uiControls(i).Type;
-    end
-
-    switch ui_type
-        case 'edit'
-            setSettingsValue(ui_tag, uiControls(i).String);
-        case 'uidropdown'
-            setSettingsValue(ui_tag, uiControls(i).Value);
-        otherwise
-            setSettingsValue(ui_tag, num2str(uiControls(i).Value));
-    end
-
-    if(reverseEnable)
-        set( uiControls(i), 'Enable', 'off');
-    end
-
-end
-    workbar(2,'Save settings','Save USER settings',mainFigObj);
-end
 
 
 

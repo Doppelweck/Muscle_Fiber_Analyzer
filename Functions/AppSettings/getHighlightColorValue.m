@@ -29,5 +29,7 @@ switch colorStr
     case 'white'
         colorVaule = [1 1 1];
 end
-colorVaule = colorVaule.*0.7;
+ 
+colorVaule = colorVaule.*0.8; %Make it slighlty darker
+
 end
