@@ -83,11 +83,7 @@ classdef controllerEdit < handle
             obj.modelEditHandle.InfoMessage = ' ';
             obj.modelEditHandle.InfoMessage = 'Press "New file" to start';
             
-            % disable all UI controls
-            uicontrols = view_helper_get_all_ui_controls(obj.viewEditHandle);
-            view_helper_set_enabled_ui_controls(uicontrols, 'off');
-            % enable only NewFile button
-            set(obj.viewEditHandle.B_NewPic,'Enable','on');
+            obj.updateUIControlState(obj.viewEditHandle);
             
         end % end constructor
         
@@ -153,6 +149,11 @@ classdef controllerEdit < handle
             obj.modelEditHandle.AlphaMapValue = obj.viewEditHandle.B_Alpha.Value;
             obj.modelEditHandle.AlphaMapActive = obj.viewEditHandle.B_AlphaActive.Value;
             obj.modelEditHandle.FiberForeBackGround = obj.viewEditHandle.B_FiberForeBackGround.ValueIndex;
+            obj.modelEditHandle.morphOP = obj.viewEditHandle.B_MorphOP.Value;
+            obj.modelEditHandle.SE = obj.viewEditHandle.B_ShapeSE.Value;
+            obj.modelEditHandle.SizeSE = round(str2double(obj.viewEditHandle.B_SizeSE.String));
+            obj.modelEditHandle.FactorSE = 1;  
+            obj.modelEditHandle.NoIteration = round(str2double(obj.viewEditHandle.B_NoIteration.String));
         end
         
         function newFileEvent(obj,~,~)
@@ -1332,6 +1333,7 @@ classdef controllerEdit < handle
                     
                     set(obj.viewEditHandle.B_SizeSE,'Enable','off')
                     set(obj.viewEditHandle.B_NoIteration,'Enable','off')
+                    obj.modelEditHandle.FactorSE = 1;
                     obj.modelEditHandle.SE = '';
                     
             end
@@ -1387,6 +1389,8 @@ classdef controllerEdit < handle
                 set(obj.viewEditHandle.B_NoIteration,'Enable','on')
                 set(obj.viewEditHandle.B_StartMorphOP,'Enable','on')
             end
+
+            obj.updateUIControlState(obj.viewEditHandle);
         end
         
         function morphValuesEvent(obj,~,~)
@@ -1421,6 +1425,8 @@ classdef controllerEdit < handle
             
             obj.modelEditHandle.NoIteration = ValueNoI;
             set(obj.viewEditHandle.B_NoIteration,'String',num2str(ValueNoI));
+
+            obj.updateUIControlState(obj.viewEditHandle);
         end
         
         function startMorphOPEvent(obj,~,~)
@@ -1537,6 +1543,7 @@ classdef controllerEdit < handle
                %No image is loaded into the program
                view_helper_set_enabled_ui_controls(uicontrols,'off');
                set(obj.viewEditHandle.B_NewPic,'Enable','on');
+               return
             else
                 %One image is already loaded into the program.
                 view_helper_set_enabled_ui_controls(uicontrols, 'on');
