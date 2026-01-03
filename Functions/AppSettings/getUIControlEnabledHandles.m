@@ -1,7 +1,8 @@
 function controlHandles = getUIControlEnabledHandles(fig)
     % Get all properties of the object
     props = properties(fig);
-
+    props= props(~startsWith(props,'panel')); %Remove Panels
+    props= props(~startsWith(props,'B_InfoText')); %Remove Panels
     % Initialize an empty array to store disabled UI handles
     controlHandles = [];
 
