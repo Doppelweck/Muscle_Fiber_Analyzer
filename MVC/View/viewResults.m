@@ -444,9 +444,9 @@ classdef viewResults < handle
             %           obj:    Handle to viewAnalyze object
             %
             
-            BackAnalToolTip = sprintf('Go back to analyze mode.');
+            BackAnalToolTip = sprintf('Return to Classification.');
             
-            NewPicToolTip = sprintf('Select a new image for further processing.');
+            NewPicToolTip = sprintf('Select a new image for processing.');
             
             SaveToolTip = sprintf(['Saves the data in the same \n',...
                 ' directory as the selected RGB image.',...
@@ -454,11 +454,26 @@ classdef viewResults < handle
             
             CloseToolTip = sprintf(['Quit the program. \n',...
                 'Unsaved data will be lost.']);
+
+            SaveStateToolTip = sprintf(['Indicates if the saving was successful \n',...
+                '   - green: saving file was successfull \n',...
+                '   - yellow: unknown \n',...
+                '   - red: saving file failed',...
+                ]);
             
             set(obj.B_BackAnalyze,'tooltipstring',BackAnalToolTip);
             set(obj.B_CloseProgramm,'tooltipstring',CloseToolTip);
             set(obj.B_NewPic,'tooltipstring',NewPicToolTip);
             set(obj.B_Save,'tooltipstring',SaveToolTip);
+
+            set(obj.B_SaveFiberTableIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveScatterAllIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePlotsIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveHistoIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicProcIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicOriginalIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicGroupsIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveBinaryMaskIndicator,'Tooltip',SaveStateToolTip);
         end
         
          function delete(~)
