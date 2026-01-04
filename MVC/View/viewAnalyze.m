@@ -744,42 +744,52 @@ classdef viewAnalyze < handle
             %
 
             
-            BackEditToolTip = sprintf('Go back to edit mode.');
+            BackEditToolTip = sprintf('Return to Segmentation.');
             
-            ShowResultsToolTip = sprintf(['Switch to Result-Mode. \n',...
-                'Show classification results']);
+            ShowResultsToolTip = sprintf(['Show Classification Result. \n',...
+                'Display classification results and statistical analysis']);
             
             StartAnaToolTip = sprintf('Start fiber type classification');
             
-            PreviewToolTip = sprintf('Show preview classification results');
+            PreviewToolTip = sprintf('Display a preview of the classification results.');
             
-            ClassModeToolTip = sprintf('Select classification method.');
+            ClassModeToolTip = sprintf('Select the classification method.');
+
+
+            AreaCheckToolTip = sprintf(['Enable the use of object area for classification.']);
             
-            MinAreaToolTip = sprintf(['Select minimal area value. \n',...
-                'Smaller objects will be removed.']);
+            MinAreaToolTip = sprintf(['Set the minimum allowed area for a fiber. \n',...
+                'Smaller objects will be removed during classification.']);
             
-            MaxAreaToolTip = sprintf(['Select maximal area value. \n',...
-                'Larger objects will be classified as Type 0 fiber.']);
+            MaxAreaToolTip = sprintf(['Set the maximal allowed area for a fiber. \n',...
+                'Larger objects will be classified as Type 0 (undefined) fiber.']);
+
             
-            MinAspectToolTip = sprintf(['Select minimal aspect ratio.\n',...
-                'Objects with smaller aspect ratio\n will be classified as Type-0 fiber']);
+            AspectCheckToolTip = sprintf(['Enable the use of object aspect ratio for classification.']);
+            MinAspectToolTip = sprintf(['Set the minimal aspect ratio.\n',...
+                'Objects with smaller aspect ratio will be classified as Type-0  (undefined) fiber']);
             
-            MaxAspectToolTip = sprintf(['Change maximal aspect ratio. \n',...
-                'Objects with larger aspect ratio\n will be classified as Type-0 fiber.']);
+            MaxAspectToolTip = sprintf(['Set the maximal allowed aspect ratio for a fiber.. \n',...
+                'Objects with larger aspect ratio will be classified as Type-0 (undefined) fiber.']);
+
+
+            RoundCheckToolTip = sprintf(['Enable the use of object roudnes for classification.']);
+            MinRoundToolTip = sprintf(['Set the minimal roundness value. \n',...
+                'Objects with a samller roundness value will be classified as Type-0 (undefined) fiber.']);
             
-            MinRoundToolTip = sprintf(['Change minimal roundness value. \n',...
-                'Objects with samller roundness value\n will be classified as Type-0 fiber.']);
+            ColorValueCheckToolTip = sprintf(['Enable the use of object color value for classification.']);
+            MinColorValueToolTip = sprintf(['Set the minimum color value.\n',...
+                'Objects with a smaller color value will be classified as Type 0 (undefined) fibers.']);
             
-            MinColorValueToolTip = sprintf(['Change minimal color value. \n',...
-                'Value form the HSV color model (lightness).',...
-                'Objects with samller color value\n will be classified as Type-0 fiber.']);
-            
+
+            BRCheckToolTip = sprintf(['Enable the use of object Blue/Red values for classification.']);
             BRTreshToolTip = sprintf('Slope of Blue/Red classification function.');
             
             BRDistBhToolTip = sprintf('Blue offset of Blue/Red classification function in percent');
             
             BRDistRhToolTip = sprintf('Red offset of Blue/Red classification function in percent');
             
+            FRRCheckToolTip = sprintf(['Enable the use of object Farred/Red values for classification.']);
             FRRTreshToolTip = sprintf('Slope of Farred/Red classification function.');
             
             FRRDistFRhToolTip = sprintf('Farred offset of Farred/Red classification function in percent');
@@ -792,17 +802,27 @@ classdef viewAnalyze < handle
             set(obj.B_PreResults,'tooltipstring',PreviewToolTip);
             
             set(obj.B_AnalyzeMode,'Tooltip',ClassModeToolTip);
+
+            set(obj.B_AreaActive,'tooltipstring',AreaCheckToolTip);
             set(obj.B_MinArea,'tooltipstring',MinAreaToolTip);
             set(obj.B_MaxArea,'tooltipstring',MaxAreaToolTip);
+
+            set(obj.B_AspectRatioActive,'tooltipstring',AspectCheckToolTip);
             set(obj.B_MinAspectRatio,'tooltipstring',MinAspectToolTip);
             set(obj.B_MaxAspectRatio,'tooltipstring',MaxAspectToolTip);
+
+            set(obj.B_RoundnessActive,'tooltipstring',RoundCheckToolTip);
             set(obj.B_MinRoundness,'tooltipstring',MinRoundToolTip);
+
+            set(obj.B_ColorValueActive,'tooltipstring',ColorValueCheckToolTip);
             set(obj.B_ColorValue,'tooltipstring',MinColorValueToolTip);
             
+            set(obj.B_BlueRedThreshActive,'tooltipstring',BRCheckToolTip);
             set(obj.B_BlueRedThresh,'tooltipstring',BRTreshToolTip);
             set(obj.B_BlueRedDistBlue,'tooltipstring',BRDistBhToolTip);
             set(obj.B_BlueRedDistRed,'tooltipstring',BRDistRhToolTip);
         
+            set(obj.B_FarredRedThreshActive,'tooltipstring',FRRCheckToolTip);
             set(obj.B_FarredRedThresh,'tooltipstring',FRRTreshToolTip);
             set(obj.B_FarredRedDistFarred,'tooltipstring',FRRDistFRhToolTip);
             set(obj.B_FarredRedDistRed,'tooltipstring',FRRDistRhToolTip);
