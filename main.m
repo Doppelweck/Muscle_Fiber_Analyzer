@@ -15,7 +15,7 @@ try
 
     
     
-    build_up_time_delay = 0.500;
+    build_up_time_delay = 0.300;
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -58,7 +58,7 @@ try
     %Create Start Screen
     [hf, LoadingText] = startSrcreen();
     pause(build_up_time_delay);
-    drawnow;
+    drawnow limitrate;
     update_menu_bar_main_figure(mainFig,versionString,...
         @menu_callback_change_app_theme,...
         @menu_callback_change_app_color,...
@@ -66,10 +66,10 @@ try
         @menu_callback_save_user_settings,...
         @menu_callback_show_abaut_figure);
 
-    figure(hf); drawnow;
-    set(hf,'WindowStyle','alwaysontop'); drawnow;
-    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow;
-    figure(hf); drawnow; 
+    figure(hf); drawnow limitrate;
+    set(hf,'WindowStyle','alwaysontop'); drawnow limitrate;
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow limitrate;
+    figure(hf); drawnow limitrate; 
     pause(build_up_time_delay);
 
     %create card panel onbject
@@ -79,16 +79,16 @@ try
     viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1; 
-    drawnow;pause(build_up_time_delay);drawnow;
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
     viewAnalyzeHandle = viewAnalyze(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2; 
-    drawnow;pause(build_up_time_delay);drawnow;
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
     viewResultsHandle = viewResults(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3;
-    drawnow;pause(build_up_time_delay);drawnow;
-    mainCard.Selection = 1; drawnow;
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
+    mainCard.Selection = 1; drawnow limitrate;
 
     LoadingText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
@@ -96,11 +96,11 @@ try
     panelObj=findall(mainCard,'Type','uipanel');
     colorVaule = getHighlightColorValue();
     set(panelObj,'HighlightColor',colorVaule);
-    drawnow
+    drawnow limitrate
     %Ui Controls
     menu_callback_load_user_settings();
 
-    drawnow;pause(build_up_time_delay);
+    drawnow limitrate;pause(build_up_time_delay);
 
     LoadingText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
@@ -124,7 +124,7 @@ try
     pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Update app design...';
-    drawnow;
+    drawnow limitrate;
     pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Start application...';
@@ -136,14 +136,14 @@ try
     pause(build_up_time_delay)
 
     LoadingText.String='Run application';
-    drawnow;
+    drawnow limitrate;
     pause(build_up_time_delay);
 
     set(mainFig,'WindowState','maximized');
-    drawnow;
+    drawnow limitrate;
     pause(2);
     delete(hf);
-    drawnow;
+    drawnow limitrate;
     delete(LoadingText);
 
 catch ME
@@ -171,7 +171,7 @@ catch ME
     end
 
     % Stop any ongoing parallel operations
-    drawnow; % Process any pending graphics callbacks
+    drawnow limitrate; % Process any pending graphics callbacks
     pause(1); % Brief pause to let callbacks finish
 
     % Use MException object directly instead of lasterror

@@ -2,8 +2,10 @@ function menu_callback_load_user_settings(src,~)
 %MENU_CALLBACK_LOAD_USER_SETTINGS Summary of this function goes here
 %   Detailed explanation goes here
 
+ showWorkbar = true;
 if nargin < 1
     src.Text = 'Load User Settings';
+    showWorkbar = false;
 end
 
 mainFigObj=findall(0,'Type','figure','Tag','mainFigure');
@@ -32,7 +34,9 @@ for i = 1:numel(uiControls)
 
     switch src.Text
         case 'Load User Settings'
-            workbar(i/numel(uiControls),'Load User Setting','Load USER settings',mainFigObj);
+            if showWorkbar
+                workbar(i/numel(uiControls),'Load User Setting','Load USER settings',mainFigObj);
+            end
             switch ui_type
                 case 'edit'
                     uiControls(i).String = getSettingsValue(uiControls(i).Tag);
@@ -43,7 +47,9 @@ for i = 1:numel(uiControls)
             end
 
         case 'Load Default Settings'
-            workbar(i/numel(uiControls),'Load Default Setting','Load Default settings',mainFigObj);
+            if showWorkbar
+                workbar(i/numel(uiControls),'Load Default Setting','Load Default settings',mainFigObj);
+            end
             switch ui_type
                 case 'edit'
                     uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
@@ -54,7 +60,9 @@ for i = 1:numel(uiControls)
            end
 
         otherwise
-            workbar(i/numel(uiControls),'Load Default Setting','Load Default settings',mainFigObj);
+            if showWorkbar
+                workbar(i/numel(uiControls),'Load Default Setting','Load Default settings',mainFigObj);
+            end
             switch ui_type
                 case 'edit'
                     uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
