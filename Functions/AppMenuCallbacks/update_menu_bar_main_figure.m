@@ -1,7 +1,7 @@
 function update_menu_bar_main_figure(mainFig,versionString,changeAppTheme, changeAppColor,loadUserSettings , saveUserSettings,openInformationFigure)
 
 if nargin < 1 || isempty(mainFig) || ~isvalid(mainFig) %For testing and debugging
-    mainFig = uifigure('Tag','mainFigure');
+    mainFig = uifigure('Tag','testFigure','Theme',getSettingsValue('Style'));
     newVersionAvailable = false;
     checkSuccessfull = false;
     newVersion = '';
@@ -81,7 +81,11 @@ switch highlightColor
     case 'yellow'
         set(mDesignColorItem6,'Checked','on');
     case 'orange'
-        set(mDesignColorItem6,'Checked','on');
+        set(mDesignColorItem7,'Checked','on');
+    case 'purple'
+        set(mDesignColorItem8,'Checked','on');
+    case 'blue'
+        set(mDesignColorItem9,'Checked','on');
     case 'black'
 
     case 'white'
