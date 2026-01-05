@@ -297,6 +297,11 @@ timestr = strcat(h0,num2str(h),':',m0,...
 
 function a=progimage(m)
 colorVaule = getHighlightColorValue();
+colorStr = getSettingsValue('HighlightColor');
+if strcmp(colorStr,'none')
+    %Default is blue
+    colorVaule = [51 153 255]./255;
+end
 if m == 1
     a=ones(13,385,3);
     a(:,:,1)=ones([13,385])*colorVaule(1);
