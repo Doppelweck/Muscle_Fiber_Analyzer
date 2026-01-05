@@ -296,12 +296,12 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
             
-            statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            pictureTabPanel =         uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            pictureRGBPlaneTabPanel = uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            tableTabPanel =           uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            pictureTabPanel =         uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            pictureRGBPlaneTabPanel = uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            tableTabPanel =           uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
             
             obj.tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
             obj.tabPanel.TabWidth = -1;
@@ -341,11 +341,11 @@ classdef viewResults < handle
             set( statsVBoxleft, 'Heights', [-1 -1] );
             set( statsVBoxMiddle, 'Heights', [-1 -1] );
             
-            set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAArea,'XLim',[-1.8 1.8]);
-            set(obj.hAArea,'YLim',[-1.8 1.8]);
-            set(obj.hAArea,'xtick',[],'ytick',[])
-            set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
+            % set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
+            % set(obj.hAArea,'XLim',[-1.8 1.8]);
+            % set(obj.hAArea,'YLim',[-1.8 1.8]);
+            % set(obj.hAArea,'xtick',[],'ytick',[])
+            % set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
             
             set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
 
