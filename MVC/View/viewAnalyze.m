@@ -119,7 +119,7 @@ classdef viewAnalyze < handle
             set(mainCard,'Visible','on');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard , params.default_box_spacing_padding{:});
             
-            obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'PICTURE');
+            obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'IMAGE');
             obj.panelControl = uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'CLASSIFICATION','TitlePosition','centertop');
             set( obj.panelAnalyze, 'MinimumWidths', [1 320] );
             set( obj.panelAnalyze, 'Widths', [-80 -20] );
@@ -139,7 +139,7 @@ classdef viewAnalyze < handle
             
             
             set( PanelVBox, 'Heights', [-13 -30 -41 -16]);
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,7 +152,7 @@ classdef viewAnalyze < handle
             HBBoxControl2 = uix.HButtonBox('Parent',  VBBoxControl,params.default_HButtonBox_Main{:} );
             obj.B_StartAnalyze = uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x25BA Start Analyzing'),'Tag','pushbuttonAnalyze' );
             obj.B_PreResults =   uicontrol( 'Parent', HBBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Preview Results \x2750') ,'Tag','pushbuttonPreResults');
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%% Panel Para %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,7 +165,7 @@ classdef viewAnalyze < handle
             String= {'Color-Ratio-Based triple labeling' ; 'Color-Ratio-Based quad labeling';...
             'OPTICS-Cluster-Based triple labeling' ; 'OPTICS-Cluster-Based quad labeling';'Manual CLassification triple labeling';'Manual CLassification quad labeling'; 'Collagen / Dystrophin'};
             obj.B_AnalyzeMode = uidropdown( 'Parent', HButtonBoxPara12, 'Items', String ,'Value','Color-Ratio-Based quad labeling','Tag','popupmenuAnalyzeMode');
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 2. Row: Area
             HBoxPara2 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:});
@@ -174,19 +174,19 @@ classdef viewAnalyze < handle
             obj.B_AreaActive = uicontrol( 'Parent', HButtonBoxPara21,'Style','checkbox','Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
 
             HButtonBoxPara22 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            tempH = uilabel( 'Parent', HButtonBoxPara22, 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
+            uilabel( 'Parent', HButtonBoxPara22, 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
             
             HButtonBoxPara23 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
             obj.B_MinArea = uicontrol( 'Parent', HButtonBoxPara23, params.default_normalized_font{:} ,'Style','edit','Tag','MinAreaValue', 'String', '100' ,'Tag','editMinArea');
             
             HButtonBoxPara24 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            tempH = uilabel( 'Parent', HButtonBoxPara24,'HorizontalAlignment','center', 'Text', 'to' );
+            uilabel( 'Parent', HButtonBoxPara24,'HorizontalAlignment','center', 'Text', 'to' );
 
             HButtonBoxPara25 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
             obj.B_MaxArea = uicontrol( 'Parent', HButtonBoxPara25, params.default_normalized_font{:}, 'Style','edit', 'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
             
             set( HBoxPara2, 'Widths', [-8 -34 -22 -12 -22] );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 3. Aspect Ratio
             HBoxPara3 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
@@ -195,19 +195,19 @@ classdef viewAnalyze < handle
             obj.B_AspectRatioActive = uicontrol( 'Parent', HButtonBoxPara31,'Style','checkbox','Value',1,'Tag','AspectRatioActive','Tag','checkboxAspectRatioActive');
             
             HButtonBoxPara32 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara32, 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
+            uilabel( 'Parent', HButtonBoxPara32, 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
             
             HButtonBoxPara33 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
             obj.B_MinAspectRatio = uicontrol( 'Parent', HButtonBoxPara33,params.default_normalized_font{:}, 'Style','edit','Tag','MinAspectRatioValue', 'String', '1' ,'Tag','editMinAspectRatio');
             
             HButtonBoxPara34 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara34, 'HorizontalAlignment','center', 'Text', 'to' );
+            uilabel( 'Parent', HButtonBoxPara34, 'HorizontalAlignment','center', 'Text', 'to' );
             
             HButtonBoxPara35 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
             obj.B_MaxAspectRatio= uicontrol( 'Parent', HButtonBoxPara35, params.default_normalized_font{:}, 'Style','edit','Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
             
             set( HBoxPara3, 'Widths', [-8 -34 -22 -12 -22] );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 4. Row Color Value HSV ColorRoom
             HBoxPara4 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
@@ -216,13 +216,13 @@ classdef viewAnalyze < handle
             obj.B_ColorValueActive = uicontrol( 'Parent', HButtonBoxPara41,'Style','checkbox','Value',1,'Tag','ColorValueActive','Tag','checkboxColorValueActive');
             
             HButtonBoxPara42 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara42, 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
+            uilabel( 'Parent', HButtonBoxPara42, 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
             
             HButtonBoxPara43 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
             obj.B_ColorValue = uicontrol( 'Parent', HButtonBoxPara43, params.default_normalized_font{:}, 'Style','edit', 'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
             
             set( HBoxPara4, 'Widths', [-8 -34 -56] );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 5. Row: Roundness
             HBoxPara5 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
@@ -231,13 +231,13 @@ classdef viewAnalyze < handle
             obj.B_RoundnessActive = uicontrol( 'Parent', HButtonBoxPara51,'Style','checkbox','Value',1,'Tag','RoundnessActive','Tag','checkboxRoundnessActive');
             
             HButtonBoxPara52 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara52, 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
+            uilabel( 'Parent', HButtonBoxPara52, 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
             
             HButtonBoxPara53 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
             obj.B_MinRoundness = uicontrol( 'Parent', HButtonBoxPara53, params.default_normalized_font{:}, 'Style','edit', 'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
             
             set( HBoxPara5, 'Widths', [-8 -34 -56] );
-            drawnow;
+            drawnow limitrate;
             
             %%%%%%%%%%%%%%%% 6. Row Blue Red thresh
             obj.ParaCard = uix.CardPanel('Parent', mainVBoxPara,'Selection',0, 'Padding',0);
@@ -250,25 +250,25 @@ classdef viewAnalyze < handle
             obj.B_BlueRedThreshActive = uicontrol( 'Parent', HButtonBoxPara61,'style','checkbox','Value',1,'Tag','checkboxBlueRedThreshActive');
             
             HButtonBoxPara62 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara62,  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
+            uilabel( 'Parent', HButtonBoxPara62,  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
             
             HButtonBoxPara63 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedThresh = uicontrol( 'Parent', HButtonBoxPara63, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedThresh', 'String', '1');
             
             HButtonBoxPara64 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara64, 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
+            uilabel( 'Parent', HButtonBoxPara64, 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
             
             HButtonBoxPara65 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedDistBlue = uicontrol( 'Parent', HButtonBoxPara65, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistBlue', 'String', '0.1');
             
             HButtonBoxPara66 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara66, 'HorizontalAlignment','center',  'Text', 'Red dist:' );
+            uilabel( 'Parent', HButtonBoxPara66, 'HorizontalAlignment','center',  'Text', 'Red dist:' );
             
             HButtonBoxPara67 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
             obj.B_BlueRedDistRed = uicontrol( 'Parent', HButtonBoxPara67, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistRed', 'String', '0.1' );
             
             set( HBoxPara6, 'Widths', [-8 -22 -10 -20 -10 -20 -10] );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 7. Row FarRed Red thresh
             HBoxPara7 = uix.HBox('Parent', VBoxMainPara1, params.default_box_spacing_padding{:} );
@@ -277,19 +277,19 @@ classdef viewAnalyze < handle
             obj.B_FarredRedThreshActive = uicontrol( 'Parent', HButtonBoxPara71,'style','checkbox','Value',1,'Tag','checkboxFarredRedThreshActive');
             
             HButtonBoxPara72 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara72, 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
+            uilabel( 'Parent', HButtonBoxPara72, 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
             
             HButtonBoxPara73 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedThresh = uicontrol( 'Parent', HButtonBoxPara73, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedThresh', 'String', '1' );
             
             HButtonBoxPara74 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara74, 'HorizontalAlignment','center', 'Text', 'Farred dist:');
+            uilabel( 'Parent', HButtonBoxPara74, 'HorizontalAlignment','center', 'Text', 'Farred dist:');
             
             HButtonBoxPara75 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedDistFarred = uicontrol( 'Parent', HButtonBoxPara75, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistFarred', 'String', '0.1' );
             
             HButtonBoxPara76 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara76, 'HorizontalAlignment','center', 'Text', 'Red dist:');
+            uilabel( 'Parent', HButtonBoxPara76, 'HorizontalAlignment','center', 'Text', 'Red dist:');
             
             HButtonBoxPara77 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
             obj.B_FarredRedDistRed = uicontrol( 'Parent', HButtonBoxPara77, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistRed', 'String', '0.1' );
@@ -304,7 +304,7 @@ classdef viewAnalyze < handle
             obj.B_12HybridFiberActive = uicontrol( 'Parent', HButtonBoxPara711,'style','checkbox','Value',1,'Tag','checkboxHybrid12FiberActive');
             
             HButtonBoxPara712 = uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara712, 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
+            uilabel( 'Parent', HButtonBoxPara712, 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
             
             set( HBoxPara71, 'Widths', [-8 -92] );
             
@@ -314,28 +314,28 @@ classdef viewAnalyze < handle
             obj.B_2axHybridFiberActive = uicontrol( 'Parent', HButtonBoxPara721,'style','checkbox','Value',1,'Tag','checkboxHybrid2axFiberActive');
             
             HButtonBoxPara722 = uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara722, 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
+            uilabel( 'Parent', HButtonBoxPara722, 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
             
             set( HBoxPara72, 'Widths', [-8 -92] );
             
             obj.ParaCard.Selection = 1;
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%% 8. Pixel Scale
 
             HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
 
             HButtonBoxPara80 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
+            uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
             
             HButtonBoxPara81 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara81, 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
+            uilabel( 'Parent', HButtonBoxPara81, 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
             
             HButtonBoxPara82 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
             obj.B_XScale = uicontrol( 'Parent', HButtonBoxPara82, params.default_normalized_font{:}, 'Style','edit', 'Tag','editXScale', 'String', '1' );
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', HButtonBoxPara83, 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
+            uilabel( 'Parent', HButtonBoxPara83, 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
             
             HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
             obj.B_YScale = uicontrol( 'Parent', HButtonBoxPara83,params.default_normalized_font{:}, 'Style','edit', 'Tag','editYScale', 'String', '1' );
@@ -343,7 +343,7 @@ classdef viewAnalyze < handle
             set( HBoxPara8, 'Widths', [-1 -1 -1 -1 -1] );
             
             set( mainVBoxPara, 'Heights', [-1 -1 -1 -1 -1 -2 -1], 'Spacing', 0 );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% Panel FiberInformation %%%%%%%%%%%%%%%%%%%%%
@@ -470,7 +470,7 @@ classdef viewAnalyze < handle
             
             set( VBoxMainInfoFiber, 'Heights', [-6 -6 -6 -6 -6 -6 -64], 'Spacing', 1 );
             set( VBoxMainInfoFiber, 'MinimumHeights', [10 10 10 10 10 10 10] );
-            drawnow;
+            drawnow limitrate;
             
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -491,36 +491,7 @@ classdef viewAnalyze < handle
             %
             %   showInfoToManipulate(obj,PosInAxes,PosMainFig,PosCurrent,Info);
             %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to viewEdit object
-            %           PosInAxes:  Relative position of the point where
-            %                       the users clicked in the axes
-            %           PosMainFig: Positon of the main figure
-            %           PosCurrent: Position of the point where the users
-            %                       clicked in the figure
-            %           Info:       Cell array that contains all needed
-            %                       informations and images
-            %
-            
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-                
-            end
-            
-            
-            
+
             PosCurrent(1) = PosCurrent(1)+PosMainFig(1);
             PosCurrent(2) = PosCurrent(2)+PosMainFig(2);
             
@@ -651,19 +622,7 @@ classdef viewAnalyze < handle
             %           obj:        Handle to viewEdit object
             %
             
-            if ismac
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big
-            elseif ispc
-                fontSizeS = 10*0.75; % Font size small
-                fontSizeM = 12*0.75; % Font size medium
-                fontSizeB = 16*0.75; % Font size big
-            else
-                fontSizeS = 10; % Font size small
-                fontSizeM = 12; % Font size medium
-                fontSizeB = 16; % Font size big 
-            end
+            params = view_helper_default_params();
             
             obj.hFMC = uifigure('NumberTitle','off','Units','normalized','Name','Manual Classification','Visible','off');
             set(obj.hFMC,'Tag','FigureManualClassify');
@@ -680,7 +639,7 @@ classdef viewAnalyze < handle
      
             %VBox 2 with axes
             AxesBox = uix.HBox('Parent', VBox,'Padding', 1 );
-            obj.hAMC = axes('Parent',uicontainer('Parent', AxesBox), 'FontSize',fontSizeB,'Tag','AxesManualClassify');
+            obj.hAMC = axes('Parent',uicontainer('Parent', AxesBox), 'FontSize',params.fontSizeB,'Tag','AxesManualClassify');
             set(obj.hAMC, 'LooseInset', [0,0,0,0]);
             daspect(obj.hAMC,[1 1 1]);
             %VBox 3 with Buttons
@@ -775,7 +734,7 @@ classdef viewAnalyze < handle
 
             % --- Show -------------------------------------------------------------
             obj.hFPR.Visible = 'on';
-end
+        end
         
         function setToolTipStrings(obj)
             % Set all tooltip strings in the properties of the operationg
@@ -783,48 +742,54 @@ end
             %
             %   setToolTipStrings(obj);
             %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to viewAnalyze object
-            %
+
             
-            BackEditToolTip = sprintf('Go back to edit mode.');
+            BackEditToolTip = sprintf('Return to Segmentation.');
             
-            ShowResultsToolTip = sprintf(['Switch to Result-Mode. \n',...
-                'Show classification results']);
+            ShowResultsToolTip = sprintf(['Show Classification Result. \n',...
+                'Display classification results and statistical analysis']);
             
             StartAnaToolTip = sprintf('Start fiber type classification');
             
-            PreviewToolTip = sprintf('Show preview classification results');
+            PreviewToolTip = sprintf('Display a preview of the classification results.');
             
-            ClassModeToolTip = sprintf('Select classification method.');
+            ClassModeToolTip = sprintf('Select the classification method.');
+
+
+            AreaCheckToolTip = sprintf(['Enable the use of object area for classification.']);
             
-            MinAreaToolTip = sprintf(['Select minimal area value. \n',...
-                'Smaller objects will be removed.']);
+            MinAreaToolTip = sprintf(['Set the minimum allowed area for a fiber. \n',...
+                'Smaller objects will be removed during classification.']);
             
-            MaxAreaToolTip = sprintf(['Select maximal area value. \n',...
-                'Larger objects will be classified as Type 0 fiber.']);
+            MaxAreaToolTip = sprintf(['Set the maximal allowed area for a fiber. \n',...
+                'Larger objects will be classified as Type 0 (undefined) fiber.']);
+
             
-            MinAspectToolTip = sprintf(['Select minimal aspect ratio.\n',...
-                'Objects with smaller aspect ratio\n will be classified as Type-0 fiber']);
+            AspectCheckToolTip = sprintf(['Enable the use of object aspect ratio for classification.']);
+            MinAspectToolTip = sprintf(['Set the minimal aspect ratio.\n',...
+                'Objects with smaller aspect ratio will be classified as Type-0  (undefined) fiber']);
             
-            MaxAspectToolTip = sprintf(['Change maximal aspect ratio. \n',...
-                'Objects with larger aspect ratio\n will be classified as Type-0 fiber.']);
+            MaxAspectToolTip = sprintf(['Set the maximal allowed aspect ratio for a fiber.. \n',...
+                'Objects with larger aspect ratio will be classified as Type-0 (undefined) fiber.']);
+
+
+            RoundCheckToolTip = sprintf(['Enable the use of object roudnes for classification.']);
+            MinRoundToolTip = sprintf(['Set the minimal roundness value. \n',...
+                'Objects with a samller roundness value will be classified as Type-0 (undefined) fiber.']);
             
-            MinRoundToolTip = sprintf(['Change minimal roundness value. \n',...
-                'Objects with samller roundness value\n will be classified as Type-0 fiber.']);
+            ColorValueCheckToolTip = sprintf(['Enable the use of object color value for classification.']);
+            MinColorValueToolTip = sprintf(['Set the minimum color value.\n',...
+                'Objects with a smaller color value will be classified as Type 0 (undefined) fibers.']);
             
-            MinColorValueToolTip = sprintf(['Change minimal color value. \n',...
-                'Value form the HSV color model (lightness).',...
-                'Objects with samller color value\n will be classified as Type-0 fiber.']);
-            
+
+            BRCheckToolTip = sprintf(['Enable the use of object Blue/Red values for classification.']);
             BRTreshToolTip = sprintf('Slope of Blue/Red classification function.');
             
             BRDistBhToolTip = sprintf('Blue offset of Blue/Red classification function in percent');
             
             BRDistRhToolTip = sprintf('Red offset of Blue/Red classification function in percent');
             
+            FRRCheckToolTip = sprintf(['Enable the use of object Farred/Red values for classification.']);
             FRRTreshToolTip = sprintf('Slope of Farred/Red classification function.');
             
             FRRDistFRhToolTip = sprintf('Farred offset of Farred/Red classification function in percent');
@@ -837,24 +802,34 @@ end
             set(obj.B_PreResults,'tooltipstring',PreviewToolTip);
             
             set(obj.B_AnalyzeMode,'Tooltip',ClassModeToolTip);
+
+            set(obj.B_AreaActive,'tooltipstring',AreaCheckToolTip);
             set(obj.B_MinArea,'tooltipstring',MinAreaToolTip);
             set(obj.B_MaxArea,'tooltipstring',MaxAreaToolTip);
+
+            set(obj.B_AspectRatioActive,'tooltipstring',AspectCheckToolTip);
             set(obj.B_MinAspectRatio,'tooltipstring',MinAspectToolTip);
             set(obj.B_MaxAspectRatio,'tooltipstring',MaxAspectToolTip);
+
+            set(obj.B_RoundnessActive,'tooltipstring',RoundCheckToolTip);
             set(obj.B_MinRoundness,'tooltipstring',MinRoundToolTip);
+
+            set(obj.B_ColorValueActive,'tooltipstring',ColorValueCheckToolTip);
             set(obj.B_ColorValue,'tooltipstring',MinColorValueToolTip);
             
+            set(obj.B_BlueRedThreshActive,'tooltipstring',BRCheckToolTip);
             set(obj.B_BlueRedThresh,'tooltipstring',BRTreshToolTip);
             set(obj.B_BlueRedDistBlue,'tooltipstring',BRDistBhToolTip);
             set(obj.B_BlueRedDistRed,'tooltipstring',BRDistRhToolTip);
         
+            set(obj.B_FarredRedThreshActive,'tooltipstring',FRRCheckToolTip);
             set(obj.B_FarredRedThresh,'tooltipstring',FRRTreshToolTip);
             set(obj.B_FarredRedDistFarred,'tooltipstring',FRRDistFRhToolTip);
             set(obj.B_FarredRedDistRed,'tooltipstring',FRRDistRhToolTip);
         end
         
-        function delete(obj)
-            
+        function delete(~)
+            %Deconstructor
         end
         
     end

@@ -15,7 +15,7 @@ try
 
     
     
-    build_up_time_delay = 0.000;
+    build_up_time_delay = 0.300;
     
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -49,24 +49,27 @@ try
         'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
+        'WindowState','maximized',...
         'Tag','mainFigure');
     theme(mainFig,getSettingsValue('Style'));
+    set(mainFig,'WindowState','maximized');
 
 
     %Create Start Screen
     [hf, LoadingText] = startSrcreen();
-    set(mainFig, 'OuterPosition', hf.Position);
-    drawnow;
+    pause(build_up_time_delay);
+    drawnow limitrate;
     update_menu_bar_main_figure(mainFig,versionString,...
-        @changeAppDesign,...
-        @loadUserSettings,...
-        @saveUserSettings,...
-        @openInformationFigure);
+        @menu_callback_change_app_theme,...
+        @menu_callback_change_app_color,...
+        @menu_callback_load_user_settings,...
+        @menu_callback_save_user_settings,...
+        @menu_callback_show_abaut_figure);
 
-    figure(hf); drawnow;
-    set(hf,'WindowStyle','alwaysontop'); drawnow;
-    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow;
-    figure(hf); drawnow; 
+    figure(hf); drawnow limitrate;
+    set(hf,'WindowStyle','alwaysontop'); drawnow limitrate;
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow limitrate;
+    figure(hf); drawnow limitrate; 
     pause(build_up_time_delay);
 
     %create card panel onbject
@@ -75,42 +78,29 @@ try
     %Init VIEW's
     viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
-    mainCard.Selection = 1; drawnow;
-    drawnow;pause(build_up_time_delay);
+    mainCard.Selection = 1; 
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
     viewAnalyzeHandle = viewAnalyze(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
-    mainCard.Selection = 2; drawnow;
-    drawnow;pause(build_up_time_delay);
+    mainCard.Selection = 2; 
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
     viewResultsHandle = viewResults(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
-    mainCard.Selection = 3; drawnow;
-    drawnow;pause(build_up_time_delay);
-    mainCard.Selection = 1; drawnow;
+    mainCard.Selection = 3;
+    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
+    mainCard.Selection = 1; drawnow limitrate;
 
     LoadingText.String='Loading please wait...   Load User Settings...';
     % LOAD USER Settings
-    uiControls = findobj(mainCard,'-not','Tag','','-and','Type','uicontrol','-not','Tag','textFiberInfo',...
-        '-and','-not','Style','pushbutton');
+    %Color
+    panelObj=findall(mainCard,'Type','uipanel');
+    colorVaule = getHighlightColorValue();
+    set(panelObj,'HighlightColor',colorVaule);
+    drawnow limitrate
+    %Ui Controls
+    menu_callback_load_user_settings();
 
-    for i = 1:numel(uiControls)
-        reverseEnable = false;
-        if(strcmp(uiControls(i).Enable ,'off'))
-            set( uiControls(i), 'Enable', 'on');
-            reverseEnable = true;
-        end
-
-        if(strcmp(uiControls(i).Style,'edit'))
-            uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-        else
-            uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
-        end
-
-        if(reverseEnable)
-            set( uiControls(i), 'Enable', 'off');
-        end
-    end
-
-    drawnow;pause(build_up_time_delay);
+    drawnow limitrate;pause(build_up_time_delay);
 
     LoadingText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
@@ -134,7 +124,7 @@ try
     pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Update app design...';
-    drawnow;
+    drawnow limitrate;
     pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Start application...';
@@ -146,14 +136,14 @@ try
     pause(build_up_time_delay)
 
     LoadingText.String='Run application';
-    drawnow;
+    drawnow limitrate;
     pause(build_up_time_delay);
 
     set(mainFig,'WindowState','maximized');
-    drawnow;
+    drawnow limitrate;
     pause(2);
     delete(hf);
-    drawnow;
+    drawnow limitrate;
     delete(LoadingText);
 
 catch ME
@@ -181,7 +171,7 @@ catch ME
     end
 
     % Stop any ongoing parallel operations
-    drawnow; % Process any pending graphics callbacks
+    drawnow limitrate; % Process any pending graphics callbacks
     pause(1); % Brief pause to let callbacks finish
 
     % Use MException object directly instead of lasterror
@@ -200,144 +190,10 @@ catch ME
     end
 
     % Display error dialog
-    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'tex');
+    mode = struct('WindowStyle', getWindowsStyleFromSettings(), 'Interpreter', 'none');
     uiwait(errordlg(Text, 'ERROR: Initialize Program failed', mode));
 end
 
-function changeAppDesign(src,~)
-
-style = lower(src.Text);
-
-mainCordObj=findobj(src.Parent.Parent,'Tag','mainCard');
-mainCordObj.Visible = 'off';
-drawnow;
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,style)
-
-drawnow;
-mainCordObj.Visible = 'on';
-drawnow;
-end
-
-function loadUserSettings(src,~)
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-theme(mainFigObj,getSettingsValue('Style'));
-
-uiControls = find_all_ui_elements(mainFigObj);
-
-
-for i = 1:numel(uiControls)
-    workbar(i/numel(uiControls),'load settings','Load USER settings',mainFigObj);
-    reverseEnable = false;
-    if(strcmp(uiControls(i).Enable ,'off'))
-        set( uiControls(i), 'Enable', 'on');
-        reverseEnable = true;
-    end
-
-    try
-        ui_type = uiControls(i).Style;
-    catch 
-        ui_type = uiControls(i).Type;
-    end
-
-    switch src.Text
-        case 'Load User Settings'
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getSettingsValue(uiControls(i).Tag) );
-            end
-
-        case 'Load Default Settings'
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
-           end
-
-        otherwise
-            switch ui_type
-                case 'edit'
-                    uiControls(i).String = getDefaultSettingsValue(uiControls(i).Tag);
-                case 'uidropdown'
-                    uiControls(i).Value = getDefaultSettingsValue(uiControls(i).Tag);
-                otherwise
-                    uiControls(i).Value = str2double( getDefaultSettingsValue(uiControls(i).Tag) );
-           end
-
-    end
-          
-    if(reverseEnable)
-        set( uiControls(i), 'Enable', 'off');
-    end
-
-    if isprop(uiControls(i),'ValueChangedFcn')
-        if ~isempty(uiControls(i).ValueChangedFcn)
-            feval(get(uiControls(i),'ValueChangedFcn'),uiControls(i));
-        end
-    end
-
-    if isprop(uiControls(i),'Callback')
-        if ~isempty(uiControls(i).Callback)
-            feval(get(uiControls(i),'Callback'),uiControls(i));
-        end
-    end
-end
-workbar(2,'load settings','Load USER settings',mainFigObj);
-end
-
-function saveUserSettings(src,~)
-
-mainFigObj=findobj(src.Parent.Parent,'Type','figure');
-
-setSettingsValue('Style',mainFigObj.Theme.BaseColorStyle)
-
-uiControls = find_all_ui_elements(mainFigObj);
-
-for i = 1:numel(uiControls)
-
-    workbar(i/numel(uiControls),'Save settings','Save USER settings',mainFigObj);
-    reverseEnable = false;
-    if(strcmp(uiControls(i).Enable ,'off'))
-        set( uiControls(i), 'Enable', 'on');
-        reverseEnable = true;
-    end
-    ui_tag = uiControls(i).Tag;
-    try
-        ui_type = uiControls(i).Style;
-    catch 
-        ui_type = uiControls(i).Type;
-    end
-
-    switch ui_type
-        case 'edit'
-            setSettingsValue(ui_tag, uiControls(i).String);
-        case 'uidropdown'
-            setSettingsValue(ui_tag, uiControls(i).Value);
-        otherwise
-            setSettingsValue(ui_tag, num2str(uiControls(i).Value));
-    end
-
-    if(reverseEnable)
-        set( uiControls(i), 'Enable', 'off');
-    end
-
-end
-    workbar(2,'Save settings','Save USER settings',mainFigObj);
-end
-
-function openInformationFigure(src,~)
-
-mainFigObj=findobj('Tag','mainFigure');
-menu_callback_show_abaut_figure(mainFigObj);
-
-end
 
 
 

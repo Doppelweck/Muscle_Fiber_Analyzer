@@ -94,11 +94,6 @@ classdef viewResults < handle
             
             params = view_helper_default_params();
 
-            fontSizeS = 10; % Font size small
-            fontSizeM = 12; % Font size medium
-            fontSizeB = 16; % Font size big
-
-
             set(mainCard,'Visible','on');
             obj.panelResults = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
@@ -291,7 +286,7 @@ classdef viewResults < handle
             
             %%%%%%%%
             set( mainVBBoxSave, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1 -1.5] );
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
@@ -301,17 +296,17 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
             
-            statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            pictureTabPanel =         uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            pictureRGBPlaneTabPanel = uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            tableTabPanel =           uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
-            scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,'BorderType','line','Tag','obj.tabPanel');
+            statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            pictureTabPanel =         uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            pictureRGBPlaneTabPanel = uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            tableTabPanel =           uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
+            scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
             
             obj.tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
             obj.tabPanel.TabWidth = -1;
             %%%%%%%%%%%%%%%%%%% Tab Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 1;drawnow;
+            obj.tabPanel.Selection = 1;drawnow limitrate;
             statisticTabHBox = uix.HBox('Parent',statisticTabPanel,'Spacing',2,'Padding',2);
             
             statsVBoxleft = uix.VBox( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
@@ -336,7 +331,7 @@ classdef viewResults < handle
             obj.hAScatterBlueRed = axes('Parent',uicontainer('Parent',PanelScatter));
             set(obj.hAScatterBlueRed, 'LooseInset', [0,0,0,0]);
             axtoolbar(obj.hAScatterBlueRed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow;
+            drawnow limitrate;
            
 
             obj.B_TableStatistic = uitable('Parent',PanelStatisticTabel);
@@ -346,21 +341,21 @@ classdef viewResults < handle
             set( statsVBoxleft, 'Heights', [-1 -1] );
             set( statsVBoxMiddle, 'Heights', [-1 -1] );
             
-            set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAArea,'XLim',[-1.8 1.8]);
-            set(obj.hAArea,'YLim',[-1.8 1.8]);
-            set(obj.hAArea,'xtick',[],'ytick',[])
-            set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
+            % set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
+            % set(obj.hAArea,'XLim',[-1.8 1.8]);
+            % set(obj.hAArea,'YLim',[-1.8 1.8]);
+            % set(obj.hAArea,'xtick',[],'ytick',[])
+            % set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
             
             set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
 
             set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
 
             set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            drawnow;
+            drawnow limitrate;
 
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Histogramms %%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 2; drawnow;
+            obj.tabPanel.Selection = 2; drawnow limitrate;
             histoTabHBox = uix.HBox('Parent',histogramTabPanel,'Spacing',2,'Padding',2);
             
             histoVBoxleft = uix.VBox( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
@@ -383,32 +378,32 @@ classdef viewResults < handle
             obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound));
             set(obj.hARoundHist, 'LooseInset', [0,0,0,0]);
             axtoolbar(obj.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow;
+            drawnow limitrate;
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
-            obj.tabPanel.Selection = 3; drawnow;
-            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',fontSizeM);
+            obj.tabPanel.Selection = 3; drawnow limitrate;
+            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeM);
             
             obj.hAPProcessed = axes('Parent',uicontainer('Parent',mainPicProcPanel));
             axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            axis(obj.hAPProcessed ,'image');
             set(obj.hAPProcessed, 'LooseInset', [0,0,0,0]);
             set(obj.hAPProcessed,'Box','off');
-            drawnow;
+            drawnow limitrate;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
-            obj.tabPanel.Selection = 4;drawnow;
-            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',fontSizeM);
+            obj.tabPanel.Selection = 4;drawnow limitrate;
+            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeM);
             
             obj.hAPGroups = axes('Parent',uicontainer('Parent',mainPicGroupPanel));
             axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            axis image
+            axis(obj.hAPGroups ,'image');
             set(obj.hAPGroups, 'LooseInset', [0,0,0,0]);
             set(obj.hAPGroups,'Box','off');
-            drawnow;
+            drawnow limitrate;
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 5;drawnow;
-            mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',fontSizeM);
+            obj.tabPanel.Selection = 5;drawnow limitrate;
+            mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',params.fontSizeM);
             obj.B_TableMain = uitable('Parent',mainTablePanel);
             
             % obj.B_TableMain.FontSize = fontSizeS;
@@ -420,20 +415,20 @@ classdef viewResults < handle
             set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
 
             set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            drawnow;
+            drawnow limitrate;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 6;drawnow;
-            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',fontSizeM);
+            obj.tabPanel.Selection = 6;drawnow limitrate;
+            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeM);
             
             obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
             set(obj.hAScatterAll, 'LooseInset', [0,0,0,0]);
             axtoolbar(obj.hAScatterAll,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow;
+            drawnow limitrate;
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
             
             set(mainCard,'Visible','on');
-            obj.tabPanel.Selection = 1;drawnow;
+            obj.tabPanel.Selection = 1;drawnow limitrate;
 
         end
                 
@@ -449,9 +444,9 @@ classdef viewResults < handle
             %           obj:    Handle to viewAnalyze object
             %
             
-            BackAnalToolTip = sprintf('Go back to analyze mode.');
+            BackAnalToolTip = sprintf('Return to Classification.');
             
-            NewPicToolTip = sprintf('Select a new image for further processing.');
+            NewPicToolTip = sprintf('Select a new image for processing.');
             
             SaveToolTip = sprintf(['Saves the data in the same \n',...
                 ' directory as the selected RGB image.',...
@@ -459,15 +454,30 @@ classdef viewResults < handle
             
             CloseToolTip = sprintf(['Quit the program. \n',...
                 'Unsaved data will be lost.']);
+
+            SaveStateToolTip = sprintf(['Indicates if the saving was successful \n',...
+                '   - green: saving file was successfull \n',...
+                '   - yellow: unknown \n',...
+                '   - red: saving file failed',...
+                ]);
             
             set(obj.B_BackAnalyze,'tooltipstring',BackAnalToolTip);
             set(obj.B_CloseProgramm,'tooltipstring',CloseToolTip);
             set(obj.B_NewPic,'tooltipstring',NewPicToolTip);
             set(obj.B_Save,'tooltipstring',SaveToolTip);
+
+            set(obj.B_SaveFiberTableIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveScatterAllIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePlotsIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveHistoIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicProcIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicOriginalIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SavePicGroupsIndicator,'Tooltip',SaveStateToolTip);
+            set(obj.B_SaveBinaryMaskIndicator,'Tooltip',SaveStateToolTip);
         end
         
-         function delete(obj)
-            
+         function delete(~)
+            %Deconstructor
          end
 
     end
