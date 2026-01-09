@@ -6,14 +6,14 @@ appName = getSettingsValue('AppName');
 
 Pic = imread('StartScreen5.png');
 
-hf  = figure('Visible','on','MenuBar','none','NumberTitle','off',...
+hf  = uifigure('Visible','on','MenuBar','none','NumberTitle','off',...
     'WindowStyle',windowStyle,'Units','pixels','ToolBar','none');
 theme(hf ,'light');
 ha = axes('Parent',hf,'Visible','on','Units','pixels');
-axis image
+axis(ha ,'image');
 
 set(ha, 'LooseInset', [0,0,0,0]);
-ih = imshow(Pic);
+ih = imshow(Pic,'Parent',ha);
 imxpos = get(ih,'XData');
 imypos = get(ih,'YData');
 figpos = get(hf,'Position');

@@ -1,8 +1,12 @@
 try
-     
+    
+   setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+
+
     % % find starting path
     warning('off', 'all');
-    try %%Not need for .exe
+    
+    if strcmp(getSettingsValue('AppState'),'develop')
         path = cd;
         % add files to the current matalb path
         addpath(genpath('MVC'));
@@ -10,14 +14,11 @@ try
         addpath(genpath('Icons'));
         pause(0.5);
         cl;
-    catch
     end
 
-    
-    
+
     build_up_time_delay = 0.300;
     
-    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
@@ -31,18 +32,6 @@ try
     [newVersionAvailable, checkSuccessfull, newVersion] = checkAppForNewVersion(versionString);
 
 
-    % create starting screen
-    if ismac
-        fontSizeS = 18; % Font size small
-        fontSizeB = 20; % Font size big
-    elseif ispc
-        fontSizeS = 20*0.75; % Font size small
-        fontSizeB = 20*0.75; % Font size big
-    else
-        fontSizeS = 18; % Font size small
-        fontSizeB = 20; % Font size big
-    end
-
     % create main figure
     mainFig = uifigure(...
         'Visible','on',...
@@ -50,9 +39,11 @@ try
         'DockControls','off',...
         'WindowStyle','normal','NumberTitle','off',...
         'WindowState','maximized',...
+        'Units','normalized',...
+        'Position',[0.01 0.05 0.98 0.95],...
         'Tag','mainFigure');
     theme(mainFig,getSettingsValue('Style'));
-    set(mainFig,'WindowState','maximized');
+    %set(mainFig,'WindowState','maximized');
 
 
     %Create Start Screen
@@ -136,6 +127,7 @@ try
     pause(build_up_time_delay)
 
     LoadingText.String='Run application';
+    set(mainFig,'WindowState','maximized');
     drawnow limitrate;
     pause(build_up_time_delay);
 

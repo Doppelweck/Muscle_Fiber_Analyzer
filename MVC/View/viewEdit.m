@@ -114,7 +114,8 @@ classdef viewEdit < handle
                 
                 mainFig = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
                 mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
-                theme(mainFig,"auto");
+                theme(mainFig,"light");
+                 set(mainFig,'WindowState','maximized');
             end
             
             params = view_helper_default_params();

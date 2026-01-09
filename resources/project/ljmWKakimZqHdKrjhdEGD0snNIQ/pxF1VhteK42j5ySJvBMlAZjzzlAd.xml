@@ -2,5 +2,6 @@
 <Info>
     <Category UUID="Deployment_Category_74441669-5f92-4857-be3f-ad53b971204b">
         <Label UUID="Deployment_InstallerSplashFile_74441669-5f92-4857-be3f-ad53b971204b"/>
+        <Label UUID="Deployment_ExeSplashImageFile_74441669-5f92-4857-be3f-ad53b971204b"/>
     </Category>
 </Info>
