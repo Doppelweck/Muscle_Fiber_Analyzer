@@ -48,9 +48,6 @@ resources/
 # Folders
 MuscleFiberClassificationTool/
 MuscleFiberClassificationTool_resources/
-resources/generated/
-resources/**/cache*.xml
-resources/**/temp*.xml
 
 /StandaloneDesktopApp1/
 
