@@ -1,12 +1,11 @@
 try
     
-   setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
 
     % % find starting path
     warning('off', 'all');
     
-    if strcmp(getSettingsValue('AppState'),'develop')
+    if ~isdeployed
         path = cd;
         % add files to the current matalb path
         addpath(genpath('MVC'));
@@ -15,6 +14,9 @@ try
         %pause(0.5);
         cl;
     end
+
+    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+
 
 
     build_up_time_delay = 0.300;
