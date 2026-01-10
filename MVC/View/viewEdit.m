@@ -143,7 +143,7 @@ classdef viewEdit < handle
             PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Units','normalized','Title','Info Log');
             
             set( PanelVBox, 'Heights', [-18 -10 -22 -23 -27]);
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,7 +160,7 @@ classdef viewEdit < handle
             HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:} );
             obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x23EE Undo') );
             obj.B_Redo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('Redo \x23ED') );
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Image Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,7 +196,7 @@ classdef viewEdit < handle
             obj.B_AlphaValue = uicontrol( 'Parent', HButtonBoxAlpha2_3,'Style','edit','Tag','editAlpha','Enable','off');
             
             set( HBoxAlpha2, 'Widths', [-0.8 -0.2 -2 -1] );
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Hand Draw Grid %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -227,7 +227,7 @@ classdef viewEdit < handle
                 'Items', {'Fibers shown as Background (Dark Pixels)','Fibers shown as Forground (Light Pixels)' } ,'Enable','off');
             
             set( HBoxBinari2, 'Widths', [-1 -3] );
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%%%% 3. Row Threshold %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -243,7 +243,7 @@ classdef viewEdit < handle
             obj.B_ThresholdValue = uicontrol( 'Parent', HButtonBoxBinari3_3,'Style','edit', 'Tag','editBinaryThresh','Enable','off');
             
             set( HBoxBinari3, 'Widths', [-1 -2 -1] );
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%%%% 4. Row Linewidth %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -260,7 +260,7 @@ classdef viewEdit < handle
             obj.B_LineWidthValue = uicontrol( 'Parent', HButtonBoxBinari5_3,'Style','edit', 'Tag','editLineWidtht');
             
             set( HBoxBinari5, 'Widths', [-1 -2 -1] );
-            drawnow limitrate;
+            drawnow;
             
             %%%%%%%%%%%%%%%% 5. Row Color/Invert %%%%%%%%%%%%%%%%%%%%%%%%%%
              
@@ -305,7 +305,7 @@ classdef viewEdit < handle
             obj.B_NoIteration = uicontrol( 'Parent', HButtonBoxMorph4,'Style','edit', 'String','1','Enable','off','Tag','editNoIteration' );
             
             obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', 'Run Morphological Operation','Enable','off','Tag','buttonMorphOP' );
-            drawnow limitrate;
+            drawnow;
 
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
@@ -326,7 +326,7 @@ classdef viewEdit < handle
             obj.setToolTipStrings();
                         
             set(mainCard,'Visible','on');
-            drawnow limitrate;
+            drawnow;
 
         end % end constructor
         
@@ -555,7 +555,7 @@ classdef viewEdit < handle
             drawnow limitrate
             tabPanel.Selection =1;
             set(obj.hFCP,'Visible','on');
-            drawnow limitrate;
+            drawnow;
         end
         
         function infoMessage(~,Text)
