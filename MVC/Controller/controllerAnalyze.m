@@ -871,8 +871,6 @@ classdef controllerAnalyze < handle
                 obj.controllerResultsHandle.clearData();
                 obj.busyIndicator(0);
                 
-                [y,Fs] = audioread('filling-your-inbox.mp3');
-                sound(y,Fs);
             catch
                 obj.busyIndicator(0);
                 obj.errorMessage();
