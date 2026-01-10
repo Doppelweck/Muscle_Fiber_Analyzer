@@ -12,7 +12,7 @@ try
         addpath(genpath('MVC'));
         addpath(genpath('Functions'));
         addpath(genpath('Icons'));
-        pause(0.5);
+        %pause(0.5);
         cl;
     end
 
@@ -48,7 +48,7 @@ try
 
     %Create Start Screen
     [hf, LoadingText] = startSrcreen();
-    pause(build_up_time_delay);
+    %pause(build_up_time_delay);
     drawnow limitrate;
     update_menu_bar_main_figure(mainFig,versionString,...
         @menu_callback_change_app_theme,...
@@ -61,7 +61,7 @@ try
     set(hf,'WindowStyle','alwaysontop'); drawnow limitrate;
     set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow limitrate;
     figure(hf); drawnow limitrate; 
-    pause(build_up_time_delay);
+    %pause(build_up_time_delay);
 
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
@@ -70,15 +70,15 @@ try
     viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1; 
-    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
     viewAnalyzeHandle = viewAnalyze(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2; 
-    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
     viewResultsHandle = viewResults(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3;
-    drawnow limitrate;pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
     mainCard.Selection = 1; drawnow limitrate;
 
     LoadingText.String='Loading please wait...   Load User Settings...';
@@ -91,32 +91,32 @@ try
     %Ui Controls
     menu_callback_load_user_settings();
 
-    drawnow limitrate;pause(build_up_time_delay);
+    drawnow limitrate;%pause(build_up_time_delay);
 
     LoadingText.String='Loading please wait...   Initialize MODEL-Components...';
     %Init MODEL's
     modelEditHandle = modelEdit();
     modelAnalyzeHandle = modelAnalyze();
     modelResultsHandle = modelResults();
-    pause(build_up_time_delay)
+    %pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Initialize CONTROLLER-Components...';
     %Init CONTROLLER's
     controllerEditHandle = controllerEdit(mainFig, mainCard, viewEditHandle, modelEditHandle);
     controllerAnalyzeHandle = controllerAnalyze(mainFig, mainCard, viewAnalyzeHandle, modelAnalyzeHandle);
     controllerResultsHandle = controllerResults(mainFig, mainCard, viewResultsHandle, modelResultsHandle);
-    pause(build_up_time_delay)
+    %pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Connecting components...';
     %Connecting Model's and their Controller's
     modelEditHandle.controllerEditHandle = controllerEditHandle;
     modelAnalyzeHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
     modelResultsHandle.controllerResultsHandle = controllerResultsHandle;
-    pause(build_up_time_delay)
+    %pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Update app design...';
     drawnow limitrate;
-    pause(build_up_time_delay)
+    %pause(build_up_time_delay)
 
     LoadingText.String='Loading please wait...   Start application...';
     %Connecting Controller's to each other
@@ -124,16 +124,16 @@ try
     controllerAnalyzeHandle.controllerEditHandle = controllerEditHandle;
     controllerAnalyzeHandle.controllerResultsHandle = controllerResultsHandle;
     controllerResultsHandle.controllerAnalyzeHandle = controllerAnalyzeHandle;
-    pause(build_up_time_delay)
+    %pause(build_up_time_delay)
 
     LoadingText.String='Run application';
     set(mainFig,'WindowState','maximized');
     drawnow limitrate;
-    pause(build_up_time_delay);
+    %pause(build_up_time_delay);
 
     set(mainFig,'WindowState','maximized');
     drawnow limitrate;
-    pause(2);
+    %pause(2);
     delete(hf);
     drawnow limitrate;
     delete(LoadingText);
@@ -164,7 +164,7 @@ catch ME
 
     % Stop any ongoing parallel operations
     drawnow limitrate; % Process any pending graphics callbacks
-    pause(1); % Brief pause to let callbacks finish
+    %pause(1); % Brief %pause to let callbacks finish
 
     % Use MException object directly instead of lasterror
     stackDepth = numel(ME.stack);
