@@ -26,6 +26,6 @@ params.default_panel = {'FontSize',params.fontSizeB,'BorderWidth',2,'Padding', 5
 params.default_tab_panel = {'FontSize',params.fontSizeM,'Padding', 2,'Clipping',clipping};
 
 params.default_axes = {'Units','normalized','OuterPosition',[0 0 1 1],'LooseInset', [0,0,0,0],'Box','off'};
-params.default_axes_toolbar = {'export','datacursor','pan','zoomin','zoomout','restoreview'};
+params.default_axes_toolbar = {{'export','datacursor','pan','zoomin','zoomout','restoreview'}};
 
 end
