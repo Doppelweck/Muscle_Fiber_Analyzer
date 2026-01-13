@@ -166,154 +166,76 @@ classdef viewAnalyze < handle
 
             %%%%%%%%%%%%%%%% 2. Row: Area
             HBoxPara2 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:});
-            
-            HButtonBoxPara21 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            obj.B_AreaActive = uicontrol( 'Parent', HButtonBoxPara21,'Style','checkbox','Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
-
-            HButtonBoxPara22 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            uilabel( 'Parent', HButtonBoxPara22, 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
-            
-            HButtonBoxPara23 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            obj.B_MinArea = uicontrol( 'Parent', HButtonBoxPara23, params.default_normalized_font{:} ,'Style','edit','Tag','MinAreaValue', 'String', '100' ,'Tag','editMinArea');
-            
-            HButtonBoxPara24 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            uilabel( 'Parent', HButtonBoxPara24,'HorizontalAlignment','center', 'Text', 'to' );
-
-            HButtonBoxPara25 = uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:});
-            obj.B_MaxArea = uicontrol( 'Parent', HButtonBoxPara25, params.default_normalized_font{:}, 'Style','edit', 'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
-            
+            obj.B_AreaActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','AreaActive','Tag','checkboxAreaActive');
+                                 uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', ['Area (' sprintf('\x3BCm^2') ') from:']);
+            obj.B_MinArea =    uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:}), params.default_normalized_font{:} ,'Style','edit','Tag','MinAreaValue', 'String', '100' ,'Tag','editMinArea');
+                                 uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:}),'HorizontalAlignment','center', 'Text', 'to' );
+            obj.B_MaxArea =    uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara2, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
             set( HBoxPara2, 'Widths', [-8 -34 -22 -12 -22] );
 
             %%%%%%%%%%%%%%%% 3. Aspect Ratio
             HBoxPara3 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara31 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            obj.B_AspectRatioActive = uicontrol( 'Parent', HButtonBoxPara31,'Style','checkbox','Value',1,'Tag','AspectRatioActive','Tag','checkboxAspectRatioActive');
-            
-            HButtonBoxPara32 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara32, 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
-            
-            HButtonBoxPara33 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            obj.B_MinAspectRatio = uicontrol( 'Parent', HButtonBoxPara33,params.default_normalized_font{:}, 'Style','edit','Tag','MinAspectRatioValue', 'String', '1' ,'Tag','editMinAspectRatio');
-            
-            HButtonBoxPara34 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara34, 'HorizontalAlignment','center', 'Text', 'to' );
-            
-            HButtonBoxPara35 = uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:} );
-            obj.B_MaxAspectRatio= uicontrol( 'Parent', HButtonBoxPara35, params.default_normalized_font{:}, 'Style','edit','Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
-            
+            obj.B_AspectRatioActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','AspectRatioActive','Tag','checkboxAspectRatioActive');
+                                        uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'Aspect Ratio from:' );
+            obj.B_MinAspectRatio =    uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:}),params.default_normalized_font{:}, 'Style','edit','Tag','MinAspectRatioValue', 'String', '1' ,'Tag','editMinAspectRatio');
+                                        uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text', 'to' );
+            obj.B_MaxAspectRatio=     uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara3, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit','Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
             set( HBoxPara3, 'Widths', [-8 -34 -22 -12 -22] );
 
             %%%%%%%%%%%%%%%% 4. Row Color Value HSV ColorRoom
             HBoxPara4 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara41 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
-            obj.B_ColorValueActive = uicontrol( 'Parent', HButtonBoxPara41,'Style','checkbox','Value',1,'Tag','ColorValueActive','Tag','checkboxColorValueActive');
-            
-            HButtonBoxPara42 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara42, 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
-            
-            HButtonBoxPara43 = uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:} );
-            obj.B_ColorValue = uicontrol( 'Parent', HButtonBoxPara43, params.default_normalized_font{:}, 'Style','edit', 'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
-            
+            obj.B_ColorValueActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','ColorValueActive','Tag','checkboxColorValueActive');
+                                       uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'Minimal Color Value:' ,'Tag','editMinColorValue');
+            obj.B_ColorValue =       uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara4, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
             set( HBoxPara4, 'Widths', [-8 -34 -56] );
 
             %%%%%%%%%%%%%%%% 5. Row: Roundness
             HBoxPara5 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara51 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
-            obj.B_RoundnessActive = uicontrol( 'Parent', HButtonBoxPara51,'Style','checkbox','Value',1,'Tag','RoundnessActive','Tag','checkboxRoundnessActive');
-            
-            HButtonBoxPara52 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara52, 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
-            
-            HButtonBoxPara53 = uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:} );
-            obj.B_MinRoundness = uicontrol( 'Parent', HButtonBoxPara53, params.default_normalized_font{:}, 'Style','edit', 'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
-            
+            obj.B_RoundnessActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','RoundnessActive','Tag','checkboxRoundnessActive');
+                                      uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'Minimal Roundness:' ,'Tag','editMinRoundness');
+            obj.B_MinRoundness =    uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara5, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
             set( HBoxPara5, 'Widths', [-8 -34 -56] );
             
             %%%%%%%%%%%%%%%% 6. Row Blue Red thresh
             obj.ParaCard = uix.CardPanel('Parent', mainVBoxPara,'Selection',0, 'Padding',0);
-            
             VBoxMainPara1 = uix.VBox('Parent', obj.ParaCard );
             
             HBoxPara6 = uix.HBox('Parent', VBoxMainPara1,  params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara61 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            obj.B_BlueRedThreshActive = uicontrol( 'Parent', HButtonBoxPara61,'style','checkbox','Value',1,'Tag','checkboxBlueRedThreshActive');
-            
-            HButtonBoxPara62 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara62,  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
-            
-            HButtonBoxPara63 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            obj.B_BlueRedThresh = uicontrol( 'Parent', HButtonBoxPara63, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedThresh', 'String', '1');
-            
-            HButtonBoxPara64 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara64, 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
-            
-            HButtonBoxPara65 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            obj.B_BlueRedDistBlue = uicontrol( 'Parent', HButtonBoxPara65, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistBlue', 'String', '0.1');
-            
-            HButtonBoxPara66 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara66, 'HorizontalAlignment','center',  'Text', 'Red dist:' );
-            
-            HButtonBoxPara67 = uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:} );
-            obj.B_BlueRedDistRed = uicontrol( 'Parent', HButtonBoxPara67, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistRed', 'String', '0.1' );
-            
+            obj.B_BlueRedThreshActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}),'style','checkbox','Value',1,'Tag','checkboxBlueRedThreshActive');
+                                          uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}),  'HorizontalAlignment','left', 'Text', 'B/R thresh:' );
+            obj.B_BlueRedThresh =       uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedThresh', 'String', '1');
+                                          uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}), 'HorizontalAlignment','center',   'Text', 'Blue dist:' );
+            obj.B_BlueRedDistBlue =     uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistBlue', 'String', '0.1');
+                                          uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}), 'HorizontalAlignment','center',  'Text', 'Red dist:' );
+            obj.B_BlueRedDistRed =      uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara6, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistRed', 'String', '0.1' );
             set( HBoxPara6, 'Widths', [-8 -22 -10 -20 -10 -20 -10] );
 
             %%%%%%%%%%%%%%%% 7. Row FarRed Red thresh
             HBoxPara7 = uix.HBox('Parent', VBoxMainPara1, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara71 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            obj.B_FarredRedThreshActive = uicontrol( 'Parent', HButtonBoxPara71,'style','checkbox','Value',1,'Tag','checkboxFarredRedThreshActive');
-            
-            HButtonBoxPara72 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara72, 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
-            
-            HButtonBoxPara73 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            obj.B_FarredRedThresh = uicontrol( 'Parent', HButtonBoxPara73, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedThresh', 'String', '1' );
-            
-            HButtonBoxPara74 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara74, 'HorizontalAlignment','center', 'Text', 'Farred dist:');
-            
-            HButtonBoxPara75 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            obj.B_FarredRedDistFarred = uicontrol( 'Parent', HButtonBoxPara75, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistFarred', 'String', '0.1' );
-            
-            HButtonBoxPara76 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara76, 'HorizontalAlignment','center', 'Text', 'Red dist:');
-            
-            HButtonBoxPara77 = uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:} );
-            obj.B_FarredRedDistRed = uicontrol( 'Parent', HButtonBoxPara77, params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistRed', 'String', '0.1' );
-            
+            obj.B_FarredRedThreshActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}),'style','checkbox','Value',1,'Tag','checkboxFarredRedThreshActive');
+                                            uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'FR/R thresh:' );
+            obj.B_FarredRedThresh =       uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedThresh', 'String', '1' );
+                                            uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text', 'Farred dist:');
+            obj.B_FarredRedDistFarred =   uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistFarred', 'String', '0.1' );
+                                            uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text', 'Red dist:');
+            obj.B_FarredRedDistRed =      uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara7, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editFarredRedDistRed', 'String', '0.1' );
             set( HBoxPara7, 'Widths', [-8 -22 -10 -20 -10 -20 -10] );
             
             VBoxMainPara2 = uix.VBox('Parent', obj.ParaCard,'Padding',0,'Spacing', 0);
             
             HBoxPara71 = uix.HBox('Parent', VBoxMainPara2, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara711 = uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:} );
-            obj.B_12HybridFiberActive = uicontrol( 'Parent', HButtonBoxPara711,'style','checkbox','Value',1,'Tag','checkboxHybrid12FiberActive');
-            
-            HButtonBoxPara712 = uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara712, 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
-            
+            obj.B_12HybridFiberActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:}),'style','checkbox','Value',1,'Tag','checkboxHybrid12FiberActive');
+                                          uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara71, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'Searching for 1/2-Hybrid Fibers allowed?' );
             set( HBoxPara71, 'Widths', [-8 -92] );
             
             HBoxPara72 = uix.HBox('Parent', VBoxMainPara2, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxPara721 = uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:} );
-            obj.B_2axHybridFiberActive = uicontrol( 'Parent', HButtonBoxPara721,'style','checkbox','Value',1,'Tag','checkboxHybrid2axFiberActive');
-            
-            HButtonBoxPara722 = uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara722, 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
-            
+            obj.B_2axHybridFiberActive = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:}),'style','checkbox','Value',1,'Tag','checkboxHybrid2axFiberActive');
+                                           uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara72, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', 'Searching for 2ax-Hybrid Fibers allowed?' );
             set( HBoxPara72, 'Widths', [-8 -92] );
             
             obj.ParaCard.Selection = 1;
 
             %%%%%%%%%%%%%%%% 8. Pixel Scale
-
             HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
 
             HButtonBoxPara80 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
