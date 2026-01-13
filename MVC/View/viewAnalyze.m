@@ -337,120 +337,46 @@ classdef viewAnalyze < handle
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% Panel FiberInformation %%%%%%%%%%%%%%%%%%%%%
-            VBoxMainInfoFiber = uix.VBox('Parent', obj.PanelFiberInformation, params.default_box_spacing_padding{:} );
+            VBoxMainInfoFiber = uix.VBox('Parent', obj.PanelFiberInformation, params.default_box_spacing_padding{:});
             
-            HBoxInfo1 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
+            gridFiberInfow = uix.Grid('Parent',VBoxMainInfoFiber);
+
+            uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','left', 'Text', 'Label No.:' );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left',  'Text', 'Aspect Ratio:' );
+            uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','left', 'Text', 'mean Red:' );
+            uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','left',  'Text', 'mean Blue:' );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left' ,'Text', 'Blue/Red:' );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left' , 'Text', 'Color Value:' );
             
-            HButtonBoxInfo11 = uix.HButtonBox('Parent', HBoxInfo1, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo11, 'HorizontalAlignment','left', 'Text', 'Label No.:' );
+            obj.B_TextObjNo = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right',  'Text', ' - ','Tag','textFiberInfo' );
+            obj.B_TextAspectRatio = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextMeanRed = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextMeanBlue = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right',  'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextBlueRedRatio = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextColorValue = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
             
-            HButtonBoxInfo12 = uix.HButtonBox('Parent', HBoxInfo1, params.default_HButtonBox{:} );
-            obj.B_TextObjNo = uilabel( 'Parent', HButtonBoxInfo12,  'HorizontalAlignment','right',  'Text', ' - ','Tag','textFiberInfo' );
-            
-            uiextras.Empty( 'Parent', HBoxInfo1);
-            
-            HButtonBoxInfo13 = uix.HButtonBox('Parent', HBoxInfo1, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo13,  'HorizontalAlignment','left', 'Text' , ['Area' sprintf(' (\x3BCm^2)') ':'] );
-            
-            HButtonBoxInfo14 = uix.HButtonBox('Parent', HBoxInfo1, params.default_HButtonBox{:} );
-            obj.B_TextArea = uilabel( 'Parent', HButtonBoxInfo14, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo1, 'Widths', [-2 -2 -2 -2 -2] );
-            
-            
-            HBoxInfo2 = uix.HBox('Parent', VBoxMainInfoFiber, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxInfo21 = uix.HButtonBox('Parent', HBoxInfo2, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo21,  'HorizontalAlignment','left',  'Text', 'Aspect Ratio:' );
-            
-            HButtonBoxInfo22 = uix.HButtonBox('Parent', HBoxInfo2, params.default_HButtonBox{:} );
-            obj.B_TextAspectRatio = uilabel( 'Parent', HButtonBoxInfo22, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            uiextras.Empty( 'Parent', HBoxInfo2);
-            
-            HButtonBoxInfo23 = uix.HButtonBox('Parent', HBoxInfo2, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo23,  'HorizontalAlignment','left', 'Text', 'Roundness:' );
-            
-            HButtonBoxInfo24 = uix.HButtonBox('Parent', HBoxInfo2, params.default_HButtonBox{:} );
-            obj.B_TextRoundness = uilabel( 'Parent', HButtonBoxInfo24, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo2, 'Widths', [-2 -2 -2 -2 -2] );
-            
-            
-            HBoxInfo3 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
-            
-            HButtonBoxInfo31 = uix.HButtonBox('Parent', HBoxInfo3, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo31, 'HorizontalAlignment','left', 'Text', 'mean Red:' );
-            
-            HButtonBoxInfo32 = uix.HButtonBox('Parent', HBoxInfo3, params.default_HButtonBox{:} );
-            obj.B_TextMeanRed = uilabel( 'Parent', HButtonBoxInfo32, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            uiextras.Empty( 'Parent', HBoxInfo3);
-            
-            HButtonBoxInfo33 = uix.HButtonBox('Parent', HBoxInfo3, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo33,  'HorizontalAlignment','left', 'Text', 'mean Green:' );
-            
-            HButtonBoxInfo34 = uix.HButtonBox('Parent', HBoxInfo3, params.default_HButtonBox{:} );
-            obj.B_TextMeanGreen = uilabel( 'Parent', HButtonBoxInfo34,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo3, 'Widths', [-2 -2 -2 -2 -2] );
-            
-            
-            HBoxInfo4 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
-            
-            HButtonBoxInfo41 = uix.HButtonBox('Parent', HBoxInfo4, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo41, 'HorizontalAlignment','left',  'Text', 'mean Blue:' );
-            
-            HButtonBoxInfo42 = uix.HButtonBox('Parent', HBoxInfo4, params.default_HButtonBox{:} );
-            obj.B_TextMeanBlue = uilabel( 'Parent', HButtonBoxInfo42,  'HorizontalAlignment','right',  'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            uiextras.Empty( 'Parent', HBoxInfo4);
-            
-            HButtonBoxInfo43 = uix.HButtonBox('Parent', HBoxInfo4, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo43,  'HorizontalAlignment','left',  'Text', 'mean Farred:' );
-            
-            HButtonBoxInfo44 = uix.HButtonBox('Parent', HBoxInfo4, params.default_HButtonBox{:} );
-            obj.B_TextMeanFarred = uilabel( 'Parent', HButtonBoxInfo44, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo4, 'Widths', [-2 -2 -2 -2 -2] );
-            
-            
-            HBoxInfo5 = uix.HBox('Parent', VBoxMainInfoFiber,   params.default_box_spacing_padding{:} );
-            
-            HButtonBoxInfo51 = uix.HButtonBox('Parent', HBoxInfo5, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo51,  'HorizontalAlignment','left' ,'Text', 'Blue/Red:' );
-            
-            HButtonBoxInfo52 = uix.HButtonBox('Parent', HBoxInfo5, params.default_HButtonBox{:} );
-            obj.B_TextBlueRedRatio = uilabel( 'Parent', HButtonBoxInfo52,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            uiextras.Empty( 'Parent', HBoxInfo5);
-            
-            HButtonBoxInfo53 = uix.HButtonBox('Parent', HBoxInfo5, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo53, 'HorizontalAlignment','left', 'Text', 'Farred/Red:' );
-            
-            HButtonBoxInfo54 = uix.HButtonBox('Parent', HBoxInfo5, params.default_HButtonBox{:} );
-            obj.B_TextFarredRedRatio = uilabel( 'Parent', HButtonBoxInfo54,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo5, 'Widths', [-2 -2 -2 -2 -2] );
-            
-            
-            HBoxInfo6 = uix.HBox('Parent', VBoxMainInfoFiber,  params.default_box_spacing_padding{:} );
-            
-            HButtonBoxInfo61 = uix.HButtonBox('Parent', HBoxInfo6, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo61,  'HorizontalAlignment','left' , 'Text', 'Color Value:' );
-            
-            HButtonBoxInfo62 = uix.HButtonBox('Parent', HBoxInfo6, params.default_HButtonBox{:} );
-            obj.B_TextColorValue = uilabel( 'Parent', HButtonBoxInfo62, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            uiextras.Empty( 'Parent', HBoxInfo6);
-            
-            HButtonBoxInfo63 = uix.HButtonBox('Parent', HBoxInfo6, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxInfo63, 'HorizontalAlignment','left', 'Text', 'Fiber Type:' );
-            
-            HButtonBoxInfo64 = uix.HButtonBox('Parent', HBoxInfo6, params.default_HButtonBox{:} );
-            obj.B_TextFiberType = uilabel( 'Parent', HButtonBoxInfo64, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
-            
-            set( HBoxInfo6, 'Widths', [-2 -2 -2 -2 -2] );
+            uiextras.Empty( 'Parent', gridFiberInfow);
+            uiextras.Empty( 'Parent', gridFiberInfow);
+            uiextras.Empty( 'Parent', gridFiberInfow);
+            uiextras.Empty( 'Parent', gridFiberInfow);
+            uiextras.Empty( 'Parent', gridFiberInfow);
+            uiextras.Empty( 'Parent', gridFiberInfow);
+
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left', 'Text' , ['Area' sprintf(' (\x3BCm^2)') ':'] );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left', 'Text', 'Roundness:' );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left', 'Text', 'mean Green:' );
+            uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','left',  'Text', 'mean Farred:' );
+            uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','left', 'Text', 'Farred/Red:' );
+            uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','left', 'Text', 'Fiber Type:' );
+
+            obj.B_TextArea = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextRoundness = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextMeanGreen = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextMeanFarred = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextFarredRedRatio = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+            obj.B_TextFiberType = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
+
+            set( gridFiberInfow, 'Widths',[-1 -1 -1 -1 -1] , 'Heights', [-1 -1 -1 -1 -1 -1] );
             
             
             HBoxInfo7 = uix.HBox('Parent', VBoxMainInfoFiber);
@@ -458,8 +384,8 @@ classdef viewAnalyze < handle
             axis(obj.B_AxesInfo ,'image');
             set(obj.B_AxesInfo, 'LooseInset', [0,0,0,0]);
             
-            set( VBoxMainInfoFiber, 'Heights', [-6 -6 -6 -6 -6 -6 -64], 'Spacing', 1 );
-            set( VBoxMainInfoFiber, 'MinimumHeights', [10 10 10 10 10 10 10] );
+            set( VBoxMainInfoFiber, 'Heights', [-36 -64], 'Spacing', 1 );
+            set( VBoxMainInfoFiber, 'MinimumHeights', [60 10] );
             drawnow;
             
             
