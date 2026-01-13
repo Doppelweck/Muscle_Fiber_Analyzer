@@ -93,8 +93,6 @@ classdef viewResults < handle
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure(params.default_uifugure{:});
                 theme(mainCard,"auto");
-                drawnow nocallbacks limitrate
-                pause(1);
             end
             
             set(mainCard,'Visible','on');
@@ -104,10 +102,7 @@ classdef viewResults < handle
             obj.panelControl = uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'RESULTS', 'TitlePosition','centertop');
             %set( obj.panelResults, 'MinimumWidths', [1 320] );
             set( obj.panelResults, 'Widths', [-4 -1] );
-            drawnow nocallbacks limitrate
-            % set(obj.panelAxes,'Enable','off');
-            % set(obj.panelControl,'Enable','off');
-            
+
             %%%%%%%%%%%%%%%%%% Panel controls %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -197,8 +192,7 @@ classdef viewResults < handle
             scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
             
             obj.tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
-            drawnow nocallbacks
-            pause(2);
+
             %%%%%%%%%%%%%%%%%%% Tab Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 1;
             statisticTabHBox = uix.HBox('Parent',statisticTabPanel,'Spacing',2,'Padding',2);
@@ -213,21 +207,15 @@ classdef viewResults < handle
             PanelScatter = uix.Panel('Parent',statsVBoxMiddle,'Padding',5);
             PanelStatisticTabel = uix.Panel('Parent',statsVBoxRight,'Padding',5);
             
-            obj.hAArea = axes('Parent',uicontainer('Parent',PanelArea));
-            set(obj.hAArea, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAArea,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hACount= axes('Parent',uicontainer('Parent',PanelCount));
-            set(obj.hACount, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hACount,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAScatterFarredRed = axes('Parent',uicontainer('Parent',PanelDia));
-            set(obj.hAScatterFarredRed, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterFarredRed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAScatterBlueRed = axes('Parent',uicontainer('Parent',PanelScatter));
-            set(obj.hAScatterBlueRed, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterBlueRed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow nocallbacks limitrate
+            obj.hAArea = axes('Parent',uicontainer('Parent',PanelArea),params.default_axes{:});
+            axtoolbar(obj.hAArea,params.default_axes_toolbar{:});
+            obj.hACount= axes('Parent',uicontainer('Parent',PanelCount),params.default_axes{:});
+            axtoolbar(obj.hACount,params.default_axes_toolbar{:});
+            obj.hAScatterFarredRed = axes('Parent',uicontainer('Parent',PanelDia),params.default_axes{:});
+            axtoolbar(obj.hAScatterFarredRed,params.default_axes_toolbar{:});
+            obj.hAScatterBlueRed = axes('Parent',uicontainer('Parent',PanelScatter),params.default_axes{:});
+            axtoolbar(obj.hAScatterBlueRed,params.default_axes_toolbar{:});
            
-
             obj.B_TableStatistic = uitable('Parent',PanelStatisticTabel);
             obj.B_TableMain.Position =[0 0 1 1];
             
@@ -235,18 +223,6 @@ classdef viewResults < handle
             set( statsVBoxleft, 'Heights', [-1 -1] );
             set( statsVBoxMiddle, 'Heights', [-1 -1] );
             
-            % set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
-            % set(obj.hAArea,'XLim',[-1.8 1.8]);
-            % set(obj.hAArea,'YLim',[-1.8 1.8]);
-            % set(obj.hAArea,'xtick',[],'ytick',[])
-            % set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
-            
-            set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            drawnow nocallbacks limitrate
 
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Histogramms %%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 2; 
@@ -260,74 +236,58 @@ classdef viewResults < handle
             histoDiameter = uix.Panel('Parent',histoVBoxright,'Padding',5);
             histoRound = uix.Panel('Parent',histoVBoxright,'Padding',5);
             
-            obj.hAAreaHist = axes('Parent',uicontainer('Parent',histoArea));
-            set(obj.hAAreaHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAAreaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAAspectHist= axes('Parent',uicontainer('Parent',histoAspect));
-            set(obj.hAAspectHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAAspectHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hADiaHist = axes('Parent',uicontainer('Parent',histoDiameter));
-            set(obj.hADiaHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hADiaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound));
-            set(obj.hARoundHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow nocallbacks limitrate
+            obj.hAAreaHist = axes('Parent',uicontainer('Parent',histoArea),params.default_axes{:});
+            axtoolbar(obj.hAAreaHist,params.default_axes_toolbar{:});
+            obj.hAAspectHist= axes('Parent',uicontainer('Parent',histoAspect),params.default_axes{:});
+            axtoolbar(obj.hAAspectHist,params.default_axes_toolbar{:});
+            obj.hADiaHist = axes('Parent',uicontainer('Parent',histoDiameter),params.default_axes{:});
+            axtoolbar(obj.hADiaHist,params.default_axes_toolbar{:});
+            obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound),params.default_axes{:});
+            axtoolbar(obj.hARoundHist,params.default_axes_toolbar{:});
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
             obj.tabPanel.Selection = 3;
-            tempTabHBox = uix.HBox('Parent',pictureTabPanel,'Spacing',2,'Padding',2);
-            mainPicProcPanel = uix.Panel('Parent',tempTabHBox,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeM);
+            tempTabVBox = uix.VBox('Parent',pictureTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeB);
             
-            obj.hAPProcessed = axes('Parent',uicontainer('Parent',mainPicProcPanel));
-            axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
+            obj.hAPProcessed = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAPProcessed,params.default_axes_toolbar{:});
             axis(obj.hAPProcessed ,'image');
-            set(obj.hAPProcessed, 'LooseInset', [0,0,0,0]);
-            set(obj.hAPProcessed,'Box','off');
-            pause(2);
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
 
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             obj.tabPanel.Selection = 4;
-            tempTabHBox = uix.HBox('Parent',pictureRGBPlaneTabPanel,'Spacing',2,'Padding',2);
-            mainPicGroupPanel = uix.Panel('Parent',tempTabHBox,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeM);
+            tempTabVBox = uix.VBox('Parent',pictureRGBPlaneTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeB);
             
-            obj.hAPGroups = axes('Parent',uicontainer('Parent',mainPicGroupPanel));
-            axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
+            obj.hAPGroups = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAPGroups,params.default_axes_toolbar{:});
             axis(obj.hAPGroups ,'image');
-            set(obj.hAPGroups, 'LooseInset', [0,0,0,0]);
-            set(obj.hAPGroups,'Box','off');
-            drawnow nocallbacks limitrate
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 5;
             mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',params.fontSizeM);
             obj.B_TableMain = uitable('Parent',mainTablePanel);
             
-            % obj.B_TableMain.FontSize = fontSizeS;
-            % obj.B_TableMain.Units = 'normalized';
             obj.B_TableMain.Position =[0 0 1 1];
             
-            set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAPProcessed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAPGroups,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            drawnow
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 6;
-            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeM);
+            tempTabVBox = uix.VBox('Parent',scatterAllTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeB);
             
-            obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAScatterAll, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterAll,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow nocallbacks limitrate
+            obj.hAScatterAll = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAScatterAll,params.default_axes_toolbar{:});
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
+
+
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
             
             set(mainCard,'Visible','on');
             obj.tabPanel.Selection = 1;
-            drawnow nocallbacks limitrate
+            drawnow 
 
         end
                 
