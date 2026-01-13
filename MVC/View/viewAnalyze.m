@@ -163,7 +163,6 @@ classdef viewAnalyze < handle
             String= {'Color-Ratio-Based triple labeling' ; 'Color-Ratio-Based quad labeling';...
             'OPTICS-Cluster-Based triple labeling' ; 'OPTICS-Cluster-Based quad labeling';'Manual CLassification triple labeling';'Manual CLassification quad labeling'; 'Collagen / Dystrophin'};
             obj.B_AnalyzeMode = uidropdown( 'Parent', HButtonBoxPara12, 'Items', String ,'Value','Color-Ratio-Based quad labeling','Tag','popupmenuAnalyzeMode');
-            drawnow;
 
             %%%%%%%%%%%%%%%% 2. Row: Area
             HBoxPara2 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:});
@@ -184,7 +183,6 @@ classdef viewAnalyze < handle
             obj.B_MaxArea = uicontrol( 'Parent', HButtonBoxPara25, params.default_normalized_font{:}, 'Style','edit', 'Tag','MaxAreaValue', 'String', '10000','Tag','editMaxArea' );
             
             set( HBoxPara2, 'Widths', [-8 -34 -22 -12 -22] );
-            drawnow;
 
             %%%%%%%%%%%%%%%% 3. Aspect Ratio
             HBoxPara3 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
@@ -205,7 +203,6 @@ classdef viewAnalyze < handle
             obj.B_MaxAspectRatio= uicontrol( 'Parent', HButtonBoxPara35, params.default_normalized_font{:}, 'Style','edit','Tag','MaxAspectRatioValue', 'String', '4' ,'Tag','editMaxAspectRatio');
             
             set( HBoxPara3, 'Widths', [-8 -34 -22 -12 -22] );
-            drawnow;
 
             %%%%%%%%%%%%%%%% 4. Row Color Value HSV ColorRoom
             HBoxPara4 = uix.HBox('Parent', mainVBoxPara, params.default_box_spacing_padding{:} );
@@ -220,7 +217,6 @@ classdef viewAnalyze < handle
             obj.B_ColorValue = uicontrol( 'Parent', HButtonBoxPara43, params.default_normalized_font{:}, 'Style','edit', 'Tag','ColorValue', 'String', '0.1' ,'Tag','editMaxColorValue');
             
             set( HBoxPara4, 'Widths', [-8 -34 -56] );
-            drawnow;
 
             %%%%%%%%%%%%%%%% 5. Row: Roundness
             HBoxPara5 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
@@ -235,7 +231,6 @@ classdef viewAnalyze < handle
             obj.B_MinRoundness = uicontrol( 'Parent', HButtonBoxPara53, params.default_normalized_font{:}, 'Style','edit', 'Tag','MinRoundValue', 'String', '0.15' ,'Tag','editMaxRoundness');
             
             set( HBoxPara5, 'Widths', [-8 -34 -56] );
-            drawnow;
             
             %%%%%%%%%%%%%%%% 6. Row Blue Red thresh
             obj.ParaCard = uix.CardPanel('Parent', mainVBoxPara,'Selection',0, 'Padding',0);
@@ -266,7 +261,6 @@ classdef viewAnalyze < handle
             obj.B_BlueRedDistRed = uicontrol( 'Parent', HButtonBoxPara67, params.default_normalized_font{:}, 'Style','edit', 'Tag','editBlueRedDistRed', 'String', '0.1' );
             
             set( HBoxPara6, 'Widths', [-8 -22 -10 -20 -10 -20 -10] );
-            drawnow;
 
             %%%%%%%%%%%%%%%% 7. Row FarRed Red thresh
             HBoxPara7 = uix.HBox('Parent', VBoxMainPara1, params.default_box_spacing_padding{:} );
@@ -317,7 +311,6 @@ classdef viewAnalyze < handle
             set( HBoxPara72, 'Widths', [-8 -92] );
             
             obj.ParaCard.Selection = 1;
-            drawnow;
 
             %%%%%%%%%%%%%%%% 8. Pixel Scale
 
@@ -341,7 +334,6 @@ classdef viewAnalyze < handle
             set( HBoxPara8, 'Widths', [-1 -1 -1 -1 -1] );
             
             set( mainVBoxPara, 'Heights', [-1 -1 -1 -1 -1 -2 -1], 'Spacing', 0 );
-            drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% Panel FiberInformation %%%%%%%%%%%%%%%%%%%%%
