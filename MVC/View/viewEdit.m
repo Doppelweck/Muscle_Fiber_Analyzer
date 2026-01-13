@@ -115,8 +115,6 @@ classdef viewEdit < handle
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure(params.default_uifugure{:});
                 theme(mainCard,"auto");
-                drawnow nocallbacks limitrate
-                pause(1);
             end
             
             set(mainCard,'Visible','on');
@@ -191,7 +189,6 @@ classdef viewEdit < handle
             obj.B_AlphaValue = uicontrol( 'Parent', HButtonBoxAlpha2_3,'Style','edit','Tag','editAlpha','Enable','off');
             
             set( HBoxAlpha2, 'Widths', [-0.8 -0.2 -2 -1] );
-            drawnow;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Hand Draw Grid %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,7 +219,6 @@ classdef viewEdit < handle
                 'Items', {'Fibers shown as Background (Dark Pixels)','Fibers shown as Forground (Light Pixels)' } ,'Enable','off');
             
             set( HBoxBinari2, 'Widths', [-1 -3] );
-            drawnow;
 
             %%%%%%%%%%%%%%%% 3. Row Threshold %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -255,7 +251,6 @@ classdef viewEdit < handle
             obj.B_LineWidthValue = uicontrol( 'Parent', HButtonBoxBinari5_3,'Style','edit', 'Tag','editLineWidtht');
             
             set( HBoxBinari5, 'Widths', [-1 -2 -1] );
-            drawnow;
             
             %%%%%%%%%%%%%%%% 5. Row Color/Invert %%%%%%%%%%%%%%%%%%%%%%%%%%
              
@@ -300,7 +295,6 @@ classdef viewEdit < handle
             obj.B_NoIteration = uicontrol( 'Parent', HButtonBoxMorph4,'Style','edit', 'String','1','Enable','off','Tag','editNoIteration' );
             
             obj.B_StartMorphOP = uicontrol( 'Parent', HButtonBoxMorph5, params.default_normalized_font{:}, 'String', sprintf('\x23F5 Run Morphological Operation'),'Enable','off','Tag','buttonMorphOP' );
-            drawnow;
 
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});

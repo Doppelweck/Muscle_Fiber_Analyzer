@@ -115,8 +115,6 @@ classdef viewAnalyze < handle
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure(params.default_uifugure{:});
                 theme(mainCard,"auto");
-                drawnow nocallbacks limitrate
-                pause(1);
             end
             
             set(mainCard,'Visible','on');
@@ -308,7 +306,7 @@ classdef viewAnalyze < handle
             
             set( VBoxMainInfoFiber, 'Heights', [-36 -64], 'Spacing', 1 );
             set( VBoxMainInfoFiber, 'MinimumHeights', [60 10] );
-            drawnow;
+            
             
             
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -320,6 +318,7 @@ classdef viewAnalyze < handle
             obj.setToolTipStrings();
                         
             set(mainCard,'Visible','on');
+            drawnow;
 
         end
         
