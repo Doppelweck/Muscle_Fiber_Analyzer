@@ -110,15 +110,14 @@ classdef viewEdit < handle
     methods
         function obj = viewEdit(mainCard)
             % constructor
-            if nargin < 1 || isempty(mainCard)
-                
-                mainFig = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
-                theme(mainFig,"light");
-                 set(mainFig,'WindowState','maximized');
-            end
-            
             params = view_helper_default_params();
+
+            if nargin < 1 || isempty(mainCard)
+                mainCard = uifigure(params.default_uifugure{:});
+                theme(mainCard,"auto");
+                drawnow nocallbacks limitrate
+                pause(1);
+            end
             
             set(mainCard,'Visible','on');
             obj.panelEdit = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});

@@ -109,12 +109,15 @@ classdef viewAnalyze < handle
     
     methods
         function obj = viewAnalyze(mainCard)
-            if nargin < 1 || isempty(mainCard)
-                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"auto");
-            end
-            
+
             params = view_helper_default_params();
+
+            if nargin < 1 || isempty(mainCard)
+                mainCard = uifigure(params.default_uifugure{:});
+                theme(mainCard,"auto");
+                drawnow nocallbacks limitrate
+                pause(1);
+            end
             
             set(mainCard,'Visible','on');
             obj.panelAnalyze = uix.HBox( 'Parent', mainCard , params.default_box_spacing_padding{:});
@@ -148,7 +151,7 @@ classdef viewAnalyze < handle
             obj.B_StartResults = uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Results \x276F\x276F'),'Tag','pushbuttonStartResults');
             obj.B_PreResults =   uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Preview Results \x2750') ,'Tag','pushbuttonPreResults');
             set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1] );
-            
+
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%% Panel Para %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             mainVBoxPara = uix.VBox('Parent', PanelPara,params.default_box_spacing_padding{:});
