@@ -17,11 +17,8 @@ try
 
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
-
-
     build_up_time_delay = 0.300;
     
-
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
     setSettingsValue('Day','11');
@@ -33,16 +30,13 @@ try
     writeVersionToTxt(versionString,test);
     [newVersionAvailable, checkSuccessfull, newVersion] = checkAppForNewVersion(versionString);
 
+    params = view_helper_default_params();
 
     % create main figure
     mainFig = uifigure(...
         'Visible','on',...
         'Name',[getSettingsValue('AppName') ' ' getSettingsValue('Version')],...
-        'DockControls','off',...
-        'WindowStyle','normal','NumberTitle','off',...
-        'WindowState','maximized',...
-        'Units','normalized',...
-        'Position',[0.01 0.05 0.98 0.95],...
+         params.default_uifugure{:},...
         'Tag','mainFigure');
     theme(mainFig,getSettingsValue('Style'));
     %set(mainFig,'WindowState','maximized');
