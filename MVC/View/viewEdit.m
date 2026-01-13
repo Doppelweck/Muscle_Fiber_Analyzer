@@ -143,24 +143,20 @@ classdef viewEdit < handle
             PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Units','normalized','Title','Info Log');
             
             set( PanelVBox, 'Heights', [-18 -10 -22 -23 -27]);
-            drawnow;
+
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:} );
-            
-            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl, params.default_HButtonBox_Main{:});
-            obj.B_NewPic =           uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:}, 'String', sprintf('\x25A8 New File') );
-            obj.B_StartAnalyzeMode = uicontrol( 'Parent', HBoxControl1, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('Analyze \x276F\x276F') ,'Enable','off');
-            
-            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_CheckMask =   uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:},'Style','pushbutton', 'String', sprintf('\x25D0 Check Mask') ,'Enable','off');
-            obj.B_CheckPlanes = uicontrol( 'Parent', HBoxControl2, params.default_normalized_font{:}, 'String', sprintf('Check Planes \x2750') ,'Enable','off');
-            
-            HBoxControl3 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:} );
-            obj.B_Undo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('\x21BA Undo') );
-            obj.B_Redo = uicontrol( 'Parent', HBoxControl3, params.default_normalized_font{:}, 'String', sprintf('Redo \x21BB') );
-            drawnow;
+            maingridBoxControl = uix.Grid('Parent', PanelControl);
+        
+            obj.B_NewPic =           uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'String', sprintf('\x25A8 New File') );
+            obj.B_Undo =             uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'String', sprintf('\x21BA Undo') );
+            obj.B_CheckMask =        uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'Style','pushbutton', 'String', sprintf('\x25D0 Check Mask') ,'Enable','off');
+            obj.B_StartAnalyzeMode = uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'Style','pushbutton', 'String', sprintf('Analyze \x276F\x276F') ,'Enable','off');
+            obj.B_CheckPlanes =      uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'String', sprintf('Check Planes \x2750') ,'Enable','off');
+            obj.B_Redo =             uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'String', sprintf('Redo \x21BB') );
+            set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1 -1] );
+           
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Image Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%
