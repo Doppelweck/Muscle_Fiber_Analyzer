@@ -234,22 +234,13 @@ classdef viewAnalyze < handle
             obj.ParaCard.Selection = 1;
 
             %%%%%%%%%%%%%%%% 8. Pixel Scale
-            HBoxPara8 = uix.HBox('Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
+            HBoxPara8 = uix.HBox( 'Parent', mainVBoxPara,  params.default_box_spacing_padding{:} );
 
-            HButtonBoxPara80 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara80, 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
-            
-            HButtonBoxPara81 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara81, 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
-            
-            HButtonBoxPara82 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            obj.B_XScale = uicontrol( 'Parent', HButtonBoxPara82, params.default_normalized_font{:}, 'Style','edit', 'Tag','editXScale', 'String', '1' );
-            
-            HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            uilabel( 'Parent', HButtonBoxPara83, 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
-            
-            HButtonBoxPara83 = uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:} );
-            obj.B_YScale = uicontrol( 'Parent', HButtonBoxPara83,params.default_normalized_font{:}, 'Style','edit', 'Tag','editYScale', 'String', '1' );
+                             uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}), 'HorizontalAlignment','left', 'Text', sprintf('Pixel Scale:'));
+                             uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text', sprintf('Xs: \x3BCm/pixel'));
+            obj.B_XScale = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}), params.default_normalized_font{:}, 'Style','edit', 'Tag','editXScale', 'String', '1' );
+                             uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
+            obj.B_YScale = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}),params.default_normalized_font{:}, 'Style','edit', 'Tag','editYScale', 'String', '1' );
             
             set( HBoxPara8, 'Widths', [-1 -1 -1 -1 -1] );
             
