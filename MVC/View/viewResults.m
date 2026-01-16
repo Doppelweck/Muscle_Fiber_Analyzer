@@ -87,21 +87,23 @@ classdef viewResults < handle
     
     methods
         function obj = viewResults(mainCard)
-            if nargin < 1 || isempty(mainCard)
-                mainCard = uifigure('Units','normalized','Position',[0.01 0.05 0.98 0.85]);
-                theme(mainCard,"auto");
-            end
-            
+
             params = view_helper_default_params();
 
+            if nargin < 1 || isempty(mainCard)
+                mainCard = uifigure(params.default_uifugure{:});
+                theme(mainCard,"auto");
+                pause(1)
+            end
+            
             set(mainCard,'Visible','on');
             obj.panelResults = uix.HBox( 'Parent', mainCard, params.default_box_spacing_padding{:});
             
             obj.panelAxes =    uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'FIBER INFORMATIONS' );
             obj.panelControl = uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'RESULTS', 'TitlePosition','centertop');
-            set( obj.panelResults, 'MinimumWidths', [1 320] );
+            %set( obj.panelResults, 'MinimumWidths', [1 320] );
             set( obj.panelResults, 'Widths', [-4 -1] );
-            
+
             %%%%%%%%%%%%%%%%%% Panel controls %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -114,179 +116,64 @@ classdef viewResults < handle
             set( PanelVBox, 'Heights', [-13 -35 -52]);
             
             %%%%%%%%%%%%%%%%%% Panel control %%%%%%%%%%%%%%%%%%%%%%%%
-            mainVBBoxControl = uix.VBox('Parent', PanelControl, params.default_box_spacing_padding{:} );
-            
-            HBoxControl1 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_BackAnalyze =   uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('\x276E\x276E Classification'));
-            obj.B_CloseProgramm = uicontrol( 'Parent', HBoxControl1,params.default_normalized_font{:}, 'String', sprintf('Close Program \x23FB') );
-            
-            HBoxControl2 = uix.HButtonBox('Parent', mainVBBoxControl,params.default_HButtonBox_Main{:});
-            obj.B_NewPic = uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('\x25A8 New File') );
-            obj.B_Save =   uicontrol( 'Parent', HBoxControl2,params.default_normalized_font{:}, 'String', sprintf('Save Data \x26DB') );
-            
-            
+            maingridBoxControl = uix.Grid('Parent', PanelControl);
+
+            obj.B_BackAnalyze =   uicontrol('Parent',uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('\x276E\x276E Classification'));
+            obj.B_NewPic =        uicontrol('Parent',uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('\x25A8 New File') );
+            obj.B_CloseProgramm = uicontrol('Parent',uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Close Program \x23FB') );
+            obj.B_Save =          uicontrol('Parent',uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Save Data \x26DB') );
+            set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1] );
+           
 
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
             dropdownStringAxes={'.pdf';'.svg';'.jpg';'.png';'.tif'};
             dropdownStringTabel={'.xlsx';'.xls';'.xlsm'};
-            widthsSaveRow = [-1 -7 -2.5 -1];
+             
+            VBoxSave = uix.VBox('Parent', PanelSave, params.default_box_spacing_padding{:} );
 
-            mainVBBoxSave = uix.VBox('Parent', PanelSave,params.default_box_spacing_padding{:});
+            mainGridBoxSave = uiextras.Grid('Parent',VBoxSave);
 
-            %%%%%%%%%%%%%%%% 1. Row Save Fiber Table 
-            HBoxSave1 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
+            obj.B_SaveFiberTable =  uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveFiberTable');
+            obj.B_SavePlots =       uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveOverview');
+            obj.B_SaveHisto =       uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveHistogram');
+            obj.B_SavePicProc =     uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSavePicProcessed');
+            obj.B_SavePicOriginal = uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSavePicOriginal');
+            obj.B_SavePicGroups =   uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSavePicGroups');
+            obj.B_SaveScatterAll =  uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveScatterAll');
+            obj.B_SaveBinaryMask =  uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveBinaryMask');
 
-            tempHBox = uix.HButtonBox('Parent', HBoxSave1, params.default_HButtonBox{:} );
-            obj.B_SaveFiberTable = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSaveFiberTable'); 
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave1, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Fiber-Table as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave1, params.default_HButtonBox{:});
-            obj.B_SaveFiberTableFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringTabel ,'ValueIndex',1,'Tag','dropdownSaveFiberTableFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave1, params.default_HButtonBox{:});
-            obj.B_SaveFiberTableIndicator = uilamp(tempHBox);
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Fiber-Table as ..................................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Overview Plots as ...............................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Histogram Plots as ..............................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Processed RGB Image as ..........................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Original RGB Image as ...........................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Fiber-Grouping Image as .........................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Scatterplot all Fibers as .......................................................................' );
+            uilabel( 'Parent', mainGridBoxSave, 'HorizontalAlignment','left','Text', 'Save Binary Mask as ..................................................................................' );
 
-            set( HBoxSave1, 'Widths', widthsSaveRow );
-            
-            %%%%%%%%%%%%%%%% 2. Row Save Overview plots 
-            HBoxSave2 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
+            obj.B_SaveFiberTableFileFormat =  uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringTabel,'ValueIndex',1,'Tag','dropdownSaveFiberTableFormat');
+            obj.B_SavePlotsFileFormat =       uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveOverviewFormat');
+            obj.B_SaveHistoFileFormat =       uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveHistogramFormat');
+            obj.B_SavePicProcFileFormat =     uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicProcessedFormat');
+            obj.B_SavePicOriginalFileFormat = uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicOriginalFormat');
+            obj.B_SavePicGroupsFileFormat =   uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicGroupsFormat');
+            obj.B_SaveScatterAllFileFormat =  uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveScatterAllFormat');
+            obj.B_SaveBinaryMaskFileFormat =  uidropdown( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}), 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveBinaryMaskFormat');
 
-            tempHBox = uix.HButtonBox('Parent', HBoxSave2, params.default_HButtonBox{:} );
-            obj.B_SavePlots = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSaveOverview');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave2, params.default_HButtonBox{:});
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Overview Plots as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave2, params.default_HButtonBox{:});
-            obj.B_SavePlotsFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveOverviewFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave2, params.default_HButtonBox{:});
-            obj.B_SavePlotsIndicator = uilamp(tempHBox);
+            obj.B_SaveFiberTableIndicator =  uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SavePlotsIndicator =       uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SaveHistoIndicator =       uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SavePicProcIndicator =     uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SavePicOriginalIndicator = uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SavePicGroupsIndicator =   uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SaveScatterAllIndicator =  uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
+            obj.B_SaveBinaryMaskIndicator =  uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
 
-            set( HBoxSave2, 'Widths', widthsSaveRow );
-            
-            %%%%%%%%%%%%%%%% 3. Row Save Histogram plots 
-            HBoxSave3 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave3, params.default_HButtonBox{:} );
-            obj.B_SaveHisto = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSaveHistogram');
+            set( mainGridBoxSave, 'Widths', [-1 -6 -3.5 -1], 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1] );
 
-            tempHBox = uix.HButtonBox('Parent', HBoxSave3, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Histogram Plots as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave3, params.default_HButtonBox{:});
-            obj.B_SaveHistoFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveHistogramFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave3, params.default_HButtonBox{:});
-            obj.B_SaveHistoIndicator = uilamp(tempHBox);
+            obj.B_SaveOpenDir = uicontrol( 'Parent', uix.HButtonBox('Parent', VBoxSave,params.default_HButtonBox_Main{:}),'FontUnits','normalized','Fontsize',0.5, 'String', 'Open Results Folder' );
+            set(VBoxSave,'Heights',[-8 -1.5]);
 
-            set( HBoxSave3, 'Widths', widthsSaveRow );
-            
-            %%%%%%%%%%%%%%%% 4. Row Save Processed RGB Image
-            HBoxSave4 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
-
-            tempHBox = uix.HButtonBox('Parent', HBoxSave4, params.default_HButtonBox{:} );
-            obj.B_SavePicProc = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSavePicProcessed');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave4, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Processed RGB Image as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave4, params.default_HButtonBox{:});
-            obj.B_SavePicProcFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicProcessedFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave4, params.default_HButtonBox{:});
-            obj.B_SavePicProcIndicator = uilamp(tempHBox);
-
-            set( HBoxSave4, 'Widths', widthsSaveRow );
-
-            %%%%%%%%%%%%%%%% 4. Row Save Original RGB Image
-            HBoxSave8 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
-
-            tempHBox = uix.HButtonBox('Parent', HBoxSave8, params.default_HButtonBox{:} );
-            obj.B_SavePicOriginal = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSavePicOriginal');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave8, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Original RGB Image as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave8, params.default_HButtonBox{:});
-            obj.B_SavePicOriginalFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicOriginalFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave8, params.default_HButtonBox{:});
-            obj.B_SavePicOriginalIndicator = uilamp(tempHBox);
-
-            set( HBoxSave8, 'Widths', widthsSaveRow );
-            
-            %%%%%%%%%%%%%%%% 5. Row Save Fiber Groups image
-            HBoxSave5 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
-
-            tempHBox = uix.HButtonBox('Parent', HBoxSave5, params.default_HButtonBox{:} );
-            obj.B_SavePicGroups = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSavePicGroups');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave5, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Fiber-Grouping Image as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave5, params.default_HButtonBox{:});
-            obj.B_SavePicGroupsFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSavePicGroupsFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave5, params.default_HButtonBox{:});
-            obj.B_SavePicGroupsIndicator = uilamp(tempHBox);
-
-            set( HBoxSave5, 'Widths', widthsSaveRow );
-            
-            
-            %%%%%%%%%%%%%%%% 6. Row Save Scatter all 
-            HBoxSave6 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
-
-            tempHBox = uix.HButtonBox('Parent', HBoxSave6, params.default_HButtonBox{:} );
-            obj.B_SaveScatterAll = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSaveScatterAll');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave6, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox, 'HorizontalAlignment','left','Text', 'Save Scatterplot all Fibers as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave6, params.default_HButtonBox{:});
-            obj.B_SaveScatterAllFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveScatterAllFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave6, params.default_HButtonBox{:});
-            obj.B_SaveScatterAllIndicator = uilamp(tempHBox);
-
-            set( HBoxSave6, 'Widths', widthsSaveRow );
-            
-            %%%%%%%%%%%%%%%% 7. Row Save Binary Mask
-            HBoxSave7 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:}  );
-
-            tempHBox = uix.HButtonBox('Parent', HBoxSave7, params.default_HButtonBox{:} );
-            obj.B_SaveBinaryMask = uicontrol( 'Parent', tempHBox,'Style','checkbox','Value',1,'Tag','checkboxSaveBinaryMask');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave7, params.default_HButtonBox{:} );
-            tempH = uilabel( 'Parent', tempHBox,  'HorizontalAlignment','left','Text', 'Save Binary Mask as ..................................................................................' );
-            set(tempH, 'FontSize',14);
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave7, params.default_HButtonBox{:});
-            obj.B_SaveBinaryMaskFileFormat = uidropdown( 'Parent', tempHBox, 'Items', dropdownStringAxes ,'ValueIndex',1,'Tag','dropdownSaveBinaryMaskFormat');
-            
-            tempHBox = uix.HButtonBox('Parent', HBoxSave7, params.default_HButtonBox{:});
-            obj.B_SaveBinaryMaskIndicator = uilamp(tempHBox);
-
-            set( HBoxSave7, 'Widths', widthsSaveRow );
-
-            %%%%%%%%%%%%%%%% 7. Row Save dir
-            HBoxSave8 = uix.HBox('Parent', mainVBBoxSave, params.default_box_spacing_padding{:} );
-            
-            HButtonBoxSave81 = uix.HButtonBox('Parent', HBoxSave8,'ButtonSize',[600 30],'Padding', 2 );
-            obj.B_SaveOpenDir = uicontrol( 'Parent', HButtonBoxSave81,'FontUnits','normalized','Fontsize',0.5, 'String', 'Open Results Folder' );
-            
-            %%%%%%%%
-            set( mainVBBoxSave, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1 -1.5] );
-            drawnow ;
 
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
@@ -294,7 +181,7 @@ classdef viewResults < handle
             
             %%%%%%%%%%%%%%%%%%% Panel with Tabs %%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel');
+            obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel','TabWidth',-1);
             
             statisticTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
             histogramTabPanel =       uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
@@ -304,14 +191,14 @@ classdef viewResults < handle
             scatterAllTabPanel =      uix.Panel('Parent',obj.tabPanel,params.default_tab_panel{:},'Tag','obj.tabPanel');
             
             obj.tabPanel.TabTitles = {'Overview','Histograms','Image processed','Image with Fiber-Groups', 'Fiber Type Table','Scatterplot all Fibers'};
-            obj.tabPanel.TabWidth = -1;
+
             %%%%%%%%%%%%%%%%%%% Tab Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 1;drawnow
+            obj.tabPanel.Selection = 1;
             statisticTabHBox = uix.HBox('Parent',statisticTabPanel,'Spacing',2,'Padding',2);
             
-            statsVBoxleft = uix.VBox( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
-            statsVBoxMiddle = uix.VBox( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
-            statsVBoxRight = uix.VBox( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
+            statsVBoxleft = uiextras.VBoxFlex( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
+            statsVBoxMiddle = uiextras.VBoxFlex( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
+            statsVBoxRight = uiextras.VBoxFlex( 'Parent', statisticTabHBox, 'Spacing', 15 ,'Padding',5);
             
             PanelArea = uix.Panel('Parent',statsVBoxleft,'Padding',5);
             PanelCount = uix.Panel('Parent',statsVBoxleft,'Padding',5);
@@ -319,21 +206,15 @@ classdef viewResults < handle
             PanelScatter = uix.Panel('Parent',statsVBoxMiddle,'Padding',5);
             PanelStatisticTabel = uix.Panel('Parent',statsVBoxRight,'Padding',5);
             
-            obj.hAArea = axes('Parent',uicontainer('Parent',PanelArea));
-            set(obj.hAArea, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAArea,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hACount= axes('Parent',uicontainer('Parent',PanelCount));
-            set(obj.hACount, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hACount,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAScatterFarredRed = axes('Parent',uicontainer('Parent',PanelDia));
-            set(obj.hAScatterFarredRed, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterFarredRed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAScatterBlueRed = axes('Parent',uicontainer('Parent',PanelScatter));
-            set(obj.hAScatterBlueRed, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterBlueRed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow ;
+            obj.hAArea = axes('Parent',uicontainer('Parent',PanelArea),params.default_axes{:});
+            axtoolbar(obj.hAArea,params.default_axes_toolbar{:});
+            obj.hACount= axes('Parent',uicontainer('Parent',PanelCount),params.default_axes{:});
+            axtoolbar(obj.hACount,params.default_axes_toolbar{:});
+            obj.hAScatterFarredRed = axes('Parent',uicontainer('Parent',PanelDia),params.default_axes{:});
+            axtoolbar(obj.hAScatterFarredRed,params.default_axes_toolbar{:});
+            obj.hAScatterBlueRed = axes('Parent',uicontainer('Parent',PanelScatter),params.default_axes{:});
+            axtoolbar(obj.hAScatterBlueRed,params.default_axes_toolbar{:});
            
-
             obj.B_TableStatistic = uitable('Parent',PanelStatisticTabel);
             obj.B_TableMain.Position =[0 0 1 1];
             
@@ -341,94 +222,71 @@ classdef viewResults < handle
             set( statsVBoxleft, 'Heights', [-1 -1] );
             set( statsVBoxMiddle, 'Heights', [-1 -1] );
             
-            % set(obj.hAArea,'Units','normalized','OuterPosition',[0 0 1 1]);
-            % set(obj.hAArea,'XLim',[-1.8 1.8]);
-            % set(obj.hAArea,'YLim',[-1.8 1.8]);
-            % set(obj.hAArea,'xtick',[],'ytick',[])
-            % set(obj.hAArea,'PlotBoxAspectRatio',[1 1 1]);
-            
-            set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            drawnow ;
 
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Histogramms %%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 2; drawnow
+            obj.tabPanel.Selection = 2; 
             histoTabHBox = uix.HBox('Parent',histogramTabPanel,'Spacing',2,'Padding',2);
             
-            histoVBoxleft = uix.VBox( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
-            histoVBoxright = uix.VBox( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
+            histoVBoxleft = uiextras.VBoxFlex( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
+            histoVBoxright = uiextras.VBoxFlex( 'Parent', histoTabHBox, 'Spacing', 15 ,'Padding',5);
             
             histoArea = uix.Panel('Parent',histoVBoxleft,'Padding',5);
             histoAspect = uix.Panel('Parent',histoVBoxleft,'Padding',5);
             histoDiameter = uix.Panel('Parent',histoVBoxright,'Padding',5);
             histoRound = uix.Panel('Parent',histoVBoxright,'Padding',5);
             
-            obj.hAAreaHist = axes('Parent',uicontainer('Parent',histoArea));
-            set(obj.hAAreaHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAAreaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hAAspectHist= axes('Parent',uicontainer('Parent',histoAspect));
-            set(obj.hAAspectHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAAspectHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hADiaHist = axes('Parent',uicontainer('Parent',histoDiameter));
-            set(obj.hADiaHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hADiaHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound));
-            set(obj.hARoundHist, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hARoundHist,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow ;
+            obj.hAAreaHist = axes('Parent',uicontainer('Parent',histoArea),params.default_axes{:});
+            axtoolbar(obj.hAAreaHist,params.default_axes_toolbar{:});
+            obj.hAAspectHist= axes('Parent',uicontainer('Parent',histoAspect),params.default_axes{:});
+            axtoolbar(obj.hAAspectHist,params.default_axes_toolbar{:});
+            obj.hADiaHist = axes('Parent',uicontainer('Parent',histoDiameter),params.default_axes{:});
+            axtoolbar(obj.hADiaHist,params.default_axes_toolbar{:});
+            obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound),params.default_axes{:});
+            axtoolbar(obj.hARoundHist,params.default_axes_toolbar{:});
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
-            obj.tabPanel.Selection = 3; drawnow
-            mainPicProcPanel = uix.Panel('Parent',pictureTabPanel,params.default_panel{:},'Title', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeM);
+            obj.tabPanel.Selection = 3;
+            tempTabVBox = uix.VBox('Parent',pictureTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', 'RGB Image processed with object boundaries and label numbers','FontSize',params.fontSizeB);
             
-            obj.hAPProcessed = axes('Parent',uicontainer('Parent',mainPicProcPanel));
-            axtoolbar(obj.hAPProcessed,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
+            obj.hAPProcessed = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAPProcessed,params.default_axes_toolbar{:});
             axis(obj.hAPProcessed ,'image');
-            set(obj.hAPProcessed, 'LooseInset', [0,0,0,0]);
-            set(obj.hAPProcessed,'Box','off');
-            drawnow ;
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
+
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
-            obj.tabPanel.Selection = 4;drawnow
-            mainPicGroupPanel = uix.Panel('Parent',pictureRGBPlaneTabPanel,params.default_panel{:},'Title', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeM);
+            obj.tabPanel.Selection = 4;
+            tempTabVBox = uix.VBox('Parent',pictureRGBPlaneTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', 'RGB Image with Fiber-Type-Groups','FontSize',params.fontSizeB);
             
-            obj.hAPGroups = axes('Parent',uicontainer('Parent',mainPicGroupPanel));
-            axtoolbar(obj.hAPGroups,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
+            obj.hAPGroups = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAPGroups,params.default_axes_toolbar{:});
             axis(obj.hAPGroups ,'image');
-            set(obj.hAPGroups, 'LooseInset', [0,0,0,0]);
-            set(obj.hAPGroups,'Box','off');
-            drawnow ;
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
             
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 5;drawnow
+            obj.tabPanel.Selection = 5;
             mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',params.fontSizeM);
             obj.B_TableMain = uitable('Parent',mainTablePanel);
             
-            % obj.B_TableMain.FontSize = fontSizeS;
-            % obj.B_TableMain.Units = 'normalized';
             obj.B_TableMain.Position =[0 0 1 1];
             
-            set(obj.hACount,'Units','normalized','OuterPosition',[0 0 1 1]);
-            
-            set(obj.hAScatterFarredRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-
-            set(obj.hAScatterBlueRed,'Units','normalized','OuterPosition',[0 0 1 1]);
-            drawnow ;
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
-            obj.tabPanel.Selection = 6;drawnow
-            mainScatterallPanel = uix.Panel('Parent',scatterAllTabPanel,'Padding',50,'Title', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeM);
+            obj.tabPanel.Selection = 6;
+            tempTabVBox = uix.VBox('Parent',scatterAllTabPanel,'Spacing',2,'Padding',2);
+            uilabel('Parent',tempTabVBox,'HorizontalAlignment','left','Text', '3D-Scatterplot showing all fibers in a Blue/Red/Farred coordinate system','FontSize',params.fontSizeB);
             
-            obj.hAScatterAll = axes('Parent',uicontainer('Parent',mainScatterallPanel),'Units','normalized','OuterPosition',[0 0 1 1]);
-            set(obj.hAScatterAll, 'LooseInset', [0,0,0,0]);
-            axtoolbar(obj.hAScatterAll,{'export','datacursor','pan','zoomin','zoomout','restoreview'});
-            drawnow ;
+            obj.hAScatterAll = axes('Parent',uicontainer('Parent',tempTabVBox),params.default_axes{:});
+            axtoolbar(obj.hAScatterAll,params.default_axes_toolbar{:});
+            set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
+
+
             %%%%%%%%%%%%%%% call edit functions for GUI
             obj.setToolTipStrings();
             
             set(mainCard,'Visible','on');
-            obj.tabPanel.Selection = 1;drawnow
+            obj.tabPanel.Selection = 1;
+            drawnow 
 
         end
                 
