@@ -15,7 +15,7 @@ try
         cl;
     end
 
-    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+    setSettingsValue('AppState','production'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
     build_up_time_delay = 1;
     
