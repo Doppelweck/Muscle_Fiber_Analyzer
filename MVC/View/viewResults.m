@@ -93,6 +93,7 @@ classdef viewResults < handle
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure(params.default_uifugure{:});
                 theme(mainCard,"auto");
+                pause(1)
             end
             
             set(mainCard,'Visible','on');
@@ -127,12 +128,10 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
             dropdownStringAxes={'.pdf';'.svg';'.jpg';'.png';'.tif'};
             dropdownStringTabel={'.xlsx';'.xls';'.xlsm'};
-            widthsSaveRow = [-1 -7 -2.5 -1];
              
-
             VBoxSave = uix.VBox('Parent', PanelSave, params.default_box_spacing_padding{:} );
 
-            mainGridBoxSave = uix.Grid('Parent',VBoxSave);
+            mainGridBoxSave = uiextras.Grid('Parent',VBoxSave);
 
             obj.B_SaveFiberTable =  uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveFiberTable');
             obj.B_SavePlots =       uicontrol( 'Parent', uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}),'Style','checkbox','Value',1,'Tag','checkboxSaveOverview');
@@ -170,7 +169,7 @@ classdef viewResults < handle
             obj.B_SaveScatterAllIndicator =  uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
             obj.B_SaveBinaryMaskIndicator =  uilamp(uix.HButtonBox('Parent', mainGridBoxSave,params.default_HButtonBox{:}));
 
-            set( mainGridBoxSave, 'Widths', widthsSaveRow, 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1] );
+            set( mainGridBoxSave, 'Widths', [-1 -6 -3.5 -1], 'Heights', [-1 -1 -1 -1 -1 -1 -1 -1] );
 
             obj.B_SaveOpenDir = uicontrol( 'Parent', uix.HButtonBox('Parent', VBoxSave,params.default_HButtonBox_Main{:}),'FontUnits','normalized','Fontsize',0.5, 'String', 'Open Results Folder' );
             set(VBoxSave,'Heights',[-8 -1.5]);

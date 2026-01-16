@@ -115,6 +115,7 @@ classdef viewAnalyze < handle
             if nargin < 1 || isempty(mainCard)
                 mainCard = uifigure(params.default_uifugure{:});
                 theme(mainCard,"auto");
+                pause(1)
             end
             
             set(mainCard,'Visible','on');
