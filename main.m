@@ -17,7 +17,7 @@ try
 
     setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
-    build_up_time_delay = 0.300;
+    build_up_time_delay = 1;
     
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
@@ -32,6 +32,10 @@ try
 
     params = view_helper_default_params();
 
+    %Create Start Screen
+    [hf, LoadingText] = startSrcreen();
+    set(hf,'WindowStyle','alwaysontop');
+
     % create main figure
     mainFig = uifigure(...
         'Visible','on',...
@@ -39,11 +43,9 @@ try
          params.default_uifugure{:},...
         'Tag','mainFigure');
     theme(mainFig,getSettingsValue('Style'));
-    %set(mainFig,'WindowState','maximized');
+    pause(1)
 
-
-    %Create Start Screen
-    [hf, LoadingText] = startSrcreen();
+    
     %pause(build_up_time_delay);
     drawnow limitrate;
     update_menu_bar_main_figure(mainFig,versionString,...
@@ -53,11 +55,9 @@ try
         @menu_callback_save_user_settings,...
         @menu_callback_show_abaut_figure);
 
-    figure(hf); drawnow limitrate;
-    set(hf,'WindowStyle','alwaysontop'); drawnow limitrate;
-    set(hf,'WindowStyle',getWindowsStyleFromSettings());drawnow limitrate;
-    figure(hf); drawnow limitrate; 
-    %pause(build_up_time_delay);
+    set(hf,'WindowStyle','alwaysontop');
+    set(hf,'WindowStyle',getWindowsStyleFromSettings());
+
 
     %create card panel onbject
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
@@ -66,15 +66,15 @@ try
     viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
     mainCard.Selection = 1; 
-    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate; pause(build_up_time_delay)
     viewAnalyzeHandle = viewAnalyze(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
     mainCard.Selection = 2; 
-    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate; pause(build_up_time_delay);drawnow limitrate;
     viewResultsHandle = viewResults(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
     mainCard.Selection = 3;
-    drawnow limitrate;%pause(build_up_time_delay);drawnow limitrate;
+    drawnow limitrate; pause(build_up_time_delay);drawnow limitrate;
     mainCard.Selection = 1; drawnow limitrate;
 
     LoadingText.String='Loading please wait...   Load User Settings...';
