@@ -102,7 +102,7 @@ classdef viewResults < handle
             obj.panelAxes =    uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'FIBER INFORMATIONS' );
             obj.panelControl = uix.Panel('Parent', obj.panelResults, params.default_panel{:}, 'Title', 'RESULTS', 'TitlePosition','centertop');
             %set( obj.panelResults, 'MinimumWidths', [1 320] );
-            set( obj.panelResults, 'Widths', [-4 -1] );
+            set( obj.panelResults, 'Widths', params.default_mainPanel_ration );
 
             %%%%%%%%%%%%%%%%%% Panel controls %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

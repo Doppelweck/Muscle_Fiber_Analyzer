@@ -124,7 +124,7 @@ classdef viewEdit < handle
             obj.panelAxes =    uix.Panel('Parent',  obj.panelEdit, params.default_panel{:},'Title','IMAGE');
             obj.panelControl = uix.Panel('Parent',  obj.panelEdit,params.default_panel{:},'Title', 'SEGMENTATION','TitlePosition','centertop');
             set(  obj.panelEdit, 'MinimumWidths', [1 320] );
-            set(  obj.panelEdit, 'Widths', [-80 -20] );
+            set(  obj.panelEdit, 'Widths', params.default_mainPanel_ration );
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
             axis(obj.hAP ,'image');
 

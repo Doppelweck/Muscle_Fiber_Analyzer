@@ -124,7 +124,7 @@ classdef viewAnalyze < handle
             obj.panelAxes =    uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'IMAGE');
             obj.panelControl = uix.Panel('Parent', obj.panelAnalyze,params.default_panel{:}, 'Title', 'CLASSIFICATION','TitlePosition','centertop');
             set( obj.panelAnalyze, 'MinimumWidths', [1 320] );
-            set( obj.panelAnalyze, 'Widths', [-80 -20] );
+            set( obj.panelAnalyze, 'Widths',params.default_mainPanel_ration );
             
             obj.hAP = axes('Parent',uicontainer('Parent', obj.panelAxes));
             axtoolbar(obj.hAP,{'export','datacursor','pan','zoomin','zoomout','restoreview'});

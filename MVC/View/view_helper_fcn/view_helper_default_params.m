@@ -15,6 +15,7 @@ else
 end
 
 clipping = 'on';
+
 params.default_uifugure = {'Units','normalized', 'WindowState','maximized','Visible','on','AutoResizeChildren','off','SizeChangedFcn',@view_helper_figure_resize_callback};
 params.default_box_spacing_padding = {'Spacing',2,'Padding',2,'Clipping',clipping };
 params.default_Grid_Buttons = {'Spacing',2,'Padding',2,'ButtonSize', [600 20]};
@@ -27,5 +28,7 @@ params.default_tab_panel = {'FontSize',params.fontSizeM,'Padding', 2,'Clipping',
 
 params.default_axes = {'Units','normalized','OuterPosition',[0 0 1 1],'LooseInset', [0,0,0,0],'Box','off'};
 params.default_axes_toolbar = {{'export','datacursor','pan','zoomin','zoomout','restoreview'}};
+
+params.default_mainPanel_ration = [-78 -22];
 
 end
