@@ -1,21 +1,13 @@
 function value = getSettingsValue(searchString)
-currentFile = mfilename( 'fullpath' );
+    global APP_SETTINGS
 
-[pathstr,~,~] = fileparts( currentFile );
-
-if(~contains(matlabpath, pathstr))
-    addpath( pathstr );
-end
-
-data=load(fullfile( pathstr, 'AppSettings.mat' ));
-stringCellArray = cellfun(@(x) isnumeric(x) || islogical(x), data.Settings);
-data.Settings(stringCellArray) = cellfun(@num2str, data.Settings(stringCellArray), 'UniformOutput', false);
-
-idx=find(contains(data.Settings,searchString));
-
-if(~isempty(idx))
-    value = data.Settings{idx,2};
-else
-    value = [];
-end
+    if isempty(APP_SETTINGS)
+        % Load settings
+        currentFile = mfilename('fullpath');
+        data = loadSettings(currentFile);
+        APP_SETTINGS = data.Settings;
+    end
+    
+    idx = find(strcmp(APP_SETTINGS(:, 1), searchString), 1);
+    value = ~isempty(idx) && APP_SETTINGS{idx, 2} || [];
 end

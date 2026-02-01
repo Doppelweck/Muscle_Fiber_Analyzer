@@ -11,7 +11,12 @@ try
         addpath(genpath('MVC'));
         addpath(genpath('Functions'));
         addpath(genpath('Icons'));
-        %pause(0.5);
+        
+        setSettingsValue('AppName','Muscle-Fiber-Analyzer');
+        setSettingsValue('Version','1.6');
+        setSettingsValue('Day','11');
+        setSettingsValue('Month','March');
+        setSettingsValue('Year','2025');
         cl;
     end
 
@@ -19,11 +24,7 @@ try
 
     build_up_time_delay = 1;
     
-    setSettingsValue('AppName','Muscle-Fiber-Analyzer');
-    setSettingsValue('Version','1.6');
-    setSettingsValue('Day','11');
-    setSettingsValue('Month','March');
-    setSettingsValue('Year','2025');
+    
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
     test = fullfile(pwd, 'LATEST.txt');
