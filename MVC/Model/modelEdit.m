@@ -66,10 +66,10 @@ classdef modelEdit < handle
         PicBCGreen; %Brightness adjustment image for Green color plane image.
         PicBCRed; %Brightness adjustment image for Red color plane image.
         PicBCFarRed; %Brightness adjustment image for FarRed color plane image.
-        FilenameBCBlue; %FileName of the brightness adjustment image for Blue color plane image.
-        FilenameBCGreen; %FileName of the brightness adjustment image for Green color plane image.
-        FilenameBCRed; %FileName of the brightness adjustment image for Red color plane image.
-        FilenameBCFarRed; %FileName of the brightness adjustment image for FarRed color plane image.
+        FilenameBCBlue = '-'; %FileName of the brightness adjustment image for Blue color plane image.
+        FilenameBCGreen = '-'; %FileName of the brightness adjustment image for Green color plane image.
+        FilenameBCRed = '-'; %FileName of the brightness adjustment image for Red color plane image.
+        FilenameBCFarRed = '-'; %FileName of the brightness adjustment image for FarRed color plane image.
         
         MetaData; %Meta Data of microscope image container
         
@@ -125,32 +125,14 @@ classdef modelEdit < handle
         
         function obj = modelEdit()
             % Constuctor of the modelEdit class. Does absolutely nothing.
-            %
-            %   obj = modelEdit();
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %
-            %       - Output
-            %           obj:    Handle to modelEdit object
-            %
-            
+           
         end
         
         function clearPicData(obj)
             % Clears all image data. Set all images to an empty array.
             %Deletes filename and pathnames of the images. Reset the image
             %buffer.
-            %
-            %   addMyListener(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
-            
+           
             obj.InfoMessage = '- clear all picture data';
             
             obj.FileName = '';
@@ -183,62 +165,34 @@ classdef modelEdit < handle
         function PicData = sendPicsToController(obj)
             % Send all image data from the model to the Controller that are
             % needed.
-            %
-            %   PicData = sendPicsToController(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
-            %
-            %       - Output
-            %           PicData:    Cell Array that contains the file- and
-            %               PathName of the RGB image. Also contains the
-            %               RGB and the color plane images:
-            %
-            %               PicData{1}: filename RGB image
-            %               PicData{2}: path RGB image
-            %               PicData{3}: RGB image create from color plane
-            %               Red Green Far Red and Blue
-            %               PicData{4}: binary image
-            %               PicData{5}: green plane image after brightness adjustment
-            %               PicData{6}: blue plane image after brightness adjustment
-            %               PicData{7}: red plane image after brightness adjustment
-            %               PicData{8}: farred plane image after brightness adjustment
-            %               PicData{9}: RGB image create from color plane
-            %               Red Green and Blue
-            %               PicData{10 - 18}: All images neede for Check
-            %                                   Planes Window in Edit Mode
-            %               PicData{19}: MetaData from Bio-Format file
-            %
-            
-            PicData{1} = obj.FileName;
-            PicData{2} = obj.PathName;
-            PicData{3} = obj.PicRGBFRPlanes;   %RGB
+
+            PicData{1} = obj.FileName; %filename RGB image
+            PicData{2} = obj.PathName; %path RGB image
+            PicData{3} = obj.PicRGBFRPlanes;  %RGB image create from color plane
             
             % send binary pic to controller only in the normal non-inverted
             % form
             if strcmp(obj.PicBWisInvert,'true')
-                PicData{4} = ~obj.handlePicBW.CData;    %BW
+                PicData{4} = ~obj.handlePicBW.CData; %binary image
             else
-                PicData{4} = obj.handlePicBW.CData;
+                PicData{4} = obj.handlePicBW.CData; %binary image
             end
             
-            PicData{5} = obj.PicPlaneGreen_adj;
-            PicData{6} = obj.PicPlaneBlue_adj;
-            PicData{7} = obj.PicPlaneRed_adj;
-            PicData{8} = obj.PicPlaneFarRed_adj;
-            PicData{9} = obj.PicRGBPlanes;
-            PicData{10} = obj.PicRGBFRPlanesNoBC;
-            PicData{11} = obj.PicBCGreen;
-            PicData{12} = obj.FilenameBCGreen;
-            PicData{13} = obj.PicBCBlue;
-            PicData{14} = obj.FilenameBCBlue;
-            PicData{15} = obj.PicBCRed;
-            PicData{16} = obj.FilenameBCRed;
-            PicData{17} = obj.PicBCFarRed;
-            PicData{18} = obj.FilenameBCFarRed;
-            PicData{19} = obj.MetaData;
+            PicData{5} = obj.PicPlaneGreen_adj;  %green plane image after brightness adjustment
+            PicData{6} = obj.PicPlaneBlue_adj;   %blue plane image after brightness adjustment
+            PicData{7} = obj.PicPlaneRed_adj;    %red plane image after brightness adjustment
+            PicData{8} = obj.PicPlaneFarRed_adj; %farred plane image after brightness adjustment
+            PicData{9} = obj.PicRGBPlanes; %RGB image create from color plane
+            PicData{10} = obj.PicRGBFRPlanesNoBC; %Image needed for Check Planes Window in Edit Mode
+            PicData{11} = obj.PicBCGreen; %Image needed for Check Planes Window in Edit Mode
+            PicData{12} = obj.FilenameBCGreen; %Image needed for Check Planes Window in Edit Mode
+            PicData{13} = obj.PicBCBlue; %Image needed for Check Planes Window in Edit Mode
+            PicData{14} = obj.FilenameBCBlue; %Image needed for Check Planes Window in Edit Mode
+            PicData{15} = obj.PicBCRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{16} = obj.FilenameBCRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{17} = obj.PicBCFarRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{18} = obj.FilenameBCFarRed; %Image needed for Check Planes Window in Edit Mode
+            PicData{19} = obj.MetaData; %MetaData from Bio-Format file
         end
         
         function success = searchBioformat_NOTinUSE(obj)
@@ -247,15 +201,8 @@ classdef modelEdit < handle
             % and the brightness adjustment images in the same directory as
             % the selected RGB image.
             %
-            %   PicData = sucsess = searchLoadBioformat(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
-            %
-            %       - Output
-            %           succses:    returns true if the color plane images
+            % - Output
+            %   succses:    returns true if the color plane images
             %               was founded, otherwise false.
             %
             
@@ -323,12 +270,6 @@ classdef modelEdit < handle
             % one image .tif file. If a new picture was selected all old
             % image data will be deleted.
             %
-            %   PicData = sendPicsToController(obj);
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
             %
             %       - Output
             %           format:    returns format string if a new file was
@@ -431,9 +372,6 @@ classdef modelEdit < handle
                             if isequal(ImagMat(:,:,1),ImagMat(:,:,2),ImagMat(:,:,3))
                                 %Image is grayscale. No of Channels = 1
                                 AllSizes{i} = 1;
-%                             else
-%                                 %Image is RGB. No of Channels = 3
-%                                 AllSizes{i} = 1;
                             end
                         end
                         tf = ismember(cell2mat(AllSizes),AllSizes{1});
@@ -473,17 +411,11 @@ classdef modelEdit < handle
             % The funcion also searches for the brightness adjustment
             % images in the same directory as the selected file.
             %
-            %   PicData = sucsess = searchLoadBioformat(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:        Handle to modelEdit object
             %
             %       - Output
-            %           status:    returns 'SuccessIndentify' if the color
+            %           status:    returns 'SuccessIdentify' if the color
             %               plane images were founded and identified.
-            %               Returns 'ErrorIndentify' if the images were
+            %               Returns 'ErrorIdentify' if the images were
             %               foundet but not identified. Returns 'false' if
             %               no images were found.
             %
@@ -540,7 +472,7 @@ classdef modelEdit < handle
                     obj.InfoMessage = '     - Meta Data could not be read';
                 end
             end
-%            
+
             %get Number of Color Planes
             NumberOfPlanes = size(data{1,1},1);
             
@@ -631,12 +563,12 @@ classdef modelEdit < handle
                         if isempty(obj.PicPlaneFarRed)
                             obj.PicPlaneFarRed = zeros(size(obj.PicPlane1));
                         end
-                        status = 'SuccessIndentify';
+                        status = 'SuccessIdentify';
                         obj.InfoMessage = '   - indentifing planes successfully';
                     else
                         obj.InfoMessage = 'ERROR while indentifing planes';
                         obj.InfoMessage = '   -cange planes by pressing the "Check planes" button';
-                        status = 'ErrorIndentify';
+                        status = 'ErrorIdentify';
                         obj.PicPlaneGreen = obj.PicPlane1;
                         obj.PicPlaneRed = obj.PicPlane2;
                         obj.PicPlaneBlue = obj.PicPlane3;
@@ -711,7 +643,7 @@ classdef modelEdit < handle
                     %be identified
                     obj.InfoMessage = 'ERROR while indentifing planes';
                     obj.InfoMessage = '   -cange planes by pressing the "Check planes" button';
-                    status = 'ErrorIndentify';
+                    status = 'ErrorIdentify';
                     obj.PicPlaneGreen = obj.PicPlane1;
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
@@ -742,47 +674,7 @@ classdef modelEdit < handle
                 %search for brightness adjustment images
                 [~,~,ext] = fileparts([obj.PathName obj.FileName]);
                 
-                %find filenemes that started with the letter A for filter A
-                %images
-                filesA= dir(['A*' ext]);
-                filesAname = {filesA.name};
-                
-                %find filenemes that started with the letter L for filter L
-                %images
-                filesL= dir(['L*' ext]);
-                filesLname = {filesA.name};
-                
-                %find filenemes that started with the letter T for filter T
-                %images
-                filesT= dir(['T*' ext]);
-                filesTname = {filesA.name};
-                
-                %find filenemes that started with the letter Y for filter Y
-                %images
-                filesY= dir(['Y*' ext]);
-                filesYname = {filesA.name};
-                
-                if any(~cellfun(@isempty,regexp(ch_wave_name,'A[0-9]')))
-                    FN = regexp(filesAname,'A[0-9]');
-                    if any(~cellfun(@isempty,FN))
-                        name = filesAname{find(~cellfun(@isempty,FN))};
-                        FileNamePicBCBlue = dir(name);
-                    else
-                        FileNamePicBCBlue = [];
-                    end
-                elseif any(~cellfun(@isempty,regexp(ch_wave_name,'A[^0-9]')))
-                    FN = regexp(filesAname,'A[^0-9]');
-                    if any(~cellfun(@isempty,FN))
-                        name = filesAname{find(~cellfun(@isempty,FN))};
-                        FileNamePicBCBlue = dir(name);
-                    else
-                        FileNamePicBCBlue = [];
-                    end
-                    
-                else
-                    FileNamePicBCBlue = [];
-                end
-                
+                FileNamePicBCBlue = dir(['A*' ext]);
                 FileNamePicBCGreen = dir(['L*' ext]);
                 FileNamePicBCRed = dir(['TX*' ext]);
                 FileNamePicBCFarRed = dir(['Y*' ext]);
@@ -843,33 +735,35 @@ classdef modelEdit < handle
                 
                 cd(currentFolder);
                 
-                if isempty(obj.PicBCFarRed) || isempty(obj.PicBCFarRed) || ...
-                        isempty(obj.PicBCFarRed) || isempty(obj.PicBCFarRed)
+                if isempty(obj.PicBCFarRed) || isempty(obj.PicBCRed) || ...
+                        isempty(obj.PicBCGreen) || isempty(obj.PicBCBlue)
                     
-                    infotext = {'Info! ',...
-                        '',...
-                        'Not all brightness adjustment images was found.',...
-                        '',...
-                        'Go to the "Check planes" menu to verify the images:',...
-                        'The following options are available:',...
-                        '   - you can select new brightness images from',...
-                        '     your hard drive.',...
-                        '   - you can calculate new brightness images from the',...
-                        '     background illumination.',...
-                        '   - you can delete incorrect or unnecessary images',...
-                        '',...
-                        'See MANUAL for more details.',...
-                        };
-                    obj.InfoMessage = '<HTML><FONT color="orange">- Not all brightness adjustment images was found.</FONT></HTML>';
+                    obj.InfoMessage = '- Not all brightness adjustment images was found';
                     obj.InfoMessage = '      - Go to the "Check planes" for more options.';
-                    %show info message on gui
-%                     obj.controllerEditHandle.viewEditHandle.infoMessage(infotext);
                     
                 end
         end
         
+        function [img, fname] = loadBCImage(obj, filePattern, ext)
+            % Loads a brightness correction (background illumination) image for the
+            % specified color plane from file, normalizes it, and stores it in the
+            % corresponding model properties
+
+            files = dir(fullfile(obj.PathName, [filePattern ext]));
+        
+            if isempty(files)
+                img   = [];
+                fname = '-';
+                return;
+            end
+        
+            reader = bfGetReader(fullfile(obj.PathName, files(1).name));
+            img = double(bfGetPlane(reader,1));
+            img = img ./ max(img(:));
+            fname = files(1).name;
+        end
+
         function pixelDepth = assumePixelDepth(obj)
-%             dataClass = class(obj.PicPlane1);
             maxValue = max([max(max(obj.PicPlane1)) max(max(obj.PicPlane2)) max(max(obj.PicPlane3)) max(max(obj.PicPlane4))]);
             if maxValue <=255
                 pixelDepth = 8;
@@ -922,7 +816,7 @@ classdef modelEdit < handle
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                     
                 else
                     %Image is RGB
@@ -937,7 +831,7 @@ classdef modelEdit < handle
                     obj.PicPlaneRed = obj.PicPlane1;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                     
                 end
                 
@@ -1102,13 +996,13 @@ classdef modelEdit < handle
                     if isempty(obj.PicPlaneFarRed)
                         obj.PicPlaneFarRed = zeros(size(obj.PicPlane1));
                     end
-                    status = 'SuccessIndentify';
+                    status = 'SuccessIdentify';
                 else %identifying images failed. Assign them randomly
                     obj.PicPlaneGreen = obj.PicPlane1;
                     obj.PicPlaneRed = obj.PicPlane2;
                     obj.PicPlaneBlue = obj.PicPlane3;
                     obj.PicPlaneFarRed = obj.PicPlane4;
-                    status = 'ErrorIndentify';
+                    status = 'ErrorIdentify';
                 end
                 
                 
@@ -1219,13 +1113,6 @@ classdef modelEdit < handle
             % same name as the selected file. If the program find a image
             % file than the identification will be executed.
             %
-            %   planeIdentifier(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             %       - Output:
             %           success: returns 'true' if the identification was
             %                    successful otherwise 'false'.
@@ -1311,7 +1198,6 @@ classdef modelEdit < handle
                                     tempR = Pic(:,:,plane);
                                     %clear foundet plane in the r array
                                     r(plane,:) = -Inf;
-%                                     Pic(:,:,plane) = [];
                                     obj.InfoMessage = '         - red-plane was identified';
                                 else
                                     %farred plane was identified
@@ -1319,7 +1205,6 @@ classdef modelEdit < handle
                                     tempFR = Pic(:,:,plane);
                                     %clear foundet plane and color in the r array
                                     r(plane,:) = -Inf;
-%                                     Pic(:,:,plane) = [];
                                     r(:,color) = -Inf;
                                     obj.InfoMessage = '         - farred-plane was identified';
                                 end
@@ -1330,7 +1215,6 @@ classdef modelEdit < handle
                                 tempG = Pic(:,:,plane);
                                 r(plane,:) = -Inf;
                                 r(:,color) = -Inf;
-%                                 Pic(:,:,plane) = [];
                                 obj.InfoMessage = '         - green-plane was identified';
                                 
                             case 3  %Blue
@@ -1340,7 +1224,6 @@ classdef modelEdit < handle
                                 %clear foundet plane and color in the r array
                                 r(plane,:) = -Inf;
                                 r(:,color) = -Inf;
-%                                 Pic(:,:,plane) = [];
                                 obj.InfoMessage = '         - blue-plane was identified';
                         end
                     end
@@ -1365,34 +1248,15 @@ classdef modelEdit < handle
             % imadjust() function from the image processing toolbox. Trys
             % to seperate the foreground from the background. Adjustment
             % images will not be used for classification.
-            %
-            %
-            %   brightnessAdjustment(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - brightness adjustment';
+            
             if isequal(obj.FileName ,0) && isequal(obj.PathName,0)
                 obj.InfoMessage = '   - pictures brightness adjustment canceled';
             else
                 %brightness adjustment PicPlaneGreen
                 if ~isempty(obj.PicBCGreen)
-                    workbar(0.1,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust green plane';
-                    PicMF = medfilt2(obj.PicBCGreen,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)./double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneGreen)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneGreen)));
-                    workbar(0.9,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneGreen_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Green Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneGreen_adj   = obj.brightnessAdjustmentPlane(obj.PicPlaneGreen,   obj.PicBCGreen,   'Green');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicBCGreen not found';
@@ -1401,18 +1265,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneRed
                 if ~isempty(obj.PicBCRed)
-                    workbar(0.1,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust red plane';
-                    PicMF = medfilt2(obj.PicBCRed,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneRed)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneRed)));
-                    workbar(0.9,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneRed_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Red Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneRed_adj     = obj.brightnessAdjustmentPlane(obj.PicPlaneRed,     obj.PicBCRed,     'Red');
                 else
                     obj.InfoMessage = '      - PicBCRed not found';
                     obj.PicPlaneRed_adj = obj.PicPlaneRed;
@@ -1420,21 +1273,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneBlue
                 if ~isempty(obj.PicBCBlue)
-                    workbar(0.1,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - adjust blue plane';
-                    PicMF = medfilt2(obj.PicBCBlue,[5 5],'symmetric');
-                    workbar(0.2,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.3,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    maxP = double( max(obj.PicPlaneBlue(:)) ); %max Plane Original
-                    workbar(0.5,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    PicBC = double(obj.PicPlaneBlue)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    minPBC = double(min(PicBC(:))); %min Plane afer BC
-                    PicBC = ((PicBC-minPBC)/max(max((PicBC-minPBC)))*(maxP-minPBC))+minPBC;
-                    workbar(0.9,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
-                    obj.PicPlaneBlue_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Blue Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure);
+                    obj.PicPlaneBlue_adj    = obj.brightnessAdjustmentPlane(obj.PicPlaneBlue,    obj.PicBCBlue,    'Blue');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicBCBlue not found';
@@ -1443,21 +1282,7 @@ classdef modelEdit < handle
                 
                 %brightness adjustment PicPlaneFarRed
                 if ~isempty(obj.PicBCFarRed)
-                    workbar(0.1,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - adjust farred plane';
-                    PicMF = medfilt2(obj.PicBCFarRed,[5 5],'symmetric');
-                    workbar(0.3,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicMFnorm = double(PicMF)/double(max(max(PicMF)));
-                    workbar(0.5,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicBC = double(obj.PicPlaneFarRed)./double(PicMFnorm);
-                    workbar(0.7,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    maxP = double( max(obj.PicPlaneFarRed(:)) ); %max Plane Original
-                    minPBC = double(min(PicBC(:))); %min Plane afer BC
-                    workbar(0.9,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
-                    PicBC = ((PicBC-minPBC)/max(max((PicBC-minPBC)))*(maxP-minPBC))+minPBC;
-                    PicBC = PicBC./max(max(PicBC))*double(max(max(obj.PicPlaneFarRed)));
-                    obj.PicPlaneFarRed_adj = uint8(PicBC);
-                    workbar(1,'Brightness adjustment Farred Plane','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
+                    obj.PicPlaneFarRed_adj  = obj.brightnessAdjustmentPlane(obj.PicPlaneFarRed,  obj.PicBCFarRed,  'Farred');
                 else
                     %no adjustment image were found
                     obj.InfoMessage = '      - PicY4 not found';
@@ -1468,177 +1293,101 @@ classdef modelEdit < handle
             workbar(1,'Brightness adjustment Green Plabe','Brightness Adjustment',obj.controllerEditHandle.mainFigure); 
             obj.InfoMessage = '   - brightness adjustment finished';
         end
+
+        function PicAdj = brightnessAdjustmentPlane(obj, PicPlane, PicBC, name)
+            % adjustPlane
+            % Applies brightness correction to a single color plane using a
+            % background correction image. If no correction image is available,
+            % the original plane is returned unchanged.
+            
+                if isempty(PicBC)
+                    obj.InfoMessage = ['      - PicBC' name ' not found'];
+                    PicAdj = PicPlane;
+                    return
+                end
+
+                mainFigH = obj.controllerEditHandle.mainFigure;
+                workbarString = ['Brightness adjustment ' name ' Plane'];
+                workbarTitel = 'Brightness Adjustment';
+            
+                workbar(0.1,workbarString,workbarTitel, mainFigH);
+                obj.InfoMessage = ['      - adjust ' lower(name) ' plane'];
+            
+                PicMF = medfilt2(PicBC,[5 5],'symmetric');
+                workbar(0.3,workbarString,workbarTitel, mainFigH);
+
+                PicMFnorm = double(PicMF) ./ max(PicMF(:));
+                workbar(0.5,workbarString,workbarTitel, mainFigH);
+            
+                PicBCorr = double(PicPlane) ./ PicMFnorm;
+                workbar(0.7,workbarString,workbarTitel, mainFigH);
+            
+                % Normalize to original dynamic range
+                minP = double(min(PicBCorr(:)));
+                maxP = double(max(PicPlane(:)));
+                rangeBC = max(PicBCorr(:)) - minP;
+                workbar(0.9,workbarString,workbarTitel, mainFigH);
+
+                PicBCorr = (PicBCorr - minP) ./ rangeBC;
+                PicBCorr = PicBCorr * (maxP - minP) + minP;
+                PicAdj = uint8(PicBCorr);
+                workbar(1,workbarString,workbarTitel, mainFigH);
+        end
         
         function calculateBackgroundIllumination(obj,plane)
-%             obj.controllerEditHandle.busyIndicator(1);
-            switch plane
-                
-                case 'Green'
-                    workbar(0.1,'create image for Green Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure); 
-                    obj.InfoMessage = '      - create image for Green Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneGreen,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCGreen = smoothedBackground;
-                    obj.FilenameBCGreen = 'calculated from Green plane background';
-                    workbar(1.5,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Blue'
-                    workbar(0.1,'create image for Blue Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Blue Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneBlue,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCBlue = smoothedBackground;
-                    obj.FilenameBCBlue = 'calculated from Blue plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Red'
-                    workbar(0.1,'create image for Red Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Red Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneRed,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCRed = smoothedBackground;
-                    obj.FilenameBCRed = 'calculated from Red plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                case 'Farred'
-                    workbar(0.1,'create image for Farred Plane','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '      - create image for Farred Plane adjustment';
-                    obj.InfoMessage = '         - try to calculate the background illumination';
-                    obj.InfoMessage = '            - determine mean area of fibers';
-                    %use green plane to get Area of fibers
-                    PlaneBW = imbinarize(obj.PicPlaneGreen,'adaptive','ForegroundPolarity','bright');
-                    PlaneBW = ~PlaneBW;
-                    PlaneBW = imfill(PlaneBW,8,'holes');
-                    stats = regionprops('struct',PlaneBW,'Area');
-                    %Sort area from small to large
-                    Area = [stats(:).Area];
-                    Area = sort(Area);
-                    %mean area  value of the biggest fibers
-                    AreaBig = Area(round(length(Area)*(2/3)):end);
-                    MeanArea = mean(AreaBig);
-                    workbar(0.3,'determine fiber radius','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - determine fiber radius';
-                    %radius of mean area
-                    radius = sqrt(MeanArea/pi);
-                    %double radius to be sure that the structering element
-                    %is bigger than the fibers
-                    radius=ceil(radius)*3;
-                    workbar(0.5,'calculate background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - calculate background profile';
-                    background = imopen(obj.PicPlaneFarRed,strel('disk',radius));
-                    h = fspecial('disk', radius);
-                    workbar(0.7,'smoothing background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    obj.InfoMessage = '            - smoothing background profile';
-                    smoothedBackground = imfilter(single(background), h, 'replicate');
-                    %Normalized Background to 1
-                    workbar(0.9,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    smoothedBackground = smoothedBackground/max(max(smoothedBackground));
-                    obj.PicBCFarRed = smoothedBackground;
-                    obj.FilenameBCFarRed = 'calculated from Farred plane background';
-                    workbar(1.5,'normalize background profile','Calculate Background Illumination',obj.controllerEditHandle.mainFigure);
-                    
-                otherwise %calculate all missing images
-                    disp('all missing');
-                    
+             planesMap = struct( ...
+                'Green',   struct('src','PicPlaneGreen','dst','PicBCGreen','fname','FilenameBCGreen'), ...
+                'Red',     struct('src','PicPlaneRed','dst','PicBCRed','fname','FilenameBCRed'), ...
+                'Blue',    struct('src','PicPlaneBlue','dst','PicBCBlue','fname','FilenameBCBlue'), ...
+                'Farred',  struct('src','PicPlaneFarRed','dst','PicBCFarRed','fname','FilenameBCFarRed') ...
+            );
+        
+            if ~isfield(planesMap, plane)
+                obj.InfoMessage = ['ERROR during Background calculation. Unknown plane: %s', plane'];
+                error('Unknown plane: %s', plane);
             end
-%             obj.controllerEditHandle.busyIndicator(0);
+        
+            infoPrefix = [' - calculate background for ' plane ' Plane'];
+            workbar(0.1, ['create image for ' plane ' Plane'], 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            obj.InfoMessage = [infoPrefix ': creating plane image and calculating background illumination...'];
+        
+            % Source image
+            srcPlane = obj.(planesMap.(plane).src);
+        
+            % Use Green plane to estimate fiber size
+            PlaneBW = imbinarize(obj.PicPlaneGreen, 'adaptive', 'ForegroundPolarity', 'bright');
+            PlaneBW = ~PlaneBW;
+            PlaneBW = imfill(PlaneBW, 8, 'holes');
+            stats = regionprops('struct', PlaneBW, 'Area');
+            Area = sort([stats(:).Area]);
+            AreaBig = Area(round(length(Area)*(2/3)):end);
+            MeanArea = mean(AreaBig);
+        
+            workbar(0.3, 'determine fiber radius', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            radius = ceil(sqrt(MeanArea/pi)) * 3;
+        
+            workbar(0.5, 'calculate background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            background = imopen(srcPlane, strel('disk', radius));
+        
+            h = fspecial('disk', radius);
+            workbar(0.7, 'smoothing background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            smoothedBackground = imfilter(single(background), h, 'replicate');
+        
+            % Normalize
+            workbar(0.9, 'normalize background profile', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+            smoothedBackground = smoothedBackground / max(smoothedBackground(:));
+        
+            % Store results
+            obj.(planesMap.(plane).dst) = smoothedBackground;
+            obj.(planesMap.(plane).fname) = ['calculated from ' plane ' plane background'];
+        
+            workbar(1.0, 'done', 'Calculate Background Illumination', obj.controllerEditHandle.mainFigure);
+                    
         end
 
         function createBinary(obj)
             % Creates a binary image from the green color image depending
             % on the selected threshold mode and threshold value.
-            %
-            %   createBinary(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             thresh = obj.ThresholdValue;
             
@@ -1650,89 +1399,48 @@ classdef modelEdit < handle
                 case 2 %Foreground. Fibers are shown as white Pixels.
                     tempGreenPlane = imcomplement(obj.PicPlaneGreen_adj);
             end
-            
-            if ~isempty(tempGreenPlane)
-                % Picture was choosen by User.
-                if strcmp (obj.PicBWisInvert , 'false')
-                    % Binary pictur is not invert
-                    switch obj.ThresholdMode
-                        
-                        case 1 % Use manual global threshold for binarization
-                            
-                            obj.PicBW = im2bw(tempGreenPlane,thresh);
-                            obj.handlePicBW.CData = obj.PicBW;
 
-                        case 2 % Use automatic adaptive threshold for binarization
-                            
-                            obj.PicBW = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 3 % Use automatic adaptive and manual global threshold for binarization
-                            
-                            PicBW1 = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            PicBW2 = im2bw(tempGreenPlane,thresh);
-                            obj.PicBW = PicBW1 | PicBW2;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 4 % Use automatic setup for binarization (Watershed I)
-                            obj.PicBW = obj.autoBinarizationWatershed_1();
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 5 % Use automatic setup for binarization (Watershed II)
-                            obj.PicBW = obj.autoBinarizationWatershed_2();
-                            obj.handlePicBW.CData = obj.PicBW;
-                    end
-                else
-                    % Binary pictur is invert
-                    switch obj.ThresholdMode
-                        
-                        case 1 % Use manual global threshold for binarization
-                            
-                            temp = im2bw(tempGreenPlane,thresh);
-                            obj.PicBW = ~temp;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 2 % Use automatic adaptive threshold for binarization
-                            
-                            temp = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.PicBW = ~temp;
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 3 % Use automatic adaptive and manual global threshold for binarization
-                            
-                            temp1 = im2bw(tempGreenPlane,thresh);
-                            temp2 = imbinarize(tempGreenPlane,'adaptive','ForegroundPolarity','bright','Sensitivity',abs(1-thresh));
-                            obj.PicBW = ~(temp1 | temp2);
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 4 % Use automatic setup for binarization (Watershed I)
-                            obj.PicBW = ~obj.autoBinarizationWatershed_1();
-                            obj.handlePicBW.CData = obj.PicBW;
-                            
-                        case 5 % Use automatic setup for binarization (Watershed II)
-                            obj.PicBW = ~obj.autoBinarizationWatershed_2();
-                            obj.handlePicBW.CData = obj.PicBW;
-                    end
-                    
-                end
+            if isempty(tempGreenPlane)
+                return; % no image selected
             end
+            
+            % Determine binary image based on threshold mode
+            switch obj.ThresholdMode
+                case 1
+                    bw = im2bw(tempGreenPlane, thresh);
+                case 2
+                    bw = imbinarize(tempGreenPlane, 'adaptive', 'ForegroundPolarity', 'bright', 'Sensitivity', abs(1-thresh));
+                case 3
+                    bw1 = im2bw(tempGreenPlane, thresh);
+                    bw2 = imbinarize(tempGreenPlane, 'adaptive', 'ForegroundPolarity', 'bright', 'Sensitivity', abs(1-thresh));
+                    bw = bw1 | bw2;
+                case 4
+                    bw = obj.autoBinarizationWatershed_1();
+                case 5
+                    bw = obj.autoBinarizationWatershed_2();
+                otherwise
+                    error('Unsupported ThresholdMode: %d', obj.ThresholdMode);
+            end
+
+            % Apply inversion if needed
+            if strcmp(obj.PicBWisInvert, 'true')
+                bw = ~bw;
+            end
+
+            % Store binary image and update GUI
+            obj.PicBW = bw;
+            obj.handlePicBW.CData = obj.PicBW;
+
         end
         
         function alphaMapEvent(obj)
             % Set the alpha map value of the binary image dependingon the
             % selected alpha value.
-            %
-            %   alphaMapEvent(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             if ~isempty(obj.handlePicBW)
                 if obj.AlphaMapActive
                 set(obj.handlePicBW,'AlphaData',obj.AlphaMapValue);
+                drawnow
                 else
                     set(obj.handlePicBW,'AlphaData',1);
                 end
@@ -1742,14 +1450,6 @@ classdef modelEdit < handle
         function invertPicBWEvent(obj)
             % Invert die binary image. Saves the invert state of the image
             % in the properties.
-            %
-            %   invertPicBWEvent(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - Binarization operation';
             
@@ -1775,15 +1475,7 @@ classdef modelEdit < handle
             % image. Get the position of the click and fill the region,
             % defined by the connected zeros or ones, depending on the
             % selected color, in the binary image
-            %
-            %   fillRegion(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
+
             xMax = double(size(obj.PicBW,2));
             yMax = double(size(obj.PicBW,1));
             x = round(CurPos(1,1));
@@ -1822,15 +1514,7 @@ classdef modelEdit < handle
             % the color and the radius depending on the linewidth value
             % that the user has selected at that position in the binary
             % image.
-            %
-            %   startDragFcn(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
+
             obj.x1 = double(CurPos(1,1));
             
             obj.y1 = double(CurPos(1,2));
@@ -1856,15 +1540,6 @@ classdef modelEdit < handle
             % Interpolate a line between the cursor points that are saved
             % when this function is called the next time during the cursor
             % movement.
-            %
-            %   DragFcn(obj,CurPos)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %           CurPos: current cursor position in the binary image
-            %
             
             %get current cursor positon
             obj.x2 = double(CurPos(1,1));
@@ -1977,14 +1652,6 @@ classdef modelEdit < handle
             % Called by the controller when the user stops hand drawing.
             % Save binary image with changes in the buffer for undo and
             % redo functionality.
-            %
-            %   stopDragFcn(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.addToBuffer();
         end
@@ -2036,14 +1703,6 @@ classdef modelEdit < handle
         function runMorphOperation(obj)
             % Performs the selected mophological operation when a user
             % press the run morph button in the GUI.
-            %
-            %   runMorphOperation(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object
-            %
             
             obj.InfoMessage = '   - Run morpholigical operation';
             
@@ -2200,7 +1859,7 @@ classdef modelEdit < handle
                 otherwise
                     obj.InfoMessage = '! ERROR in runMorphOperation() FUNCTION !';
             end
-            
+            drawnow;
             obj.addToBuffer();
         end
         
@@ -2417,15 +2076,6 @@ classdef modelEdit < handle
         function undo(obj)
             % Gets the previous image out of the buffer and set it to the
             % current iamge.
-            %
-            %   undo(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
-            
             
             if obj.PicBufferPointer > 1 && obj.PicBufferPointer <= obj.BufferSize
                 obj.PicBufferPointer = obj.PicBufferPointer-1;
@@ -2439,14 +2089,6 @@ classdef modelEdit < handle
         function redo(obj)
             % Gets the next image out of the buffer and set it to the
             % current iamge.
-            %
-            %   redo(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
             
             if obj.PicBufferPointer >= 1 && obj.PicBufferPointer < obj.BufferSize && obj.PicBufferPointer < size(obj.PicBuffer,2)
                 obj.PicBufferPointer = obj.PicBufferPointer+1;
@@ -2461,14 +2103,6 @@ classdef modelEdit < handle
             % Save current binary image in the buffer for redo and undo
             % functionality. Saves the current binary mask in the PicBW
             % properties.
-            %
-            %   addToBuffer(obj)
-            %
-            %   ARGUMENTS:
-            %
-            %       - Input
-            %           obj:    Handle to modelEdit object.
-            %
             try
                 if obj.PicBufferPointer >= obj.BufferSize
                     temp = obj.PicBuffer;

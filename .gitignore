@@ -20,6 +20,24 @@
 
 *.html
 
+Example\ Images/*/*.pdf
+Example\ Images/*/*.svg
+Example\ Images/*/*.png
+Example\ Images/*/*.tif
+Example\ Images/*/*.jpg
+Example\ Images/*/*.xlsx
+Example\ Images/*/*.xlsm
+Example\ Images/*/*.xls
+
+Example\ Images/**/*.pdf
+Example\ Images/**/*.svg
+Example\ Images/**/*.png
+Example\ Images/**/*.tif
+Example\ Images/**/*.jpg
+Example\ Images/**/*.xlsx
+Example\ Images/**/*.xlsm
+Example\ Images/**/*.xls
+
 # Simulink Code Generation
 slprj/
 
@@ -29,3 +47,7 @@ octave-workspace
 # Folders
 MuscleFiberClassificationTool/
 MuscleFiberClassificationTool_resources/
+
+/StandaloneDesktopApp1/
+
+/Muscle_Fiber_Analyzer_Desktop_App/

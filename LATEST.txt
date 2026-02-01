@@ -1,8 +1,16 @@
-Version 1.5  11-March-2024
+Version 1.6  01-February-2026
 
 #WHATS NEW:
+Version 1.6
+    - App is updated to the lastest Package releases.
+    - Fixed starup error on Win 11 Systems.
+    - Add the option to select file type for saving plots.
+    - Update Overall App Design.
+    - Updated Bio-Format toolbox.
+    - Modify GUI-Layout-Toolbox for better TabPanel use.
+    - Optimize calculations and overall code stability.
 
-Version 1.5 
+Version 1.5 (11-March-2024)
     - App-design can now be changed in the menu bar.
     - Users can save and load their own settings.
     - Histograms now show a Gaussian fit.
