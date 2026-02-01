@@ -21,9 +21,9 @@ try
     
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
     setSettingsValue('Version','1.6');
-    setSettingsValue('Day','11');
-    setSettingsValue('Month','March');
-    setSettingsValue('Year','2025');
+    setSettingsValue('Day','01');
+    setSettingsValue('Month','February');
+    setSettingsValue('Year','2026');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
     test = fullfile(pwd, 'LATEST.txt');
