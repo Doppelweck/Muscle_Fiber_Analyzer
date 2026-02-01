@@ -39,5 +39,6 @@ LoadingText=text(ha,0.02,0.035,'Loading please wait... Initialize application...
 set(hf,'Visible','on');
 set(hf,'WindowStyle','alwaysontop');
 set(hf,'WindowStyle',windowStyle);
+drawnow
 end
 

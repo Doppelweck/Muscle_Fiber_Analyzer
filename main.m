@@ -1,10 +1,8 @@
 try
     
-
-
     % % find starting path
     warning('off', 'all');
-    
+
     if ~isdeployed
         path = cd;
         % add files to the current matalb path
@@ -14,6 +12,11 @@ try
         %pause(0.5);
         cl;
     end
+
+    %Create Start Screen
+    [hf, LoadingText] = startSrcreen();
+    drawnow limitrate;
+    set(hf,'WindowStyle','alwaysontop');
 
     setSettingsValue('AppState','production'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
@@ -32,10 +35,7 @@ try
 
     params = view_helper_default_params();
 
-    %Create Start Screen
-    [hf, LoadingText] = startSrcreen();
-    set(hf,'WindowStyle','alwaysontop');
-
+    
     % create main figure
     mainFig = uifigure(...
         'Visible','on',...
