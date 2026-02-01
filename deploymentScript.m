@@ -21,7 +21,7 @@ end
 
 % Create package options object, set package properties and package.
 packageOpts = compiler.package.InstallerOptions(buildResult);
-packageOpts.ApplicationName = "Muscle Fiber Analyzer";
+packageOpts.ApplicationName = "Muscle Fiber Analyzer v1.6";
 packageOpts.AuthorName = "Sebastian Friedrich";
 packageOpts.AuthorEmail = "sebastien.friedrich.software@gmail.com";
 packageOpts.Description = "The software performs muscle fiber segmentation, extracts geometric, morphological, and intensity-based properties, and classifies fibers using multiple classification approaches. All extracted data can be stored for further analysis and documentation. The application was designed to be usable without prior MATLAB knowledge and therefore provides an intuitive and easy-to-understand graphical user interface." + newline + "" + newline + "Rather than aiming for a fully automatic algorithm, the goal of Muscle_Fiber_Analyzer is to provide a practical and flexible analysis tool that facilitates the daily work of veterinarians, biologists, and laboratory technicians. The software is provided free of charge for research and educational purposes to erveryone." + newline + "" + newline + "• Analyze Methods:" + newline + "    - OPTICS clustering for density-based, unsupervised classification" + newline + "    - Pseudo-color–based classification derived from fluorescence signal characteristics" + newline + "    - Manual classification with direct user assignment" + newline + "" + newline + "";
