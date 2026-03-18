@@ -140,9 +140,9 @@ classdef viewEdit < handle
             PanelMorphOp = uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Morphological Operations');
             PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Units','normalized','Title','Info Log');
             
-            set( PanelVBox, 'Heights', [-18 -10 -22 -23 -27]);
+            set( PanelVBox, 'Heights', [-18 -12 -22 -23 -25]);
 
-
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             maingridBoxControl = uix.Grid('Parent', PanelControl);
@@ -155,7 +155,7 @@ classdef viewEdit < handle
             obj.B_Redo =             uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}), params.default_normalized_font{:}, 'String', sprintf('Redo \x21BB') );
             set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1 -1] );
            
-
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Image Overview %%%%%%%%%%%%%%%%%%%%%%%%%%%
             mainVBoxAlpha = uix.VBox('Parent', PanelAlpha, params.default_box_spacing_padding{:});
@@ -177,8 +177,9 @@ classdef viewEdit < handle
                   obj.B_Alpha = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxAlpha2,params.default_HButtonBox{:}),'Style','slider', 'String', 'Alpha' ,'Tag','sliderAlpha','Enable','off');
              obj.B_AlphaValue = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxAlpha2,params.default_HButtonBox{:}),'Style','edit','Tag','editAlpha','Enable','off');
             
-            set( HBoxAlpha2, 'Widths', [-0.8 -0.2 -2 -1] );
-
+            set( HBoxAlpha2, 'Widths', [-0.7 -0.3 -2 -1] );
+            
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%% Panel Hand Draw Grid %%%%%%%%%%%%%%%%%%%%%%%%%%%
             mainVBoxBinari = uix.VBox('Parent', PanelBinari,params.default_box_spacing_padding{:});
@@ -230,7 +231,8 @@ classdef viewEdit < handle
             obj.B_Invert = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxBinari6, params.default_HButtonBox{:}), 'String', 'Invert' ,'Enable','off','Tag','buttonBinaryInvert');
             
             set( HBoxBinari6, 'Widths', [-1 -2 -1] );
-
+            
+            drawnow limitrate
             %%%%%%%%%%%%%% Morph Operations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             MainVBoxMorph = uix.VBox('Parent',PanelMorphOp,'Padding', 3 );
             
@@ -253,7 +255,8 @@ classdef viewEdit < handle
             obj.B_NoIteration = uicontrol( 'Parent', uix.HButtonBox('Parent', temp, params.default_HButtonBox{:}),'Style','edit', 'String','1','Enable','off','Tag','editNoIteration' );
             
             obj.B_StartMorphOP = uicontrol( 'Parent', uix.HButtonBox('Parent', MainVBoxMorph, params.default_HButtonBox{:}, 'ButtonSize', [600 60]), params.default_normalized_font{:}, 'String', sprintf('\x23F5 Run Morphological Operation'),'Enable','off','Tag','buttonMorphOP' );
-
+            
+            drawnow limitrate
             %%%%%%%%%%%%%% Panel Info Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
             obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{''});
@@ -274,6 +277,7 @@ classdef viewEdit < handle
                         
             set(mainCard,'Visible','on');
             drawnow;
+            pause(2)
 
         end % end constructor
         

@@ -18,14 +18,14 @@ try
     drawnow limitrate;
     set(hf,'WindowStyle','alwaysontop');
 
-    setSettingsValue('AppState','production'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
+    setSettingsValue('AppState','develop'); %Can be 'develop' or 'production'. 'develop' will set certain 'modal' windows to 'normal'
 
     build_up_time_delay = 1;
     
     setSettingsValue('AppName','Muscle-Fiber-Analyzer');
-    setSettingsValue('Version','1.6');
-    setSettingsValue('Day','01');
-    setSettingsValue('Month','February');
+    setSettingsValue('Version','1.6.1');
+    setSettingsValue('Day','18');
+    setSettingsValue('Month','March');
     setSettingsValue('Year','2026');
     versionString = ['Version ' getSettingsValue('Version') '  ' getSettingsValue('Day') '-' getSettingsValue('Month') '-' getSettingsValue('Year')];
     % write the current Version to LATEST.txt
@@ -63,16 +63,18 @@ try
     mainCard = uix.CardPanel('Parent', mainFig,'Selection',0,'Tag','mainCard');
     LoadingText.String='Loading please wait...   Initialize VIEW-Components...';
     %Init VIEW's
-    viewEditHandle = viewEdit(mainCard);
     LoadingText.String='Loading please wait...   Initialize VIEW-Edit...';
+    viewEditHandle = viewEdit(mainCard);
     mainCard.Selection = 1; 
     drawnow limitrate; pause(build_up_time_delay)
-    viewAnalyzeHandle = viewAnalyze(mainCard);
+
     LoadingText.String='Loading please wait...   Initialize VIEW-Analyze...';
+    viewAnalyzeHandle = viewAnalyze(mainCard);
     mainCard.Selection = 2; 
     drawnow limitrate; pause(build_up_time_delay);drawnow limitrate;
-    viewResultsHandle = viewResults(mainCard);
+
     LoadingText.String='Loading please wait...   Initialize VIEW-Results...';
+    viewResultsHandle = viewResults(mainCard);
     mainCard.Selection = 3;
     drawnow limitrate; pause(build_up_time_delay);drawnow limitrate;
     mainCard.Selection = 1; drawnow limitrate;

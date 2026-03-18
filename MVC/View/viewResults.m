@@ -113,8 +113,9 @@ classdef viewResults < handle
             PanelSave =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Save Options');
             PanelInfo =    uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
-            set( PanelVBox, 'Heights', [-13 -35 -52]);
+            set( PanelVBox, 'Heights', [-13 -40 -47]);
             
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%% Panel control %%%%%%%%%%%%%%%%%%%%%%%%
             maingridBoxControl = uix.Grid('Parent', PanelControl);
 
@@ -124,7 +125,7 @@ classdef viewResults < handle
             obj.B_Save =          uicontrol('Parent',uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Save Data \x26DB') );
             set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1] );
            
-
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%Panel SaveOptions %%%%%%%%%%%%%%%%%%%%%%%%%%
             dropdownStringAxes={'.pdf';'.svg';'.jpg';'.png';'.tif'};
             dropdownStringTabel={'.xlsx';'.xls';'.xlsm'};
@@ -178,7 +179,8 @@ classdef viewResults < handle
             %%%%%%%%%%%%%%%%%%% Pnael Info Text Log %%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
             obj.B_InfoText = uicontrol('Parent',hBoxSize,'Style','listbox','String',{});
-            
+            drawnow limitrate
+
             %%%%%%%%%%%%%%%%%%% Panel with Tabs %%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel = uix.TabPanel('Parent',obj.panelAxes,params.default_tab_panel{:},'Tag','tabMainPanel','TabWidth',-1);
@@ -222,7 +224,7 @@ classdef viewResults < handle
             set( statsVBoxleft, 'Heights', [-1 -1] );
             set( statsVBoxMiddle, 'Heights', [-1 -1] );
             
-
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Histogramms %%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 2; 
             histoTabHBox = uix.HBox('Parent',histogramTabPanel,'Spacing',2,'Padding',2);
@@ -243,7 +245,8 @@ classdef viewResults < handle
             axtoolbar(obj.hADiaHist,params.default_axes_toolbar{:});
             obj.hARoundHist = axes('Parent',uicontainer('Parent',histoRound),params.default_axes{:});
             axtoolbar(obj.hARoundHist,params.default_axes_toolbar{:});
-            
+
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image processed
             obj.tabPanel.Selection = 3;
             tempTabVBox = uix.VBox('Parent',pictureTabPanel,'Spacing',2,'Padding',2);
@@ -253,7 +256,8 @@ classdef viewResults < handle
             axtoolbar(obj.hAPProcessed,params.default_axes_toolbar{:});
             axis(obj.hAPProcessed ,'image');
             set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
-
+            
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Image with Groups %%%%%%%%%%%%%
             obj.tabPanel.Selection = 4;
             tempTabVBox = uix.VBox('Parent',pictureRGBPlaneTabPanel,'Spacing',2,'Padding',2);
@@ -264,6 +268,7 @@ classdef viewResults < handle
             axis(obj.hAPGroups ,'image');
             set( tempTabVBox, 'Heights', [30 -1], 'Spacing', 10 );
             
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Tabel %%%%%%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 5;
             mainTablePanel = uix.Panel('Parent',tableTabPanel,'Padding',5,'FontSize',params.fontSizeM);
@@ -271,6 +276,7 @@ classdef viewResults < handle
             
             obj.B_TableMain.Position =[0 0 1 1];
             
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%% Tab Scatter all %%%%%%%%%%%%%%%%%%%%%%
             obj.tabPanel.Selection = 6;
             tempTabVBox = uix.VBox('Parent',scatterAllTabPanel,'Spacing',2,'Padding',2);
@@ -286,7 +292,8 @@ classdef viewResults < handle
             
             set(mainCard,'Visible','on');
             obj.tabPanel.Selection = 1;
-            drawnow 
+            drawnow
+            pause(2)
 
         end
                 

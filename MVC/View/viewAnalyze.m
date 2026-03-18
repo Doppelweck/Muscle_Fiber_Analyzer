@@ -140,6 +140,7 @@ classdef viewAnalyze < handle
             PanelInfo =                 uix.Panel('Parent',PanelVBox,params.default_panel{:},'Title','Info Log');
             
             set( PanelVBox, 'Heights', [-13 -30 -41 -16]);
+            drawnow limitrate
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%% Panel Control %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +151,7 @@ classdef viewAnalyze < handle
             obj.B_StartResults = uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Results \x276F\x276F'),'Tag','pushbuttonStartResults');
             obj.B_PreResults =   uicontrol( 'Parent', uix.HButtonBox('Parent', maingridBoxControl,params.default_HButtonBox_Main{:}),params.default_normalized_font{:}, 'String', sprintf('Preview Results \x2750') ,'Tag','pushbuttonPreResults');
             set(maingridBoxControl,'Widths', [-1 -1], 'Heights', [-1 -1] );
-
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%% Panel Para %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             mainVBoxPara = uix.VBox('Parent', PanelPara,params.default_box_spacing_padding{:});
@@ -243,10 +244,11 @@ classdef viewAnalyze < handle
                              uilabel( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}), 'HorizontalAlignment','center', 'Text' ,sprintf('Ys: \x3BCm/pixel') );
             obj.B_YScale = uicontrol( 'Parent', uix.HButtonBox('Parent', HBoxPara8, params.default_HButtonBox{:}),params.default_normalized_font{:}, 'Style','edit', 'Tag','editYScale', 'String', '1' );
             
-            set( HBoxPara8, 'Widths', [-1 -1 -1 -1 -1] );
+            set( HBoxPara8, 'Widths', [-20 -22 -18 -22 -18] );
             
             set( mainVBoxPara, 'Heights', [-1 -1 -1 -1 -1 -2 -1], 'Spacing', 0 );
 
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%% Panel FiberInformation %%%%%%%%%%%%%%%%%%%%%
             VBoxMainInfoFiber = uix.VBox('Parent', obj.PanelFiberInformation, params.default_box_spacing_padding{:});
@@ -288,7 +290,7 @@ classdef viewAnalyze < handle
             obj.B_TextFarredRedRatio = uilabel( 'Parent', gridFiberInfow,  'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
             obj.B_TextFiberType = uilabel( 'Parent', gridFiberInfow, 'HorizontalAlignment','right', 'Text', ' - ' ,'Tag','textFiberInfo');
 
-            set( gridFiberInfow, 'Widths',[-1 -1 -1 -1 -1] , 'Heights', [-1 -1 -1 -1 -1 -1] );
+            set( gridFiberInfow, 'Widths',[-1 -1 -0.6 -1 -1] , 'Heights', [-1 -1 -1 -1 -1 -1] );
             
             
             HBoxInfo7 = uix.HBox('Parent', VBoxMainInfoFiber);
@@ -296,11 +298,11 @@ classdef viewAnalyze < handle
             axis(obj.B_AxesInfo ,'image');
             set(obj.B_AxesInfo, 'LooseInset', [0,0,0,0]);
             
-            set( VBoxMainInfoFiber, 'Heights', [-36 -64], 'Spacing', 1 );
+            set( VBoxMainInfoFiber, 'Heights', [-40 -60], 'Spacing', 1 );
             set( VBoxMainInfoFiber, 'MinimumHeights', [60 10] );
             
             
-            
+            drawnow limitrate
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%% Panel Info Log %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             hBoxSize=uix.HBox('Parent', PanelInfo, params.default_box_spacing_padding{:});
@@ -311,6 +313,7 @@ classdef viewAnalyze < handle
                         
             set(mainCard,'Visible','on');
             drawnow;
+            pause(2)
 
         end
         
@@ -438,6 +441,7 @@ classdef viewAnalyze < handle
                 
             end
             set(obj.hFM,'Visible','on')
+            drawnow limitrate
         end
         
         function showFigureManualClassify(obj,mainFig)
@@ -479,6 +483,7 @@ classdef viewAnalyze < handle
             
             set( VBox, 'Heights', [ -8 -1], 'Spacing', 1 ); 
             set(obj.hFMC, 'Visible', 'on');
+            drawnow limitrate
         end
         
         function showFigurePreResults(obj, mainFig, showReach)
@@ -563,6 +568,7 @@ classdef viewAnalyze < handle
 
             % --- Show -------------------------------------------------------------
             obj.hFPR.Visible = 'on';
+            drawnow limitrate
         end
         
         function setToolTipStrings(obj)

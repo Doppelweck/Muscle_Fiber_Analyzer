@@ -1,7 +1,10 @@
-Version 1.6  01-February-2026
+Version 1.6.1  18-March-2026
 
 #WHATS NEW:
-Version 1.6
+Version 1.6.1
+    - Small GUI changes.
+
+Version 1.6 (01-February-2026)
     - App is updated to the lastest Package releases.
     - Fixed starup error on Win 11 Systems.
     - Add the option to select file type for saving plots.

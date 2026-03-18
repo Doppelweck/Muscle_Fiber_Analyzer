@@ -14,13 +14,26 @@ axis(ha ,'image');
 
 set(ha, 'LooseInset', [0,0,0,0]);
 ih = imshow(Pic,'Parent',ha);
-imxpos = get(ih,'XData');
-imypos = get(ih,'YData');
-figpos = get(hf,'Position');
-figpos(3:4) = [imxpos(2) imypos(2)];
+
+imgWidth = size(Pic, 2);
+imgHeight = size(Pic, 1);
+screenSize = get(0, 'ScreenSize'); % [x y breite höhe]
+maxW = screenSize(3) * 0.8; % Maximal 80% der Bildschirmbreite
+maxH = screenSize(4) * 0.8; % Maximal 80% der Bildschirmhöhe
+
+% 2. Skalierungsfaktor berechnen (falls das Bild zu groß ist)
+% Wir nehmen den kleinsten Faktor, um das Seitenverhältnis zu wahren
+scaleFactor = min([1, maxW/imgWidth, maxH/imgHeight]);
+
+% 3. Neue Figure-Größe festlegen
+newWidth = imgWidth * scaleFactor;
+newHeight = imgHeight * scaleFactor;
+
+% Position setzen (zentriert wird es später durch movegui)
+hf.Position(3:4) = [newWidth, newHeight];
+
 set(ha,'Unit','Normalized','Position',[0,0,1,1]);
-set(hf, 'Units','pixels');
-set(hf,'Position',figpos);
+
 movegui(hf,'center');
 set(hf,'CloseRequestFcn','');
 set(hf,'Visible','off');
